@@ -11,18 +11,20 @@
  {
   "runId": "20261124-1753",
   "startedAt": "2026-11-24T17:53:47+08:00",
-  "endedAt": "2026-11-24T18:22:59+08:00",
+  "endedAt": "2026-11-24T19:13:50+08:00",
   "status": "ok",
   "episode": "ep-001",
-  "note": "⚠️ 線上檢查降級為本機檢查",
+  "note": "依新版型重做第 001 集",
   "steps": {
    "check": "pass",
    "qa": "pass",
    "register": "pass",
    "build": "pass",
    "review": "pass",
+   "publish": "pass",
    "live": "fallback",
-   "played": "pass"
+   "played": "pass",
+   "design": "pass"
   }
  }
 ]
