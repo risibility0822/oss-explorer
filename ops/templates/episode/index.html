@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>開源探索誌 #{{NNN}}｜{{TITLE_SHORT}}</title>
+<meta name="description" content="{{ONELINER}}">
+<meta property="og:title" content="開源探索誌 #{{NNN}}｜{{TITLE_SHORT}}">
+<meta property="og:description" content="{{ONELINER}}">
+<meta property="og:image" content="{{SITE}}{{SLUG}}/og.jpg">
+<meta property="og:url" content="{{SITE}}{{SLUG}}/">
+<meta property="og:type" content="article">
+<link rel="alternate" type="application/atom+xml" title="開源探索誌" href="../feed.xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<!-- 字型：依主題挑選（Google Fonts），中文一定要有 Noto Sans TC 或 Noto Serif TC -->
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+/* ===== 設計說明（五行，寫完再刪這行註解以外的範例）=====
+   VOICE:  {{這集的語氣}}
+   IDEA:   {{這個主題世界裡的什麼東西，頁面像它}}
+   PICTURE:{{第一屏的主視覺／互動 Demo}}
+   COLOUR and TYPE: {{主色、輔色、強調色；字型}}
+   LAYOUT: {{版面骨架}}
+   ===== 下面是安全的基礎（保留），顏色與字型請依主題改 ===== */
+:root{color-scheme:light dark;
+  --bg:light-dark(#ffffff,#121316); --ink:light-dark(#15171a,#eceef2); --mute:light-dark(#5d636c,#9aa1ab);
+  --line:light-dark(#dfe2e6,#2a2d33); --card:light-dark(#f4f5f7,#1b1d21); --accent:#e4572e;
+  --font:"Noto Sans TC",system-ui,sans-serif; --mono:ui-monospace,SFMono-Regular,Menlo,monospace}
+:root[data-theme=light]{color-scheme:light}:root[data-theme=dark]{color-scheme:dark}
+*{box-sizing:border-box;min-width:0}
+html{scroll-padding-top:72px}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.65 var(--font);overflow-x:clip}
+.band{padding:clamp(24px,4vw,56px) max(5vw,16px);max-width:1240px;margin:0 auto}
+h1{font-size:clamp(30px,4.6vw,48px);line-height:1.08;margin:6px 0 10px;text-wrap:balance}
+h2{font-size:clamp(24px,3vw,32px);line-height:1.15;margin:0 0 14px;text-wrap:balance}
+p,li{max-width:72ch}
+a{color:inherit;text-underline-offset:3px}
+button,select,input,textarea{font:inherit;font-size:16px;min-height:44px}
+button:focus-visible,a:focus-visible,select:focus-visible,input:focus-visible,textarea:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+pre{background:var(--card);border-radius:12px;padding:14px 16px;font:14px/1.6 var(--mono);overflow-x:auto}
+code{overflow-wrap:anywhere}
+table{border-collapse:collapse;width:100%}th,td{text-align:left;padding:9px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+td.n{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+.scroll{overflow-x:auto}
+nav.toc{display:flex;gap:4px;overflow-x:auto;padding:10px max(5vw,16px);border-block:1px solid var(--line)}
+nav.toc a{flex:none;text-decoration:none;padding:10px 12px;border-radius:8px}
+@media(min-width:900px){nav.toc{position:sticky;top:0;background:var(--bg);z-index:9}}
+@media(max-width:600px){table{font-size:13px}.stack thead{display:none}.stack tr{display:grid;padding-block:10px}.stack td{display:flow-root;border:0;padding:3px 0;padding-inline-start:8em;text-align:start}.stack td::before{content:attr(data-l);float:inline-start;width:7.5em;margin-inline-start:-8em;white-space:normal;color:var(--mute)}.stack td:empty{display:none}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+<script>new MutationObserver(()=>{for(const c of document.querySelectorAll('.stack td:not([data-l])')){let i=0,p=c;while(p=p.previousElementSibling)i+=p.colSpan;c.dataset.l=c.closest('table').rows[0].cells[i]?.textContent||''}}).observe(document,{childList:true,subtree:true})</script>
+</head>
+<body>
+<!-- 每個 data-section 都必須存在（oss.py check 會檢查）。順序可微調，但不能少。 -->
+<header class="band" data-section="header">
+  <div>開源探索誌 #{{NNN}} · {{DATE}} · {{DOMAIN}}</div>
+  <h1>{{TITLE}}</h1>
+  <p>{{ONELINER}}</p>
+  <div>{{FORMAT}} · {{TIER}} · 主鏡頭：{{LENS}}</div>
+  <div>{{資源卡：名稱（連結）、授權、星數（截至日期）、最後更新、主要語言}}</div>
+</header>
+
+<section class="band" data-section="demo" id="demo">
+  <!-- 互動 Demo 放第一屏（作品本身就是主視覺）。函式庫用相對路徑載入，例如 <script src="lib.bundle.js"></script> -->
+  {{互動 Demo}}
+</section>
+
+<nav class="toc" aria-label="本集段落"><a href="#why">為什麼值得認識</a><a href="#how">怎麼運作</a><a href="#run">實際執行紀錄</a><a href="#start">五分鐘上手</a><a href="#ideas">拿它做什麼</a><a href="#cross">跨集組合</a><a href="#limits">限制與比較</a><a href="#more">延伸探索</a><a href="#sources">來源</a></nav>
+
+<section class="band" data-section="why" id="why"><h2>為什麼值得認識</h2>{{厲害在哪／好玩在哪／商業潛力在哪}}</section>
+<section class="band" data-section="how" id="how"><h2>它怎麼運作</h2>{{原理圖 inline SVG＋說明}}</section>
+<section class="band" data-section="run" id="run"><h2>實際執行紀錄</h2>
+  <p>於 {{DATE}} 在雲端工作區實際執行。所有腳本與原始輸出在 <a href="{{REPO}}/tree/main/{{SLUG}}/lab">lab/ 資料夾</a>，clone 下來就能重跑。</p>
+  {{指令、版本、數字、輸出}}
+</section>
+<section class="band" data-section="start" id="start"><h2>五分鐘上手</h2>{{最小可行程式碼＋複製按鈕 <button data-copy="c1">複製</button><pre id="c1">…</pre>}}</section>
+<section class="band" data-section="ideas" id="ideas"><h2>你可以拿它做什麼</h2>
+  <!-- 每個點子一個 class="idea" 的區塊，與 meta.json 的 ideas 一致 -->
+  <div class="idea"><h3>{{點子標題}}</h3><p>{{pitch}}</p><p>工作量：{{一個週末／一個月／長期}}　·　價值：{{…}}</p></div>
+</section>
+<section class="band" data-section="cross" id="cross"><h2>跨集組合</h2>{{跟以前哪一集搭配，用 ../ep-XXX-slug/ 相對連結}}</section>
+<section class="band" data-section="limits" id="limits"><h2>限制與比較</h2>{{授權陷阱、成熟度、效能；替代品比較表 class="stack"}}</section>
+<section class="band" data-section="more" id="more"><h2>延伸探索</h2>{{3–5 個相關資源}}</section>
+<footer class="band" data-section="sources" id="sources">
+  <h2>來源</h2>
+  <ol>{{至少 5 個來源連結，數字標明取得日期}}</ol>
+  <p>本集由 Claude 自動選題、研究、實作，製作於 {{DATE}}。</p>
+  <p><a href="https://github.com/risibility0822/oss-explorer/edit/main/feedback.md">幫這集評分或許願（feedback.md）</a></p>
+  <p><a href="../">← 回到開源探索誌首頁</a></p>
+</footer>
+<script>
+{
+// 共用小工具：保留
+const esc=v=>String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+document.querySelectorAll("[data-copy]").forEach(b=>b.addEventListener("click",async()=>{
+  const t=document.getElementById(b.dataset.copy);if(!t)return;
+  try{await navigator.clipboard.writeText(t.textContent);b.textContent="已複製"}catch(e){b.textContent="請手動選取"}
+  setTimeout(()=>b.textContent="複製",1600)}));
+// ↓ 本集的 Demo 程式
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>開源探索誌</title>
+  <subtitle>每週一、三、五自動出刊：認識一個開源資源，附可玩的 Demo。</subtitle>
+  <link href="https://risibility0822.github.io/oss-explorer/"/>
+  <link rel="self" href="https://risibility0822.github.io/oss-explorer/feed.xml"/>
+  <id>https://risibility0822.github.io/oss-explorer/</id>
+  <updated>2026-11-24T16:37:00+08:00</updated>
+  <author><name>開源探索誌</name></author>
+  <entry>
+    <title>#001｜Yjs：幫任何 App 加上 Google Docs 式的多人協作</title>
+    <link href="https://risibility0822.github.io/oss-explorer/ep-001-yjs/"/>
+    <id>https://risibility0822.github.io/oss-explorer/ep-001-yjs/</id>
+    <updated>2026-11-24T16:37:00+08:00</updated>
+    <category term="開發者工具"/>
+    <summary>一套 CRDT 函式庫：多台裝置（就算離線）同時改同一份資料，重連後自動合併、不互相覆蓋。</summary>
+  </entry>
+</feed>

@@ -14,12 +14,11 @@
     "name": "yjs/yjs",
     "url": "https://github.com/yjs/yjs",
     "license": "MIT",
-    "stars": "23.0k",
-    "lang": "JavaScript"
+    "stars": "23.0k（2026-11-24）",
+    "lang": "JavaScript",
+    "role": "main"
    }
   ],
-  "path": "ep-001-yjs/",
-  "lab": "ep-001-yjs/lab",
   "demo": "三台模擬裝置跑真的 Yjs：斷線、各改同一行、重連後自動合併；另附離線合併 benchmark、JS↔Python 互通、Hocuspocus 實測。",
   "highlights": [
    "依序打 10,000 個中文字：文件 30,016 B，純文字 30,000 B，協作資訊幾乎不佔空間",
@@ -31,6 +30,9 @@
    "local-first",
    "即時協作"
   ],
-  "createdAt": "2026-11-24T08:37:00Z"
+  "path": "ep-001-yjs/",
+  "lab": "ep-001-yjs/lab",
+  "thumb": "ep-001-yjs/og.jpg",
+  "createdAt": "2026-11-24T16:37:00+08:00"
  }
 ]

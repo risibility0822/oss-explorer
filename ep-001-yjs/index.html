@@ -4,6 +4,13 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>開源探索誌 #001｜Yjs</title>
+<meta name="description" content="Yjs 是一套 CRDT 函式庫：多台裝置（就算離線）同時改同一份資料，重連後自動合併、不互相覆蓋。">
+<meta property="og:title" content="開源探索誌 #001｜Yjs：幫任何 App 加上 Google Docs 式的多人協作">
+<meta property="og:description" content="三台模擬裝置跑真的 Yjs：斷線、各改同一行、重連後自動合併。">
+<meta property="og:image" content="https://risibility0822.github.io/oss-explorer/ep-001-yjs/og.jpg">
+<meta property="og:url" content="https://risibility0822.github.io/oss-explorer/ep-001-yjs/">
+<meta property="og:type" content="article">
+<link rel="alternate" type="application/atom+xml" title="開源探索誌" href="../feed.xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@400;600;700&family=Noto+Sans+TC:wght@400;600;800&display=swap" rel="stylesheet">
 <style>
@@ -94,14 +101,14 @@ pre,.scroll{overflow-x:auto}.scroll a{flex:none}code{overflow-wrap:anywhere}
 @media(prefers-reduced-motion:no-preference){.dev{transition:background .3s,opacity .3s}.badge{transition:border-color .3s,color .3s}}
 </style><script>new MutationObserver(()=>{for(const c of document.querySelectorAll('.stack td:not([data-l])')){let i=0,p=c;while(p=p.previousElementSibling)i+=p.colSpan;c.dataset.l=c.closest('table').rows[0].cells[i]?.textContent||''}}).observe(document,{childList:true,subtree:true})</script></head>
 <body>
-<header class="band" style="padding-bottom:18px">
+<header class="band" style="padding-bottom:18px" data-section="header">
   <div class="kicker"><b>開源探索誌 #001</b>　·　2026-11-24　·　開發者工具</div>
   <h1>Yjs：幫任何 App 加上 Google Docs 式的多人協作</h1>
   <p class="lead">Yjs 是一套 CRDT 函式庫：好幾台裝置（就算離線）同時改同一份資料，重新連線後會自動合併，不用伺服器當裁判，也不會互相覆蓋。下面這三台「裝置」跑的是真的 Yjs 13.6.33。</p>
   <div class="tags"><span class="tag main">主鏡頭：厲害</span><span class="tag">巨星級</span><span class="tag">單品</span><span class="tag">CRDT</span><span class="tag">local-first</span><span class="tag">即時協作</span></div>
 </header>
 
-<section class="band" style="padding-top:0" aria-label="互動 Demo">
+<section class="band" style="padding-top:0" aria-label="互動 Demo" data-section="demo" id="demo">
   <div class="sim">
     <div class="simbar">
       <span class="badge" id="badge">三台內容一致 ✓</span>
@@ -115,9 +122,9 @@ pre,.scroll{overflow-x:auto}.scroll a{flex:none}code{overflow-wrap:anywhere}
   </div>
 </section>
 
-<nav class="scroll" aria-label="本集段落"><a href="#why">為什麼值得認識</a><a href="#how">怎麼運作</a><a href="#run">實際執行紀錄</a><a href="#start">五分鐘上手</a><a href="#ideas">拿它做什麼</a><a href="#cross">跨集組合</a><a href="#limits">限制與比較</a><a href="#more">延伸探索</a><a href="#sources">來源</a></nav>
+<nav class="scroll toc" aria-label="本集段落"><a href="#why">為什麼值得認識</a><a href="#how">怎麼運作</a><a href="#run">實際執行紀錄</a><a href="#start">五分鐘上手</a><a href="#ideas">拿它做什麼</a><a href="#cross">跨集組合</a><a href="#limits">限制與比較</a><a href="#more">延伸探索</a><a href="#sources">來源</a></nav>
 
-<section class="band" id="why">
+<section class="band" id="why" data-section="why">
   <h2>為什麼值得認識</h2>
   <div class="lens">
     <div style="--pc:var(--a)"><h3>厲害在哪</h3><p>協作功能出了名的難做，Jupyter 團隊花了好幾年，最後選了 Yjs。官方文件說它每週下載量超過 100 萬次，README 列出的使用者包括 Linear、Evernote、GitBook、JupyterLab、Proton Docs、AFFiNE、AWS SageMaker。我實測依序打 10,000 個中文字，文件只有 30,016 bytes，純文字本身是 30,000 bytes：附帶的協作資訊幾乎不佔空間。</p></div>
@@ -133,7 +140,7 @@ pre,.scroll{overflow-x:auto}.scroll a{flex:none}code{overflow-wrap:anywhere}
   </div>
 </section>
 
-<section class="band" id="how">
+<section class="band" id="how" data-section="how">
   <h2>它怎麼運作：每個字都有身分證</h2>
   <div class="steps">
     <div>
@@ -185,7 +192,7 @@ pre,.scroll{overflow-x:auto}.scroll a{flex:none}code{overflow-wrap:anywhere}
   </div>
 </section>
 
-<section class="band" id="run">
+<section class="band" id="run" data-section="run">
   <h2>實際執行紀錄：在雲端工作區跑出來的真實數字</h2>
   <p class="meta">2026-11-24 於雲端工作區（2 vCPU、Node v22.23.5、yjs 13.6.33、pycrdt 0.14.13、@hocuspocus/server 4.9.0）實際執行。腳本是本集自己寫的，全部放在 <a href="https://github.com/risibility0822/oss-explorer/tree/main/ep-001-yjs/lab">lab/ 資料夾</a>，clone 下來就能重跑。</p>
   <h3>A. 兩台離線各做 N 次編輯，再合併</h3>
@@ -208,7 +215,7 @@ A sees: Hello from A { fromB: '嗨，我是 B' }
 B sees: Hello from A { fromB: '嗨，我是 B' }</pre>
 </section>
 
-<section class="band" id="start">
+<section class="band" id="start" data-section="start">
   <h2>五分鐘上手</h2>
   <p>最小組合：前端用 <code>yjs</code> 加上 Hocuspocus 的 provider，後端跑 Hocuspocus。下面兩段就是 D 項實測的程式碼（精簡版）。</p>
   <div class="codehead"><span>server.mjs（npm i @hocuspocus/server）</span><button data-copy="c1">複製</button></div>
@@ -229,7 +236,7 @@ todos.push([{ t: '買牛奶', done: false }])     // 本機改動 → 自動同�
   <p class="meta">要離線也能用，再加 <code>y-indexeddb</code> 把文件存在瀏覽器；要接 ProseMirror、Tiptap、CodeMirror、Monaco、Lexical 等編輯器，各有現成的綁定。</p>
 </section>
 
-<section class="band" id="ideas">
+<section class="band" id="ideas" data-section="ideas">
   <h2>你可以拿它做什麼</h2>
   <div class="ideas">
     <div class="idea" style="--pc:var(--a)"><h3>家庭／小團隊共用的 Mac 選單列清單</h3><p>選單列上一個小清單（購物、待辦、出國清單），全家的 Mac 和手機一起改，離線也能改。原生 UI 外殼加上 WebView 裡跑 Yjs（Swift 原生綁定 yswift 更新較慢），同步用自架的 Hocuspocus。</p><p class="meta">工作量：一個月　·　價值：買斷制付費 app，沿用你現有的上架與授權流程</p></div>
@@ -240,12 +247,12 @@ todos.push([{ t: '買牛奶', done: false }])     // 本機改動 → 自動同�
   </div>
 </section>
 
-<section class="band" id="cross">
+<section class="band" id="cross" data-section="cross">
   <h2>跨集組合</h2>
   <p>這是第一集。之後每一集都會在這裡寫：新認識的資源跟 Yjs（以及之前各集的資源）可以怎麼搭配。例如以後介紹到編輯器、地圖、白板類的開源專案，加上 Yjs 就是多人協作版本。</p>
 </section>
 
-<section class="band" id="limits">
+<section class="band" id="limits" data-section="limits">
   <h2>限制與比較</h2>
   <ul class="pit">
     <li><b>v14 正在換版。</b>npm 的 latest 還是 13.6.33，14.0.0 放在 next/beta tag，GitHub 上已到 v14.0.0-rc.30，也開始以新名稱 <code>@y/y</code> 發布。新專案建議先用 13.x，並留意升級說明。</li>
@@ -261,7 +268,7 @@ todos.push([{ t: '買牛奶', done: false }])     // 本機改動 → 自動同�
   </tbody></table></div>
 </section>
 
-<section class="band" id="more">
+<section class="band" id="more" data-section="more">
   <h2>延伸探索</h2>
   <ul class="pit">
     <li><a href="https://github.com/ueberdosis/hocuspocus">Hocuspocus</a>：MIT 授權的 Yjs WebSocket 後端，v4 起不只支援 Node.js 執行環境。</li>
@@ -272,7 +279,7 @@ todos.push([{ t: '買牛奶', done: false }])     // 本機改動 → 自動同�
   </ul>
 </section>
 
-<footer class="band" id="sources">
+<footer class="band" id="sources" data-section="sources">
   <h2 style="font-size:22px">來源</h2>
   <ol class="src">
     <li><a href="https://github.com/yjs/yjs">github.com/yjs/yjs</a>：星數、forks、使用者清單、綁定與 provider 清單（讀取於 2026-11-24）</li>
@@ -287,6 +294,7 @@ todos.push([{ t: '買牛奶', done: false }])     // 本機改動 → 自動同�
     <li>LICENSE 原文（raw.githubusercontent.com）：yjs、y-crdt、hocuspocus 皆為 MIT；pycrdt 套件標示 MIT</li>
   </ol>
   <p>本集由 Claude 自動選題、研究、實作，製作於 2026-11-24。</p>
+  <p><a href="https://github.com/risibility0822/oss-explorer/edit/main/feedback.md">幫這集評分或許願（feedback.md）</a></p>
   <a class="back" href="../">← 回到開源探索誌首頁</a>
 </footer>
 

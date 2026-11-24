@@ -1,0 +1,9 @@
+{
+  "name": "oss-explorer-ops",
+  "private": true,
+  "description": "開源探索誌流程工具的 Node 依賴（由 oss.py preflight 安裝）",
+  "dependencies": {
+    "axe-core": "4.14.1",
+    "html-validate": "11.21.1"
+  }
+}

@@ -1,0 +1,148 @@
+{
+ "$schema": "https://json-schema.org/draft/2020-12/schema",
+ "type": "object",
+ "required": [
+  "episodeCount",
+  "domainCounts",
+  "recentDomains",
+  "covered",
+  "pool",
+  "wishes"
+ ],
+ "properties": {
+  "episodeCount": {
+   "type": "integer",
+   "minimum": 0
+  },
+  "domainCounts": {
+   "type": "object",
+   "propertyNames": {
+    "enum": [
+     "AI 模型與推論",
+     "AI 應用與 Agent 框架",
+     "開發者工具",
+     "資料庫與後端基礎設施",
+     "自架服務 self-hosted",
+     "開放資料集",
+     "前端・設計・UI・字體・圖示",
+     "多媒體",
+     "地圖與地理空間",
+     "科學・數學・生醫・氣候",
+     "隱私・安全・網路",
+     "硬體・IoT・嵌入式・機器人",
+     "生產力・知識管理・桌面 App",
+     "好玩・怪奇・創意程式・藝術"
+    ]
+   },
+   "additionalProperties": {
+    "type": "integer"
+   }
+  },
+  "recentDomains": {
+   "type": "array",
+   "maxItems": 6,
+   "items": {
+    "enum": [
+     "AI 模型與推論",
+     "AI 應用與 Agent 框架",
+     "開發者工具",
+     "資料庫與後端基礎設施",
+     "自架服務 self-hosted",
+     "開放資料集",
+     "前端・設計・UI・字體・圖示",
+     "多媒體",
+     "地圖與地理空間",
+     "科學・數學・生醫・氣候",
+     "隱私・安全・網路",
+     "硬體・IoT・嵌入式・機器人",
+     "生產力・知識管理・桌面 App",
+     "好玩・怪奇・創意程式・藝術"
+    ]
+   }
+  },
+  "covered": {
+   "type": "array",
+   "items": {
+    "type": "string",
+    "pattern": "^https://"
+   }
+  },
+  "pool": {
+   "type": "array",
+   "maxItems": 40,
+   "items": {
+    "type": "object",
+    "required": [
+     "name",
+     "url",
+     "domain",
+     "why"
+    ],
+    "properties": {
+     "name": {
+      "type": "string",
+      "minLength": 1
+     },
+     "url": {
+      "type": "string",
+      "pattern": "^https://"
+     },
+     "domain": {
+      "enum": [
+       "AI 模型與推論",
+       "AI 應用與 Agent 框架",
+       "開發者工具",
+       "資料庫與後端基礎設施",
+       "自架服務 self-hosted",
+       "開放資料集",
+       "前端・設計・UI・字體・圖示",
+       "多媒體",
+       "地圖與地理空間",
+       "科學・數學・生醫・氣候",
+       "隱私・安全・網路",
+       "硬體・IoT・嵌入式・機器人",
+       "生產力・知識管理・桌面 App",
+       "好玩・怪奇・創意程式・藝術"
+      ]
+     },
+     "why": {
+      "type": "string",
+      "minLength": 1
+     }
+    }
+   }
+  },
+  "wishes": {
+   "type": "array",
+   "items": {
+    "type": "object",
+    "required": [
+     "id",
+     "text",
+     "status"
+    ],
+    "properties": {
+     "status": {
+      "enum": [
+       "open",
+       "done",
+       "blocked"
+      ]
+     }
+    }
+   }
+  },
+  "feedback": {
+   "type": "object"
+  },
+  "lastRunAt": {
+   "type": [
+    "string",
+    "null"
+   ]
+  },
+  "nextHint": {
+   "type": "string"
+  }
+ }
+}

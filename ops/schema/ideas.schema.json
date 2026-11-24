@@ -1,0 +1,51 @@
+{
+ "$schema": "https://json-schema.org/draft/2020-12/schema",
+ "type": "array",
+ "items": {
+  "type": "object",
+  "required": [
+   "id",
+   "episode",
+   "no",
+   "title",
+   "pitch",
+   "effort",
+   "value",
+   "starred"
+  ],
+  "properties": {
+   "id": {
+    "type": "string",
+    "pattern": "^ep-\\d{3}-\\d+$"
+   },
+   "episode": {
+    "type": "string"
+   },
+   "no": {
+    "type": "integer"
+   },
+   "title": {
+    "type": "string",
+    "minLength": 1
+   },
+   "pitch": {
+    "type": "string",
+    "minLength": 1
+   },
+   "effort": {
+    "enum": [
+     "一個週末",
+     "一個月",
+     "長期"
+    ]
+   },
+   "value": {
+    "type": "string",
+    "minLength": 1
+   },
+   "starred": {
+    "type": "boolean"
+   }
+  }
+ }
+}

@@ -1,0 +1,25 @@
+{
+ "no": {{NO}},
+ "id": "{{ID}}",
+ "slug": "{{SLUG}}",
+ "date": "{{DATE}}",
+ "title": "{{TITLE}}",
+ "oneliner": "{{ONELINER}}",
+ "domain": "{{DOMAIN}}",
+ "format": "{{FORMAT}}",
+ "tier": "{{TIER}}",
+ "lens": "{{LENS}}",
+ "resources": [
+  {"name": "owner/repo", "url": "https://github.com/owner/repo", "license": "MIT", "stars": "12.3k（2026-11-24）", "lang": "Rust", "role": "main"}
+ ],
+ "demo": "{{一句話描述 Demo}}",
+ "highlights": ["{{重點 1}}", "{{重點 2}}", "{{重點 3}}"],
+ "tags": [],
+ "ideas": [
+  {"title": "{{點子}}", "pitch": "{{一句話 pitch}}", "effort": "一個月", "value": "{{怎麼賺錢／價值}}"}
+ ],
+ "sources": ["https://example.com/1"],
+ "poolAdd": [],
+ "wish": null,
+ "nextHint": "{{下一集預告，一句話}}"
+}

@@ -4,6 +4,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="repo" content="https://github.com/risibility0822/oss-explorer">
+<meta name="description" content="每週一、三、五自動出刊：認識一個開源資源，附可以玩的 Demo 與實驗程式碼。">
+<meta property="og:title" content="開源探索誌">
+<meta property="og:description" content="每週一、三、五自動出刊：認識一個開源資源，附可以玩的 Demo 與實驗程式碼。">
+<meta property="og:type" content="website">
+<link rel="alternate" type="application/atom+xml" title="開源探索誌" href="feed.xml">
 <title>開源探索誌</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@112,800&family=Archivo:wght@400;600&family=Noto+Sans+TC:wght@400;600;800&display=swap" rel="stylesheet">
@@ -47,6 +52,11 @@ button.on{background:var(--ink);color:var(--bg)}
 button.primary{background:var(--red);border-color:var(--red);color:#fff;font-weight:600}
 .ep{display:grid;grid-template-columns:clamp(84px,14vw,170px) minmax(0,1fr);gap:0 24px;border-top:2px solid var(--line);padding:22px 0 26px}
 .ep .no{font-size:clamp(44px,8vw,92px);line-height:.9;color:var(--ink)}
+.ep .thumb{display:block;margin:4px 0 12px;max-width:520px;aspect-ratio:1200/630;overflow:hidden;border:1px solid var(--soft)}
+.ep .thumb img{width:100%;height:100%;object-fit:cover;display:block}
+.status:empty{display:none}
+.runline{font-size:14px;color:var(--grey);margin-top:10px}.runline.fail{color:var(--redink);font-weight:600}
+.subs{font-size:14px;margin-top:6px}.subs a{color:var(--ink)}
 .ep .date{color:var(--grey);font-size:14px;margin-top:8px}
 .ep h3{font-size:clamp(21px,2.6vw,28px);line-height:1.2;margin:0 0 6px}
 .ep p{margin:4px 0 10px;max-width:70ch}
@@ -87,6 +97,8 @@ footer{color:var(--grey);font-size:14px}
     <div class="stat"><b class="num" id="sStar">–</b><span>你收藏的點子</span></div>
   </div>
   <p class="next" id="next"></p>
+  <p class="runline" id="runline"></p>
+  <p class="subs">新一集出刊時會推播到你的手機；也可以用 RSS 閱讀器訂閱 <a href="feed.xml">feed.xml</a>。</p>
   <p class="status" id="status">載入中…</p>
 </header>
 <nav class="scroll" aria-label="區段">
@@ -176,7 +188,7 @@ function renderEps(){
     const hl=(e.highlights||[]).length?`<ul class="hl">${e.highlights.map(h=>`<li>${esc(h)}</li>`).join("")}</ul>`:"";
     return `<article class="ep" id="ep-${pad(e.no)}">
       <div><div class="no num">${pad(e.no)}</div><div class="date num">${esc(e.date)}</div></div>
-      <div><h3>${esc(e.title)}</h3><p>${esc(e.oneliner)}</p>
+      <div>${e.thumb?`<a class="thumb" href="${esc(u)}" aria-hidden="true" tabindex="-1"><img src="${esc(e.thumb)}" alt="" loading="lazy" width="1200" height="630"></a>`:""}<h3>${esc(e.title)}</h3><p>${esc(e.oneliner)}</p>
       <div class="tags">${tags}</div>${hl}
       ${e.demo?`<p class="res"><b>Demo：</b>${esc(e.demo)}</p>`:""}
       <p class="res">${res}</p>
@@ -208,8 +220,12 @@ $("onlyStar").addEventListener("click",e=>{S.onlyStar=!S.onlyStar;e.currentTarge
 (async()=>{
   const get=async p=>{const r=await fetch(p,{cache:"no-store"});if(!r.ok)throw new Error(p);return r.json()};
   try{
-    const [eps,ideas,state]=await Promise.all([get("data/episodes.json"),get("data/ideas.json"),get("data/state.json").catch(()=>null)]);
+    const [eps,ideas,state,runs]=await Promise.all([get("data/episodes.json"),get("data/ideas.json"),get("data/state.json").catch(()=>null),get("data/runs.json").catch(()=>[])]);
     S.eps=Array.isArray(eps)?eps:[];S.ideas=Array.isArray(ideas)?ideas:[];S.state=state;
+    const last=Array.isArray(runs)&&runs.length?runs[runs.length-1]:null;
+    if(last){const t=String(last.endedAt||"").replace("T"," ").slice(0,16),okr=last.status==="ok";
+      const rl=$("runline");rl.classList.toggle("fail",!okr);
+      rl.textContent=okr?`上次自動執行：${t}（成功${last.episode?"，出刊 "+last.episode:""}）`:`上次自動執行：${t} 失敗：${last.note||"原因未記錄"}`;}
     $("status").textContent="";renderAll();
   }catch(e){$("status").textContent="資料讀取失敗，請重新整理。"}
 })();
