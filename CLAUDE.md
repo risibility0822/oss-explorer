@@ -10,7 +10,7 @@
 
 ```
 preflight → plan → 發掘與選題 → new <slug> → 研究 → Demo 與 lab → 頁面與 meta.json
-→ check → qa（看截圖）→ 審查員 subagent → 修正 → register → build → finish --review → publish
+→ check → qa（看截圖）→ 內容審查員＋設計審查員（平行）→ 修正 → register → build → finish --review --design → publish
 → live（線上自動檢查與探索）→ 親手玩線上版 → live --played → lesson
 ```
 
@@ -37,7 +37,9 @@ preflight → plan → 發掘與選題 → new <slug> → 研究 → Demo 與 la
 | `ops/bin/oss.py` | 流程工具（`--help` 看全部指令） |
 | `ops/LESSONS.md` | 歷次執行學到的經驗：開工前先讀，收工前把新學到的用 `oss.py lesson` 加上去 |
 | `ops/rubric.md` | 審查標準與門檻 |
-| `.claude/agents/oss-reviewer.md` | 獨立審查員 |
+| `.claude/agents/oss-reviewer.md` | 內容審查員（事實、Demo 真實性） |
+| `.claude/agents/oss-design-reviewer.md` | 設計審查員（一眼抓重點、像不像模板、手機好不好用） |
+| `.claude/skills/frontend-design/` | Anthropic 官方設計 skill（Apache-2.0），每集做頁面前必讀；版型規則在 `oss-episode/design.md` |
 | `.run/` | 本次執行的暫存（不進 git）：`current.json` 是進度檔 |
 
 ## 最後訊息格式

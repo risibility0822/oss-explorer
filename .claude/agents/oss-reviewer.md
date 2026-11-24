@@ -1,6 +1,6 @@
 ---
 name: oss-reviewer
-description: 開源探索誌的獨立審查員。每集發布前用它查核事實、驗證 Demo 是真的、看截圖、依 ops/rubric.md 評分。只讀不改。
+description: 開源探索誌的獨立審查員。每集發布前用它查核事實、驗證 Demo 是真的、看截圖、依 ops/rubric.md 評內容（設計由 oss-design-reviewer 負責）。只讀不改。
 tools: Read, Grep, Glob, Bash, WebFetch, WebSearch
 ---
 
@@ -32,8 +32,8 @@ tools: Read, Grep, Glob, Bash, WebFetch, WebSearch
 {
   "episode": "ep-NNN-slug",
   "verdict": "pass 或 revise",
-  "scores": {"正確性": 5, "Demo 真實可玩": 4, "深度與洞見": 4, "對主人的價值": 3, "設計與完成度": 4, "原創與有趣": 3},
-  "reasons": {"正確性": "…", "Demo 真實可玩": "…", "深度與洞見": "…", "對主人的價值": "…", "設計與完成度": "…", "原創與有趣": "…"},
+  "scores": {"正確性": 5, "Demo 真實可玩": 4, "深度與洞見": 4, "對主人的價值": 3, "原創與有趣": 3},
+  "reasons": {"正確性": "…", "Demo 真實可玩": "…", "深度與洞見": "…", "對主人的價值": "…", "原創與有趣": "…"},
   "facts_checked": [{"claim": "…", "source": "…", "ok": true}],
   "must_fix": ["具體問題＋在哪裡＋怎麼修"],
   "should_fix": ["…"],

@@ -74,20 +74,14 @@ clone 到 `/home/claude/work/<id>/src/<name>/`（新的空目錄）。收集：
 
 `new` 已經建好骨架：`index.html`（每個 `data-section` 都要保留）、`meta.json`、`lab/`。
 
-**內容**（區塊順序照骨架）
-- **header**：期數、日期、領域、主題、一句話、標籤、資源卡（名稱／連結、授權、星數與日期、最後更新、主要語言）。
-- **demo**：放第一屏，作品本身就是主視覺。
-- **why**：厲害在哪、好玩在哪、商業潛力在哪。要具體：商業面舉真實有在用它賺錢的公司或模式。
-- **how**：自己畫的原理圖（inline SVG）。手機上要看得清楚，必要時拆成數張小圖。
-- **run**：實際執行紀錄＋lab 連結。
-- **start**：最小可行程式碼（就是實測過的那份），附複製按鈕。
-- **ideas**：3–5 個點子（`class="idea"`），每個寫一句話 pitch、工作量（一個週末／一個月／長期）、價值。至少一個貼近主人的背景（macOS app、Python/FastAPI、台灣市場）；主人有收藏的點子時，至少一個延伸那個方向並註明。
-- **cross**：至少一個跟以前某一集的組合，用 `../ep-XXX-slug/` 連過去（第 1 集除外）。
-- **limits**：授權陷阱、成熟度、效能，加替代品比較表（`class="stack"`）。
-- **more**：3–5 個延伸資源。
-- **sources**：至少 5 個來源連結。
+**先讀兩份設計文件**：`.claude/skills/frontend-design/SKILL.md`（品味）與同資料夾的 `design.md`（版型）。在 `<style>` 開頭寫五行設計計畫，對照 AI 預設特徵檢查過再動工。
 
-**設計**：見 `design.md`（同資料夾）。第 001 集是結構和深度的標竿，但每集的視覺要從主題本身取材，不要長得一樣。
+**內容**（版型照骨架，細節見 design.md）
+- **主線**（讀者 2 分鐘看完，可見文字 ≤ 1500 字，Demo 不計）：`header` 標題寫結論 → `demo` 第一屏 → `tldr` 30 秒看懂（四句話）→ `findings` 實測後的三個發現（每個配大數字或圖）→ `ideas` 3–5 個點子（一句話＋工作量；至少一個貼近主人背景：macOS app、Python/FastAPI、台灣市場；主人有收藏的點子時，至少一個延伸那個方向）。
+- **深入**（全部收在 `<details>`，預設收合）：`how` 原理圖、`run` 實測紀錄與 lab 連結、`start` 實測過的最小程式碼、`limits` 授權陷阱與替代品比較表、`more` 延伸資源與跨集組合（第 2 集起至少一個 `../ep-XXX-slug/`）、`sources` 至少 5 個來源。
+- 寫完把每一句主線讀一遍：拿掉它，Jack 會少知道什麼？答不出來就刪。
+
+**設計**：每集的視覺從主題本身取材，不要長得一樣；第 001 集是版型的範例，不是視覺的範本。
 
 **meta.json**：填完全部欄位（schema 在 `ops/schema/meta.schema.json`）。`ideas` 必須跟頁面一致；`nextHint` 寫下一集預告。
 
@@ -95,14 +89,15 @@ clone 到 `/home/claude/work/<id>/src/<name>/`（新的空目錄）。收集：
 
 ```bash
 python3 ops/bin/oss.py check     # 結構、連結、大小、殘留骨架、HTML、JS 語法、meta schema
-python3 ops/bin/oss.py qa        # 真實 Chromium：桌機／手機／深色、JS 錯誤、溢出、互動測試、無障礙、縮圖
+python3 ops/bin/oss.py qa        # 真實 Chromium：桌機／手機／深色、JS 錯誤、溢出、互動測試、無障礙、主線字數（≤1500）、收合、impeccable 設計偵測、縮圖
 ```
 
 1. 修到兩個都通過。
 2. **用 Read 打開截圖親眼看**：`.run/qa/<slug>/desktop.png`、`mobile.png`、`mobile-dark.png`、`desktop-full.png`。看有沒有破版、字太小、對比不足、空白太多、內容重疊。
 3. **獨立審查**：用 Agent 工具啟動 `oss-reviewer` subagent（沒有的話用 general-purpose，並把 `.claude/agents/oss-reviewer.md` 的內容當作指示），告訴它本集資料夾名稱。它不會改檔案，會回傳 JSON 判定。
-4. `must_fix` 全部修掉，重跑 check／qa；`verdict` 是 `revise` 時修完再審一次，最多兩輪。第二輪還沒過，就把剩下的問題寫進頁面的 limits 區，並在最後訊息加 ⚠️。
-5. 把審查結果摘要寫進 meta.json 的 `review`（分數與一句話）。
+4. **設計審查**（跟第 3 步同時啟動，兩個 subagent 平行跑）：用 Agent 工具啟動 `oss-design-reviewer`（沒有的話用 general-purpose，並把 `.claude/agents/oss-design-reviewer.md` 的內容當作指示）。它只看讀起來與看起來怎樣：3 秒抓重點、主線是不是太長、像不像模板、手機好不好用。
+5. 兩份審查的 `must_fix` 全部修掉，重跑 check／qa；`verdict` 是 `revise` 時修完再審一次，最多兩輪。第二輪還沒過，就把剩下的問題寫進頁面的 limits 區，並在最後訊息加 ⚠️。
+6. 把兩份審查的摘要分別用 `finish --review "…" --design "…"` 記錄。
 
 ## 6. 發布與線上檢查 ⏱ 20 分
 
@@ -111,7 +106,7 @@ python3 ops/bin/oss.py qa        # 真實 Chromium：桌機／手機／深色、
 ```bash
 python3 ops/bin/oss.py register                   # meta.json → data/*.json（可重複執行）
 python3 ops/bin/oss.py build                      # feed.xml、sitemap、README 總覽表
-python3 ops/bin/oss.py finish --review "審查：pass，正確性 5／Demo 4…"
+python3 ops/bin/oss.py finish --review "內容審查：pass，正確性 5／Demo 4…" --design "設計審查：pass，一眼抓重點 4／…"
 python3 ops/bin/oss.py publish                    # commit + push（自動 rebase、重試，失敗推到 wip 分支）
 ```
 

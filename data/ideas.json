@@ -14,7 +14,7 @@
   "episode": "ep-001",
   "no": 1,
   "title": "自架的去背 API（FastAPI）",
-  "pitch": "包裝 rembg 的伺服器模式，加 API 金鑰與用量計費，只用權重以 Apache-2.0 釋出的 U²-Net 模型，賣給不想把照片送到國外的公司。",
+  "pitch": "包裝 rembg 的伺服器模式，加 API 金鑰與用量計費，只用權重以 Apache-2.0 釋出的 u2net／u2netp，賣給不想把照片送到國外的公司。",
   "effort": "一個週末",
   "value": "按張數計費；強調資料不出台灣",
   "starred": false

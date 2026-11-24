@@ -9,7 +9,7 @@
   plan [--force]       解析 feedback.md、決定本集編號/格式/層級/主鏡頭/領域排序，開始一次 run
   new <slug>           依骨架建立 ep-NNN-<slug>/
   check [ep]           結構、資料、連結、大小、禁用項驗證
-  qa [ep]              Playwright：桌機/手機/深色截圖、console 錯誤、版面溢出、互動測試、無障礙、縮圖
+  qa [ep]              Playwright：桌機/手機/深色截圖、錯誤、溢出、互動測試、無障礙、主線字數與收合、impeccable 設計偵測、縮圖
   register [ep]        把 ep/meta.json 寫進 data/*.json（可重複執行，結果一樣）
   build                產生 feed.xml、sitemap.xml、README 總覽表
   finish               寫入執行紀錄 data/runs.json（狀態 ok）
@@ -38,7 +38,10 @@ DOMAINS = ["AI 模型與推論", "AI 應用與 Agent 框架", "開發者工具",
            "開放資料集", "前端・設計・UI・字體・圖示", "多媒體", "地圖與地理空間", "科學・數學・生醫・氣候",
            "隱私・安全・網路", "硬體・IoT・嵌入式・機器人", "生產力・知識管理・桌面 App", "好玩・怪奇・創意程式・藝術"]
 FORMATS, TIERS, LENSES = ["單品", "組合技"], ["巨星", "寶石", "新星"], ["厲害", "好玩", "商業潛力"]
-SECTIONS = ["header", "why", "how", "demo", "run", "start", "ideas", "cross", "limits", "more", "sources"]
+# 版型：主線（30 秒卡 → Demo → 三個發現 → 點子）一眼看完；其餘全部收在 <details> 裡，想深入再展開
+SECTIONS = ["header", "demo", "tldr", "findings", "ideas", "how", "run", "start", "limits", "sources"]
+FOLDED = ["how", "run", "start", "limits", "more", "cross", "sources"]   # 必須包在 <details> 裡（預設收合）
+MAIN_TEXT_MAX = 1500   # 主線（<details> 與 Demo 以外）可見文字的上限（字元）
 MAX_EP_BYTES, MAX_FILE_BYTES = 20 * 1024 * 1024, 45 * 1024 * 1024
 
 
@@ -463,6 +466,18 @@ def cmd_qa(a):
                     except AssertionError as e: errs.append(f"互動測試失敗：{e}")
                     except Exception as e: errs.append(f"互動測試出錯：{type(e).__name__}: {e}")
                 if name == "desktop" and not home:
+                    lay = pg.evaluate("""([folded]) => {
+                      const skip = e => e.closest('details,[data-section=demo],script,style,svg,noscript');
+                      const w = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT); let n = 0, t;
+                      while (t = w.nextNode()) { const p = t.parentElement; if (!p || skip(p)) continue; const st = getComputedStyle(p); if (st.display === 'none' || st.visibility === 'hidden') continue; n += t.textContent.replace(/\\s+/g, '').length; }
+                      const notFolded = folded.filter(s => { const e = document.querySelector(`[data-section="${s}"]`); return e && !e.closest('details'); });
+                      const openByDefault = [...document.querySelectorAll('details[open]')].length;
+                      return {mainChars: n, notFolded, openByDefault};
+                    }""", [FOLDED]); report["layout"] = lay
+                    print(f"  主線文字：{lay['mainChars']} 字（上限 {MAIN_TEXT_MAX}）")
+                    if lay["mainChars"] > MAIN_TEXT_MAX: errs.append(f"主線文字 {lay['mainChars']} 字，超過 {MAIN_TEXT_MAX}：把細節移進 <details>，或刪掉讀者會跳過的句子")
+                    if lay["notFolded"]: errs.append(f"這些區塊必須收在 <details> 裡：{lay['notFolded']}")
+                    if lay["openByDefault"]: warns.append(f"有 {lay['openByDefault']} 個 <details> 預設展開；深入內容應該預設收合")
                     pg.reload(wait_until="load"); pg.wait_for_timeout(1500)
                     elog, esus = explore(pg, label="[desktop] "); report["explore"] = elog
                     for s_ in esus: warns.append("可疑（qa 會在線上再檢查一次）：" + s_)
@@ -481,6 +496,19 @@ def cmd_qa(a):
             b.close()
     finally:
         srv.shutdown()
+    # impeccable：設計反模式偵測（AI 生成感、擁擠、對比…）。slop 類是錯誤，其他是提醒
+    imp = OPS / "node_modules" / "impeccable" / "cli" / "bin" / "cli.js"
+    if not home and imp.exists():
+        r = sh("node", str(imp), "detect", "--json", str(ep / "index.html"), timeout=180)
+        try:
+            found = json.loads(r.stdout or "[]"); report["impeccable"] = found
+            from collections import Counter
+            for (rule, name, cat), k in Counter((f.get("antipattern"), f.get("name"), f.get("category")) for f in found).items():
+                msg = f"impeccable：{name}（{rule}）× {k}"
+                (errs if cat == "slop" else warns).append(msg + ("：AI 生成感的典型特徵，請改掉" if cat == "slop" else ""))
+            print(f"  impeccable：{len(found)} 個發現" if found else "  impeccable：沒有發現設計反模式")
+        except json.JSONDecodeError: warns.append(f"impeccable 輸出無法解析：{(r.stderr or r.stdout)[:200]}")
+    elif not home: warns.append("沒有安裝 impeccable（npm ci --prefix ops）")
     # 縮圖
     try:
         from PIL import Image
@@ -791,6 +819,8 @@ def cmd_finish(a):
     missing = [s for s in need if (c.get("steps") or {}).get(s, {}).get("status") != "pass"]
     if a.review: step("review", "pass", note=a.review[:200])
     if (c.get("steps") or {}).get("review", {}).get("status") != "pass" and not a.review: missing.append("review（審查員通過後用 --review \"摘要\" 記錄）")
+    if a.design: step("design", "pass", note=a.design[:200])
+    if (c.get("steps") or {}).get("design", {}).get("status") != "pass" and not a.design: missing.append("design（設計審查員通過後用 --design \"摘要\" 記錄）")
     if missing and not a.force: die("還有步驟沒通過：" + "、".join(missing))
     record_run("ok", a.note or ""); set_cur(phase="finished"); ok("已寫入 data/runs.json。下一步：`oss.py publish`")
 
@@ -911,7 +941,7 @@ def main():
     for name, fn in (("check", cmd_check), ("qa", cmd_qa), ("register", cmd_register)):
         p = sp.add_parser(name); p.add_argument("ep", nargs="?"); p.set_defaults(f=fn)
     sp.add_parser("build").set_defaults(f=cmd_build)
-    p = sp.add_parser("finish"); p.add_argument("--note"); p.add_argument("--review"); p.add_argument("--force", action="store_true"); p.set_defaults(f=cmd_finish)
+    p = sp.add_parser("finish"); p.add_argument("--note"); p.add_argument("--review"); p.add_argument("--design", help="設計審查員（oss-design-reviewer）通過的摘要"); p.add_argument("--force", action="store_true"); p.set_defaults(f=cmd_finish)
     p = sp.add_parser("publish"); p.add_argument("--force", action="store_true"); p.set_defaults(f=cmd_publish)
     p = sp.add_parser("abort"); p.add_argument("--reason", required=True); p.set_defaults(f=cmd_abort)
     p = sp.add_parser("live"); p.add_argument("ep", nargs="?"); p.add_argument("--played", help="記錄親手實玩線上版的結果"); p.add_argument("--timeout", type=int, default=600); p.set_defaults(f=cmd_live)

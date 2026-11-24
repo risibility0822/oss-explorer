@@ -3,7 +3,7 @@
  "id": "ep-001",
  "slug": "ep-001-rembg",
  "date": "2026-11-24",
- "title": "rembg：照片不用上傳，在瀏覽器裡 AI 去背",
+ "title": "照片不用上傳，在瀏覽器裡 AI 去背（rembg）",
  "oneliner": "GitHub 上星數最多的開源去背工具之一；這集把 4.4 MB 的 u2netp 模型放進網頁，照片不離開你的裝置就能去背。",
  "domain": "AI 模型與推論",
  "format": "單品",
@@ -29,9 +29,9 @@
  ],
  "demo": "瀏覽器內用 onnxruntime-web 跑 u2netp：選範例或上傳照片、即時去背、換背景、下載 PNG；另附四個模型實測與瀏覽器／Python 一致性測試。",
  "highlights": [
-  "u2netp 只有 4.4 MB，2 vCPU 上每張 0.4–0.6 秒；瀏覽器單執行緒約 1.6 秒，遮罩與 Python 版 IoU 約 0.97–0.999",
-  "rembg 程式是 MIT，但預設模型 BRIA RMBG-2.0 權重是 CC BY-NC 4.0、商用要付費；isnet、BiRefNet 的訓練資料 DIS5K 禁止商用",
-  "去背是被驗證的生意：remove.bg 的公司 2021 年被 Canva 收購"
+  "u2netp 只有 4.4 MB，2 vCPU 上每張 0.4–0.6 秒；同機的瀏覽器單執行緒約 1.6 秒，遮罩與 Python 版 IoU 0.97–0.999",
+  "模型對「主體」看法不同：同一張火箭照，u2netp 留下 2.3% 前景，isnet 連發射塔都留（約 10%）",
+  "rembg 程式是 MIT，但預設模型 RMBG-2.0 商用要付費；isnet、BiRefNet 與禁止商用的 DIS5K 有關，屬灰色地帶"
  ],
  "tags": [
   "去背",
@@ -48,7 +48,7 @@
   },
   {
    "title": "自架的去背 API（FastAPI）",
-   "pitch": "包裝 rembg 的伺服器模式，加 API 金鑰與用量計費，只用權重以 Apache-2.0 釋出的 U²-Net 模型，賣給不想把照片送到國外的公司。",
+   "pitch": "包裝 rembg 的伺服器模式，加 API 金鑰與用量計費，只用權重以 Apache-2.0 釋出的 u2net／u2netp，賣給不想把照片送到國外的公司。",
    "effort": "一個週末",
    "value": "按張數計費；強調資料不出台灣"
   },
