@@ -1,0 +1,112 @@
+{
+ "no": 1,
+ "id": "ep-001",
+ "slug": "ep-001-rembg",
+ "date": "2026-11-24",
+ "title": "rembg：照片不用上傳，在瀏覽器裡 AI 去背",
+ "oneliner": "GitHub 上星數最多的開源去背工具之一；這集把 4.4 MB 的 u2netp 模型放進網頁，照片不離開你的裝置就能去背。",
+ "domain": "AI 模型與推論",
+ "format": "單品",
+ "tier": "巨星",
+ "lens": "厲害",
+ "resources": [
+  {
+   "name": "danielgatis/rembg",
+   "url": "https://github.com/danielgatis/rembg",
+   "license": "MIT（模型另有授權）",
+   "stars": "25.7k（2026-11-24）",
+   "lang": "Python",
+   "role": "main"
+  },
+  {
+   "name": "onnxruntime-web",
+   "url": "https://www.npmjs.com/package/onnxruntime-web",
+   "license": "MIT",
+   "stars": "—",
+   "lang": "JavaScript",
+   "role": "support"
+  }
+ ],
+ "demo": "瀏覽器內用 onnxruntime-web 跑 u2netp：選範例或上傳照片、即時去背、換背景、下載 PNG；另附四個模型實測與瀏覽器／Python 一致性測試。",
+ "highlights": [
+  "u2netp 只有 4.4 MB，2 vCPU 上每張 0.4–0.6 秒；瀏覽器單執行緒約 1.6 秒，遮罩與 Python 版 IoU 約 0.97–0.999",
+  "rembg 程式是 MIT，但預設模型 BRIA RMBG-2.0 權重是 CC BY-NC 4.0、商用要付費；isnet、BiRefNet 的訓練資料 DIS5K 禁止商用",
+  "去背是被驗證的生意：remove.bg 的公司 2021 年被 Canva 收購"
+ ],
+ "tags": [
+  "去背",
+  "ONNX",
+  "瀏覽器端 AI",
+  "U²-Net"
+ ],
+ "ideas": [
+  {
+   "title": "電商賣家的 Mac 商品照工作台",
+   "pitch": "整個資料夾的商品照一次去背、換白底、裁正方形、加陰影，輸出成蝦皮或 momo 規格；用 macOS 內建 API 當引擎、rembg 當備援。",
+   "effort": "一個月",
+   "value": "買斷制 Mac app，目標台灣小電商與代營運"
+  },
+  {
+   "title": "自架的去背 API（FastAPI）",
+   "pitch": "包裝 rembg 的伺服器模式，加 API 金鑰與用量計費，只用權重以 Apache-2.0 釋出的 U²-Net 模型，賣給不想把照片送到國外的公司。",
+   "effort": "一個週末",
+   "value": "按張數計費；強調資料不出台灣"
+  },
+  {
+   "title": "不上傳的證件照產生器",
+   "pitch": "照片只在瀏覽器裡處理：去背、換規定背景色、裁成證件照尺寸並排成可列印版面，主打隱私。",
+   "effort": "一個週末",
+   "value": "免費導流，進階規格與列印排版收費"
+  },
+  {
+   "title": "LINE 貼圖製作器",
+   "pitch": "上傳寵物或自拍，自動去背、加白邊和文字，輸出成符合 LINE 規格的貼圖組；白邊剛好蓋住去背最弱的毛邊。",
+   "effort": "一個月",
+   "value": "台灣使用者熟悉的付費習慣，按組收費"
+  }
+ ],
+ "sources": [
+  "https://github.com/danielgatis/rembg",
+  "https://github.com/xuebinqin/U-2-Net",
+  "https://github.com/ZhengPeng7/BiRefNet",
+  "https://github.com/xuebinqin/DIS",
+  "https://github.com/facebookresearch/segment-anything",
+  "https://mergr.com/transaction/canva-acquires-kaleido-ai",
+  "https://tech.eu/2021/02/22/canva-kaleido-smartmockups/",
+  "https://www.trendingtopics.eu/canva-kaleido-investment/",
+  "https://developer.apple.com/documentation/vision/vngenerateforegroundinstancemaskrequest",
+  "https://www.npmjs.com/package/onnxruntime-web",
+  "https://scikit-image.org/docs/stable/api/skimage.data.html",
+  "https://github.com/xuebinqin/DIS/blob/main/DIS5K-Dataset-Terms-of-Use.pdf",
+  "https://github.com/Bria-AI/RMBG-2.0"
+ ],
+ "poolAdd": [
+  {
+   "name": "whisper.cpp",
+   "url": "https://github.com/ggml-org/whisper.cpp",
+   "domain": "AI 模型與推論",
+   "why": "本機語音轉文字；模型在 Hugging Face，新環境已允許"
+  },
+  {
+   "name": "Ultralytics YOLO",
+   "url": "https://github.com/ultralytics/ultralytics",
+   "domain": "AI 模型與推論",
+   "why": "物件偵測代表作，AGPL 授權陷阱的好教材"
+  },
+  {
+   "name": "MediaPipe",
+   "url": "https://github.com/google-ai-edge/mediapipe",
+   "domain": "AI 模型與推論",
+   "why": "瀏覽器手勢／姿勢偵測，模型在 GCS"
+  },
+  {
+   "name": "BiRefNet",
+   "url": "https://github.com/ZhengPeng7/BiRefNet",
+   "domain": "AI 模型與推論",
+   "why": "MIT 授權的高解析去背，可跟 rembg 做組合技"
+  }
+ ],
+ "wish": null,
+ "nextHint": "第 002 集：隱藏寶石（<3k ★）・單品・主鏡頭「好玩」，從還沒去過的領域挑",
+ "createdAt": "2026-11-24T18:40:00+08:00"
+}

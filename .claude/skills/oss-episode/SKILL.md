@@ -58,12 +58,14 @@ clone 到 `/home/claude/work/<id>/src/<name>/`（新的空目錄）。收集：
 
 **優先順序**
 1. **瀏覽器裡能玩的 Demo**：`npm install`（加 `--ignore-scripts`）後用 esbuild 打包：`npx esbuild entry.js --bundle --minify --format=iife --outfile=<本集>/xxx.bundle.js`。wasm、模型、資料檔也放本集資料夾，頁面用相對路徑載入，執行期不要依賴外部網站。
+   - **共用執行引擎放 `vendor/`**：已經有 `vendor/onnxruntime-web-1.31.1/`（ONNX 模型的瀏覽器推論，wasm 單執行緒），直接用 `<script src="../vendor/onnxruntime-web-1.31.1/ort.wasm.min.js">`，`wasmPaths` 要寫成 `new URL('../vendor/onnxruntime-web-1.31.1/', location.href).href`。新的共用引擎同樣放 `vendor/<名稱-版本>/` 並附 LICENSE。範例：`ep-001-rembg/`。
+   - **重寫了原專案的前後處理**，就寫 `lab/parity.py` 跟原專案的輸出比對，數字放上頁面。
 2. **工作區實跑紀錄**：真實輸出（文字、數據、產生的圖片、benchmark）嵌進頁面，附指令、版本、日期。
 3. 兩者結合最好：工作區跑出結果，頁面提供互動瀏覽。
 
 **備案**：20 分鐘內瀏覽器 Demo 做不起來，就改成「工作區實跑＋互動結果瀏覽器」；連實跑都不行就換題（回到第 1 步，時間還夠的話）。
 
-**lab/ 必須有**：本集實際執行過的所有腳本、原始輸出（json／txt／圖片）、鎖定版本的 `package.json` 或 `requirements.txt`、`README.md`（每個檔案的用途、怎麼重跑），以及 `qa_check.py`。`qa_check.py` 要真的操作 Demo（點按鈕、輸入文字）並用 assert 檢查結果，參考 `ep-001-yjs/lab/qa_check.py`。不要放 node_modules、第三方 repo 的副本、超過 20 MB 的檔案。
+**lab/ 必須有**：本集實際執行過的所有腳本、原始輸出（json／txt／圖片）、鎖定版本的 `package.json` 或 `requirements.txt`、`README.md`（每個檔案的用途、怎麼重跑），以及 `qa_check.py`。`qa_check.py` 要真的操作 Demo（點按鈕、輸入文字）並用 assert 檢查結果，參考 `ep-001-rembg/lab/qa_check.py`。不要放 node_modules、第三方 repo 的副本、超過 20 MB 的檔案。
 
 有文字輸入框的 Demo 要處理中文輸入法：選字期間（compositionstart → compositionend）不送出。
 

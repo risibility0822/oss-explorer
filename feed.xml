@@ -5,14 +5,14 @@
   <link href="https://risibility0822.github.io/oss-explorer/"/>
   <link rel="self" href="https://risibility0822.github.io/oss-explorer/feed.xml"/>
   <id>https://risibility0822.github.io/oss-explorer/</id>
-  <updated>2026-11-24T16:37:00+08:00</updated>
+  <updated>2026-11-24T18:40:00+08:00</updated>
   <author><name>開源探索誌</name></author>
   <entry>
-    <title>#001｜Yjs：幫任何 App 加上 Google Docs 式的多人協作</title>
-    <link href="https://risibility0822.github.io/oss-explorer/ep-001-yjs/"/>
-    <id>https://risibility0822.github.io/oss-explorer/ep-001-yjs/</id>
-    <updated>2026-11-24T16:37:00+08:00</updated>
-    <category term="開發者工具"/>
-    <summary>一套 CRDT 函式庫：多台裝置（就算離線）同時改同一份資料，重連後自動合併、不互相覆蓋。</summary>
+    <title>#001｜rembg：照片不用上傳，在瀏覽器裡 AI 去背</title>
+    <link href="https://risibility0822.github.io/oss-explorer/ep-001-rembg/"/>
+    <id>https://risibility0822.github.io/oss-explorer/ep-001-rembg/</id>
+    <updated>2026-11-24T18:40:00+08:00</updated>
+    <category term="AI 模型與推論"/>
+    <summary>GitHub 上星數最多的開源去背工具之一；這集把 4.4 MB 的 u2netp 模型放進網頁，照片不離開你的裝置就能去背。</summary>
   </entry>
 </feed>

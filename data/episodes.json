@@ -3,36 +3,45 @@
   "no": 1,
   "id": "ep-001",
   "date": "2026-11-24",
-  "title": "Yjs：幫任何 App 加上 Google Docs 式的多人協作",
-  "oneliner": "一套 CRDT 函式庫：多台裝置（就算離線）同時改同一份資料，重連後自動合併、不互相覆蓋。",
-  "domain": "開發者工具",
+  "title": "rembg：照片不用上傳，在瀏覽器裡 AI 去背",
+  "oneliner": "GitHub 上星數最多的開源去背工具之一；這集把 4.4 MB 的 u2netp 模型放進網頁，照片不離開你的裝置就能去背。",
+  "domain": "AI 模型與推論",
   "format": "單品",
   "tier": "巨星",
   "lens": "厲害",
   "resources": [
    {
-    "name": "yjs/yjs",
-    "url": "https://github.com/yjs/yjs",
-    "license": "MIT",
-    "stars": "23.1k（2026-11-24）",
-    "lang": "JavaScript",
+    "name": "danielgatis/rembg",
+    "url": "https://github.com/danielgatis/rembg",
+    "license": "MIT（模型另有授權）",
+    "stars": "25.7k（2026-11-24）",
+    "lang": "Python",
     "role": "main"
+   },
+   {
+    "name": "onnxruntime-web",
+    "url": "https://www.npmjs.com/package/onnxruntime-web",
+    "license": "MIT",
+    "stars": "—",
+    "lang": "JavaScript",
+    "role": "support"
    }
   ],
-  "demo": "三台模擬裝置跑真的 Yjs：斷線、各改同一行、重連後自動合併；另附離線合併 benchmark、JS↔Python 互通、Hocuspocus 實測。",
+  "demo": "瀏覽器內用 onnxruntime-web 跑 u2netp：選範例或上傳照片、即時去背、換背景、下載 PNG；另附四個模型實測與瀏覽器／Python 一致性測試。",
   "highlights": [
-   "依序打 10,000 個中文字：文件 30,012 B，純文字 30,000 B，協作資訊幾乎不佔空間",
-   "Linear、Evernote、GitBook、JupyterLab、Proton Docs 都在用",
-   "MIT 授權；Tiptap 把開源的 Hocuspocus 包成託管服務收費"
+   "u2netp 只有 4.4 MB，2 vCPU 上每張 0.4–0.6 秒；瀏覽器單執行緒約 1.6 秒，遮罩與 Python 版 IoU 約 0.97–0.999",
+   "rembg 程式是 MIT，但預設模型 BRIA RMBG-2.0 權重是 CC BY-NC 4.0、商用要付費；isnet、BiRefNet 的訓練資料 DIS5K 禁止商用",
+   "去背是被驗證的生意：remove.bg 的公司 2021 年被 Canva 收購"
   ],
   "tags": [
-   "CRDT",
-   "local-first",
-   "即時協作"
+   "去背",
+   "ONNX",
+   "瀏覽器端 AI",
+   "U²-Net"
   ],
-  "path": "ep-001-yjs/",
-  "lab": "ep-001-yjs/lab",
-  "thumb": "ep-001-yjs/og.jpg",
-  "createdAt": "2026-11-24T16:37:00+08:00"
+  "path": "ep-001-rembg/",
+  "lab": "ep-001-rembg/lab",
+  "thumb": "ep-001-rembg/og.jpg",
+  "createdAt": "2026-11-24T18:40:00+08:00"
  }
 ]

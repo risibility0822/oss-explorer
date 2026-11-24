@@ -1,0 +1,46 @@
+{
+ "engine": "onnxruntime-web 1.31.1（wasm，單執行緒）於 Playwright Chromium",
+ "images": [
+  {
+   "image": "coffee",
+   "runs": 3,
+   "browserMs": 1602,
+   "iou": 0.9991,
+   "meanAbsDiff": 0.22,
+   "jpegVsOriginalIou": 0.9994,
+   "jpegVsOriginalMeanAbsDiff": 0.1,
+   "size": [
+    600,
+    400
+   ]
+  },
+  {
+   "image": "cat",
+   "runs": 3,
+   "browserMs": 1610,
+   "iou": 0.9766,
+   "meanAbsDiff": 4.12,
+   "jpegVsOriginalIou": 0.9451,
+   "jpegVsOriginalMeanAbsDiff": 6.92,
+   "size": [
+    451,
+    300
+   ]
+  },
+  {
+   "image": "rocket",
+   "runs": 3,
+   "browserMs": 1623,
+   "iou": 0.9699,
+   "meanAbsDiff": 0.38,
+   "jpegVsOriginalIou": 0.9884,
+   "jpegVsOriginalMeanAbsDiff": 0.28,
+   "size": [
+    640,
+    427
+   ]
+  }
+ ],
+ "modelLoadMs": 582,
+ "note": "兩邊輸入同一張網頁 JPEG，遮罩 IoU 介於 0.9699–0.9991；剩下的差異來自縮放演算法（Python 用 PIL 的 LANCZOS，瀏覽器用 canvas）。對照組：同樣用 Python，只把輸入從 scikit-image 原圖換成網頁上的 JPEG，IoU 介於 0.9451–0.9994。兩種差異是同一個量級：改在瀏覽器裡跑（主要是縮放方法不同）造成的差異，跟照片多壓縮一次差不多。"
+}

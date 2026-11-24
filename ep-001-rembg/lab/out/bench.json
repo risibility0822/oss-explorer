@@ -1,0 +1,145 @@
+{
+ "env": {
+  "python": "3.13.18",
+  "rembg": "2.0.87",
+  "onnxruntime": "1.29.0",
+  "scikit-image": "0.26.0",
+  "cpu": 2,
+  "date": "2026-11-24"
+ },
+ "notes": [
+  "birefnet-general-lite（224 MB）在 8 GB RAM 機器上推論一張 600×400 的圖被 OOM 終止（RSS 超過 6 GB），未列入。",
+  "一致度 = 與 isnet-general-use 遮罩的 IoU（門檻 0.5），不是對人工標註的準確率。"
+ ],
+ "images": {
+  "cat": {
+   "license": "CC0（Stefan van der Walt 攝）",
+   "size": [
+    451,
+    300
+   ]
+  },
+  "coffee": {
+   "license": "CC0（Rachel Michetti 攝）",
+   "size": [
+    600,
+    400
+   ]
+  },
+  "rocket": {
+   "license": "公眾領域（SpaceX 釋出）",
+   "size": [
+    640,
+    427
+   ]
+  }
+ },
+ "models": {
+  "u2netp": {
+   "sizeMB": 4.4,
+   "loadSec": 0.1,
+   "peakRssMB": 712
+  },
+  "silueta": {
+   "sizeMB": 42.1,
+   "loadSec": 0.46,
+   "peakRssMB": 783
+  },
+  "u2net": {
+   "sizeMB": 167.8,
+   "loadSec": 1.47,
+   "peakRssMB": 1204
+  },
+  "isnet-general-use": {
+   "sizeMB": 170.4,
+   "loadSec": 0.26,
+   "peakRssMB": 1866
+  }
+ },
+ "runs": [
+  {
+   "image": "cat",
+   "model": "u2netp",
+   "medianSec": 0.618,
+   "foreground": 0.6822,
+   "iouVsRef": 0.8446
+  },
+  {
+   "image": "coffee",
+   "model": "u2netp",
+   "medianSec": 0.45,
+   "foreground": 0.476,
+   "iouVsRef": 0.9932
+  },
+  {
+   "image": "rocket",
+   "model": "u2netp",
+   "medianSec": 0.392,
+   "foreground": 0.0228,
+   "iouVsRef": 0.2206
+  },
+  {
+   "image": "cat",
+   "model": "silueta",
+   "medianSec": 1.576,
+   "foreground": 0.6219,
+   "iouVsRef": 0.7712
+  },
+  {
+   "image": "coffee",
+   "model": "silueta",
+   "medianSec": 1.393,
+   "foreground": 0.4699,
+   "iouVsRef": 0.9892
+  },
+  {
+   "image": "rocket",
+   "model": "silueta",
+   "medianSec": 1.341,
+   "foreground": 0.0116,
+   "iouVsRef": 0.1135
+  },
+  {
+   "image": "cat",
+   "model": "u2net",
+   "medianSec": 1.323,
+   "foreground": 0.6099,
+   "iouVsRef": 0.7525
+  },
+  {
+   "image": "coffee",
+   "model": "u2net",
+   "medianSec": 0.967,
+   "foreground": 0.4738,
+   "iouVsRef": 0.9958
+  },
+  {
+   "image": "rocket",
+   "model": "u2net",
+   "medianSec": 1.0,
+   "foreground": 0.0149,
+   "iouVsRef": 0.1443
+  },
+  {
+   "image": "cat",
+   "model": "isnet-general-use",
+   "medianSec": 3.31,
+   "foreground": 0.7525,
+   "iouVsRef": 1.0
+  },
+  {
+   "image": "coffee",
+   "model": "isnet-general-use",
+   "medianSec": 2.491,
+   "foreground": 0.4745,
+   "iouVsRef": 1.0
+  },
+  {
+   "image": "rocket",
+   "model": "isnet-general-use",
+   "medianSec": 2.684,
+   "foreground": 0.1005,
+   "iouVsRef": 1.0
+  }
+ ]
+}

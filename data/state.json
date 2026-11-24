@@ -1,13 +1,13 @@
 {
  "episodeCount": 1,
  "domainCounts": {
-  "開發者工具": 1
+  "AI 模型與推論": 1
  },
  "recentDomains": [
-  "開發者工具"
+  "AI 模型與推論"
  ],
  "covered": [
-  "https://github.com/yjs/yjs"
+  "https://github.com/danielgatis/rembg"
  ],
  "pool": [
   {
@@ -33,9 +33,35 @@
    "url": "https://github.com/TypeCellOS/BlockNote",
    "domain": "前端・設計・UI・字體・圖示",
    "why": "Notion 風格編輯器，內建 Yjs 協作"
+  },
+  {
+   "name": "whisper.cpp",
+   "url": "https://github.com/ggml-org/whisper.cpp",
+   "domain": "AI 模型與推論",
+   "why": "本機語音轉文字；模型在 Hugging Face，新環境已允許"
+  },
+  {
+   "name": "Ultralytics YOLO",
+   "url": "https://github.com/ultralytics/ultralytics",
+   "domain": "AI 模型與推論",
+   "why": "物件偵測代表作，AGPL 授權陷阱的好教材"
+  },
+  {
+   "name": "MediaPipe",
+   "url": "https://github.com/google-ai-edge/mediapipe",
+   "domain": "AI 模型與推論",
+   "why": "瀏覽器手勢／姿勢偵測，模型在 GCS"
+  },
+  {
+   "name": "BiRefNet",
+   "url": "https://github.com/ZhengPeng7/BiRefNet",
+   "domain": "AI 模型與推論",
+   "why": "MIT 授權的高解析去背，可跟 rembg 做組合技"
   }
  ],
  "wishes": [],
- "lastRunAt": "2026-11-24T17:40:48+08:00",
- "nextHint": "第 002 集：隱藏寶石（<3k ★）・單品・主鏡頭「好玩」，從還沒去過的領域裡挑"
+ "lastRunAt": "2026-11-24T18:22:59+08:00",
+ "nextHint": "第 002 集：隱藏寶石（<3k ★）・單品・主鏡頭「好玩」，從還沒去過的領域挑",
+ "feedback": {},
+ "starNotes": []
 }
