@@ -324,7 +324,10 @@ def cmd_check(a):
     for i, s in enumerate(col.scripts):
         f = RUN / f"_check_{i}.js"; RUN.mkdir(exist_ok=True); f.write_text(s, "utf-8")
         r = sh("node", "--check", str(f))
-        if r.returncode: errs.append(f"第 {i+1} 段 <script> 語法錯誤：{r.stderr.strip().splitlines()[-1] if r.stderr.strip() else ''}")
+        if r.returncode:
+            lines = r.stderr.strip().splitlines(); msg = next((l for l in lines if "Error" in l), lines[-1] if lines else "")
+            loc = next((l.rsplit(":", 1)[-1] for l in lines if str(f) in l), "")
+            errs.append(f"第 {i+1} 段 <script> 語法錯誤（該段第 {loc} 行）：{msg.strip()}")
         f.unlink(missing_ok=True)
     # 6. html-validate（只取嚴重問題）
     hv = OPS / "node_modules" / ".bin" / "html-validate"
@@ -509,7 +512,6 @@ def cmd_register(a):
         errs = validate_schema(obj, name)
         if errs: [bad(x) for x in errs]; die(f"寫入後的 data/{name}.json 不符合 schema，未儲存")
     save(DATA / "episodes.json", episodes); save(DATA / "ideas.json", ideas); save(DATA / "state.json", state)
-    move_done_wishes(state)
     step("register", "pass")
     if cur(): set_cur(phase="registered")
     ok(f"已登錄 {meta['id']}：episodes {len(episodes)} 集、ideas {len(ideas)} 個、pool {len(state['pool'])} 筆")
@@ -529,6 +531,7 @@ def move_done_wishes(state):
     if moved:
         text = "\n".join(keep).rstrip() + "\n" + "\n".join(moved) + "\n"
         p.write_text(text, "utf-8"); ok(f"feedback.md：{len(moved)} 則許願移到「已處理」")
+    return bool(moved)
 
 def cmd_build(a):
     episodes, ideas, state, runs = data_files()
@@ -602,8 +605,10 @@ def git_push(branch="main", attempts=3) -> tuple[bool, str]:
 
 def cmd_publish(a):
     c = cur()
-    if c.get("phase") != "finished" and not a.force: die("請先 `oss.py finish`（或 abort）")
-    sh("git", "add", "-A")
+    if c.get("phase") not in ("finished", "published") and not a.force: die("請先 `oss.py finish`（或 abort）")
+    # 主人可能同時在 GitHub 上改 feedback.md：本集的 commit 一律不碰它，避免衝突
+    sh("git", "checkout", "--", "feedback.md")
+    sh("git", "add", "-A"); sh("git", "reset", "-q", "--", "feedback.md")
     if sh("git", "diff", "--cached", "--quiet").returncode:
         title = f"第 {pad(c['no'])} 集：{(load(ROOT / c['slug'] / 'meta.json', {}) or {}).get('title', c.get('slug'))}" if c.get("slug") else "更新"
         r = sh("git", "commit", "-q", "-m", title, "-m", "Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>")
@@ -612,12 +617,23 @@ def cmd_publish(a):
     if not okp:
         wip = f"wip/{c.get('id','run')}-{c.get('runId','')}"; okw, _ = git_push(wip)
         step("publish", "fail", note=why)
-        die(f"推送 main 失敗：{why}\n半成品{'已推到 ' + wip if okw else '也無法推到 wip 分支'}。請在最後訊息加 ⚠️ 說明。")
+        die(f"推送 main 失敗：{why}\n半成品{'已推到 ' + wip if okw else '也無法推到 wip 分支'}。可以再跑一次 publish；仍失敗就在最後訊息加 ⚠️ 說明。")
     head = sh("git", "rev-parse", "HEAD").stdout.strip(); remote = sh("git", "ls-remote", "origin", "refs/heads/main", timeout=60).stdout.split()[:1]
     if remote and remote[0] != head: die(f"推送後遠端 main={remote[0][:8]}，本地 HEAD={head[:8]}，不一致")
     step("publish", "pass", commit=head[:10]); set_cur(phase="published", commit=head)
+    ok(f"已推送 {head[:10]}")
+    # 已處理的許願：在最新的 feedback.md 上整理（主人的修改不會被覆蓋）
+    state = load(DATA / "state.json", {})
+    for attempt in range(3):
+        sh("git", "fetch", "--depth=20", "origin", "main", timeout=180); sh("git", "merge", "--ff-only", "-q", "origin/main")
+        if not move_done_wishes(state): break
+        sh("git", "add", "feedback.md"); sh("git", "commit", "-q", "-m", "feedback.md：已處理的許願移到「已處理」", "-m", "Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>")
+        if sh("git", "-c", "push.negotiate=true", "push", "origin", "HEAD:main", timeout=300).returncode == 0: break
+        sh("git", "reset", "-q", "--hard", "HEAD~1")
+    else: warn("feedback.md 整理三次都撞到主人同時修改，下次執行再整理")
+    set_cur(commit=sh("git", "rev-parse", "HEAD").stdout.strip())
     url = f"{SITE}{c.get('slug','')}/"
-    ok(f"已推送 {head[:10]}。網站會在 1–3 分鐘內更新：{url}")
+    print(f"網站會在 1–3 分鐘內更新：{url}")
     print("下一步：等約 90 秒後用 WebFetch 打開上面網址確認（網址加 ?v=<runId> 避開快取）；然後寫最後訊息。")
 
 def cmd_abort(a):
