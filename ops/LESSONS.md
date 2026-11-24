@@ -21,7 +21,7 @@
 - 2026-11-24：星數要用 GitHub API 的 stargazers_count 換算並正確四捨五入（23,108 → 23.1k），forks 也一樣；不要沿用研究初期看到的舊數字。
 - 2026-11-24：benchmark 要可重現：固定 Y.Doc 的 clientID 等隨機來源，否則位元組數每次會差 1；頁面說「隨機」時要確認程式真的用了隨機。
 - 2026-11-24：旁白與說明要跟程式實際做的事一致（例如「三個人改同一行」其實只有兩人），審查員會逐句對照。
-- 2026-11-24：排程改為 Claude Code 雲端任務（repo 掛在任務上、專屬環境 oss-explorer）。環境允許：GitHub 各下載網域、Hugging Face、jsdelivr、unpkg、data.gov.tw、Playwright 下載點，加上套件管理工具。若某個網域被擋，回報在最後訊息，請主人加到環境的允許清單。
+- 2026-11-24：排程改為 Claude Code 雲端任務（repo 掛在任務上、專屬環境 oss-explorer）。環境允許：GitHub 各下載網域、Hugging Face、jsdelivr、unpkg、data.gov.tw、Playwright 下載點、本站 risibility0822.github.io（2026-11-24 加入，給 live 線上檢查用），加上套件管理工具。若某個網域被擋，回報在最後訊息，請主人加到環境的允許清單。
 - 2026-11-24：瀏覽器 AI Demo 的執行引擎放在共用的 vendor/（例如 vendor/onnxruntime-web-1.31.1/），各集不要重複放 15 MB 的 wasm。onnxruntime-web 的 wasmPaths 相對路徑是以函式庫檔所在位置解析（會變成 vendor/vendor/…），一定要寫成 new URL('../vendor/…/', location.href).href。
 - 2026-11-24：模型授權和程式授權是兩回事：rembg 程式是 MIT，但 2.0.87 的預設模型 BRIA RMBG-2.0 商用要付費。介紹 AI 工具時要逐一列出模型權重的授權，範例程式一律明確指定可商用的模型。
 - 2026-11-24：8 GB RAM 的工作區跑大型 ONNX 模型容易 OOM（birefnet-general-lite 單張就超過 6 GB）。benchmark 要每個模型 del session + gc.collect()，並用 /usr/bin/time -v 或 resource 記錄記憶體峰值；被終止本身就是值得寫進頁面的發現。

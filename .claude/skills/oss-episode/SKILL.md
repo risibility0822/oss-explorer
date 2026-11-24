@@ -40,6 +40,7 @@ python3 ops/bin/oss.py plan         # 解析 feedback.md，決定本集編號／
 **Demo 可行性是硬門檻**。排程跑在專屬雲端環境 `oss-explorer`，網路允許：
 - GitHub（clone、Releases 下載、raw、api.github.com）、PyPI、npm 等套件管理工具。
 - Hugging Face（huggingface.co、*.hf.co：可以下載小模型權重）、cdn.jsdelivr.net、unpkg.com、data.gov.tw。
+- 本站 risibility0822.github.io（只用於發布後的 `oss.py live` 線上檢查）。
 - 其他網站從 shell 連不到（WebFetch／WebSearch 不受影響）。不確定時先用 `curl -sI <url>` 實測；被擋就換資料來源，並在最後訊息寫 ⚠️，請主人把網域加進環境的允許清單。
 - 2 CPU、約 7GB RAM、沒有 GPU（AI 模型只選小的，CPU 能在幾分鐘內跑完）；有 Chromium（Playwright）。
 - 資料集題目：資料檔放進本集資料夾（單檔 < 45 MB），頁面不要在執行期去外部抓。
