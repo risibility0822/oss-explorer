@@ -4,7 +4,7 @@
   "episode": "ep-001",
   "no": 1,
   "title": "家庭／小團隊共用的 Mac 選單列清單",
-  "pitch": "選單列上的共享清單，全家的 Mac 和手機一起改，離線也能改；原生 UI 外殼＋WebView 跑 Yjs＋自架 Hocuspocus。",
+  "pitch": "選單列上的共享清單，全家的 Mac 一起改、離線也能改；第一版只做 Mac。原生 UI 外殼＋WebView 跑 Yjs＋自架 Hocuspocus。",
   "effort": "一個月",
   "value": "買斷制付費 app，沿用現有上架與授權流程",
   "starred": false

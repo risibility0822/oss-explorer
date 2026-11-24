@@ -224,7 +224,7 @@ def cmd_plan(a):
             "domainTop": [r["domain"] for r in ranking if r["eligible"]][:4], "domainRanking": ranking,
             "covered": state.get("covered", []), "pool": state.get("pool", [])[:15], "starredIdeas": starred,
             "feedback": fb, "previous": [{"id": e["id"], "title": e["title"], "path": e["path"], "domain": e["domain"]} for e in episodes],
-            "steps": {}}
+            "steps": {}, "updatedAt": iso()}
     save(CUR, plan)
     print(f"本集：#{pad(n)}（{fmt}・{tier}・主鏡頭「{lens}」）")
     if plan["wishFirst"]: print(f"★ 許願優先：{plan['wishFirst']['text']}（id {plan['wishFirst']['id']}）")

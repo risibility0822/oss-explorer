@@ -14,14 +14,14 @@
    "name": "yjs/yjs",
    "url": "https://github.com/yjs/yjs",
    "license": "MIT",
-   "stars": "23.0k（2026-11-24）",
+   "stars": "23.1k（2026-11-24）",
    "lang": "JavaScript",
    "role": "main"
   }
  ],
  "demo": "三台模擬裝置跑真的 Yjs：斷線、各改同一行、重連後自動合併；另附離線合併 benchmark、JS↔Python 互通、Hocuspocus 實測。",
  "highlights": [
-  "依序打 10,000 個中文字：文件 30,016 B，純文字 30,000 B，協作資訊幾乎不佔空間",
+  "依序打 10,000 個中文字：文件 30,012 B，純文字 30,000 B，協作資訊幾乎不佔空間",
   "Linear、Evernote、GitBook、JupyterLab、Proton Docs 都在用",
   "MIT 授權；Tiptap 把開源的 Hocuspocus 包成託管服務收費"
  ],
@@ -33,7 +33,7 @@
  "ideas": [
   {
    "title": "家庭／小團隊共用的 Mac 選單列清單",
-   "pitch": "選單列上的共享清單，全家的 Mac 和手機一起改，離線也能改；原生 UI 外殼＋WebView 跑 Yjs＋自架 Hocuspocus。",
+   "pitch": "選單列上的共享清單，全家的 Mac 一起改、離線也能改；第一版只做 Mac。原生 UI 外殼＋WebView 跑 Yjs＋自架 Hocuspocus。",
    "effort": "一個月",
    "value": "買斷制付費 app，沿用現有上架與授權流程"
   },
@@ -74,5 +74,19 @@
  "poolAdd": [],
  "wish": null,
  "nextHint": "第 002 集：隱藏寶石（<3k ★）・單品・主鏡頭「好玩」，從還沒去過的領域裡挑",
- "createdAt": "2026-11-24T16:37:00+08:00"
+ "createdAt": "2026-11-24T16:37:00+08:00",
+ "review": {
+  "by": "oss-reviewer",
+  "date": "2026-11-24",
+  "verdict": "revise→已修正",
+  "scores": {
+   "正確性": 4,
+   "Demo 真實可玩": 5,
+   "深度與洞見": 4,
+   "對主人的價值": 4,
+   "設計與完成度": 4,
+   "原創與有趣": 3
+  },
+  "fixed": "星數 23.1k／forks 824、seq 固定 clientID、旁白與用詞、對比、控制項大小、button type、補 CRDT 不適用情境與 awareness"
+ }
 }

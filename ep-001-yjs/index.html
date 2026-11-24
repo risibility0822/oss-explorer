@@ -34,7 +34,7 @@ a{color:var(--b)}
 .lead{font-size:17px;max-width:68ch;margin:0}
 .tags{display:flex;flex-wrap:wrap;gap:6px;margin:14px 0 0}
 .tag{font-size:13px;padding:3px 10px;border-radius:999px;background:var(--card);white-space:nowrap}
-.tag.main{background:var(--a);color:#fff}
+.tag.main{background:#b8401f;color:#fff}
 nav.scroll{display:flex;gap:4px;overflow-x:auto;padding:10px max(5vw,16px);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
 nav a{flex:none;text-decoration:none;color:var(--ink);padding:10px 12px;font-size:15px;border-radius:8px}
 nav a:hover,nav a:focus-visible{background:var(--card)}
@@ -63,8 +63,8 @@ textarea{width:100%;min-height:118px;font:16px/1.55 "IBM Plex Sans","Noto Sans T
 .todos{list-style:none;padding:0;margin:10px 0 6px}
 .todos li{display:flex;align-items:center;gap:8px;padding:4px 0;border-bottom:1px dashed var(--line)}
 .todos li span{flex:1}.todos li.done span{text-decoration:line-through;color:var(--mute)}
-.todos input[type=checkbox]{width:22px;height:22px;accent-color:var(--pc)}
-.todos button{min-height:36px;padding:2px 10px;font-size:14px}
+.todos input[type=checkbox]{width:32px;height:32px;margin:0;accent-color:var(--pc)}
+.todos button{min-height:36px;min-width:36px;padding:2px 10px;font-size:14px}
 .add{display:flex;gap:6px}.add input{flex:1;font:inherit;font-size:16px;min-height:44px;padding:6px 10px;border:1px solid var(--line);border-radius:10px;background:var(--bg);color:var(--ink)}
 .dstat{font:13px/1.5 "IBM Plex Mono",monospace;color:var(--mute);margin-top:8px}
 .simnote{font-size:13px;color:var(--mute);margin:12px 0 0}
@@ -102,7 +102,7 @@ pre,.scroll{overflow-x:auto}.scroll a{flex:none}code{overflow-wrap:anywhere}
 </style><script>new MutationObserver(()=>{for(const c of document.querySelectorAll('.stack td:not([data-l])')){let i=0,p=c;while(p=p.previousElementSibling)i+=p.colSpan;c.dataset.l=c.closest('table').rows[0].cells[i]?.textContent||''}}).observe(document,{childList:true,subtree:true})</script></head>
 <body>
 <header class="band" style="padding-bottom:18px" data-section="header">
-  <div class="kicker"><b>開源探索誌 #001</b>　·　2026-11-24　·　開發者工具</div>
+  <div class="kicker"><b style="white-space:nowrap">開源探索誌 #001</b>　·　<span style="white-space:nowrap">2026-11-24</span>　·　<span style="white-space:nowrap">開發者工具</span></div>
   <h1>Yjs：幫任何 App 加上 Google Docs 式的多人協作</h1>
   <p class="lead">Yjs 是一套 CRDT 函式庫：好幾台裝置（就算離線）同時改同一份資料，重新連線後會自動合併，不用伺服器當裁判，也不會互相覆蓋。下面這三台「裝置」跑的是真的 Yjs 13.6.33。</p>
   <div class="tags"><span class="tag main">主鏡頭：厲害</span><span class="tag">巨星級</span><span class="tag">單品</span><span class="tag">CRDT</span><span class="tag">local-first</span><span class="tag">即時協作</span></div>
@@ -112,8 +112,8 @@ pre,.scroll{overflow-x:auto}.scroll a{flex:none}code{overflow-wrap:anywhere}
   <div class="sim">
     <div class="simbar">
       <span class="badge" id="badge">三台內容一致 ✓</span>
-      <button class="play" id="play">▶ 播放：離線衝突劇本</button>
-      <button id="reset">重來</button>
+      <button type="button" class="play" id="play">▶ 播放：離線衝突劇本</button>
+      <button type="button" id="reset">重來</button>
       <label>網路延遲 <select id="lat"><option value="80">80 ms</option><option value="400" selected>400 ms</option><option value="1500">1.5 秒</option></select></label>
     </div>
     <p class="narr" id="narr">任何一台都可以直接打字、勾選待辦、按「斷線」。試試看：讓兩台斷線、各自改同一行，再接回來。</p>
@@ -127,15 +127,15 @@ pre,.scroll{overflow-x:auto}.scroll a{flex:none}code{overflow-wrap:anywhere}
 <section class="band" id="why" data-section="why">
   <h2>為什麼值得認識</h2>
   <div class="lens">
-    <div style="--pc:var(--a)"><h3>厲害在哪</h3><p>協作功能出了名的難做，Jupyter 團隊花了好幾年，最後選了 Yjs。官方文件說它每週下載量超過 100 萬次，README 列出的使用者包括 Linear、Evernote、GitBook、JupyterLab、Proton Docs、AFFiNE、AWS SageMaker。我實測依序打 10,000 個中文字，文件只有 30,016 bytes，純文字本身是 30,000 bytes：附帶的協作資訊幾乎不佔空間。</p></div>
+    <div style="--pc:var(--a)"><h3>厲害在哪</h3><p>協作功能出了名的難做，Jupyter 團隊花了好幾年，最後選了 Yjs。官方文件說它每週下載量超過 100 萬次，README 列出的使用者包括 Linear、Evernote、GitBook、JupyterLab、Proton Docs、AFFiNE、AWS SageMaker。我實測依序打 10,000 個中文字，文件只有 30,012 bytes，純文字本身是 30,000 bytes：附帶的協作資訊幾乎不佔空間。</p></div>
     <div style="--pc:var(--b)"><h3>好玩在哪</h3><p>它完全不管網路怎麼傳：WebSocket、WebRTC 點對點、Matrix、甚至一個檔案傳來傳去都行，資料到了就能合併，順序不重要。同一份文件也能被 Rust（yrs）、Python（pycrdt）、Swift（yswift）讀寫。我讓 JavaScript 寫的文件給 Python 改，再交回 JavaScript，內容完整無誤（見下方紀錄）。</p></div>
     <div style="--pc:var(--c)"><h3>商業潛力在哪</h3><p>Yjs 本身是 MIT，免費商用。錢在它周邊：Tiptap 把自家 MIT 授權的 Hocuspocus 伺服器包成託管服務 Tiptap Collab 收費；README 的 provider 清單裡也有 Liveblocks、y-sweet、PartyKit 等託管方案。換句話說，「讓別人的 App 也能多人協作」本身就是一門生意，而在自己的 App 裡加上協作，就是一個能收費的差異化功能。</p></div>
   </div>
   <div class="res">
-    <div><b><a href="https://github.com/yjs/yjs">yjs/yjs</a></b>GitHub 23.0k ★ · 820 forks（2026-11-24）</div>
+    <div><b><a href="https://github.com/yjs/yjs">yjs/yjs</a></b>GitHub 23.1k ★ · 824 forks（2026-11-24，GitHub API）</div>
     <div><b>MIT</b>授權：可商用、可閉源</div>
     <div><b>2014 → 2026-11-23</b>第一個 commit → 最新 commit</div>
-    <div><b>2,311 commits · 141 位作者</b>近 12 個月 228 個 commit</div>
+    <div><b>2,311 commits · 約 140 位作者</b>近 12 個月 228 個 commit</div>
     <div><b>npm：yjs 13.6.33</b>v14 正在 RC（新套件名 @y/y）</div>
   </div>
 </section>
@@ -196,7 +196,7 @@ pre,.scroll{overflow-x:auto}.scroll a{flex:none}code{overflow-wrap:anywhere}
   <h2>實際執行紀錄：在雲端工作區跑出來的真實數字</h2>
   <p class="meta">2026-11-24 於雲端工作區（2 vCPU、Node v22.23.5、yjs 13.6.33、pycrdt 0.14.13、@hocuspocus/server 4.9.0）實際執行。腳本是本集自己寫的，全部放在 <a href="https://github.com/risibility0822/oss-explorer/tree/main/ep-001-yjs/lab">lab/ 資料夾</a>，clone 下來就能重跑。</p>
   <h3>A. 兩台離線各做 N 次編輯，再合併</h3>
-  <p>每次編輯都插在隨機位置，每 5 次再各刪一字。這種亂跳的插入方式比正常打字難壓縮，可以當作偏壞的情況來看。</p>
+  <p>每次編輯都插在分散的位置（用固定公式決定，可重現），每 5 次再各刪一字。這種東跳西跳的插入方式比正常打字難壓縮，可以當作偏壞的情況來看。</p>
   <div class="scroll"><table class="stack"><thead><tr><th>每台編輯次數</th><th>編輯耗時</th><th>合併耗時</th><th>同步傳輸量</th><th>文件大小 v1 / v2 編碼</th><th>結果一致</th></tr></thead><tbody id="benchRows"></tbody></table></div>
   <p>對照組：依序打 10,000 個中文字（一般打字的情況），文件只有 <b id="seqB"></b> bytes，純文字 UTF-8 本身是 <b id="seqU"></b> bytes。</p>
   <h3>B. 共享待辦清單：Yjs vs. 傳統「最後存檔者贏」</h3>
@@ -218,12 +218,12 @@ B sees: Hello from A { fromB: '嗨，我是 B' }</pre>
 <section class="band" id="start" data-section="start">
   <h2>五分鐘上手</h2>
   <p>最小組合：前端用 <code>yjs</code> 加上 Hocuspocus 的 provider，後端跑 Hocuspocus。下面兩段就是 D 項實測的程式碼（精簡版）。</p>
-  <div class="codehead"><span>server.mjs（npm i @hocuspocus/server）</span><button data-copy="c1">複製</button></div>
+  <div class="codehead"><span>server.mjs（npm i @hocuspocus/server）</span><button type="button" data-copy="c1">複製</button></div>
 <pre id="c1">import { Server } from '@hocuspocus/server'
 
 const server = new Server({ port: 1234 })
 await server.listen()   // 預設存在記憶體；正式環境加 @hocuspocus/extension-database 等擴充</pre>
-  <div class="codehead"><span>client.js（npm i yjs @hocuspocus/provider）</span><button data-copy="c2">複製</button></div>
+  <div class="codehead"><span>client.js（npm i yjs @hocuspocus/provider）</span><button type="button" data-copy="c2">複製</button></div>
 <pre id="c2">import * as Y from 'yjs'
 import { HocuspocusProvider } from '@hocuspocus/provider'
 
@@ -239,7 +239,7 @@ todos.push([{ t: '買牛奶', done: false }])     // 本機改動 → 自動同�
 <section class="band" id="ideas" data-section="ideas">
   <h2>你可以拿它做什麼</h2>
   <div class="ideas">
-    <div class="idea" style="--pc:var(--a)"><h3>家庭／小團隊共用的 Mac 選單列清單</h3><p>選單列上一個小清單（購物、待辦、出國清單），全家的 Mac 和手機一起改，離線也能改。原生 UI 外殼加上 WebView 裡跑 Yjs（Swift 原生綁定 yswift 更新較慢），同步用自架的 Hocuspocus。</p><p class="meta">工作量：一個月　·　價值：買斷制付費 app，沿用你現有的上架與授權流程</p></div>
+    <div class="idea" style="--pc:var(--a)"><h3>家庭／小團隊共用的 Mac 選單列清單</h3><p>選單列上一個小清單（購物、待辦、出國清單），全家的 Mac 一起改，離線也能改；第一版只做 Mac，手機版等有人買單再做。原生 UI 外殼加上 WebView 裡跑 Yjs（Swift 原生綁定 yswift 更新較慢），同步用自架的 Hocuspocus。</p><p class="meta">工作量：一個月（只含 Mac 版）　·　價值：買斷制付費 app，沿用你現有的上架與授權流程</p></div>
     <div class="idea" style="--pc:var(--b)"><h3>FastAPI 協作外掛：替既有後台加上「多人同時編輯」</h3><p>用 pycrdt＋pycrdt-websocket 做一個可以掛進 FastAPI 的模組，讓 CMS、內部表單、後台設定頁支援多人同時編輯，並顯示誰正在改哪一格。</p><p class="meta">工作量：一個月　·　價值：開源核心＋付費託管或企業授權，鎖定台灣的接案與 SaaS 團隊</p></div>
     <div class="idea" style="--pc:var(--c)"><h3>揪團／家族旅行共編頁</h3><p>丟一個連結到 LINE 群組，不用註冊就能一起排行程、分帳、投票，每個人的游標顏色都不同。資料用 Yjs，房間用 Hocuspocus 或 y-sweet。</p><p class="meta">工作量：一個週末做出原型　·　價值：台灣市場的病毒式傳播工具；靠進階版（匯出、範本、無限房間）收費</p></div>
     <div class="idea" style="--pc:var(--a)"><h3>讓 AI 也當一個協作者</h3><p>會議筆記 app：人在上面打字，AI agent 以另一個 Yjs peer 的身分即時寫入摘要和待辦，有自己的游標和顏色，人可以直接改它寫的內容。C 項實測顯示 Python 端可以直接寫入同一份文件。</p><p class="meta">工作量：一個月　·　價值：「看著 AI 跟你一起寫」很好展示，適合做 Product Hunt 首發</p></div>
@@ -259,6 +259,8 @@ todos.push([{ t: '買牛奶', done: false }])     // 本機改動 → 自動同�
     <li><b>權限不歸 Yjs 管。</b>誰能讀、誰能寫，要在 provider 或伺服器那一層處理（例如 Hocuspocus 的驗證 hook）。Yjs 只負責合併。</li>
     <li><b>文件只會變大。</b>刪除會留下墓碑。預設開啟的 GC 會清掉被刪內容，但開著 GC 就不保留完整歷史；要做「回到舊版本」得關掉 GC，或自己存快照。</li>
     <li><b>自己綁輸入框沒那麼簡單。</b>要處理游標位置與中文輸入法（本頁 Demo 示範了選字期間先不送出的做法）。富文本請直接用現成的編輯器綁定。</li>
+    <li><b>不是所有資料都適合 CRDT。</b>CRDT 保證「最後大家一致」，但不保證「符合業務規則」。庫存不能變負數、帳戶餘額、帳號名稱唯一這類需要伺服器強制把關的資料，還是要交給資料庫交易或伺服器端驗證；Yjs 適合文件、清單、白板、設定這類「合併總比遺失好」的資料。</li>
+    <li><b>游標和「誰在線上」另外處理。</b>Yjs 文件只存內容；即時的游標位置、選取範圍、線上名單用 y-protocols 的 awareness 機制傳送，不會寫進文件歷史。</li>
     <li><b>Apple 原生生態較弱。</b>yswift 最新版本是 0.2.1，2024 年後少有更新。Mac/iOS 原生 app 可考慮 WebView，或評估 automerge-swift。</li>
   </ul>
   <div class="scroll"><table class="stack"><thead><tr><th>函式庫</th><th>授權</th><th>核心</th><th>強項</th><th>適合</th></tr></thead><tbody>
@@ -302,7 +304,7 @@ todos.push([{ t: '買牛奶', done: false }])     // 本機改動 → 自動同�
 <script>
 {
 const BENCH={"node": "v22.23.5", "yjs": "13.6.33", "runs": [{"scenario": "text", "editsEach": 100, "editMs": 5.3, "mergeMs": 1.39, "syncBytes": 1799, "finalLength": 168, "converged": true, "docBytes": 1860, "docBytesV2": 1276}, {"scenario": "text", "editsEach": 1000, "editMs": 26.6, "mergeMs": 9.25, "syncBytes": 17510, "finalLength": 1611, "converged": true, "docBytes": 17571, "docBytesV2": 11272}, {"scenario": "text", "editsEach": 10000, "editMs": 269, "mergeMs": 62.4, "syncBytes": 182924, "finalLength": 16013, "converged": true, "docBytes": 182985, "docBytesV2": 116627}, {"scenario": "todo", "a": ["☑ 買牛奶", "☐ 修 bug #42（急）", "☐ 訂機票"], "b": ["☑ 買牛奶", "☐ 修 bug #42（急）", "☐ 訂機票"], "converged": true}, {"scenario": "naive-lww", "result": ["買牛奶", "修 bug #42", "訂機票"], "lostEdits": ["☑ 買牛奶", "修 bug #42（急）"]}]};
-const SEQ={"chars": 10000, "bytesV1": 30016, "bytesV2": 30031, "utf8": 30000};
+const SEQ={"chars":10000,"bytesV1":30012,"bytesV2":30027,"utf8":30000};
 const esc=v=>String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const fmt=n=>Number(n).toLocaleString("en-US");
 const $=id=>document.getElementById(id);
@@ -332,7 +334,7 @@ let lat=400,playing=false;
 $("lat").addEventListener("change",e=>lat=+e.target.value);
 
 $("devs").innerHTML=PEERS.map(p=>`<div class="dev" id="dev${p.k}" style="--pc:${p.c}">
-  <div class="devh"><b><span class="dot"></span>${esc(p.name)}</b><button class="net" id="net${p.k}" aria-pressed="false">連線中</button></div>
+  <div class="devh"><b><span class="dot"></span>${esc(p.name)}</b><button type="button" class="net" id="net${p.k}" aria-pressed="false">連線中</button></div>
   <textarea id="ta${p.k}" aria-label="${esc(p.name)} 的共享筆記"></textarea>
   <ul class="todos" id="td${p.k}"></ul>
   <form class="add" id="add${p.k}"><input id="in${p.k}" placeholder="新增待辦" aria-label="${esc(p.name)} 新增待辦" maxlength="40"><button type="submit">加入</button></form>
@@ -375,7 +377,7 @@ function renderNet(p){
 function stat(p){$("st"+p.k).textContent=`送出 ${fmt(p.sent)} bytes · ${p.msgs} 次 · 文件 ${fmt(Y.encodeStateAsUpdate(p.doc).length)} B`}
 function renderTodos(p){
   const list=p.todos.toArray();
-  $("td"+p.k).innerHTML=list.length?list.map((m,i)=>`<li class="${m.get("done")?"done":""}"><input type="checkbox" data-i="${i}" ${m.get("done")?"checked":""} aria-label="完成：${esc(m.get("t"))}"><span>${esc(m.get("t"))}</span><button data-del="${i}" aria-label="刪除 ${esc(m.get("t"))}">✕</button></li>`).join(""):`<li><span style="color:var(--mute)">（清單是空的）</span></li>`;
+  $("td"+p.k).innerHTML=list.length?list.map((m,i)=>`<li class="${m.get("done")?"done":""}"><input type="checkbox" data-i="${i}" ${m.get("done")?"checked":""} aria-label="完成：${esc(m.get("t"))}"><span>${esc(m.get("t"))}</span><button type="button" data-del="${i}" aria-label="刪除 ${esc(m.get("t"))}">✕</button></li>`).join(""):`<li><span style="color:var(--mute)">（清單是空的）</span></li>`;
   stat(p);
 }
 // textarea <-> Y.Text with IME awareness
@@ -438,7 +440,7 @@ $("play").addEventListener("click",async()=>{
   try{
     reset();const [A,B,C]=PEERS;
     say("① Amy 和 Ben 進了電梯，手機和平板都斷線了。");await wait(300);setOnline(B,false);setOnline(C,false);await wait(1400);
-    say("② 三個人同時改同一行：Amy 補了日期，Ben 補了會議室，Jack 加了一條新的。待辦也各改各的。");
+    say("② Amy 和 Ben 同時在同一行後面補字，Jack 在最後加了一條。待辦也各改各的。");
     const line=s=>s.indexOf("\n",s.indexOf("\n")+1);
     B.doc.transact(()=>{B.text.insert(line(B.text.toString()),"（Amy：客戶說改下週一）");B.todos.get(0).set("done",true)},"local");await wait(500);
     C.doc.transact(()=>{C.text.insert(line(C.text.toString()),"（Ben：會議室訂好了）");C.todos.delete(1,1);const m=new Y.Map();m.set("t","準備 demo 機");m.set("done",false);C.todos.push([m])},"local");await wait(500);
