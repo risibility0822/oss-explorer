@@ -210,15 +210,23 @@ def domain_ranking(episodes, state):
 
 def cmd_plan(a):
     episodes, ideas, state, runs = data_files()
-    if cur().get("phase") not in (None, "published", "aborted") and not a.force:
+    if cur().get("phase") not in (None, "published", "aborted", "skipped") and not a.force:
         print(json.dumps(cur(), ensure_ascii=False, indent=1)); die("已有進行中的 run（上面）。接著做下一步，或用 --force 重新規劃。", 2)
     pf = load(RUN / "preflight.json", {})
     if not pf or pf.get("fatal"): die("請先成功執行 `oss.py preflight`")
-    if any(e["date"] == today() for e in episodes) and not a.force:
+    redo = None
+    if a.redo:
+        rid = f"ep-{pad(a.redo)}"; old = next((e for e in episodes if e["id"] == rid), None)
+        if not old: die(f"找不到要重做的 {rid}")
+        redo = {"id": rid, "path": old["path"].strip("/"), "resources": [r["url"] for r in old["resources"]]}
+        # 以「這一集還不存在」的狀態規劃：之後的集數照常保留
+        episodes = [e for e in episodes if e["id"] != rid]
+    if any(e["date"] == today() for e in episodes) and not a.force and not redo:
         set_cur(phase="skipped", reason="今天已出刊"); print("今天已經出刊過了（data/episodes.json 有今天的集數）。最後訊息請寫「今天已出刊」。"); sys.exit(3)
     fb = apply_feedback(state, ideas)
     save(DATA / "state.json", state); save(DATA / "ideas.json", ideas)
-    n = max([e["no"] for e in episodes], default=0) + 1
+    if redo: state = {**state, "covered": [u for u in state.get("covered", []) if u not in redo["resources"]]}
+    n = int(a.redo) if redo else max([e["no"] for e in episodes], default=0) + 1
     fmt = "組合技" if n % 3 == 0 else "單品"
     tier = {1: "巨星", 2: "寶石", 0: "新星"}[n % 3]
     lens = {1: "厲害", 2: "好玩", 0: "商業潛力"}[n % 3]
@@ -231,9 +239,10 @@ def cmd_plan(a):
             "domainTop": [r["domain"] for r in ranking if r["eligible"]][:4], "domainRanking": ranking,
             "covered": state.get("covered", []), "pool": state.get("pool", [])[:15], "starredIdeas": starred,
             "feedback": fb, "previous": [{"id": e["id"], "title": e["title"], "path": e["path"], "domain": e["domain"]} for e in episodes],
+            "redo": redo,
             "steps": {}, "updatedAt": iso()}
     save(CUR, plan)
-    print(f"本集：#{pad(n)}（{fmt}・{tier}・主鏡頭「{lens}」）")
+    print(f"本集：#{pad(n)}（{fmt}・{tier}・主鏡頭「{lens}」）" + (f"　← 重做，完成後取代舊的 {redo['path']}" if redo else ""))
     if plan["wishFirst"]: print(f"★ 許願優先：{plan['wishFirst']['text']}（id {plan['wishFirst']['id']}）")
     print("領域建議（依序）：" + " ＞ ".join(plan["domainTop"]))
     if starred: print("你收藏的點子：" + "；".join(s["title"] for s in starred))
@@ -373,7 +382,7 @@ def cmd_check(a):
         if c.get("format") and meta.get("format") != c["format"]: warns.append(f"meta.format={meta.get('format')}，規劃是 {c['format']}（若有理由請在頁面說明）")
         title = re.search(r"<title>(.*?)</title>", text, re.S)
         if title and meta.get("title") and meta["title"].split("：")[0] not in title.group(1): warns.append("<title> 跟 meta.title 對不太起來")
-        covered = set(load(DATA / "state.json", {}).get("covered", []))
+        covered = set(load(DATA / "state.json", {}).get("covered", [])) - set((c.get("redo") or {}).get("resources", []))
         mains = [r["url"] for r in meta.get("resources", []) if r.get("role") == "main"]
         dup = [u for u in mains if u in covered and not (load(DATA / "episodes.json", []) and any(e["id"] == meta.get("id") for e in load(DATA / "episodes.json", [])))]
         if dup: errs.append(f"主角已經介紹過：{dup}")
@@ -486,6 +495,12 @@ def cmd_register(a):
     e = validate_schema(meta, "meta")
     if e: [bad(x) for x in e]; die("meta.json 格式不對")
     episodes, ideas, state, runs = data_files()
+    redo = cur().get("redo")
+    if redo and redo["id"] == meta["id"]:
+        state["covered"] = [u for u in state.get("covered", []) if u not in redo["resources"]]
+        if redo["path"] != ep.name and (ROOT / redo["path"]).exists():
+            sh("git", "rm", "-r", "-q", "--", redo["path"]); shutil.rmtree(ROOT / redo["path"], ignore_errors=True)
+            ok(f"重做：已移除舊的 {redo['path']}/（仍保留在 git 歷史中）")
     entry = {k: meta[k] for k in ("no", "id", "date", "title", "oneliner", "domain", "format", "tier", "lens", "resources", "demo", "highlights", "tags")}
     entry.update(path=f"{ep.name}/", lab=f"{ep.name}/lab", thumb=f"{ep.name}/og.jpg" if (ep / "og.jpg").exists() else None,
                  createdAt=meta.get("createdAt") or iso())
@@ -701,7 +716,7 @@ def main():
     sp = ap.add_subparsers(dest="cmd", required=True)
     sp.add_parser("preflight").set_defaults(f=cmd_preflight)
     sp.add_parser("status").set_defaults(f=cmd_status)
-    p = sp.add_parser("plan"); p.add_argument("--force", action="store_true"); p.set_defaults(f=cmd_plan)
+    p = sp.add_parser("plan"); p.add_argument("--force", action="store_true"); p.add_argument("--redo", type=int, help="重做第 N 集（從選題開始），完成後取代舊的"); p.set_defaults(f=cmd_plan)
     p = sp.add_parser("new"); p.add_argument("slug"); p.add_argument("--force", action="store_true"); p.set_defaults(f=cmd_new)
     for name, fn in (("check", cmd_check), ("qa", cmd_qa), ("register", cmd_register)):
         p = sp.add_parser(name); p.add_argument("ep", nargs="?"); p.set_defaults(f=fn)
