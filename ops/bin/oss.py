@@ -80,7 +80,9 @@ def validate_schema(obj, name) -> list[str]:
     try:
         import jsonschema
     except ImportError:
-        return [f"缺少 jsonschema 套件（pip install --break-system-packages jsonschema）"]
+        sh(sys.executable, "-m", "pip", "install", "-q", "--break-system-packages", "jsonschema", timeout=300)
+        try: import jsonschema
+        except ImportError: return ["缺少 jsonschema 套件且無法安裝"]
     schema = load(OPS / "schema" / f"{name}.schema.json")
     v = jsonschema.Draft202012Validator(schema)
     return [f"{name}: {'/'.join(map(str, e.absolute_path)) or '(root)'} → {e.message}" for e in sorted(v.iter_errors(obj), key=str)]
@@ -122,11 +124,16 @@ def cmd_preflight(a):
         r = sh("npm", "ci", "--no-audit", "--no-fund", "--prefix", str(OPS), timeout=300)
         need(r.returncode == 0, "已安裝 ops 工具（axe-core、html-validate）", f"npm ci 失敗：{r.stderr.strip()[-300:]}", is_fatal=False)
     else: ok("ops 工具已安裝")
+    launch = "from playwright.sync_api import sync_playwright as s\nwith s() as p: b=p.chromium.launch(); b.close()"
     try:
         import playwright  # noqa
-        r = sh(sys.executable, "-c", "from playwright.sync_api import sync_playwright as s\nwith s() as p: b=p.chromium.launch(); b.close()", timeout=120)
-        need(r.returncode == 0, "Playwright + Chromium 可啟動", f"Chromium 啟動失敗：{r.stderr.strip()[-300:]}", is_fatal=False)
-    except ImportError: warn("沒有 Python playwright：qa 會失敗（pip install --break-system-packages playwright）")
+    except ImportError:
+        sh(sys.executable, "-m", "pip", "install", "-q", "--break-system-packages", "playwright", timeout=300)
+    r = sh(sys.executable, "-c", launch, timeout=120)
+    if r.returncode != 0:  # 沒有預裝瀏覽器的環境：自動下載 Chromium
+        sh(sys.executable, "-m", "playwright", "install", "--with-deps", "chromium", timeout=900)
+        r = sh(sys.executable, "-c", launch, timeout=120)
+    need(r.returncode == 0, "Playwright + Chromium 可啟動", f"Chromium 啟動失敗（qa 無法執行）：{(r.stderr or r.stdout).strip()[-300:]}")
     free = shutil.disk_usage(ROOT).free // 2**30; need(free >= 3, f"磁碟剩 {free} GB", f"磁碟只剩 {free} GB", is_fatal=False)
     RUN.mkdir(exist_ok=True); save(RUN / "preflight.json", {"at": iso(), "fatal": fatal})
     if fatal: die(f"Preflight 有 {fatal} 個致命問題。先處理；處理不了就 `oss.py abort --reason ...`")

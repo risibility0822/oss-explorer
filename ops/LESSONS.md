@@ -3,7 +3,7 @@
 每次出刊前讀一遍；學到新的事用 `python3 ops/bin/oss.py lesson "…"` 追加。過時的條目可以刪掉。
 
 ## 環境與網路
-- 2026-11-24：工作區 shell 只連得到 github.com（clone、Releases）、raw.githubusercontent.com、PyPI、npm registry。連不到：Hugging Face、Kaggle、jsdelivr／unpkg、HN、ecosyste.ms、api.github.com、github.io、多數政府網站。
+- 2026-11-24（舊環境，僅供參考）：工作區 shell 只連得到 github.com（clone、Releases）、raw.githubusercontent.com、PyPI、npm registry。連不到：Hugging Face、Kaggle、jsdelivr／unpkg、HN、ecosyste.ms、api.github.com、github.io、多數政府網站。
 - 2026-11-24：WebFetch 對同一個網址會給舊快取（實測 GitHub 搜尋 API 和 HN 晚了約 7 週，github.com/trending 甚至是好幾年前的資料）。網址帶日期範圍或加 `?v=<runId>` 就會拿到新資料。
 - 2026-11-24：工作區有 Chromium 和 Python／Node 的 Playwright（PLAYWRIGHT_BROWSERS_PATH=/opt/pw-browsers），可以做真實瀏覽器測試與截圖。jsdom 只能當備案。
 - 2026-11-24：工作區連不到 Google Fonts，所以 qa 截圖裡的字型是系統備用字型（網站上正常），不算錯。
@@ -21,3 +21,4 @@
 - 2026-11-24：星數要用 GitHub API 的 stargazers_count 換算並正確四捨五入（23,108 → 23.1k），forks 也一樣；不要沿用研究初期看到的舊數字。
 - 2026-11-24：benchmark 要可重現：固定 Y.Doc 的 clientID 等隨機來源，否則位元組數每次會差 1；頁面說「隨機」時要確認程式真的用了隨機。
 - 2026-11-24：旁白與說明要跟程式實際做的事一致（例如「三個人改同一行」其實只有兩人），審查員會逐句對照。
+- 2026-11-24：排程改為 Claude Code 雲端任務（repo 掛在任務上、專屬環境 oss-explorer）。環境允許：GitHub 各下載網域、Hugging Face、jsdelivr、unpkg、data.gov.tw、Playwright 下載點，加上套件管理工具。若某個網域被擋，回報在最後訊息，請主人加到環境的允許清單。
