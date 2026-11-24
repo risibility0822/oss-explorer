@@ -37,11 +37,12 @@ python3 ops/bin/oss.py plan         # 解析 feedback.md，決定本集編號／
 
 **每個候選都要驗證**：`git ls-remote` 或 `git clone --filter=blob:none --depth=50` 確認最近 commit 日期；讀 LICENSE 原文。把候選寫進 `.run/candidates.json`：`[{name,url,domain,stars,lastCommit,license,demoPlan,score:{wow,fun,biz,ownerFit,demoFeasible},why}]`。
 
-**Demo 可行性是硬門檻**。工作區限制（已實測）：
-- 可連：github.com（clone、Releases 下載）、raw.githubusercontent.com、PyPI、npm registry。
-- 連不到：Hugging Face、Kaggle、多數政府開放資料網站、api.github.com（從 shell）、一般網站。
-- 2 CPU、7GB RAM、沒有 GPU；有 Chromium（Playwright）可用。
-- 資料集題目優先選放在 GitHub 上的資料，或能用 pip/npm 取得的資料；AI 模型只選權重能從 GitHub Release、PyPI 或 npm 取得的小模型。
+**Demo 可行性是硬門檻**。排程跑在專屬雲端環境 `oss-explorer`，網路允許：
+- GitHub（clone、Releases 下載、raw、api.github.com）、PyPI、npm 等套件管理工具。
+- Hugging Face（huggingface.co、*.hf.co：可以下載小模型權重）、cdn.jsdelivr.net、unpkg.com、data.gov.tw。
+- 其他網站從 shell 連不到（WebFetch／WebSearch 不受影響）。不確定時先用 `curl -sI <url>` 實測；被擋就換資料來源，並在最後訊息寫 ⚠️，請主人把網域加進環境的允許清單。
+- 2 CPU、約 7GB RAM、沒有 GPU（AI 模型只選小的，CPU 能在幾分鐘內跑完）；有 Chromium（Playwright）。
+- 資料集題目：資料檔放進本集資料夾（單檔 < 45 MB），頁面不要在執行期去外部抓。
 
 選定後：`python3 ops/bin/oss.py new <slug>`（slug 用英文小寫，例如 `tldraw`）。沒選上的好候選寫進 meta.json 的 `poolAdd`。
 
