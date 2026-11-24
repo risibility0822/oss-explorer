@@ -1,0 +1,52 @@
+[
+ {
+  "id": "ep-001-1",
+  "episode": "ep-001",
+  "no": 1,
+  "title": "家庭／小團隊共用的 Mac 選單列清單",
+  "pitch": "選單列上的共享清單，全家的 Mac 和手機一起改，離線也能改；原生 UI 外殼＋WebView 跑 Yjs＋自架 Hocuspocus。",
+  "effort": "一個月",
+  "value": "買斷制付費 app，沿用現有上架與授權流程",
+  "starred": false
+ },
+ {
+  "id": "ep-001-2",
+  "episode": "ep-001",
+  "no": 1,
+  "title": "FastAPI 協作外掛",
+  "pitch": "用 pycrdt＋pycrdt-websocket 讓既有的 CMS、表單、後台支援多人同時編輯，並顯示誰在改哪一格。",
+  "effort": "一個月",
+  "value": "開源核心＋付費託管或企業授權",
+  "starred": false
+ },
+ {
+  "id": "ep-001-3",
+  "episode": "ep-001",
+  "no": 1,
+  "title": "揪團／家族旅行共編頁",
+  "pitch": "丟一個連結到 LINE 群組，不用註冊就能一起排行程、分帳、投票，每個人的游標顏色都不同。",
+  "effort": "一個週末",
+  "value": "台灣市場的病毒式傳播工具；進階版收費",
+  "starred": false
+ },
+ {
+  "id": "ep-001-4",
+  "episode": "ep-001",
+  "no": 1,
+  "title": "讓 AI 也當一個協作者",
+  "pitch": "會議筆記 app：AI agent 以另一個 Yjs peer 的身分即時寫入摘要和待辦，人可以直接改它寫的內容。",
+  "effort": "一個月",
+  "value": "很好展示，適合做 Product Hunt 首發",
+  "starred": false
+ },
+ {
+  "id": "ep-001-5",
+  "episode": "ep-001",
+  "no": 1,
+  "title": "local-first 筆記同步服務",
+  "pitch": "類似 Obsidian Sync：筆記存在本機，付費才有跨裝置同步與版本歷史。",
+  "effort": "長期",
+  "value": "訂閱制；隱私導向使用者願意付費",
+  "starred": false
+ }
+]

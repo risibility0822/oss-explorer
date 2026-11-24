@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="repo" content="https://github.com/risibility0822/oss-explorer">
+<title>開源探索誌</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@112,800&family=Archivo:wght@400;600&family=Noto+Sans+TC:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+/* VOICE: a station timetable — precise, calm, every line earns its place
+   IDEA: a departures board where each episode is a departure and each domain a platform
+   PICTURE: the coverage board — 14 domains, one red block per episode, gaps visible at a glance
+   COLOUR and TYPE: white, black, signal red #e4002b, one grey; Archivo wide numerals + Noto Sans TC
+   LAYOUT: strict left edge, huge episode numerals hanging in a wide left column, thick top rules */
+:root{color-scheme:light dark;--bg:light-dark(#fff,#0e0e0e);--ink:light-dark(#111,#f2f2f2);--grey:light-dark(#6b6b6b,#9a9a9a);--line:light-dark(#111,#f2f2f2);--soft:light-dark(#ececec,#232323);--red:#e4002b;--redink:light-dark(#c80026,#ff4d6a)}
+:root[data-theme=light]{color-scheme:light}:root[data-theme=dark]{color-scheme:dark}
+*{box-sizing:border-box;min-width:0}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 "Noto Sans TC","Archivo",system-ui,sans-serif;overflow-x:clip}
+.band{padding:clamp(24px,4vw,56px) max(5vw,16px);max-width:1240px;margin:0 auto}
+.num{font-family:"Archivo",sans-serif;font-stretch:112%;font-weight:800;font-variant-numeric:tabular-nums}
+h1{font-size:clamp(36px,6vw,52px);line-height:1.05;margin:0;font-weight:800;text-wrap:balance}
+h2{font-size:clamp(24px,3vw,32px);line-height:1.1;margin:0 0 6px;font-weight:800}
+.rule{border-top:6px solid var(--line);padding-top:14px}
+.sub{color:var(--grey);margin:8px 0 0;max-width:68ch}
+.stats{display:flex;flex-wrap:wrap;gap:12px 40px;margin-top:26px}
+.stat b{display:block;font-size:clamp(34px,5vw,48px);line-height:1}
+.stat span{color:var(--grey);font-size:14px}
+.next{margin-top:18px;font-size:15px}.next strong{color:var(--redink)}
+nav.scroll{display:flex;gap:6px;overflow-x:auto;padding:12px max(5vw,16px);max-width:1240px;margin:0 auto;border-bottom:1px solid var(--soft)}
+nav a{flex:none;color:var(--ink);text-decoration:none;padding:10px 14px;border:1px solid var(--soft);font-size:15px}
+nav a:hover,nav a:focus-visible{border-color:var(--line)}
+@media(min-width:900px){nav.scroll{position:sticky;top:0;background:var(--bg);z-index:5}}
+.board{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 48px;margin-top:18px}
+.row{display:grid;grid-template-columns:minmax(0,11em) minmax(0,1fr) 2.4em;align-items:center;gap:12px;padding:9px 0;border-bottom:1px solid var(--soft)}
+.row .dn{font-size:15px}.row .ct{text-align:right;font-size:20px}
+.blocks{display:flex;flex-wrap:wrap;gap:4px}
+.blk{width:18px;height:18px;background:var(--red);display:inline-block;text-decoration:none}
+.blk.empty{background:none;border:1px dashed var(--grey);opacity:.6}
+.row.zero .dn{color:var(--grey)}
+@media(max-width:760px){.board{grid-template-columns:minmax(0,1fr)}}
+.tools{display:flex;flex-wrap:wrap;gap:10px;margin:18px 0 4px}
+select,input[type=search],textarea,input[type=text]{font:inherit;font-size:16px;color:var(--ink);background:var(--bg);border:1px solid var(--grey);padding:10px 12px;min-height:44px;border-radius:0}
+select:focus-visible,input:focus-visible,textarea:focus-visible,button:focus-visible{outline:3px solid var(--red);outline-offset:1px}
+button{font:inherit;font-size:15px;min-height:44px;padding:8px 14px;border:1px solid var(--line);background:var(--bg);color:var(--ink);cursor:pointer;border-radius:0}
+button.on{background:var(--ink);color:var(--bg)}
+button.primary{background:var(--red);border-color:var(--red);color:#fff;font-weight:600}
+.ep{display:grid;grid-template-columns:clamp(84px,14vw,170px) minmax(0,1fr);gap:0 24px;border-top:2px solid var(--line);padding:22px 0 26px}
+.ep .no{font-size:clamp(44px,8vw,92px);line-height:.9;color:var(--ink)}
+.ep .date{color:var(--grey);font-size:14px;margin-top:8px}
+.ep h3{font-size:clamp(21px,2.6vw,28px);line-height:1.2;margin:0 0 6px}
+.ep p{margin:4px 0 10px;max-width:70ch}
+.tags{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0}
+.tag{font-size:13px;border:1px solid var(--soft);padding:2px 8px;white-space:nowrap}
+.tag.hot{border-color:var(--red);color:var(--redink)}
+.res{font-size:14px;color:var(--grey);margin:6px 0}
+.res a{color:var(--ink)}
+.go{display:inline-block;margin:6px 0 12px;font-weight:600;color:var(--redink);text-decoration:none;border-bottom:2px solid var(--red);padding:6px 0}
+.fb{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin-top:6px}
+.fb .lbl{font-size:14px;color:var(--grey);margin-right:4px}
+.stars button{min-width:44px;padding:8px 0}
+.note{display:flex;gap:8px;margin-top:8px;flex-wrap:wrap}.note textarea{flex:1 1 280px;min-height:44px;resize:vertical}
+.saved{font-size:13px;color:var(--grey);min-height:1.2em}
+.hl{margin:4px 0 8px;padding-left:1.2em}.hl li{margin:2px 0}
+.ideas{display:grid;gap:0}
+.idea{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:6px 16px;border-bottom:1px solid var(--soft);padding:14px 0}
+.idea h4{margin:0;font-size:17px}.idea p{margin:2px 0;color:var(--ink);max-width:72ch}
+.idea .meta{font-size:13px;color:var(--grey)}
+.wish{border-bottom:1px solid var(--soft);padding:12px 0;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:4px 12px}
+.st{font-size:13px;white-space:nowrap}.st.open{color:var(--redink)}
+.empty-state{border:1px dashed var(--grey);padding:22px;color:var(--grey);margin-top:14px}
+.status{font-size:14px;color:var(--grey);margin-top:10px;min-height:1.4em}
+.how ol{padding-left:1.4em;max-width:72ch}.how li{margin:6px 0}
+footer{color:var(--grey);font-size:14px}
+@media(max-width:600px){.ep{grid-template-columns:minmax(0,1fr)}.ep .no{font-size:56px}.row{grid-template-columns:minmax(0,8.5em) minmax(0,1fr) 2em}}
+@media(prefers-reduced-motion:no-preference){.blk{transition:transform .2s}.blk:hover{transform:scale(1.25)}}
+</style>
+</head>
+<body>
+<header class="band">
+  <div class="rule"><h1>開源探索誌</h1></div>
+  <p class="sub">每週一・三・五早上 7:23（台北）自動出刊。每集由 Claude 自己選題、讀原始碼、在雲端實際跑起來、做一個能玩的 Demo，再寫成一頁介紹。所有內容都存在 GitHub，任何裝置打開這個網址都能看。</p>
+  <div class="stats">
+    <div class="stat"><b class="num" id="sEp">–</b><span>已出刊集數</span></div>
+    <div class="stat"><b class="num" id="sDom">–</b><span>領域覆蓋（共 14）</span></div>
+    <div class="stat"><b class="num" id="sIdea">–</b><span>累積點子</span></div>
+    <div class="stat"><b class="num" id="sStar">–</b><span>你收藏的點子</span></div>
+  </div>
+  <p class="next" id="next"></p>
+  <p class="status" id="status">載入中…</p>
+</header>
+<nav class="scroll" aria-label="區段">
+  <a href="#map">領域地圖</a><a href="#episodes">各集</a><a href="#ideas">點子庫</a><a href="#wishes">許願池</a><a href="#how">怎麼運作</a>
+</nav>
+
+<section class="band" id="map">
+  <div class="rule"><h2>領域地圖</h2><p class="sub">每個紅格是一集。虛線格表示還沒探索過，排程會優先往那裡走。點紅格可直接跳到那一集。</p></div>
+  <div class="board" id="board"></div>
+</section>
+
+<section class="band" id="episodes">
+  <div class="rule"><h2>各集</h2><p class="sub">最新的在最上面。每集都附上 Demo 與可直接執行的實驗程式碼。</p></div>
+  <div class="tools">
+    <input type="search" id="q" placeholder="搜尋標題、資源、標籤" aria-label="搜尋">
+    <select id="fDom" aria-label="領域"><option value="">全部領域</option></select>
+    <select id="fFmt" aria-label="格式"><option value="">單品＋組合技</option><option>單品</option><option>組合技</option></select>
+  </div>
+  <div id="epList"></div>
+</section>
+
+<section class="band" id="ideas">
+  <div class="rule"><h2>點子庫</h2><p class="sub">每集都會留下 3–5 個「可以拿它做什麼」的點子。想收藏哪個點子，寫進下方「許願與回饋」就好。</p></div>
+  <div class="tools"><button id="onlyStar" aria-pressed="false">只看收藏</button></div>
+  <div class="ideas" id="ideaList"></div>
+</section>
+
+<section class="band" id="wishes">
+  <div class="rule"><h2>許願與回饋</h2><p class="sub">想看什麼主題、對哪一集打幾分、想收藏哪個點子，都寫在 repo 裡的 <b>feedback.md</b>。在手機或電腦打開下面的連結，點鉛筆圖示編輯、按 Commit 就完成。每次出刊前都會先讀這個檔案。</p></div>
+  <p><a class="go" id="fbEdit" href="#">編輯 feedback.md →</a></p>
+  <div id="wishList"></div>
+</section>
+
+<section class="band how" id="how">
+  <div class="rule"><h2>怎麼運作</h2></div>
+  <ol>
+    <li><b>讀狀態</b>：每次出刊先讀 repo 裡的 data/（過去各集、點子、輪替狀態）與 feedback.md（你的許願、評分、收藏）。</li>
+    <li><b>選題</b>：許願優先；否則在 14 個領域中挑最久沒去、你評價高的方向；「巨星 → 隱藏寶石 → 新星＋組合技」三集一輪；主鏡頭在「厲害／好玩／商業潛力」間輪替。</li>
+    <li><b>發掘與研究</b>：從 GitHub Trending、Show HN、awesome 清單、開放資料目錄等至少三個來源找候選，clone 原始碼拿真實的活躍度與授權資訊。</li>
+    <li><b>實際跑起來</b>：在雲端工作區安裝執行，結果全部是真的輸出；能在瀏覽器跑的就做成可互動 Demo。</li>
+    <li><b>發布</b>：寫成一頁介紹（原理圖、Demo、上手程式碼、點子、跨集組合、限制、來源），連同實驗程式碼推到 GitHub，網站自動更新，並推播通知你。</li>
+  </ol>
+</section>
+<footer class="band">資料來自本 repo 的 data/episodes.json 與 data/ideas.json。數字以各集頁面標示的日期為準。</footer>
+
+<script>
+{
+const DOMAINS=["AI 模型與推論","AI 應用與 Agent 框架","開發者工具","資料庫與後端基礎設施","自架服務 self-hosted","開放資料集","前端・設計・UI・字體・圖示","多媒體","地圖與地理空間","科學・數學・生醫・氣候","隱私・安全・網路","硬體・IoT・嵌入式・機器人","生產力・知識管理・桌面 App","好玩・怪奇・創意程式・藝術"];
+const esc=v=>String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const safeUrl=u=>/^https:\/\//.test(String(u||""))?String(u):"";
+const $=id=>document.getElementById(id);
+const pad=n=>String(n).padStart(3,"0");
+const dmatch=(d,name)=>{d=String(d||"").trim();return d===name||d.startsWith(name)};
+let S={eps:[],ideas:[],state:null,onlyStar:false};const REPO=document.querySelector('meta[name="repo"]').content;
+
+$("fDom").innerHTML+=DOMAINS.map(d=>`<option>${esc(d)}</option>`).join("");
+
+function renderStats(){
+  const doms=new Set(S.eps.map(e=>DOMAINS.find(d=>dmatch(e.domain,d))).filter(Boolean));
+  $("sEp").textContent=S.eps.length;$("sDom").textContent=doms.size;
+  $("sIdea").textContent=S.ideas.length;$("sStar").textContent=S.ideas.filter(i=>i.starred).length;
+  const h=S.state&&S.state.nextHint;
+  $("next").innerHTML=h?`<strong>下一集預告</strong>　${esc(h)}`:"";
+}
+function renderBoard(){
+  $("board").innerHTML=DOMAINS.map(d=>{
+    const list=S.eps.filter(e=>dmatch(e.domain,d)).sort((a,b)=>a.no-b.no);
+    const blocks=list.length?list.map(e=>`<a class="blk" href="#ep-${pad(e.no)}" title="#${pad(e.no)} ${esc(e.title)}" aria-label="第 ${pad(e.no)} 集"></a>`).join(""):`<span class="blk empty" aria-hidden="true"></span>`;
+    return `<div class="row${list.length?"":" zero"}"><span class="dn">${esc(d)}</span><span class="blocks">${blocks}</span><span class="ct num">${list.length}</span></div>`;
+  }).join("");
+}
+function epVisible(e){
+  const q=$("q").value.trim().toLowerCase(),fd=$("fDom").value,ff=$("fFmt").value;
+  if(fd&&!dmatch(e.domain,fd))return false;
+  if(ff&&e.format!==ff)return false;
+  if(q){const hay=[e.title,e.oneliner,(e.tags||[]).join(" "),(e.resources||[]).map(r=>r.name).join(" ")].join(" ").toLowerCase();if(!hay.includes(q))return false}
+  return true;
+}
+function renderEps(){
+  const list=S.eps.filter(epVisible).sort((a,b)=>b.no-a.no);
+  if(!S.eps.length){$("epList").innerHTML=`<div class="empty-state">還沒有任何一集。第一集出刊後會出現在這裡。</div>`;return}
+  if(!list.length){$("epList").innerHTML=`<div class="empty-state">沒有符合篩選條件的集數。</div>`;return}
+  $("epList").innerHTML=list.map(e=>{
+    const u=e.path?e.path:safeUrl(e.url);
+    const res=(e.resources||[]).map(x=>{const ru=safeUrl(x.url);return (ru?`<a href="${esc(ru)}">${esc(x.name)}</a>`:esc(x.name))+(x.license?` · ${esc(x.license)}`:"")+(x.stars?` · ★${esc(x.stars)}`:"")}).join("　／　");
+    const tags=[e.domain,e.format,e.tier,e.lens&&("主鏡頭："+e.lens)].filter(Boolean).map((t,i)=>`<span class="tag${i===3?" hot":""}">${esc(t)}</span>`).join("")+(e.tags||[]).map(t=>`<span class="tag">${esc(t)}</span>`).join("");
+    const hl=(e.highlights||[]).length?`<ul class="hl">${e.highlights.map(h=>`<li>${esc(h)}</li>`).join("")}</ul>`:"";
+    return `<article class="ep" id="ep-${pad(e.no)}">
+      <div><div class="no num">${pad(e.no)}</div><div class="date num">${esc(e.date)}</div></div>
+      <div><h3>${esc(e.title)}</h3><p>${esc(e.oneliner)}</p>
+      <div class="tags">${tags}</div>${hl}
+      ${e.demo?`<p class="res"><b>Demo：</b>${esc(e.demo)}</p>`:""}
+      <p class="res">${res}</p>
+      ${u?`<a class="go" href="${esc(u)}">閱讀本集 →</a>`:""}
+      ${e.lab?`<a class="go" href="${esc(REPO)}/tree/main/${esc(e.lab)}" style="margin-left:18px">實驗程式碼 →</a>`:""}
+      </div></article>`;
+  }).join("");
+}
+function renderIdeas(){
+  const list=S.ideas.filter(i=>!S.onlyStar||i.starred).sort((a,b)=>(b.no||0)-(a.no||0)||String(a.id).localeCompare(String(b.id)));
+  if(!S.ideas.length){$("ideaList").innerHTML=`<div class="empty-state">點子會隨每集出刊累積在這裡。</div>`;return}
+  if(!list.length){$("ideaList").innerHTML=`<div class="empty-state">還沒有收藏的點子。</div>`;return}
+  $("ideaList").innerHTML=list.map(i=>`<div class="idea"><div><h4>${esc(i.title)}</h4><p>${esc(i.pitch)}</p>
+    <div class="meta">#${pad(i.no||0)}　·　工作量：${esc(i.effort||"—")}　·　價值：${esc(i.value||"—")}</div></div>
+    <div>${i.starred?'<span class="tag hot">已收藏</span>':""}</div></div>`).join("");
+}
+function renderWishes(){
+  $("fbEdit").href=REPO+"/edit/main/feedback.md";
+  const list=(S.state&&S.state.wishes)||[];const lbl={open:"排隊中",done:"已完成",blocked:"做不到"};
+  $("wishList").innerHTML=list.length?list.map(w=>`<div class="wish"><div>${esc(w.text)}${w.reply?`<div style="color:var(--grey);font-size:14px">↳ ${esc(w.reply)}${w.doneIn?`（${esc(w.doneIn)}）`:""}</div>`:""}</div><span class="st ${esc(w.status)}">${esc(lbl[w.status]||w.status)}</span></div>`).join(""):`<div class="empty-state">目前沒有排隊中的許願。</div>`;
+}
+
+function renderAll(){renderStats();renderBoard();renderEps();renderIdeas();renderWishes()}
+renderAll();
+
+["q","fDom","fFmt"].forEach(id=>$(id).addEventListener("input",renderEps));
+$("onlyStar").addEventListener("click",e=>{S.onlyStar=!S.onlyStar;e.currentTarget.classList.toggle("on",S.onlyStar);e.currentTarget.setAttribute("aria-pressed",S.onlyStar);renderIdeas()});
+
+(async()=>{
+  const get=async p=>{const r=await fetch(p,{cache:"no-store"});if(!r.ok)throw new Error(p);return r.json()};
+  try{
+    const [eps,ideas,state]=await Promise.all([get("data/episodes.json"),get("data/ideas.json"),get("data/state.json").catch(()=>null)]);
+    S.eps=Array.isArray(eps)?eps:[];S.ideas=Array.isArray(ideas)?ideas:[];S.state=state;
+    $("status").textContent="";renderAll();
+  }catch(e){$("status").textContent="資料讀取失敗，請重新整理。"}
+})();
+}
+</script>
+</body>
+</html>

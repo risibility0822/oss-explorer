@@ -1,0 +1,41 @@
+{
+ "episodeCount": 1,
+ "domainCounts": {
+  "開發者工具": 1
+ },
+ "recentDomains": [
+  "開發者工具"
+ ],
+ "covered": [
+  "https://github.com/yjs/yjs"
+ ],
+ "pool": [
+  {
+   "name": "Loro",
+   "url": "https://github.com/loro-dev/loro",
+   "domain": "資料庫與後端基礎設施",
+   "why": "新一代 CRDT，可移動樹與完整歷史"
+  },
+  {
+   "name": "Automerge",
+   "url": "https://github.com/automerge/automerge",
+   "domain": "資料庫與後端基礎設施",
+   "why": "類 Git 歷史的 CRDT，有 Swift 綁定"
+  },
+  {
+   "name": "Hocuspocus",
+   "url": "https://github.com/ueberdosis/hocuspocus",
+   "domain": "自架服務 self-hosted",
+   "why": "Yjs 後端，可跟第 1 集組合"
+  },
+  {
+   "name": "BlockNote",
+   "url": "https://github.com/TypeCellOS/BlockNote",
+   "domain": "前端・設計・UI・字體・圖示",
+   "why": "Notion 風格編輯器，內建 Yjs 協作"
+  }
+ ],
+ "wishes": [],
+ "lastRunAt": "2026-11-24T08:37:00Z",
+ "nextHint": "第 002 集：隱藏寶石（<3k ★）・單品・主鏡頭「好玩」，從還沒去過的領域裡挑"
+}

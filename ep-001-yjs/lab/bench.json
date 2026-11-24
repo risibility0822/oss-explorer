@@ -1,0 +1,65 @@
+{
+ "node": "v22.23.5",
+ "yjs": "13.6.33",
+ "runs": [
+  {
+   "scenario": "text",
+   "editsEach": 100,
+   "editMs": 5.3,
+   "mergeMs": 1.39,
+   "syncBytes": 1799,
+   "finalLength": 168,
+   "converged": true,
+   "docBytes": 1860,
+   "docBytesV2": 1276
+  },
+  {
+   "scenario": "text",
+   "editsEach": 1000,
+   "editMs": 26.6,
+   "mergeMs": 9.25,
+   "syncBytes": 17510,
+   "finalLength": 1611,
+   "converged": true,
+   "docBytes": 17571,
+   "docBytesV2": 11272
+  },
+  {
+   "scenario": "text",
+   "editsEach": 10000,
+   "editMs": 269,
+   "mergeMs": 62.4,
+   "syncBytes": 182924,
+   "finalLength": 16013,
+   "converged": true,
+   "docBytes": 182985,
+   "docBytesV2": 116627
+  },
+  {
+   "scenario": "todo",
+   "a": [
+    "☑ 買牛奶",
+    "☐ 修 bug #42（急）",
+    "☐ 訂機票"
+   ],
+   "b": [
+    "☑ 買牛奶",
+    "☐ 修 bug #42（急）",
+    "☐ 訂機票"
+   ],
+   "converged": true
+  },
+  {
+   "scenario": "naive-lww",
+   "result": [
+    "買牛奶",
+    "修 bug #42",
+    "訂機票"
+   ],
+   "lostEdits": [
+    "☑ 買牛奶",
+    "修 bug #42（急）"
+   ]
+  }
+ ]
+}

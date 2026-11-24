@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>開源探索誌 #001｜Yjs</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@400;600;700&family=Noto+Sans+TC:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+/* VOICE: a lively workbench — hands-on, precise, a little playful
+   IDEA: three devices on one desk, each person's edits in their own cursor colour, merging live
+   PICTURE: the working three-device simulator itself, at the top
+   COLOUR and TYPE: white desk / night graphite; vermilion, cobalt, mustard as the three people; IBM Plex + Noto Sans TC
+   LAYOUT: modest title, full-width simulator, then calm sections with stated headings */
+:root{color-scheme:light dark;--bg:light-dark(#ffffff,#121316);--ink:light-dark(#15171a,#eceef2);--mute:light-dark(#5d636c,#9aa1ab);--line:light-dark(#dfe2e6,#2a2d33);--card:light-dark(#f4f5f7,#1b1d21);--a:#e4572e;--b:#2b59c3;--c:#d9a400;--ok:light-dark(#15171a,#eceef2)}
+:root[data-theme=light]{color-scheme:light}:root[data-theme=dark]{color-scheme:dark}
+*{box-sizing:border-box;min-width:0}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.65 "IBM Plex Sans","Noto Sans TC",system-ui,sans-serif;overflow-x:clip}
+.band{padding:clamp(24px,4vw,56px) max(5vw,16px);max-width:1240px;margin:0 auto}
+h1{font-size:clamp(30px,4.6vw,48px);line-height:1.08;margin:6px 0 10px;text-wrap:balance;font-weight:800}
+h2{font-size:clamp(24px,3vw,32px);line-height:1.15;margin:0 0 14px;text-wrap:balance}
+h3{font-size:19px;margin:18px 0 6px}
+p{max-width:70ch}
+a{color:var(--b)}
+.kicker{font-size:15px;color:var(--mute)}
+.kicker b{color:var(--ink)}
+.lead{font-size:17px;max-width:68ch;margin:0}
+.tags{display:flex;flex-wrap:wrap;gap:6px;margin:14px 0 0}
+.tag{font-size:13px;padding:3px 10px;border-radius:999px;background:var(--card);white-space:nowrap}
+.tag.main{background:var(--a);color:#fff}
+nav.scroll{display:flex;gap:4px;overflow-x:auto;padding:10px max(5vw,16px);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+nav a{flex:none;text-decoration:none;color:var(--ink);padding:10px 12px;font-size:15px;border-radius:8px}
+nav a:hover,nav a:focus-visible{background:var(--card)}
+@media(min-width:900px){nav.scroll{position:sticky;top:0;background:var(--bg);z-index:9}}
+html{scroll-padding-top:72px}
+/* simulator */
+.sim{background:var(--card);border-radius:18px;padding:clamp(14px,2vw,22px)}
+.simbar{display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px;margin-bottom:14px}
+.badge{font-weight:700;padding:8px 14px;border-radius:999px;background:var(--bg);border:2px solid var(--ok)}
+.badge.diff{border-color:var(--a);color:var(--a)}
+button,select{font:inherit;font-size:15px;min-height:44px;padding:8px 14px;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:var(--ink);cursor:pointer}
+button.play{background:var(--ink);color:var(--bg);border-color:var(--ink);font-weight:700}
+button:disabled{opacity:.5;cursor:default}
+button:focus-visible,select:focus-visible,textarea:focus-visible,input:focus-visible{outline:3px solid var(--b);outline-offset:2px}
+.narr{min-height:3.2em;margin:0 0 14px;font-size:16px;max-width:none}
+.devs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+@media(max-width:900px){.devs{grid-template-columns:minmax(0,1fr)}}
+.dev{background:var(--bg);border-radius:14px;padding:14px;border-top:6px solid var(--pc);box-shadow:0 1px 0 var(--line),0 8px 24px -18px #000}
+.dev.off{opacity:.92;background:repeating-linear-gradient(135deg,var(--bg) 0 12px,var(--card) 12px 24px)}
+.devh{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:8px}
+.devh b{font-size:16px}
+.dot{display:inline-block;width:10px;height:10px;border-radius:50%;background:var(--pc);margin-right:6px}
+.net{min-height:36px;padding:4px 12px;font-size:14px}
+.net.off{background:var(--a);color:#fff;border-color:var(--a)}
+textarea{width:100%;min-height:118px;font:16px/1.55 "IBM Plex Sans","Noto Sans TC",sans-serif;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:10px;resize:vertical}
+.todos{list-style:none;padding:0;margin:10px 0 6px}
+.todos li{display:flex;align-items:center;gap:8px;padding:4px 0;border-bottom:1px dashed var(--line)}
+.todos li span{flex:1}.todos li.done span{text-decoration:line-through;color:var(--mute)}
+.todos input[type=checkbox]{width:22px;height:22px;accent-color:var(--pc)}
+.todos button{min-height:36px;padding:2px 10px;font-size:14px}
+.add{display:flex;gap:6px}.add input{flex:1;font:inherit;font-size:16px;min-height:44px;padding:6px 10px;border:1px solid var(--line);border-radius:10px;background:var(--bg);color:var(--ink)}
+.dstat{font:13px/1.5 "IBM Plex Mono",monospace;color:var(--mute);margin-top:8px}
+.simnote{font-size:13px;color:var(--mute);margin:12px 0 0}
+/* content */
+.lens{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+@media(max-width:820px){.lens{grid-template-columns:minmax(0,1fr)}}
+.lens div{border-top:4px solid var(--pc);padding-top:10px}
+.lens h3{margin-top:0}
+.card{background:var(--card);border-radius:14px;padding:16px 18px}
+.res{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:10px 22px;margin-top:18px}
+.res div{font-size:14px;color:var(--mute)}.res b{display:block;color:var(--ink);font-size:16px}
+.steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+@media(max-width:820px){.steps{grid-template-columns:minmax(0,1fr)}}
+.steps svg{width:100%;height:auto;display:block;background:var(--card);border-radius:12px}
+.steps p{font-size:15px}
+table{border-collapse:collapse;width:100%;font-size:15px}
+th,td{text-align:left;padding:9px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-weight:600;color:var(--mute);font-size:14px}
+td.n{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+pre{background:var(--card);border-radius:12px;padding:14px 16px;font:14px/1.6 "IBM Plex Mono",monospace;overflow-x:auto;margin:6px 0 0}
+.codehead{display:flex;justify-content:space-between;align-items:center;margin-top:16px;gap:10px}
+.codehead span{font-size:14px;color:var(--mute)}
+.log{font:14px/1.6 "IBM Plex Mono",monospace}
+.ideas{display:grid;gap:12px}
+.idea{background:var(--card);border-radius:14px;padding:14px 18px;border-left:6px solid var(--pc)}
+.idea h3{margin:0 0 4px}.idea p{margin:4px 0}
+.meta{font-size:14px;color:var(--mute)}
+ul.pit li{margin:8px 0;max-width:72ch}
+.src li{margin:4px 0;font-size:14px;overflow-wrap:anywhere}
+footer{color:var(--mute);font-size:14px}
+.back{display:inline-block;margin-top:10px;font-weight:700;font-size:17px}
+pre,.scroll{overflow-x:auto}.scroll a{flex:none}code{overflow-wrap:anywhere}
+@media(max-width:600px){table{font-size:13px}.stack thead{display:none}.stack tr{display:grid;padding-block:10px}.stack td{display:flow-root;border:0;padding:3px 0;padding-inline-start:8em;text-align:start}.stack td::before{content:attr(data-l);float:inline-start;width:7.5em;margin-inline-start:-8em;white-space:normal;color:var(--mute)}.stack td:empty{display:none}}
+@media(prefers-reduced-motion:no-preference){.dev{transition:background .3s,opacity .3s}.badge{transition:border-color .3s,color .3s}}
+</style><script>new MutationObserver(()=>{for(const c of document.querySelectorAll('.stack td:not([data-l])')){let i=0,p=c;while(p=p.previousElementSibling)i+=p.colSpan;c.dataset.l=c.closest('table').rows[0].cells[i]?.textContent||''}}).observe(document,{childList:true,subtree:true})</script></head>
+<body>
+<header class="band" style="padding-bottom:18px">
+  <div class="kicker"><b>開源探索誌 #001</b>　·　2026-11-24　·　開發者工具</div>
+  <h1>Yjs：幫任何 App 加上 Google Docs 式的多人協作</h1>
+  <p class="lead">Yjs 是一套 CRDT 函式庫：好幾台裝置（就算離線）同時改同一份資料，重新連線後會自動合併，不用伺服器當裁判，也不會互相覆蓋。下面這三台「裝置」跑的是真的 Yjs 13.6.33。</p>
+  <div class="tags"><span class="tag main">主鏡頭：厲害</span><span class="tag">巨星級</span><span class="tag">單品</span><span class="tag">CRDT</span><span class="tag">local-first</span><span class="tag">即時協作</span></div>
+</header>
+
+<section class="band" style="padding-top:0" aria-label="互動 Demo">
+  <div class="sim">
+    <div class="simbar">
+      <span class="badge" id="badge">三台內容一致 ✓</span>
+      <button class="play" id="play">▶ 播放：離線衝突劇本</button>
+      <button id="reset">重來</button>
+      <label>網路延遲 <select id="lat"><option value="80">80 ms</option><option value="400" selected>400 ms</option><option value="1500">1.5 秒</option></select></label>
+    </div>
+    <p class="narr" id="narr">任何一台都可以直接打字、勾選待辦、按「斷線」。試試看：讓兩台斷線、各自改同一行，再接回來。</p>
+    <div class="devs" id="devs"></div>
+    <p class="simnote">網路是在頁面裡模擬的：每次修改產生一個 Yjs update（二進位），隔「網路延遲」後交給其他在線裝置；斷線的裝置重連時，用狀態向量（state vector）只交換彼此缺少的部分。合併邏輯完全是 Yjs 本身。中文輸入法選字期間不會送出半成品。</p>
+  </div>
+</section>
+
+<nav class="scroll" aria-label="本集段落"><a href="#why">為什麼值得認識</a><a href="#how">怎麼運作</a><a href="#run">實際執行紀錄</a><a href="#start">五分鐘上手</a><a href="#ideas">拿它做什麼</a><a href="#cross">跨集組合</a><a href="#limits">限制與比較</a><a href="#more">延伸探索</a><a href="#sources">來源</a></nav>
+
+<section class="band" id="why">
+  <h2>為什麼值得認識</h2>
+  <div class="lens">
+    <div style="--pc:var(--a)"><h3>厲害在哪</h3><p>協作功能出了名的難做，Jupyter 團隊花了好幾年，最後選了 Yjs。官方文件說它每週下載量超過 100 萬次，README 列出的使用者包括 Linear、Evernote、GitBook、JupyterLab、Proton Docs、AFFiNE、AWS SageMaker。我實測依序打 10,000 個中文字，文件只有 30,016 bytes，純文字本身是 30,000 bytes：附帶的協作資訊幾乎不佔空間。</p></div>
+    <div style="--pc:var(--b)"><h3>好玩在哪</h3><p>它完全不管網路怎麼傳：WebSocket、WebRTC 點對點、Matrix、甚至一個檔案傳來傳去都行，資料到了就能合併，順序不重要。同一份文件也能被 Rust（yrs）、Python（pycrdt）、Swift（yswift）讀寫。我讓 JavaScript 寫的文件給 Python 改，再交回 JavaScript，內容完整無誤（見下方紀錄）。</p></div>
+    <div style="--pc:var(--c)"><h3>商業潛力在哪</h3><p>Yjs 本身是 MIT，免費商用。錢在它周邊：Tiptap 把自家 MIT 授權的 Hocuspocus 伺服器包成託管服務 Tiptap Collab 收費；README 的 provider 清單裡也有 Liveblocks、y-sweet、PartyKit 等託管方案。換句話說，「讓別人的 App 也能多人協作」本身就是一門生意，而在自己的 App 裡加上協作，就是一個能收費的差異化功能。</p></div>
+  </div>
+  <div class="res">
+    <div><b><a href="https://github.com/yjs/yjs">yjs/yjs</a></b>GitHub 23.0k ★ · 820 forks（2026-11-24）</div>
+    <div><b>MIT</b>授權：可商用、可閉源</div>
+    <div><b>2014 → 2026-11-23</b>第一個 commit → 最新 commit</div>
+    <div><b>2,311 commits · 141 位作者</b>近 12 個月 228 個 commit</div>
+    <div><b>npm：yjs 13.6.33</b>v14 正在 RC（新套件名 @y/y）</div>
+  </div>
+</section>
+
+<section class="band" id="how">
+  <h2>它怎麼運作：每個字都有身分證</h2>
+  <div class="steps">
+    <div>
+      <svg viewBox="0 0 300 200" role="img" aria-label="每個字元帶著 client 與 clock 編號">
+        <g font-family="Noto Sans TC,sans-serif" text-anchor="middle">
+          <g><rect x="40" y="62" width="64" height="64" rx="10" fill="#e4572e"/><text x="72" y="104" font-size="28" fill="#fff">週</text><text x="72" y="148" font-size="14" fill="currentColor">A·0</text></g>
+          <g><rect x="118" y="62" width="64" height="64" rx="10" fill="#e4572e"/><text x="150" y="104" font-size="28" fill="#fff">五</text><text x="150" y="148" font-size="14" fill="currentColor">A·1</text></g>
+          <g><rect x="196" y="62" width="64" height="64" rx="10" fill="#e4572e" opacity=".35"/><text x="228" y="104" font-size="28" fill="currentColor">會</text><text x="228" y="148" font-size="14" fill="currentColor">A·2（已刪）</text></g>
+          <text x="150" y="36" font-size="15" fill="currentColor">裝置 A 打了三個字，刪了一個</text>
+        </g>
+      </svg>
+      <p><b>① 編號而不是位置。</b>每個字都記著「誰（client）的第幾筆（clock）」。刪掉的字留下墓碑，不會真的消失，所以別人引用到它也不會亂掉。</p>
+    </div>
+    <div>
+      <svg viewBox="0 0 300 200" role="img" aria-label="兩台裝置離線時各自在同一個字後面插入">
+        <g font-family="Noto Sans TC,sans-serif" text-anchor="middle">
+          <text x="150" y="28" font-size="15" fill="currentColor">離線時，A 和 B 都插在「五」後面</text>
+          <rect x="20" y="70" width="56" height="56" rx="10" fill="#e4572e"/><text x="48" y="107" font-size="24" fill="#fff">週</text>
+          <rect x="86" y="70" width="56" height="56" rx="10" fill="#e4572e"/><text x="114" y="107" font-size="24" fill="#fff">五</text>
+          <rect x="178" y="44" width="56" height="50" rx="10" fill="#e4572e"/><text x="206" y="77" font-size="22" fill="#fff">改</text><text x="268" y="74" font-size="13" fill="currentColor">A·3</text>
+          <rect x="178" y="112" width="56" height="50" rx="10" fill="#2b59c3"/><text x="206" y="145" font-size="22" fill="#fff">確</text><text x="268" y="142" font-size="13" fill="currentColor">B·0</text>
+          <path d="M178 69 C160 69 156 92 144 96" fill="none" stroke="currentColor" stroke-width="2" marker-end="url(#ar)"/>
+          <path d="M178 137 C160 137 156 112 144 104" fill="none" stroke="currentColor" stroke-width="2" marker-end="url(#ar)"/>
+          <text x="114" y="160" font-size="13" fill="currentColor">左鄰都是 A·1</text>
+          <defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="currentColor"/></marker></defs>
+        </g>
+      </svg>
+      <p><b>② 插入時記住左邊的鄰居。</b>新字記得「我原本插在誰右邊」。兩個人同時插在同一處，這就是衝突。</p>
+    </div>
+    <div>
+      <svg viewBox="0 0 300 200" role="img" aria-label="交換狀態向量後兩邊得到相同順序">
+        <g font-family="IBM Plex Mono,monospace" text-anchor="middle">
+          <text x="80" y="30" font-size="13" fill="currentColor">A 有 {A:4, B:0}</text>
+          <text x="220" y="30" font-size="13" fill="currentColor">B 有 {A:3, B:1}</text>
+          <path d="M110 46 L190 46" stroke="currentColor" stroke-width="2" marker-end="url(#ar2)"/><path d="M190 58 L110 58" stroke="currentColor" stroke-width="2" marker-end="url(#ar2)"/>
+          <text x="150" y="80" font-size="12" fill="currentColor" font-family="Noto Sans TC,sans-serif">只傳對方缺的那幾筆</text>
+          <g font-family="Noto Sans TC,sans-serif" font-size="20">
+            <rect x="28" y="104" width="54" height="54" rx="10" fill="#e4572e"/><text x="55" y="139" fill="#fff">週</text>
+            <rect x="90" y="104" width="54" height="54" rx="10" fill="#e4572e"/><text x="117" y="139" fill="#fff">五</text>
+            <rect x="152" y="104" width="54" height="54" rx="10" fill="#e4572e"/><text x="179" y="139" fill="#fff">改</text>
+            <rect x="214" y="104" width="54" height="54" rx="10" fill="#2b59c3"/><text x="241" y="139" fill="#fff">確</text>
+          </g>
+          <text x="150" y="184" font-size="12" fill="currentColor" font-family="Noto Sans TC,sans-serif">兩邊用同一套規則排序 → 結果一樣</text>
+          <defs><marker id="ar2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="currentColor"/></marker></defs>
+        </g>
+      </svg>
+      <p><b>③ 交換缺少的部分，用固定規則排序。</b>狀態向量就是「我每個人各收到第幾筆」。同步時只送對方缺的；碰到同一位置的衝突，大家用同一套規則（依 client 編號等）決定先後，所以不管更新到達的順序如何，算出來都一樣。</p>
+    </div>
+  </div>
+</section>
+
+<section class="band" id="run">
+  <h2>實際執行紀錄：在雲端工作區跑出來的真實數字</h2>
+  <p class="meta">2026-11-24 於雲端工作區（2 vCPU、Node v22.23.5、yjs 13.6.33、pycrdt 0.14.13、@hocuspocus/server 4.9.0）實際執行。腳本是本集自己寫的，全部放在 <a href="https://github.com/risibility0822/oss-explorer/tree/main/ep-001-yjs/lab">lab/ 資料夾</a>，clone 下來就能重跑。</p>
+  <h3>A. 兩台離線各做 N 次編輯，再合併</h3>
+  <p>每次編輯都插在隨機位置，每 5 次再各刪一字。這種亂跳的插入方式比正常打字難壓縮，可以當作偏壞的情況來看。</p>
+  <div class="scroll"><table class="stack"><thead><tr><th>每台編輯次數</th><th>編輯耗時</th><th>合併耗時</th><th>同步傳輸量</th><th>文件大小 v1 / v2 編碼</th><th>結果一致</th></tr></thead><tbody id="benchRows"></tbody></table></div>
+  <p>對照組：依序打 10,000 個中文字（一般打字的情況），文件只有 <b id="seqB"></b> bytes，純文字 UTF-8 本身是 <b id="seqU"></b> bytes。</p>
+  <h3>B. 共享待辦清單：Yjs vs. 傳統「最後存檔者贏」</h3>
+  <p>A 離線時勾掉「買牛奶」，並把「修 bug #42」改成加急；B 同時刪掉「寫週報」、新增「訂機票」。</p>
+  <div class="scroll"><table class="stack"><thead><tr><th>做法</th><th>合併後的清單</th><th>遺失的修改</th></tr></thead><tbody id="todoRows"></tbody></table></div>
+  <h3>C. 跨語言：JavaScript 寫 → Python 改 → JavaScript 讀回</h3>
+  <pre class="log">$ node interop.mjs        # JS 建立文件並存成 from_js.bin
+$ python3 interop.py      # pycrdt（Rust yrs 的 Python 綁定）
+Python 讀到: JS 寫的筆記：明天 10 點開會 {'author': 'JS 端', 'rev': 1.0}
+$ node interop2.mjs
+JS 讀回: JS 寫的筆記：明天 10 點開會（Python 補充：記得帶筆電） { author: 'JS 端', rev: 2 }</pre>
+  <p>對 FastAPI 使用者來說，這代表後端可以直接用 Python 讀寫前端的協作文件（例如存檔前做驗證、讓 AI 在伺服器端寫入）。</p>
+  <h3>D. 真的 WebSocket：Hocuspocus 伺服器 + 兩個客戶端</h3>
+  <pre class="log">$ node hp.mjs   # 在 127.0.0.1:1234 啟動 Hocuspocus，兩個 provider 連進同一個房間
+A sees: Hello from A { fromB: '嗨，我是 B' }
+B sees: Hello from A { fromB: '嗨，我是 B' }</pre>
+</section>
+
+<section class="band" id="start">
+  <h2>五分鐘上手</h2>
+  <p>最小組合：前端用 <code>yjs</code> 加上 Hocuspocus 的 provider，後端跑 Hocuspocus。下面兩段就是 D 項實測的程式碼（精簡版）。</p>
+  <div class="codehead"><span>server.mjs（npm i @hocuspocus/server）</span><button data-copy="c1">複製</button></div>
+<pre id="c1">import { Server } from '@hocuspocus/server'
+
+const server = new Server({ port: 1234 })
+await server.listen()   // 預設存在記憶體；正式環境加 @hocuspocus/extension-database 等擴充</pre>
+  <div class="codehead"><span>client.js（npm i yjs @hocuspocus/provider）</span><button data-copy="c2">複製</button></div>
+<pre id="c2">import * as Y from 'yjs'
+import { HocuspocusProvider } from '@hocuspocus/provider'
+
+const doc = new Y.Doc()
+new HocuspocusProvider({ url: 'ws://localhost:1234', name: 'my-room', document: doc })
+
+const todos = doc.getArray('todos')          // 共享陣列
+todos.observe(() => render(todos.toJSON()))  // 任何人改了都會觸發
+todos.push([{ t: '買牛奶', done: false }])     // 本機改動 → 自動同步給所有人</pre>
+  <p class="meta">要離線也能用，再加 <code>y-indexeddb</code> 把文件存在瀏覽器；要接 ProseMirror、Tiptap、CodeMirror、Monaco、Lexical 等編輯器，各有現成的綁定。</p>
+</section>
+
+<section class="band" id="ideas">
+  <h2>你可以拿它做什麼</h2>
+  <div class="ideas">
+    <div class="idea" style="--pc:var(--a)"><h3>家庭／小團隊共用的 Mac 選單列清單</h3><p>選單列上一個小清單（購物、待辦、出國清單），全家的 Mac 和手機一起改，離線也能改。原生 UI 外殼加上 WebView 裡跑 Yjs（Swift 原生綁定 yswift 更新較慢），同步用自架的 Hocuspocus。</p><p class="meta">工作量：一個月　·　價值：買斷制付費 app，沿用你現有的上架與授權流程</p></div>
+    <div class="idea" style="--pc:var(--b)"><h3>FastAPI 協作外掛：替既有後台加上「多人同時編輯」</h3><p>用 pycrdt＋pycrdt-websocket 做一個可以掛進 FastAPI 的模組，讓 CMS、內部表單、後台設定頁支援多人同時編輯，並顯示誰正在改哪一格。</p><p class="meta">工作量：一個月　·　價值：開源核心＋付費託管或企業授權，鎖定台灣的接案與 SaaS 團隊</p></div>
+    <div class="idea" style="--pc:var(--c)"><h3>揪團／家族旅行共編頁</h3><p>丟一個連結到 LINE 群組，不用註冊就能一起排行程、分帳、投票，每個人的游標顏色都不同。資料用 Yjs，房間用 Hocuspocus 或 y-sweet。</p><p class="meta">工作量：一個週末做出原型　·　價值：台灣市場的病毒式傳播工具；靠進階版（匯出、範本、無限房間）收費</p></div>
+    <div class="idea" style="--pc:var(--a)"><h3>讓 AI 也當一個協作者</h3><p>會議筆記 app：人在上面打字，AI agent 以另一個 Yjs peer 的身分即時寫入摘要和待辦，有自己的游標和顏色，人可以直接改它寫的內容。C 項實測顯示 Python 端可以直接寫入同一份文件。</p><p class="meta">工作量：一個月　·　價值：「看著 AI 跟你一起寫」很好展示，適合做 Product Hunt 首發</p></div>
+    <div class="idea" style="--pc:var(--b)"><h3>local-first 筆記的同步服務</h3><p>做一個類似 Obsidian Sync 的服務：筆記存在本機（Markdown＋Yjs 狀態），付費才有跨裝置同步和版本歷史。</p><p class="meta">工作量：長期　·　價值：訂閱制；local-first 是隱私導向使用者願意付費的賣點</p></div>
+  </div>
+</section>
+
+<section class="band" id="cross">
+  <h2>跨集組合</h2>
+  <p>這是第一集。之後每一集都會在這裡寫：新認識的資源跟 Yjs（以及之前各集的資源）可以怎麼搭配。例如以後介紹到編輯器、地圖、白板類的開源專案，加上 Yjs 就是多人協作版本。</p>
+</section>
+
+<section class="band" id="limits">
+  <h2>限制與比較</h2>
+  <ul class="pit">
+    <li><b>v14 正在換版。</b>npm 的 latest 還是 13.6.33，14.0.0 放在 next/beta tag，GitHub 上已到 v14.0.0-rc.30，也開始以新名稱 <code>@y/y</code> 發布。新專案建議先用 13.x，並留意升級說明。</li>
+    <li><b>權限不歸 Yjs 管。</b>誰能讀、誰能寫，要在 provider 或伺服器那一層處理（例如 Hocuspocus 的驗證 hook）。Yjs 只負責合併。</li>
+    <li><b>文件只會變大。</b>刪除會留下墓碑。預設開啟的 GC 會清掉被刪內容，但開著 GC 就不保留完整歷史；要做「回到舊版本」得關掉 GC，或自己存快照。</li>
+    <li><b>自己綁輸入框沒那麼簡單。</b>要處理游標位置與中文輸入法（本頁 Demo 示範了選字期間先不送出的做法）。富文本請直接用現成的編輯器綁定。</li>
+    <li><b>Apple 原生生態較弱。</b>yswift 最新版本是 0.2.1，2024 年後少有更新。Mac/iOS 原生 app 可考慮 WebView，或評估 automerge-swift。</li>
+  </ul>
+  <div class="scroll"><table class="stack"><thead><tr><th>函式庫</th><th>授權</th><th>核心</th><th>強項</th><th>適合</th></tr></thead><tbody>
+    <tr><td><b>Yjs</b></td><td>MIT</td><td>JavaScript（另有 Rust 版 yrs）</td><td>生態系最大、編輯器綁定最多、體積小</td><td>現在就要上線的協作功能</td></tr>
+    <tr><td><b>Automerge</b></td><td>MIT</td><td>Rust 核心＋JS/WASM</td><td>完整修改歷史，類似 Git 的模型</td><td>需要版本與分支的文件型 app</td></tr>
+    <tr><td><b>Loro</b></td><td>MIT</td><td>Rust 核心＋WASM</td><td>較新；可移動的樹與列表、富文本、完整歷史</td><td>願意採用新技術、需要樹狀資料</td></tr>
+  </tbody></table></div>
+</section>
+
+<section class="band" id="more">
+  <h2>延伸探索</h2>
+  <ul class="pit">
+    <li><a href="https://github.com/ueberdosis/hocuspocus">Hocuspocus</a>：MIT 授權的 Yjs WebSocket 後端，v4 起不只支援 Node.js 執行環境。</li>
+    <li><a href="https://github.com/y-crdt/y-crdt">y-crdt（yrs）</a>：Yjs 的 Rust 移植版，是 Python、Swift 等綁定的基礎。</li>
+    <li><a href="https://github.com/y-crdt/pycrdt">pycrdt</a>：Python 綁定，JupyterLab 的協作後端就用它。</li>
+    <li><a href="https://github.com/loro-dev/loro">Loro</a>與<a href="https://github.com/automerge/automerge">Automerge</a>：另外兩個主流 CRDT 函式庫，值得各自專門介紹一集。</li>
+    <li><a href="https://github.com/dmonad/crdt-benchmarks">crdt-benchmarks</a>：Yjs 作者維護的效能比較。</li>
+  </ul>
+</section>
+
+<footer class="band" id="sources">
+  <h2 style="font-size:22px">來源</h2>
+  <ol class="src">
+    <li><a href="https://github.com/yjs/yjs">github.com/yjs/yjs</a>：星數、forks、使用者清單、綁定與 provider 清單（讀取於 2026-11-24）</li>
+    <li><a href="https://docs.yjs.dev/yjs-in-the-wild">docs.yjs.dev/yjs-in-the-wild</a>：每週下載量超過 100 萬次</li>
+    <li>git clone yjs/yjs（2026-11-24）：commit 數、作者數、近 12 個月活躍度、v14 RC tag、MIT LICENSE</li>
+    <li>npm view yjs（2026-11-24）：latest 13.6.33、next 14.0.0-8、beta 14.0.0-16</li>
+    <li><a href="https://blog.jupyter.org/how-we-made-jupyter-notebooks-collaborative-with-yjs-b8dff6a9d8af">Jupyter Blog：How we made Jupyter Notebooks collaborative with Yjs</a></li>
+    <li><a href="https://github.com/ueberdosis/tiptap/blob/main/docs/collaboration/overview.md">Tiptap 文件：Tiptap Collaboration 建立在開源 Hocuspocus 上</a>；<a href="https://tiptap.dev/blog/release-notes/hocuspocus-4-stable-release">Hocuspocus 4 發布說明</a></li>
+    <li><a href="https://y-crdt.github.io/pycrdt">pycrdt 文件</a>；<a href="https://jupyter-ydoc.readthedocs.io/en/latest/overview.html">jupyter-ydoc 文件</a></li>
+    <li><a href="https://github.com/y-crdt/yswift/releases">yswift releases</a>、<a href="https://awesome.ecosyste.ms/projects/github.com%2Fy-crdt%2Fyswift">ecosyste.ms：yswift</a></li>
+    <li><a href="https://awesome.ecosyste.ms/projects/github.com%2Floro-dev%2Floro">ecosyste.ms：Loro（MIT）</a>；<a href="https://discuss.yjs.dev/t/yjs-vs-loro-new-crdt-lib/2567/4">Yjs 論壇：Loro 作者談 GC 與完整歷史</a></li>
+    <li>LICENSE 原文（raw.githubusercontent.com）：yjs、y-crdt、hocuspocus 皆為 MIT；pycrdt 套件標示 MIT</li>
+  </ol>
+  <p>本集由 Claude 自動選題、研究、實作，製作於 2026-11-24。</p>
+  <a class="back" href="../">← 回到開源探索誌首頁</a>
+</footer>
+
+<script src="yjs.bundle.js"></script>
+<script>
+{
+const BENCH={"node": "v22.23.5", "yjs": "13.6.33", "runs": [{"scenario": "text", "editsEach": 100, "editMs": 5.3, "mergeMs": 1.39, "syncBytes": 1799, "finalLength": 168, "converged": true, "docBytes": 1860, "docBytesV2": 1276}, {"scenario": "text", "editsEach": 1000, "editMs": 26.6, "mergeMs": 9.25, "syncBytes": 17510, "finalLength": 1611, "converged": true, "docBytes": 17571, "docBytesV2": 11272}, {"scenario": "text", "editsEach": 10000, "editMs": 269, "mergeMs": 62.4, "syncBytes": 182924, "finalLength": 16013, "converged": true, "docBytes": 182985, "docBytesV2": 116627}, {"scenario": "todo", "a": ["☑ 買牛奶", "☐ 修 bug #42（急）", "☐ 訂機票"], "b": ["☑ 買牛奶", "☐ 修 bug #42（急）", "☐ 訂機票"], "converged": true}, {"scenario": "naive-lww", "result": ["買牛奶", "修 bug #42", "訂機票"], "lostEdits": ["☑ 買牛奶", "修 bug #42（急）"]}]};
+const SEQ={"chars": 10000, "bytesV1": 30016, "bytesV2": 30031, "utf8": 30000};
+const esc=v=>String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const fmt=n=>Number(n).toLocaleString("en-US");
+const $=id=>document.getElementById(id);
+
+// ---- static run log tables
+const tr=BENCH.runs.filter(r=>r.scenario==="text");
+$("benchRows").innerHTML=tr.map(r=>`<tr><td class="n">${fmt(r.editsEach)}</td><td class="n">${r.editMs} ms</td><td class="n">${r.mergeMs} ms</td><td class="n">${fmt(r.syncBytes)} B</td><td class="n">${fmt(r.docBytes)} / ${fmt(r.docBytesV2)} B</td><td>${r.converged?"✓ 完全一致":"✗"}</td></tr>`).join("");
+const todo=BENCH.runs.find(r=>r.scenario==="todo"),lww=BENCH.runs.find(r=>r.scenario==="naive-lww");
+$("todoRows").innerHTML=`<tr><td><b>Yjs</b>（Y.Array＋Y.Map）</td><td>${todo.a.map(esc).join("<br>")}</td><td>無（兩邊結果${todo.converged?"一致":"不一致"}）</td></tr>
+<tr><td>最後存檔者贏</td><td>${lww.result.map(esc).join("<br>")}</td><td>${lww.lostEdits.map(esc).join("、")}</td></tr>`;
+$("seqB").textContent=fmt(SEQ.bytesV1);$("seqU").textContent=fmt(SEQ.utf8);
+
+// ---- copy buttons
+document.querySelectorAll("[data-copy]").forEach(b=>b.addEventListener("click",async()=>{
+  try{await navigator.clipboard.writeText($(b.dataset.copy).textContent);b.textContent="已複製"}catch(e){b.textContent="請手動選取"}
+  setTimeout(()=>b.textContent="複製",1600);
+}));
+
+// ---- simulator
+const Y=window.Y;
+if(!Y){$("narr").textContent="Yjs 函式庫沒有載入成功，互動 Demo 無法執行；下方的實際執行紀錄不受影響。";$("play").disabled=true;$("reset").disabled=true}
+else{
+const PEERS=[{k:"A",name:"Jack 的 MacBook",c:"var(--a)"},{k:"B",name:"Amy 的手機",c:"var(--b)"},{k:"C",name:"Ben 的平板",c:"var(--c)"}];
+const SEED_TEXT="週五產品會議\n- 確認 1.2 版上線日期\n- 討論定價";
+const SEED_TODOS=["買牛奶","寫週報","修 bug #42"];
+let lat=400,playing=false;
+$("lat").addEventListener("change",e=>lat=+e.target.value);
+
+$("devs").innerHTML=PEERS.map(p=>`<div class="dev" id="dev${p.k}" style="--pc:${p.c}">
+  <div class="devh"><b><span class="dot"></span>${esc(p.name)}</b><button class="net" id="net${p.k}" aria-pressed="false">連線中</button></div>
+  <textarea id="ta${p.k}" aria-label="${esc(p.name)} 的共享筆記"></textarea>
+  <ul class="todos" id="td${p.k}"></ul>
+  <form class="add" id="add${p.k}"><input id="in${p.k}" placeholder="新增待辦" aria-label="${esc(p.name)} 新增待辦" maxlength="40"><button type="submit">加入</button></form>
+  <div class="dstat" id="st${p.k}"></div></div>`).join("");
+
+function buildSeed(){const d=new Y.Doc();d.getText("note").insert(0,SEED_TEXT);const a=d.getArray("todos");SEED_TODOS.forEach(t=>{const m=new Y.Map();m.set("t",t);m.set("done",false);a.push([m])});return Y.encodeStateAsUpdate(d)}
+
+function makePeer(p,seed){
+  if(p.doc)p.doc.destroy();
+  p.doc=new Y.Doc();p.online=true;p.sent=0;p.msgs=0;p.composing=false;p.pending=false;
+  Y.applyUpdate(p.doc,seed,"seed");
+  p.text=p.doc.getText("note");p.todos=p.doc.getArray("todos");
+  p.doc.on("update",(u,origin)=>{if(origin==="remote"||origin==="seed")return;send(p,u)});
+  p.text.observe(ev=>{if(ev.transaction.origin==="input")return;remoteText(p,ev)});
+  p.todos.observeDeep(()=>{renderTodos(p);check()});
+  const ta=$("ta"+p.k);ta.value=p.text.toString();p.last=ta.value;
+  renderTodos(p);renderNet(p);stat(p);
+}
+function send(p,u){
+  p.sent+=u.length;p.msgs++;stat(p);
+  if(!p.online){check();return}
+  for(const q of PEERS)if(q!==p&&q.online)setTimeout(()=>{if(q.online&&p.online)Y.applyUpdate(q.doc,u,"remote")},lat);
+  check();
+}
+function syncPair(p,q){
+  const toQ=Y.encodeStateAsUpdate(p.doc,Y.encodeStateVector(q.doc));
+  const toP=Y.encodeStateAsUpdate(q.doc,Y.encodeStateVector(p.doc));
+  p.sent+=toQ.length;p.msgs++;q.sent+=toP.length;q.msgs++;stat(p);stat(q);
+  setTimeout(()=>{if(p.online&&q.online){Y.applyUpdate(q.doc,toQ,"remote");Y.applyUpdate(p.doc,toP,"remote")}},lat);
+}
+function setOnline(p,on){
+  p.online=on;renderNet(p);
+  if(on)for(const q of PEERS)if(q!==p&&q.online)syncPair(p,q);
+  check();
+}
+function renderNet(p){
+  const b=$("net"+p.k);b.textContent=p.online?"連線中":"已斷線";b.classList.toggle("off",!p.online);b.setAttribute("aria-pressed",String(!p.online));
+  $("dev"+p.k).classList.toggle("off",!p.online);
+}
+function stat(p){$("st"+p.k).textContent=`送出 ${fmt(p.sent)} bytes · ${p.msgs} 次 · 文件 ${fmt(Y.encodeStateAsUpdate(p.doc).length)} B`}
+function renderTodos(p){
+  const list=p.todos.toArray();
+  $("td"+p.k).innerHTML=list.length?list.map((m,i)=>`<li class="${m.get("done")?"done":""}"><input type="checkbox" data-i="${i}" ${m.get("done")?"checked":""} aria-label="完成：${esc(m.get("t"))}"><span>${esc(m.get("t"))}</span><button data-del="${i}" aria-label="刪除 ${esc(m.get("t"))}">✕</button></li>`).join(""):`<li><span style="color:var(--mute)">（清單是空的）</span></li>`;
+  stat(p);
+}
+// textarea <-> Y.Text with IME awareness
+function localText(p){
+  const ta=$("ta"+p.k),nv=ta.value,ov=p.text.toString();if(nv===ov)return;
+  let s=0;while(s<ov.length&&s<nv.length&&ov[s]===nv[s])s++;
+  let e=0;while(e<ov.length-s&&e<nv.length-s&&ov[ov.length-1-e]===nv[nv.length-1-e])e++;
+  p.doc.transact(()=>{if(ov.length-s-e>0)p.text.delete(s,ov.length-s-e);if(nv.length-s-e>0)p.text.insert(s,nv.slice(s,nv.length-e))},"input");
+  p.last=nv;
+}
+function remoteText(p,ev){
+  const ta=$("ta"+p.k);
+  if(p.composing){p.pending=true;check();return}
+  let a=ta.selectionStart,b=ta.selectionEnd,idx=0;
+  for(const op of ev.delta){
+    if(op.retain)idx+=op.retain;
+    else if(op.insert){const n=op.insert.length;if(idx<a)a+=n;if(idx<b)b+=n;idx+=n}
+    else if(op.delete){const n=op.delete;if(idx<a)a-=Math.min(n,a-idx);if(idx<b)b-=Math.min(n,b-idx)}
+  }
+  const focused=document.activeElement===ta;
+  ta.value=p.text.toString();p.last=ta.value;
+  if(focused)ta.setSelectionRange(a,b);
+  check();
+}
+for(const p of PEERS){
+  const ta=()=>$("ta"+p.k);
+  $("ta"+p.k).addEventListener("compositionstart",()=>{const t=ta();p.composing=true;p.pending=false;p.base=t.value;p.rel=Y.createRelativePositionFromTypeIndex(p.text,t.selectionStart)});
+  $("ta"+p.k).addEventListener("compositionend",()=>{
+    p.composing=false;const t=ta();
+    if(!p.pending){localText(p);return}
+    p.pending=false;const ov=p.base,nv=t.value;
+    let s=0;while(s<ov.length&&s<nv.length&&ov[s]===nv[s])s++;
+    let e=0;while(e<ov.length-s&&e<nv.length-s&&ov[ov.length-1-e]===nv[nv.length-1-e])e++;
+    const del=ov.length-s-e,ins=nv.slice(s,nv.length-e);
+    const ap=Y.createAbsolutePositionFromRelativePosition(p.rel,p.doc);let at=ap?ap.index:Math.min(s,p.text.length);
+    p.doc.transact(()=>{if(del>0)p.text.delete(at,Math.min(del,p.text.length-at));if(ins)p.text.insert(at,ins)},"input");
+    t.value=p.text.toString();p.last=t.value;const c=Math.min(at+ins.length,t.value.length);if(document.activeElement===t)t.setSelectionRange(c,c);check();
+  });
+  $("ta"+p.k).addEventListener("input",e=>{if(p.composing||e.isComposing)return;localText(p)});
+  $("net"+p.k).addEventListener("click",()=>{if(!playing)setOnline(p,!p.online)});
+  $("td"+p.k).addEventListener("change",e=>{const i=e.target.dataset.i;if(i==null)return;const m=p.todos.get(+i);if(m)p.doc.transact(()=>m.set("done",!m.get("done")),"local")});
+  $("td"+p.k).addEventListener("click",e=>{const i=e.target.closest("button")?.dataset.del;if(i==null)return;if(+i<p.todos.length)p.doc.transact(()=>p.todos.delete(+i,1),"local")});
+  $("add"+p.k).addEventListener("submit",e=>{e.preventDefault();const inp=$("in"+p.k),v=inp.value.trim();if(!v)return;p.doc.transact(()=>{const m=new Y.Map();m.set("t",v);m.set("done",false);p.todos.push([m])},"local");inp.value=""});
+}
+let ct=null;
+function check(){clearTimeout(ct);ct=setTimeout(()=>{
+  const snap=PEERS.map(p=>JSON.stringify([p.text.toString(),p.todos.toJSON()]));
+  const same=snap.every(s=>s===snap[0]);const off=PEERS.filter(p=>!p.online).length;
+  const b=$("badge");b.classList.toggle("diff",!same);
+  b.textContent=same?"三台內容一致 ✓":(off?`內容暫時不同（${off} 台離線）`:"同步中…");
+},60)}
+function reset(){const seed=buildSeed();PEERS.forEach(p=>makePeer(p,seed));check()}
+reset();
+$("reset").addEventListener("click",()=>{if(!playing){reset();$("narr").textContent="已重來。任何一台都可以直接打字、勾選、斷線。"}});
+
+const wait=ms=>new Promise(r=>setTimeout(r,ms));
+const say=t=>{$("narr").textContent=t};
+$("play").addEventListener("click",async()=>{
+  if(playing)return;playing=true;$("play").disabled=true;$("reset").disabled=true;
+  try{
+    reset();const [A,B,C]=PEERS;
+    say("① Amy 和 Ben 進了電梯，手機和平板都斷線了。");await wait(300);setOnline(B,false);setOnline(C,false);await wait(1400);
+    say("② 三個人同時改同一行：Amy 補了日期，Ben 補了會議室，Jack 加了一條新的。待辦也各改各的。");
+    const line=s=>s.indexOf("\n",s.indexOf("\n")+1);
+    B.doc.transact(()=>{B.text.insert(line(B.text.toString()),"（Amy：客戶說改下週一）");B.todos.get(0).set("done",true)},"local");await wait(500);
+    C.doc.transact(()=>{C.text.insert(line(C.text.toString()),"（Ben：會議室訂好了）");C.todos.delete(1,1);const m=new Y.Map();m.set("t","準備 demo 機");m.set("done",false);C.todos.push([m])},"local");await wait(500);
+    A.doc.transact(()=>{A.text.insert(A.text.length,"\n- Jack：記得錄影");A.todos.get(2).set("t","修 bug #42（急）")},"local");
+    await wait(1800);
+    say("③ 現在三台內容都不一樣。離線時本來就會這樣，資料都還在各自的裝置上。");await wait(2200);
+    say("④ 重新連線：彼此交換狀態向量，只傳對方缺少的更新…");setOnline(B,true);await wait(lat+600);setOnline(C,true);await wait(lat*2+900);
+    say("⑤ 三台完全一致，沒有任何一筆修改遺失。如果用「最後存檔者贏」，會有人的修改被直接蓋掉（下方 B 項有實測對照）。");
+  }finally{playing=false;$("play").disabled=false;$("reset").disabled=false}
+});
+}
+}
+</script>
+</body>
+</html>

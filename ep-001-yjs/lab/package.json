@@ -1,0 +1,21 @@
+{
+  "name": "ep-001-yjs-lab",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "yjs": "13.6.33",
+    "@hocuspocus/server": "4.9.0",
+    "@hocuspocus/provider": "4.9.0",
+    "ws": "8.23.0"
+  },
+  "devDependencies": {
+    "esbuild": "0.24.2"
+  },
+  "scripts": {
+    "bench": "node bench.mjs",
+    "seq": "node seq.mjs",
+    "interop": "node interop.mjs && python3 interop.py && node interop2.mjs",
+    "hocuspocus": "node hp.mjs",
+    "bundle": "esbuild entry.js --bundle --minify --format=iife --outfile=../yjs.bundle.js"
+  }
+}

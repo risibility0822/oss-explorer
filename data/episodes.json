@@ -1,0 +1,36 @@
+[
+ {
+  "no": 1,
+  "id": "ep-001",
+  "date": "2026-11-24",
+  "title": "Yjs：幫任何 App 加上 Google Docs 式的多人協作",
+  "oneliner": "一套 CRDT 函式庫：多台裝置（就算離線）同時改同一份資料，重連後自動合併、不互相覆蓋。",
+  "domain": "開發者工具",
+  "format": "單品",
+  "tier": "巨星",
+  "lens": "厲害",
+  "resources": [
+   {
+    "name": "yjs/yjs",
+    "url": "https://github.com/yjs/yjs",
+    "license": "MIT",
+    "stars": "23.0k",
+    "lang": "JavaScript"
+   }
+  ],
+  "path": "ep-001-yjs/",
+  "lab": "ep-001-yjs/lab",
+  "demo": "三台模擬裝置跑真的 Yjs：斷線、各改同一行、重連後自動合併；另附離線合併 benchmark、JS↔Python 互通、Hocuspocus 實測。",
+  "highlights": [
+   "依序打 10,000 個中文字：文件 30,016 B，純文字 30,000 B，協作資訊幾乎不佔空間",
+   "Linear、Evernote、GitBook、JupyterLab、Proton Docs 都在用",
+   "MIT 授權；Tiptap 把開源的 Hocuspocus 包成託管服務收費"
+  ],
+  "tags": [
+   "CRDT",
+   "local-first",
+   "即時協作"
+  ],
+  "createdAt": "2026-11-24T08:37:00Z"
+ }
+]
