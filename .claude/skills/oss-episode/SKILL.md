@@ -103,7 +103,9 @@ python3 ops/bin/oss.py qa        # 真實 Chromium：桌機／手機／深色、
 4. `must_fix` 全部修掉，重跑 check／qa；`verdict` 是 `revise` 時修完再審一次，最多兩輪。第二輪還沒過，就把剩下的問題寫進頁面的 limits 區，並在最後訊息加 ⚠️。
 5. 把審查結果摘要寫進 meta.json 的 `review`（分數與一句話）。
 
-## 6. 發布 ⏱ 10 分
+## 6. 發布與線上檢查 ⏱ 20 分
+
+### 6a. 發布
 
 ```bash
 python3 ops/bin/oss.py register                   # meta.json → data/*.json（可重複執行）
@@ -112,10 +114,29 @@ python3 ops/bin/oss.py finish --review "審查：pass，正確性 5／Demo 4…"
 python3 ops/bin/oss.py publish                    # commit + push（自動 rebase、重試，失敗推到 wip 分支）
 ```
 
-1. 等約 90 秒，用 WebFetch 打開 `https://risibility0822.github.io/oss-explorer/<slug>/?v=<runId>` 確認標題出現。Pages 偶爾要好幾分鐘或先回 503，不算失敗；最後訊息照樣給網址。
-2. `python3 ops/bin/oss.py lesson "…"`：這次學到、下次用得上的事（例如某個主機被擋、某個套件的坑），一到三條，沒有就不寫。寫了要再 `publish --force` 一次。
-3. `python3 ops/bin/oss.py gate` → PASS。
-4. 照 CLAUDE.md 的格式寫最後訊息。
+### 6b. 到線上網址親自檢查、親手玩（必做，gate 會擋）⏱ 10 分
+
+自動測試只會驗證你想得到的事；讀者打開網址的那一刻才是真的考試。ep-001 就是這樣抓到「圖上的把手看起來能拖、其實拖不動」。
+
+1. `python3 ops/bin/oss.py live`：等 GitHub Pages 部署到跟 HEAD 一模一樣（最多 10 分鐘），再用真的 Chromium 打開**線上網址**：
+   - 桌機、手機、手機深色三種畫面截圖，抓 JavaScript 錯誤、網站自己的檔案載入失敗、版面溢出；
+   - 在線上跑本集的 `lab/qa_check.py`；
+   - **探索**：自動點 Demo 區的每個按鈕、調每個滑桿和選單、拖每個游標暗示能拖的東西（grab、ew-resize…），沒有任何反應的列為「可疑」；
+   - 確認首頁有這一集的連結和縮圖、feed.xml 有這一集。
+   有錯誤 → 修正 → `oss.py publish --force` → 再跑 `oss.py live`。
+2. 用 Read **打開 `.run/live/<slug>/` 的每一張截圖**（含 `*-after-play.png`），逐一處理每個「可疑」項目：真的壞了就修；是誤判就在 `--played` 裡說明為什麼。
+3. **親手玩**，就像第一次來的讀者：
+   - 有瀏覽器工具（Claude in Chrome、內建瀏覽器）就用它打開線上網址；沒有就寫一支短的 Playwright 腳本（放 `.run/live/play.py`，啟動時 `proxy={"server": os.environ["HTTPS_PROXY"]}`）對線上網址操作並截圖來看。
+   - 至少做到：桌機和手機各完整操作一次 Demo（每個範例、每個選項、上傳或輸入自己的東西、下載）；**畫面上看起來能點、能拖的東西都試一次**；把整頁捲完，看表格、圖、程式碼區塊有沒有斷行或擠壓；從首頁點進來一次。
+   - 問自己：第一次來的人知道要做什麼嗎？操作完能馬上看到結果嗎（手機上不用捲回去）？有沒有哪段讀起來太擠？
+4. 發現的問題修掉（`publish --force` → `live`），然後記錄：`python3 ops/bin/oss.py live --played "桌機：…；手機：…；發現並修正：…"`（至少 40 字）。
+5. **網路連不到網站時**（工作區允許清單沒有 `risibility0822.github.io`），`live` 會自動降級成用本機檔案跑同樣的檢查。這時另外用 WebFetch 打開線上網址（加 `?v=<runId>`）確認標題出現，照樣親手玩本機版並記錄 `--played`，最後訊息加一行 `⚠️ 線上檢查降級（連不到網站）`。
+
+### 6c. 收尾
+
+1. `python3 ops/bin/oss.py lesson "…"`：這次學到、下次用得上的事（例如某個主機被擋、某個套件的坑），一到三條，沒有就不寫。寫了要再 `publish --force` 一次。
+2. `python3 ops/bin/oss.py gate` → PASS。
+3. 照 CLAUDE.md 的格式寫最後訊息。
 
 ## 失敗處理
 

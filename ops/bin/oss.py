@@ -14,6 +14,7 @@
   build                產生 feed.xml、sitemap.xml、README 總覽表
   finish               寫入執行紀錄 data/runs.json（狀態 ok）
   publish              commit + push（自動 rebase 與重試；失敗則推到 wip 分支）
+  live [--played ...]  等 Pages 部署完成，到線上網址用真瀏覽器檢查與探索；親手玩過後用 --played 記錄
   abort --reason ...   記錄失敗、保存半成品到 wip 分支
   gate                 判斷這次 run 是否真的完成（Stop hook 使用）
   lesson "..."         追加一條經驗到 ops/LESSONS.md
@@ -134,6 +135,10 @@ def cmd_preflight(a):
         sh(sys.executable, "-m", "playwright", "install", "--with-deps", "chromium", timeout=900)
         r = sh(sys.executable, "-c", launch, timeout=120)
     need(r.returncode == 0, "Playwright + Chromium 可啟動", f"Chromium 啟動失敗（qa 無法執行）：{(r.stderr or r.stdout).strip()[-300:]}")
+    try:
+        import urllib.request; urllib.request.urlopen(SITE, timeout=20); ok("連得到網站（發布後的線上檢查可以做）")
+    except Exception as e:
+        warn(f"工作區連不到 {SITE}（{str(e)[:80]}）：發布後的線上檢查會降級成本機檢查，最後訊息要加 ⚠️。請主人把 risibility0822.github.io 加進雲端環境的網路允許清單")
     free = shutil.disk_usage(ROOT).free // 2**30; need(free >= 3, f"磁碟剩 {free} GB", f"磁碟只剩 {free} GB", is_fatal=False)
     RUN.mkdir(exist_ok=True); save(RUN / "preflight.json", {"at": iso(), "fatal": fatal})
     if fatal: die(f"Preflight 有 {fatal} 個致命問題。先處理；處理不了就 `oss.py abort --reason ...`")
@@ -457,6 +462,10 @@ def cmd_qa(a):
                         else: errs.append("lab/qa_check.py 沒有 check(page) 函式")
                     except AssertionError as e: errs.append(f"互動測試失敗：{e}")
                     except Exception as e: errs.append(f"互動測試出錯：{type(e).__name__}: {e}")
+                if name == "desktop" and not home:
+                    pg.reload(wait_until="load"); pg.wait_for_timeout(1500)
+                    elog, esus = explore(pg, label="[desktop] "); report["explore"] = elog
+                    for s_ in esus: warns.append("可疑（qa 會在線上再檢查一次）：" + s_)
                 ext_fail = [u for u in rfail if not re.match(r"https://fonts\.(googleapis|gstatic)\.com/", u)]
                 report[name] = {**info, "loadSec": round(time.time() - t0, 2), "pageErrors": perr, "consoleErrors": cerr, "failedRequests": ext_fail}
                 if perr: errs.append(f"[{name}] JavaScript 錯誤：{perr[:2]}")
@@ -486,6 +495,182 @@ def cmd_qa(a):
     if not home: step("qa", "fail" if errs else "pass", errors=len(errs), warnings=len(warns))
     if errs: die(f"qa 未通過：{len(errs)} 個錯誤")
     print("✔ qa 通過")
+
+
+# ───────────────────────── 像使用者一樣玩：找「看起來能用、其實沒反應」的控制項 ─────────────────────────
+_EXPLORE_MARK = r"""(scope) => {
+  const root = document.querySelector(scope) || document.body, out = [];
+  const vis = e => { const r = e.getBoundingClientRect(), s = getComputedStyle(e); return r.width > 4 && r.height > 4 && s.visibility !== 'hidden' && s.display !== 'none'; };
+  const nameOf = e => (e.getAttribute('aria-label') || e.textContent || e.title || e.id || e.tagName).trim().replace(/\s+/g, ' ').slice(0, 40);
+  let i = 0;
+  for (const e of root.querySelectorAll('button,[role=button],input[type=range],select')) {
+    if (!vis(e) || e.disabled || e.closest('[data-qa-skip]')) continue;
+    e.dataset.liveIdx = i; out.push({i: i++, kind: e.tagName === 'SELECT' ? 'select' : (e.type === 'range' ? 'range' : 'click'), name: nameOf(e), pressed: e.getAttribute('aria-pressed') === 'true'});
+  }
+  for (const e of root.querySelectorAll('*')) {   // 游標暗示可以拖的東西
+    if (e.dataset.liveIdx || e.closest('button,a,input,label,select,textarea,[data-qa-skip]') || !vis(e)) continue;
+    const c = getComputedStyle(e).cursor;
+    if (!/^(grab|ew-resize|col-resize|ns-resize|row-resize|move)$/.test(c)) continue;
+    if (e.parentElement && getComputedStyle(e.parentElement).cursor === c) continue;  // 只取最外層
+    e.dataset.liveIdx = i; out.push({i: i++, kind: 'drag', name: nameOf(e) + `（cursor:${c}）`});
+  }
+  return out;
+}"""
+_EXPLORE_ARM = r"""() => {
+  const sample = () => [...document.querySelectorAll('canvas')].map(c => { try { const g = c.getContext('2d', {willReadFrequently: true}); if (!g || !c.width) return ''; let s = '';
+      for (let y = 0; y < 6; y++) for (let x = 0; x < 6; x++) s += g.getImageData(Math.floor((x + .5) * c.width / 6), Math.floor((y + .5) * c.height / 6), 1, 1).data.join(','); return s; } catch (e) { return ''; } }).join('|');
+  window.__live = {n: 0, before: sample(), sample};
+  window.__liveMo && window.__liveMo.disconnect();
+  window.__liveMo = new MutationObserver(ms => { for (const m of ms) if (m.attributeName !== 'data-live-idx') window.__live.n++; });
+  window.__liveMo.observe(document.documentElement, {subtree: true, childList: true, attributes: true, characterData: true});
+}"""
+_EXPLORE_READ = "() => { const L = window.__live; return {n: L.n, canvas: L.sample() !== L.before}; }"
+
+def explore(pg, scope="[data-section=demo]", label="") -> tuple[list[str], list[str]]:
+    """點每個按鈕、拖每個游標暗示能拖的東西、調每個滑桿，看畫面有沒有任何反應。回傳 (紀錄, 可疑項目)。"""
+    log, sus = [], []
+    try: items = pg.evaluate(_EXPLORE_MARK, scope)
+    except Exception as e: return [f"探索失敗：{e}"], []
+    downloads = []; pg.on("download", lambda d: downloads.append(d.suggested_filename))
+    for it in items:
+        loc = pg.locator(f'[data-live-idx="{it["i"]}"]')
+        try:
+            loc.scroll_into_view_if_needed(timeout=3000); pg.evaluate(_EXPLORE_ARM); nd = len(downloads)
+            if it["kind"] == "click": loc.click(timeout=4000)
+            elif it["kind"] == "range": loc.focus(); pg.keyboard.press("ArrowRight", delay=30); pg.keyboard.press("ArrowRight"); pg.keyboard.press("ArrowRight")
+            elif it["kind"] == "select":
+                opts = loc.evaluate("e => [...e.options].map(o => o.value).filter(v => v !== e.value)")
+                if opts: loc.select_option(opts[0])
+            else:
+                b = loc.bounding_box(); y = b["y"] + b["height"] / 2
+                pg.mouse.move(b["x"] + b["width"] * 0.55, y); pg.mouse.down(); pg.mouse.move(b["x"] + b["width"] * 0.25, y, steps=6); pg.mouse.up()
+            pg.wait_for_timeout(1500)
+            r = pg.evaluate(_EXPLORE_READ); fx = r["n"] > 0 or r["canvas"] or len(downloads) > nd
+            log.append(f"{it['kind']}「{it['name']}」→ {'有反應' if fx else '沒反應'}")
+            if not fx and not (it["kind"] == "click" and it.get("pressed")):
+                sus.append(f"{label}{'看起來能拖、但拖了沒反應' if it['kind'] == 'drag' else '操作後畫面沒有任何變化'}：{it['kind']}「{it['name']}」")
+        except Exception as e:
+            sus.append(f"{label}無法操作 {it['kind']}「{it['name']}」：{type(e).__name__}: {str(e)[:80]}")
+    return log, sus
+
+
+# ───────────────────────── live：發布後到線上網址親自檢查 ─────────────────────────
+def _proxy():
+    px = os.environ.get("HTTPS_PROXY") or os.environ.get("https_proxy")
+    return {"server": px} if px and not os.environ.get("OSS_LIVE_BASE") else None
+
+def wait_deploy(index_url, expect: bytes, rid, timeout_s=600):
+    """輪詢線上的 index.html，直到內容跟 git HEAD 一模一樣。回傳 (True/False/None, 說明)；None＝網路不通。"""
+    import urllib.request, urllib.error
+    t0, n, last = time.time(), 0, ""
+    while time.time() - t0 < timeout_s:
+        n += 1
+        try:
+            req = urllib.request.Request(f"{index_url}?v={rid}-{n}", headers={"Cache-Control": "no-cache"})
+            body = urllib.request.urlopen(req, timeout=25).read()
+            if body == expect: return True, f"等了 {int(time.time() - t0)} 秒，線上 index.html 已與 HEAD 完全相同"
+            last = "線上還是舊版本"
+        except urllib.error.HTTPError as e: last = f"HTTP {e.code}"
+        except Exception as e:
+            last = str(e)
+            if "Tunnel connection failed" in last or "403" in last or "Name or service not known" in last:
+                return None, f"工作區網路連不到網站：{last[:160]}"
+        if n == 1: print(f"  等待 GitHub Pages 部署…（{last}）")
+        time.sleep(15)
+    return False, f"等了 {timeout_s} 秒線上仍不是最新版：{last}"
+
+def cmd_live(a):
+    c = cur(); slug = a.ep or c.get("slug")
+    if a.played is not None:
+        st = (c.get("steps") or {}).get("live", {}).get("status")
+        if st not in ("pass", "fallback"): die("請先跑 `oss.py live`（自動的線上檢查），再記錄親手實玩的結果")
+        if len(a.played.strip()) < 40: die("實玩紀錄太短：寫出你在線上版做了哪些操作（桌機與手機）、發現什麼、修了什麼")
+        step("played", "pass", note=a.played.strip()[:400])
+        runs = load(DATA / "runs.json", [])
+        for r in runs:
+            if r["runId"] == c.get("runId"):
+                r.setdefault("steps", {}).update({"live": st, "played": "pass"})
+                if st == "fallback" and "⚠️" not in (r.get("note") or ""): r["note"] = ((r.get("note") or "") + " ⚠️ 線上檢查降級為本機檢查").strip()[:300]
+        save(DATA / "runs.json", runs)
+        sh("git", "add", "data/runs.json")
+        if sh("git", "diff", "--cached", "--quiet").returncode:
+            sh("git", "commit", "-q", "-m", f"執行紀錄：{c.get('id')} 線上檢查與實玩完成", "-m", "Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>")
+            okp, why = git_push("main")
+            if not okp: die(f"推送執行紀錄失敗：{why}")
+        ok("已記錄線上實玩結果"); return
+    if not slug: die("沒有指定集數，也沒有進行中的 run")
+    if c.get("phase") != "published" and not a.ep: die("請先 `oss.py publish`")
+    ep = ROOT / slug; rid = c.get("runId") or now().strftime("%Y%m%d-%H%M")
+    out = RUN / "live" / slug; out.mkdir(parents=True, exist_ok=True)
+    base = os.environ.get("OSS_LIVE_BASE") or SITE; mode = "live"
+    expect = subprocess.run(["git", "show", f"HEAD:{slug}/index.html"], cwd=ROOT, capture_output=True).stdout
+    if not expect: die(f"git HEAD 裡沒有 {slug}/index.html，是不是還沒 publish？")
+    okd, why = wait_deploy(f"{base}{slug}/index.html", expect, rid, a.timeout)
+    srv = None
+    if okd is None:
+        warn(why); warn("改在本機用 HEAD 的檔案跑同樣的檢查（降級）。另外請用 WebFetch 打開線上網址確認內容，並在最後訊息加 ⚠️。")
+        srv, base = serve(); mode = "fallback"
+    elif okd is False:
+        step("live", "fail", note=why); die(why + "。可能 Pages 部署失敗或很慢：稍後再跑一次 `oss.py live`。")
+    else: ok(why)
+    from playwright.sync_api import sync_playwright
+    url = f"{base}{slug}/?v={rid}-live"; errs, sus, report = [], [], {"mode": mode, "url": url}
+    origin = re.match(r"https?://[^/]+", base).group(0)
+    views = [("desktop", {"width": 1280, "height": 900}, "light"), ("mobile", {"width": 375, "height": 812}, "light"), ("mobile-dark", {"width": 375, "height": 812}, "dark")]
+    try:
+        with sync_playwright() as p:
+            b = p.chromium.launch(proxy=_proxy() if mode == "live" else None)
+            for name, vp, scheme in views:
+                ctx = b.new_context(viewport=vp, color_scheme=scheme, device_scale_factor=1, is_mobile=name != "desktop", has_touch=name != "desktop", accept_downloads=True)
+                pg = ctx.new_page(); perr, cerr, rfail = [], [], []
+                pg.on("pageerror", lambda e: perr.append(str(e)))
+                pg.on("console", lambda m: cerr.append(m.text) if m.type == "error" else None)
+                pg.on("requestfailed", lambda r: rfail.append(r.url))
+                t0 = time.time(); resp = pg.goto(url, wait_until="load", timeout=60000); pg.wait_for_timeout(2500)
+                if not resp or resp.status >= 400: errs.append(f"[{name}] 網址回應 {resp.status if resp else '無'}")
+                pg.screenshot(path=str(out / f"{name}.png"))
+                v = {"loadSec": round(time.time() - t0, 2), "over": pg.evaluate("document.documentElement.scrollWidth - innerWidth")}
+                if name == "desktop":
+                    pg.screenshot(path=str(out / "desktop-full.png"), full_page=True)
+                    if (ep / "lab" / "qa_check.py").exists():
+                        import importlib.util
+                        spec = importlib.util.spec_from_file_location("qa_check_live", ep / "lab" / "qa_check.py"); mod = importlib.util.module_from_spec(spec)
+                        try:
+                            spec.loader.exec_module(mod); pg.reload(wait_until="load"); pg.wait_for_timeout(800)
+                            msgs = mod.check(pg) or []; v["interaction"] = msgs; print("  線上互動測試：" + ("；".join(map(str, msgs)) or "通過"))
+                        except AssertionError as e: errs.append(f"線上互動測試失敗：{e}")
+                        except Exception as e: errs.append(f"線上互動測試出錯：{type(e).__name__}: {e}")
+                if name in ("desktop", "mobile"):
+                    pg.goto(url + "x", wait_until="load", timeout=60000); pg.wait_for_timeout(2500)
+                    elog, esus = explore(pg, label=f"[{name}] "); v["explore"] = elog; sus += esus
+                    pg.screenshot(path=str(out / f"{name}-after-play.png"))
+                own_fail = [u for u in rfail if u.startswith(origin)]
+                if perr: errs.append(f"[{name}] JavaScript 錯誤：{perr[:2]}")
+                if own_fail: errs.append(f"[{name}] 網站自己的檔案載入失敗：{own_fail[:3]}")
+                cerr2 = [e for e in cerr if "fonts.g" not in e and "ERR_" not in e and "favicon" not in e]
+                if cerr2: errs.append(f"[{name}] console error：{cerr2[:2]}")
+                if v["over"] > 2: errs.append(f"[{name}] 版面橫向溢出 {v['over']}px")
+                v.update(pageErrors=perr, consoleErrors=cerr, failedRequests=rfail[:10]); report[name] = v; ctx.close()
+            # 首頁與 RSS 有沒有這一集
+            ctx = b.new_context(); pg = ctx.new_page()
+            pg.goto(f"{base}?v={rid}-home", wait_until="load", timeout=60000); pg.wait_for_timeout(2000)
+            home = pg.evaluate("s => ({link: !!document.querySelector(`a[href*='${s}']`), thumbs: [...document.images].filter(i => i.src.includes(s)).map(i => i.complete && i.naturalWidth > 0)})", slug)
+            if not home["link"]: errs.append("線上首頁找不到這一集的連結")
+            if home["thumbs"] and not all(home["thumbs"]): errs.append("線上首頁這一集的縮圖壞掉")
+            pg.goto(f"{base}feed.xml?v={rid}", timeout=60000)
+            if slug not in pg.content(): errs.append("線上 feed.xml 沒有這一集")
+            report["home"] = home; ctx.close(); b.close()
+    finally:
+        if srv: srv.shutdown()
+    report.update(errors=errs, suspicious=sus); save(out / "report.json", report)
+    for s_ in sus: warn("可疑：" + s_)
+    for e in errs: bad(e)
+    shots = "、".join(f"{x}.png" for x in ["desktop", "mobile", "mobile-dark", "desktop-full", "desktop-after-play", "mobile-after-play"])
+    print(f"\n線上截圖：{out.relative_to(ROOT)}/ 下的 {shots}（用 Read 全部打開來看）")
+    step("live", "fail" if errs else ("fallback" if mode == "fallback" else "pass"), errors=len(errs), suspicious=len(sus), mode=mode)
+    if errs: die(f"線上檢查有 {len(errs)} 個錯誤：修正 → `oss.py publish --force` → 再跑 `oss.py live`")
+    print(("✔ 線上自動檢查通過" if mode == "live" else "⚠️ 線上檢查降級為本機檢查（已通過）") + "。下一步：像第一次來的讀者一樣親手玩線上版（桌機和手機），"
+          "逐一處理上面的「可疑」項目，然後 `oss.py live --played \"做了哪些操作、發現什麼、修了什麼\"`")
 
 
 # ───────────────────────── register / build ─────────────────────────
@@ -656,7 +841,7 @@ def cmd_publish(a):
     set_cur(commit=sh("git", "rev-parse", "HEAD").stdout.strip())
     url = f"{SITE}{c.get('slug','')}/"
     print(f"網站會在 1–3 分鐘內更新：{url}")
-    print("下一步：等約 90 秒後用 WebFetch 打開上面網址確認（網址加 ?v=<runId> 避開快取）；然後寫最後訊息。")
+    print("下一步：`oss.py live`（等部署完成、到線上網址實際檢查與探索），然後親手玩一次並 `oss.py live --played \"…\"`。")
 
 def cmd_abort(a):
     c = cur(); record_run("failed", a.reason)
@@ -683,6 +868,11 @@ def gate_status() -> tuple[bool, str]:
         nxt = {"planned": "發掘候選 → `oss.py new <slug>`", "building": "完成頁面與 Demo → `oss.py check` → `oss.py qa` → 審查 → `oss.py register` → `oss.py build` → `oss.py finish` → `oss.py publish`",
                "registered": "`oss.py build` → `oss.py finish` → `oss.py publish`", "finished": "`oss.py publish`"}.get(phase, "依 CLAUDE.md 繼續")
         return False, f"本集 {c.get('id')} 還沒完成（目前階段：{phase}）。下一步：{nxt}。真的做不下去就 `oss.py abort --reason \"原因\"`。"
+    steps = c.get("steps") or {}
+    if steps.get("live", {}).get("status") not in ("pass", "fallback"):
+        return False, f"{c.get('id')} 已推送，但還沒做線上檢查。下一步：`oss.py live`（有錯就修 → `oss.py publish --force` → 再 live）。"
+    if steps.get("played", {}).get("status") != "pass":
+        return False, f"{c.get('id')} 線上自動檢查已過，但還沒親手玩過線上版。看 .run/live/ 的截圖、處理可疑項目、親手玩，然後 `oss.py live --played \"…\"`。"
     if sh("git", "status", "--porcelain").stdout.strip().replace(".run", "").strip():
         st = [l for l in sh("git", "status", "--porcelain").stdout.splitlines() if ".run" not in l]
         if st: return False, f"已發布，但還有未提交的變更：{st[:5]}。再跑一次 `oss.py publish --force`。"
@@ -724,6 +914,7 @@ def main():
     p = sp.add_parser("finish"); p.add_argument("--note"); p.add_argument("--review"); p.add_argument("--force", action="store_true"); p.set_defaults(f=cmd_finish)
     p = sp.add_parser("publish"); p.add_argument("--force", action="store_true"); p.set_defaults(f=cmd_publish)
     p = sp.add_parser("abort"); p.add_argument("--reason", required=True); p.set_defaults(f=cmd_abort)
+    p = sp.add_parser("live"); p.add_argument("ep", nargs="?"); p.add_argument("--played", help="記錄親手實玩線上版的結果"); p.add_argument("--timeout", type=int, default=600); p.set_defaults(f=cmd_live)
     sp.add_parser("gate").set_defaults(f=cmd_gate)
     p = sp.add_parser("lesson"); p.add_argument("text"); p.set_defaults(f=cmd_lesson)
     a = ap.parse_args(); os.chdir(ROOT); a.f(a)
