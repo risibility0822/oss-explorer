@@ -48,7 +48,7 @@ button[aria-pressed=true]{border-color:var(--ink);box-shadow:inset 0 0 0 1px var
 .checker{background-color:var(--chk1);background-image:conic-gradient(var(--chk2) 25%,transparent 0 50%,var(--chk2) 0 75%,transparent 0);background-size:22px 22px}
 /* 去背台 */
 .desk{display:grid;grid-template-columns:minmax(0,300px) minmax(0,1fr);gap:18px;align-items:start}
-@media(max-width:860px){.desk{display:flex;flex-direction:column}.desk>.panel{display:contents}.desk>.panel>*{order:3}.desk>.panel>:first-child{order:1}.desk>.stagecol{order:2}}
+@media(max-width:860px){.desk{display:flex;flex-direction:column}.desk>.panel{display:contents}.desk>.panel>*{order:4}.desk>.panel>:first-child{order:1}.desk>.stagecol{order:2}.desk>.panel>.bgwrap{order:3}}
 .panel{display:grid;gap:16px}
 .panel .pt{margin:0 0 8px;font-size:15px;color:var(--mute);font-weight:600}
 .samples{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
@@ -61,7 +61,7 @@ button[aria-pressed=true]{border-color:var(--ink);box-shadow:inset 0 0 0 1px var
 .stats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;background:var(--card);border-radius:12px;padding:12px 14px}
 .stats div{font-size:13px;color:var(--mute)}.stats b{display:block;font:700 22px/1.2 var(--head);color:var(--ink);font-variant-numeric:tabular-nums}
 .private{font-size:13px;color:var(--mute);margin:0}
-.stage{position:relative;border-radius:16px;overflow:hidden;border:1px solid var(--line);aspect-ratio:3/2;display:grid;place-items:center}
+.stage{position:relative;border-radius:16px;overflow:hidden;border:1px solid var(--line);aspect-ratio:3/2;display:grid;place-items:center;cursor:ew-resize;touch-action:pan-y;user-select:none;-webkit-user-select:none}
 .stage canvas{position:absolute;inset:0;width:100%;height:100%;object-fit:contain}
 .stage .orig{clip-path:inset(0 calc(100% - var(--split,40%)) 0 0)}
 .stage .line{position:absolute;top:0;bottom:0;left:var(--split,40%);width:3px;background:var(--cut);transform:translateX(-1px);pointer-events:none;box-shadow:0 0 0 1px rgba(0,0,0,.15)}
@@ -97,6 +97,7 @@ table{border-collapse:collapse;width:100%;font-size:15px}
 th,td{text-align:left;padding:9px 10px;border-bottom:1px solid var(--line);vertical-align:top}
 th{font-weight:600;color:var(--mute);font-size:14px}
 td.n{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+td:first-child{white-space:nowrap}
 .scroll{overflow-x:auto}
 #run .scroll:last-of-type table{max-width:860px}
 pre{background:var(--card);border-radius:12px;padding:14px 16px;font:14px/1.6 var(--mono);overflow-x:auto;margin:6px 0 0}
@@ -139,7 +140,7 @@ footer{color:var(--mute);font-size:14px}
         <input type="file" id="file" accept="image/*">
         <span>＋ 用你自己的照片（或拖曳到畫布上）</span>
       </label>
-      <div>
+      <div class="bgwrap">
         <p class="pt">背景</p>
         <div class="bgs" id="bgs">
           <button type="button" data-bg="checker" aria-pressed="true">透明</button>
@@ -155,7 +156,7 @@ footer{color:var(--mute);font-size:14px}
         <div><b id="sSize">–</b>圖片尺寸</div>
         <div><b id="sFg">–</b>前景比例</div>
       </div>
-      <p class="private">整個過程都在你的瀏覽器裡完成：照片沒有上傳到任何伺服器。網頁下載的只有模型（4.4 MB）、ONNX 執行引擎（約 15 MB）和字型。</p>
+      <p class="private">整個過程都在你的瀏覽器裡完成：照片沒有上傳到任何伺服器。網頁下載的只有模型（4.4 MB）、ONNX 執行引擎（檔案約 15 MB，傳輸時壓縮成約 4 MB）和字型。</p>
     </div>
     <div class="stagecol">
       <div class="stage checker" id="stage">
@@ -169,7 +170,7 @@ footer{color:var(--mute);font-size:14px}
       <input class="split" id="split" type="range" min="0" max="100" value="40" aria-label="原圖與去背結果的對照位置">
       <div class="stage-actions">
         <button type="button" id="download" disabled>下載 PNG</button>
-        <span class="note">拖動滑桿比較前後；下載的 PNG 會套用你選的背景（透明就保留透明）。</span>
+        <span class="note">直接在圖上左右拖（或用滑桿）比較前後；下載的 PNG 會套用你選的背景（透明就保留透明）。</span>
       </div>
       <p class="msg" id="msg" role="status"></p>
     </div>
@@ -253,8 +254,8 @@ footer{color:var(--mute);font-size:14px}
   <div class="scroll" style="margin-top:14px"><table class="stack"><thead><tr><th>模型</th><th>模型大小</th><th>咖啡杯</th><th>貓</th><th>火箭</th><th>行程 RSS 峰值（累計）</th><th>與 isnet 一致度（咖啡杯／貓／火箭）</th></tr></thead><tbody id="benchRows"></tbody></table></div>
   <p class="note">時間是 rembg Python 版每張圖 3 次的中位數。記憶體是依表格順序在同一個 Python 行程裡跑完該模型後的 RSS 峰值，包含函式庫本身的用量與前面的模型，只能看趨勢。「一致度」是各模型的遮罩跟 isnet-general-use 的 IoU，<b>不是準確率</b>（沒有人工標註的正解），只用來看模型之間差多少。birefnet-general-lite（224 MB）也試了，但單獨推論一張圖就用掉超過 6 GB 記憶體，在 8 GB 的機器上被系統終止，所以沒有列入。</p>
   <h3>B. 瀏覽器版跟 Python 版一樣嗎？</h3>
-  <p>上面的 Demo 是我照 rembg 的前後處理重寫成 JavaScript 的。用 Playwright 開真的 Chromium，對三張範例照片各跑三次取中位數，再跟 rembg Python 版在<b>同一張照片</b>上算出的遮罩比對。最後一欄是對照組：同樣用 Python，只把輸入從 scikit-image 原圖換成網頁上壓縮過的 JPEG，差異有多大。</p>
-  <div class="scroll"><table class="stack"><thead><tr><th>照片</th><th>瀏覽器推論時間</th><th>遮罩 IoU（瀏覽器 vs Python）</th><th>平均每像素差異（0–255）</th><th>對照：原圖 vs JPEG 的 IoU（都用 Python）</th></tr></thead><tbody id="parityRows"></tbody></table></div>
+  <p>上面的 Demo 是我照 rembg 的前後處理重寫成 JavaScript 的。用 Playwright 開真的 Chromium，對三張範例照片各跑三次取中位數，再跟 rembg Python 版在<b>同一張照片</b>上算出的遮罩比對。「對照組」那一欄：同樣用 Python，只把輸入從 scikit-image 原圖換成網頁上壓縮過的 JPEG，差異有多大。</p>
+  <div class="scroll"><table class="stack"><thead><tr><th>照片</th><th>瀏覽器推論時間</th><th>遮罩 IoU（瀏覽器 vs Python）</th><th>平均每像素差異（0–255）</th><th>對照組 IoU</th></tr></thead><tbody id="parityRows"></tbody></table></div>
   <p class="note" id="parityNote"></p>
 </section>
 
@@ -298,7 +299,18 @@ const prob = out[session.outputNames[0]].data;   // 320×320 的前景機率，m
 <section class="band" data-section="limits" id="limits">
   <h2>限制與比較</h2>
   <ul class="pit">
-    <li><b>程式 MIT，模型不一定。</b>rembg 的 README 寫明模型權重有各自的授權。目前的預設模型 BRIA RMBG-2.0 商用要付費簽約；u2net、u2netp 是 Apache-2.0；silueta 是社群在 U-2-Net 的 issue 裡釋出的縮小版，沒有另外宣告授權；isnet 的程式是 Apache-2.0，但訓練資料集 DIS5K 的使用條款限非商用研究或教育用途；BiRefNet 是 MIT（但 general 權重同樣用 DIS5K 訓練）；SAM 是 Apache-2.0。有趣的是，BRIA RMBG-2.0 本身就是 BiRefNet 架構、用 BRIA 自己取得授權的資料重新訓練。同一個架構，授權卻完全不同，關鍵在權重和訓練資料。做產品前，逐一確認你要用的模型。</li>
+    <li><b>程式 MIT，模型不一定。</b>rembg 的 README 寫明模型權重各有授權，而且<b>訓練資料的條款也會影響能不能商用</b>。做產品前，逐一確認你要用的模型：</li>
+  </ul>
+  <div class="scroll"><table class="stack"><thead><tr><th>模型</th><th>程式／權重授權</th><th>已知的訓練資料條款</th><th>商用</th></tr></thead><tbody>
+    <tr><td><b>u2net、u2netp</b></td><td>Apache-2.0</td><td>–</td><td>✅ 權重授權允許；本集 Demo 用的就是 u2netp</td></tr>
+    <tr><td><b>silueta</b></td><td>社群在 U-2-Net issue 裡釋出的縮小版，沒有另外宣告授權</td><td>–</td><td>⚠️ 授權不明</td></tr>
+    <tr><td><b>isnet-general-use</b></td><td>程式 Apache-2.0，權重沒有另外宣告</td><td>DIS5K：限非商用研究或教育用途</td><td>⚠️ 灰色地帶</td></tr>
+    <tr><td><b>BiRefNet</b></td><td>程式與權重 MIT</td><td>general 權重也用了 DIS5K</td><td>⚠️ 灰色地帶</td></tr>
+    <tr><td><b>BRIA RMBG-2.0</b>（rembg 2.0.87 的預設）</td><td>權重 CC BY-NC 4.0</td><td>BRIA 自己取得授權的資料</td><td>❌ 要向 BRIA 購買授權</td></tr>
+    <tr><td><b>SAM</b></td><td>Apache-2.0</td><td>–</td><td>✅ 權重授權允許（用法是點選指定物體）</td></tr>
+  </tbody></table></div>
+  <p class="note">「–」代表這集沒有查證它的訓練資料條款；表格不是法律意見，正式商用前請自行確認。有趣的是，BRIA RMBG-2.0 本身就是 BiRefNet 架構，只是用 BRIA 自己的資料重新訓練：同一個架構，授權卻完全不同，關鍵在權重和訓練資料，不在程式碼。</p>
+  <ul class="pit">
     <li><b>大模型很吃記憶體。</b>實測跑到 isnet-general-use 時，Python 行程的記憶體峰值約 1.9 GB；birefnet-general-lite 在 8 GB 的機器上推論一張 600×400 的圖就超過 6 GB 被終止。要跑大模型的伺服器得規劃足夠的記憶體，或先把圖縮小。</li>
     <li><b>毛髮、半透明、主體不明確，是共同的弱點。</b>貓那張，U²-Net 系列在邊緣留下半透明的背景；火箭那張，各模型對「什麼是主體」意見分歧。需要精細邊緣時，rembg 另有 alpha matting 等後處理選項可以試。</li>
     <li><b>macOS 有內建對手。</b>macOS 14／iOS 17 起，Apple 的 Vision 框架提供 <code>VNGenerateForegroundInstanceMaskRequest</code>，可以擷取任何類別的前景主體，免費而且在裝置上跑。做 Apple 平台的 app，差異化要放在工作流程，不是去背本身。</li>
@@ -471,7 +483,14 @@ $("file").addEventListener("change",e=>runFile(e.target.files[0]).catch(()=>{}))
 ["dragover","dragenter"].forEach(ev=>stage.addEventListener(ev,e=>{e.preventDefault();stage.style.outline="3px dashed var(--cut)"}));
 ["dragleave","drop"].forEach(ev=>stage.addEventListener(ev,e=>{e.preventDefault();stage.style.outline=""}));
 stage.addEventListener("drop",e=>runFile(e.dataTransfer.files[0]).catch(()=>{}));
-$("split").addEventListener("input",e=>stage.style.setProperty("--split",e.target.value+"%"));
+const setSplit=v=>{v=Math.max(0,Math.min(100,Math.round(v)));$("split").value=v;stage.style.setProperty("--split",v+"%")};
+$("split").addEventListener("input",e=>setSplit(+e.target.value));
+// 直接在畫面上拖（滑鼠或手指左右拖）；touch-action:pan-y 讓手機上下捲動不受影響
+let dragging=false;
+const splitAt=e=>{const r=stage.getBoundingClientRect();setSplit((e.clientX-r.left)/r.width*100)};
+stage.addEventListener("pointerdown",e=>{if(e.button>0)return;dragging=true;stage.setPointerCapture(e.pointerId);splitAt(e)});
+stage.addEventListener("pointermove",e=>{if(dragging)splitAt(e)});
+["pointerup","pointercancel"].forEach(ev=>stage.addEventListener(ev,()=>{dragging=false}));
 $("bgs").addEventListener("click",e=>{const b=e.target.closest("button[data-bg]");if(!b)return;bgMode=b.dataset.bg;document.querySelectorAll("#bgs button").forEach(x=>x.setAttribute("aria-pressed",String(x===b)));drawBg()});
 $("download").addEventListener("click",()=>{
   if(!current)return; const {W,H}=current, c=canvasOf(W,H), g=c.getContext("2d");

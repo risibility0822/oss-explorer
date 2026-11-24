@@ -37,6 +37,17 @@ def check(page):
     page.dispatch_event("#split", "input")
     assert page.evaluate("getComputedStyle(document.getElementById('stage')).getPropertyValue('--split').trim()") == "75%", "對照滑桿沒有作用"
     log.append("對照滑桿正常")
+    # 直接在圖上拖（看起來能拖的把手就要能拖）
+    box = page.locator("#stage").bounding_box()
+    y = box["y"] + box["height"] / 2
+    page.mouse.move(box["x"] + box["width"] * 0.5, y)
+    page.mouse.down()
+    page.mouse.move(box["x"] + box["width"] * 0.2, y, steps=5)
+    page.mouse.up()
+    v = float(page.evaluate("getComputedStyle(document.getElementById('stage')).getPropertyValue('--split')").strip().rstrip("%"))
+    assert 15 <= v <= 25, f"在圖上拖動後對照位置應約 20%，實際 {v}%"
+    assert page.input_value("#split") == str(int(v)), "拖動後下方滑桿沒有同步"
+    log.append(f"在圖上直接拖動正常（{v:.0f}%）")
     # 上傳自己的照片（用火箭照片模擬）
     page.set_input_files("#file", str(IMG / "rocket.jpg"))
     page.wait_for_function("document.getElementById('sSize').textContent==='640×427'", timeout=30000)

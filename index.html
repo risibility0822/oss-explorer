@@ -183,7 +183,7 @@ function renderEps(){
   if(!list.length){$("epList").innerHTML=`<div class="empty-state">沒有符合篩選條件的集數。</div>`;return}
   $("epList").innerHTML=list.map(e=>{
     const u=e.path?e.path:safeUrl(e.url);
-    const res=(e.resources||[]).map(x=>{const ru=safeUrl(x.url);return (ru?`<a href="${esc(ru)}">${esc(x.name)}</a>`:esc(x.name))+(x.license?` · ${esc(x.license)}`:"")+(x.stars?` · ★${esc(x.stars)}`:"")}).join("　／　");
+    const res=(e.resources||[]).map(x=>{const ru=safeUrl(x.url);return (ru?`<a href="${esc(ru)}">${esc(x.name)}</a>`:esc(x.name))+(x.license?` · ${esc(x.license)}`:"")+(x.stars&&/\d/.test(x.stars)?` · ★${esc(x.stars)}`:"")}).join("　／　");
     const tags=[e.domain,e.format,e.tier,e.lens&&("主鏡頭："+e.lens)].filter(Boolean).map((t,i)=>`<span class="tag${i===3?" hot":""}">${esc(t)}</span>`).join("")+(e.tags||[]).map(t=>`<span class="tag">${esc(t)}</span>`).join("");
     const hl=(e.highlights||[]).length?`<ul class="hl">${e.highlights.map(h=>`<li>${esc(h)}</li>`).join("")}</ul>`:"";
     return `<article class="ep" id="ep-${pad(e.no)}">
@@ -225,7 +225,7 @@ $("onlyStar").addEventListener("click",e=>{S.onlyStar=!S.onlyStar;e.currentTarge
     const last=Array.isArray(runs)&&runs.length?runs[runs.length-1]:null;
     if(last){const t=String(last.endedAt||"").replace("T"," ").slice(0,16),okr=last.status==="ok";
       const rl=$("runline");rl.classList.toggle("fail",!okr);
-      rl.textContent=okr?`上次自動執行：${t}（成功${last.episode?"，出刊 "+last.episode:""}）`:`上次自動執行：${t} 失敗：${last.note||"原因未記錄"}`;}
+      rl.textContent=okr?`上次執行：${t}（成功${last.episode?"，出刊 "+last.episode:""}）`:`上次執行：${t} 失敗：${last.note||"原因未記錄"}`;}
     $("status").textContent="";renderAll();
   }catch(e){$("status").textContent="資料讀取失敗，請重新整理。"}
 })();
