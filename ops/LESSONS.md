@@ -31,3 +31,4 @@
 - 2026-11-24：impeccable 偵測器在 jsdom 裡讀不懂混了 var() 的 font 簡寫和 padding-block，會誤報「字級階層太平」「內距擠」：字型與內距請寫成分開的屬性（font-size、padding-top…）。另外 .wrap 用 padding 簡寫會蓋掉 section 的上下留白（CSS 權重陷阱），左右留白請用 padding-left/right。
 - 2026-11-25：WebFetch 在新環境也受網路允許清單限制（news.ycombinator.com、hn.algolia.com、joelgrus.com 都 ENOTFOUND），api.github.com/repos/<owner>/<repo> 對未掛載的 repo 會回『not enabled for this session』，但 search/repositories?q=repo:owner/name 拿得到星數與授權。
 - 2026-11-25：系統的 python3 PIL 壞掉（cannot import _imaging），qa 縮圖會失敗；先 python3 -m pip install --user --force-reinstall --no-deps pillow 就好。手機上寬的 inline SVG 圖會把字縮到 5px，設 min-width 並包在 .scroll 裡。
+- 2026-11-25：解釋用圖（visual-explainer 原則）：主線要有一張「畫機制」的圖（資料怎麼流、箭頭寫動詞），流程用步驟圖（上一步／下一步，預設停在最後一步＝完整圖），圖上的數字最好接 Demo 的真實計算（ep-002 用 HW.run 的中間值）。每張圖的 figcaption 寫結論；figcaption 必須是 figure 的直接子元素（html-validate 會擋）。手機上 SVG 小字至少 16 單位。

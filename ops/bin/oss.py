@@ -39,8 +39,9 @@ DOMAINS = ["AI 模型與推論", "AI 應用與 Agent 框架", "開發者工具",
            "隱私・安全・網路", "硬體・IoT・嵌入式・機器人", "生產力・知識管理・桌面 App", "好玩・怪奇・創意程式・藝術"]
 FORMATS, TIERS, LENSES = ["單品", "組合技"], ["巨星", "寶石", "新星"], ["厲害", "好玩", "商業潛力"]
 # 版型：主線（30 秒卡 → Demo → 三個發現 → 點子）一眼看完；其餘全部收在 <details> 裡，想深入再展開
-SECTIONS = ["header", "demo", "tldr", "findings", "ideas", "how", "run", "start", "limits", "sources"]
-FOLDED = ["how", "run", "start", "limits", "more", "cross", "sources"]   # 必須包在 <details> 裡（預設收合）
+SECTIONS = ["header", "demo", "tldr", "how", "findings", "ideas", "run", "start", "limits", "sources"]
+FOLDED = ["run", "start", "limits", "more", "cross", "sources"]   # 必須包在 <details> 裡（預設收合）；how 是主線的機制圖
+MIN_MAIN_FIGURES = 4   # 主線至少 4 張 <figure>（機制圖 1＋三個發現），每張都要有 <figcaption> 寫一句結論
 MAIN_TEXT_MAX = 1500   # 主線（<details> 與 Demo 以外）可見文字的上限（字元）
 MAX_EP_BYTES, MAX_FILE_BYTES = 20 * 1024 * 1024, 45 * 1024 * 1024
 
@@ -427,7 +428,7 @@ def cmd_qa(a):
     from playwright.sync_api import sync_playwright
     srv, base = serve(); url = base if home else f"{base}{ep.name}/"; errs, warns, report = [], [], {}
     axe = OPS / "node_modules" / "axe-core" / "axe.min.js"
-    views = [("desktop", {"width": 1280, "height": 900}, "light"), ("mobile", {"width": 375, "height": 812}, "light"), ("mobile-dark", {"width": 375, "height": 812}, "dark")]
+    views = [("desktop", {"width": 1280, "height": 900}, "light"), ("mobile", {"width": 360, "height": 780}, "light"), ("mobile-dark", {"width": 360, "height": 780}, "dark")]
     try:
         with sync_playwright() as p:
             b = p.chromium.launch()
@@ -478,12 +479,19 @@ def cmd_qa(a):
                       while (t = w.nextNode()) { const p = t.parentElement; if (!p || skip(p)) continue; const st = getComputedStyle(p); if (st.display === 'none' || st.visibility === 'hidden') continue; n += t.textContent.replace(/\\s+/g, '').length; }
                       const notFolded = folded.filter(s => { const e = document.querySelector(`[data-section="${s}"]`); return e && !e.closest('details'); });
                       const openByDefault = [...document.querySelectorAll('details[open]')].length;
-                      return {mainChars: n, notFolded, openByDefault};
+                      const figs = [...document.querySelectorAll('figure')].filter(f => !f.closest('details,[data-section=demo]') && !f.parentElement.closest('figure'));
+                      const noCap = figs.filter(f => !(f.querySelector(':scope > figcaption')?.textContent.trim().length > 6)).map(f => (f.closest('[data-section]')?.dataset.section || '?') + ':' + (f.querySelector('img,svg')?.getAttribute('aria-label') || f.textContent.trim().slice(0, 20)));
+                      const how = document.querySelector('[data-section=how]'); const howFig = !!(how && how.querySelector('figure svg, figure canvas, figure img'));
+                      return {mainChars: n, notFolded, openByDefault, mainFigures: figs.length, noCaption: noCap, howFigure: howFig};
                     }""", [FOLDED]); report["layout"] = lay
                     print(f"  主線文字：{lay['mainChars']} 字（上限 {MAIN_TEXT_MAX}）")
                     if lay["mainChars"] > MAIN_TEXT_MAX: errs.append(f"主線文字 {lay['mainChars']} 字，超過 {MAIN_TEXT_MAX}：把細節移進 <details>，或刪掉讀者會跳過的句子")
                     if lay["notFolded"]: errs.append(f"這些區塊必須收在 <details> 裡：{lay['notFolded']}")
                     if lay["openByDefault"]: warns.append(f"有 {lay['openByDefault']} 個 <details> 預設展開；深入內容應該預設收合")
+                    print(f"  主線圖：{lay['mainFigures']} 張（至少 {MIN_MAIN_FIGURES}）")
+                    if lay["mainFigures"] < MIN_MAIN_FIGURES: errs.append(f"主線只有 {lay['mainFigures']} 張 <figure>，至少 {MIN_MAIN_FIGURES} 張：用圖解釋，文字只當標籤（見 visual-explainer）")
+                    if lay["noCaption"]: errs.append(f"這些圖沒有 <figcaption>（要用一句話寫出這張圖的結論）：{lay['noCaption'][:4]}")
+                    if not lay["howFigure"]: errs.append("「怎麼運作」區塊要有一張機制圖（<figure> 裡的 SVG／canvas／圖片），畫出機制而不是寫名詞")
                     pg.reload(wait_until="load"); pg.wait_for_timeout(1500)
                     elog, esus = explore(pg, label="[desktop] "); report["explore"] = elog
                     for s_ in esus: warns.append("可疑（qa 會在線上再檢查一次）：" + s_)
@@ -650,7 +658,7 @@ def cmd_live(a):
     from playwright.sync_api import sync_playwright
     url = f"{base}{slug}/?v={rid}-live"; errs, sus, report = [], [], {"mode": mode, "url": url}
     origin = re.match(r"https?://[^/]+", base).group(0)
-    views = [("desktop", {"width": 1280, "height": 900}, "light"), ("mobile", {"width": 375, "height": 812}, "light"), ("mobile-dark", {"width": 375, "height": 812}, "dark")]
+    views = [("desktop", {"width": 1280, "height": 900}, "light"), ("mobile", {"width": 360, "height": 780}, "light"), ("mobile-dark", {"width": 360, "height": 780}, "dark")]
     try:
         with sync_playwright() as p:
             b = p.chromium.launch(proxy=_proxy() if mode == "live" else None)

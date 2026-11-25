@@ -44,7 +44,7 @@ section{padding-top:clamp(28px,5vw,56px);padding-bottom:clamp(28px,5vw,56px)}
 @media(max-width:640px){.tldr dl{grid-template-columns:minmax(0,1fr);gap:2px}.tldr dd{margin-bottom:12px}}
 /* 三個發現：左邊是圖或大數字，右邊兩三句話 */
 .finding{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,6fr);gap:clamp(18px,4vw,48px);align-items:center;padding-block:24px;border-top:1px solid var(--line)}
-.finding .fig{min-height:120px}
+.finding .fig{min-height:120px;margin:0}figure{margin:0}figcaption{font-size:15px;color:var(--mute);margin-top:8px}
 @media(max-width:760px){.finding{grid-template-columns:minmax(0,1fr)}}
 /* 點子：清單，不是卡片 */
 .idea{padding-block:14px;border-top:1px solid var(--line)}.idea p{margin:2px 0 0}
@@ -70,8 +70,10 @@ footer{padding-block:32px 56px;border-top:1px solid var(--line);color:var(--mute
 </head>
 <body>
 <!-- 版型規則（oss.py check／qa 會檢查）：
-     主線 = header → demo → tldr → findings → ideas，讀者 2 分鐘內看完，可見文字 ≤ 1500 字。
-     深入 = how / run / start / limits / more / cross / sources，全部收在 <details>（預設收合）。 -->
+     主線 = header → demo → tldr → how（一張機制圖）→ findings（三張圖）→ ideas，讀者 2 分鐘內看完，
+     可見文字 ≤ 1500 字，至少 4 張 <figure>，每張都有寫結論的 <figcaption>。
+     深入 = run / start / limits / more / cross / sources，全部收在 <details>（預設收合）。
+     先讀 frontend-design 與 visual-explainer 兩份 skill。 -->
 <header class="wrap" data-section="header" style="padding-top:clamp(24px,4vw,48px)">
   <p class="kicker"><b>開源探索誌 第 {{NNN}} 集</b>　{{DATE}}　{{DOMAIN}}</p>
   <h1>{{TITLE}}</h1>
@@ -93,12 +95,20 @@ footer{padding-block:32px 56px;border-top:1px solid var(--line);color:var(--mute
   </dl>
 </section>
 
+<section class="wrap" data-section="how" id="how">
+  <h2>{{用一句話寫出機制的重點，例如「每個像素都被問一次：你是主體嗎？」}}</h2>
+  <!-- 一張機制圖：畫資料怎麼流（箭頭寫動詞、尺寸標在它量的那段上）。流程用步驟圖（上一步／下一步，一步一句圖說），可調的設定用 live figure -->
+  <figure><svg viewBox="0 0 800 300" role="img" aria-label="{{機制圖的文字描述}}">{{手寫 SVG}}</svg>
+    <figcaption>{{一句話：這張圖證明了什麼}}</figcaption></figure>
+  <p>{{最多兩三句補充；能放進圖的就放進圖}}</p>
+</section>
+
 <section class="wrap" data-section="findings" id="findings">
   <h2>{{三個發現的總標題，例如「實測後的三件事」}}</h2>
-  <!-- 恰好三個，跟 meta.highlights 一致。每個左邊是「看得到」的東西：大數字、小圖表、對照圖或號誌表；右邊兩三句話 -->
-  <div class="finding"><div class="fig">{{圖／大數字}}</div><div><h3>{{發現一}}</h3><p>{{兩三句話，數字來自 lab}}</p></div></div>
-  <div class="finding"><div class="fig">{{圖}}</div><div><h3>{{發現二}}</h3><p>{{…}}</p></div></div>
-  <div class="finding"><div class="fig">{{圖}}</div><div><h3>{{發現三}}</h3><p>{{…}}</p></div></div>
+  <!-- 恰好三個，跟 meta.highlights 一致。每個是一張 figure：圖先、字當標籤；figcaption 一句話寫結論；h3 寫重點不寫主題 -->
+  <div class="finding"><figure class="fig">{{大數字＋小圖表／對照圖／號誌表}}<figcaption>{{一句話結論}}</figcaption></figure><div><h3>{{發現一（寫重點）}}</h3><p>{{兩三句，數字來自 lab}}</p></div></div>
+  <div class="finding"><figure class="fig">{{圖}}<figcaption>{{結論}}</figcaption></figure><div><h3>{{發現二}}</h3><p>{{…}}</p></div></div>
+  <div class="finding"><figure class="fig">{{圖}}<figcaption>{{結論}}</figcaption></figure><div><h3>{{發現三}}</h3><p>{{…}}</p></div></div>
 </section>
 
 <section class="wrap" data-section="ideas" id="ideas">
@@ -109,7 +119,6 @@ footer{padding-block:32px 56px;border-top:1px solid var(--line);color:var(--mute
 
 <section class="wrap deep" aria-label="深入">
   <h2>想深入再展開</h2>
-  <details data-section="how" id="how"><summary><b>它怎麼運作</b><span>{{一句話說明裡面有什麼}}</span></summary><div class="body">{{原理圖 inline SVG＋說明}}</div></details>
   <details data-section="run" id="run"><summary><b>實測紀錄</b><span>{{一句話}}</span></summary><div class="body">
     <p>{{DATE}} 在雲端工作區實際執行。腳本與原始輸出在 <a href="{{REPO}}/tree/main/{{SLUG}}/lab">lab/ 資料夾</a>，clone 下來就能重跑。</p>
     {{指令、版本、數字、輸出}}</div></details>

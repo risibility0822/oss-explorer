@@ -74,11 +74,11 @@ clone 到 `/home/claude/work/<id>/src/<name>/`（新的空目錄）。收集：
 
 `new` 已經建好骨架：`index.html`（每個 `data-section` 都要保留）、`meta.json`、`lab/`。
 
-**先讀兩份設計文件**：`.claude/skills/frontend-design/SKILL.md`（品味）與同資料夾的 `design.md`（版型）。在 `<style>` 開頭寫五行設計計畫，對照 AI 預設特徵檢查過再動工。
+**先讀三份設計文件**：`.claude/skills/frontend-design/SKILL.md`（品味）、`.claude/skills/visual-explainer/SKILL.md` 與它的 `references/`（怎麼解釋；工具部分不用，見 NOTICE.md）、同資料夾的 `design.md`（版型）。在 `<style>` 開頭寫五行設計計畫，對照 AI 預設特徵檢查過再動工。
 
 **內容**（版型照骨架，細節見 design.md）
-- **主線**（讀者 2 分鐘看完，可見文字 ≤ 1500 字，Demo 不計）：`header` 標題寫結論 → `demo` 第一屏 → `tldr` 30 秒看懂（四句話）→ `findings` 實測後的三個發現（每個配大數字或圖）→ `ideas` 3–5 個點子（一句話＋工作量；至少一個貼近主人背景：macOS app、Python/FastAPI、台灣市場；主人有收藏的點子時，至少一個延伸那個方向）。
-- **深入**（全部收在 `<details>`，預設收合）：`how` 原理圖、`run` 實測紀錄與 lab 連結、`start` 實測過的最小程式碼、`limits` 授權陷阱與替代品比較表、`more` 延伸資源與跨集組合（第 2 集起至少一個 `../ep-XXX-slug/`）、`sources` 至少 5 個來源。
+- **主線**（讀者 2 分鐘看完，可見文字 ≤ 1500 字，Demo 不計）：`header` 標題寫結論 → `demo` 第一屏 → `tldr` 30 秒看懂（四句話）→ `how` 一張機制圖（畫機制不畫名詞，流程用步驟圖）→ `findings` 實測後的三個發現（每個是一張 figure，圖說寫結論）→ `ideas` 3–5 個點子（一句話＋工作量；至少一個貼近主人背景：macOS app、Python/FastAPI、台灣市場；主人有收藏的點子時，至少一個延伸那個方向）。
+- **深入**（全部收在 `<details>`，預設收合）：`run` 實測紀錄與 lab 連結、`start` 實測過的最小程式碼、`limits` 授權陷阱與替代品比較表、`more` 延伸資源與跨集組合（第 2 集起至少一個 `../ep-XXX-slug/`）、`sources` 至少 5 個來源。
 - 寫完把每一句主線讀一遍：拿掉它，Jack 會少知道什麼？答不出來就刪。
 
 **設計**：每集的視覺從主題本身取材，不要長得一樣；第 001 集是版型的範例，不是視覺的範本。
