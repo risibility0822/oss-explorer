@@ -2,7 +2,29 @@
 
 **讀者是 Jack**：忙碌的獨立開發者，在手機推播點進來，想在 2 分鐘內知道「這是什麼、值不值得我花時間、我能拿它做什麼」，然後玩一下 Demo。他會跳過大段文字。所以：**主線短、看得到、可以玩；細節全部收起來，想看的人自己展開。**
 
-動工前一定要先讀兩份 skill：`.claude/skills/frontend-design/SKILL.md`（品味）與 `.claude/skills/visual-explainer/SKILL.md`＋它的 `references/`（怎麼把一件事解釋清楚；它的 kit 與 render 工具我們不用，見 NOTICE.md）。這份文件負責「版型」。
+動工前一定要先讀三份 skill：`.claude/skills/frontend-design/SKILL.md`（品味）、`.claude/skills/visual-explainer/SKILL.md`＋`references/`（怎麼用圖解釋）、`.claude/skills/eli5-method/`（怎麼對完全外行的人解釋）。它們的工具都不用，見各自的 NOTICE.md。這份文件負責「版型」與「系列骨架」。
+
+## 系列骨架（全站統一，check 會擋覆寫）
+
+每集一定要引用 `../assets/series.css`：字型（Noto Sans TC＋Bricolage Grotesque）、版面、標題、30 秒看懂、發現、圖說（自動編號「圖 1」）、步驟圖、點子、深入區、表格、頁尾都長得一樣，像同一本雜誌的不同期。**每集只能決定三件事**：
+
+1. **主題色**：在 `:root` 設 `--accent`（重點）、`--accent-ink`（當文字用，對白底 ≥ 4.5:1）、`--accent-soft`（淡底）、`--stage`（Demo 舞台底），亮暗各一個值。顏色從主題來（logo、領域慣用色），寫出出處。
+2. **Demo**：Demo 自己的元素可以完全自由設計，這是每集唯一大膽的地方。選擇器用 `#demo` 或 `.demo-*` 開頭。
+3. **2–3 個主題小細節**（visual-explainer 的 topic motif）：Demo 舞台的質感（洞洞板、透明棋盤格、等高線）、一種主題符號、一個字體習慣。拿掉不會更難讀的就不要。
+
+不能在本集的 `<style>` 改 body、h1–h3、section、footer、figcaption、.wrap、.kicker、.dek、.tldr、.finding、.idea、.deep、.stepper、.mech 的樣式。骨架本身有問題，就改 `assets/series.css`（影響所有集數，要在 lesson 寫明）。
+
+## 讀者什麼都不懂（eli5-method＋白話寫作）
+
+假設讀者是聰明但完全外行的人：不知道什麼是神經網路、ReLU、ONNX、CRDT，甚至不知道 FizzBuzz。
+
+1. **先寫答案句**：一句話（約 25 字內）說出這東西替人做了什麼，放在標題下（`.dek`），也是機制圖第 1 步的標題。
+2. **先背景、再新東西**：30 秒看懂的第一格是「先說背景」，用日常語言講這個領域平常怎麼做、有什麼問題。
+3. **名詞第一次出現就解釋**：`<dfn>ReLU</dfn><span class="gloss">（負數變 0、正數照舊的小開關）</span>`。主線裡沒解釋的術語，設計審查會退回。能換成白話的就直接換掉。
+4. **機制圖從兩格長大**：第 1 步只有「你（或你碰到的東西）」和「結果」，中間是黑盒子；每步打開一點、加 1–3 個部分；最後一步才是全圖，裡面沒有讀者沒看過的東西。圖上標籤三個詞以內、寫它做什麼；真名放副標或深入區。
+5. **每步一句白話**：聰明的 12 歲小孩讀一次就懂；先說發生什麼，再說代表什麼。比喻只放在說明文字，不放在圖上的標籤。
+6. **不要用**：「利用、實現、賦能、底層、pipeline、抽象層」這類空詞。說它做了什麼。
+
 
 ## 版型（check／qa 會強制）
 

@@ -74,7 +74,7 @@ clone 到 `/home/claude/work/<id>/src/<name>/`（新的空目錄）。收集：
 
 `new` 已經建好骨架：`index.html`（每個 `data-section` 都要保留）、`meta.json`、`lab/`。
 
-**先讀三份設計文件**：`.claude/skills/frontend-design/SKILL.md`（品味）、`.claude/skills/visual-explainer/SKILL.md` 與它的 `references/`（怎麼解釋；工具部分不用，見 NOTICE.md）、同資料夾的 `design.md`（版型）。在 `<style>` 開頭寫五行設計計畫，對照 AI 預設特徵檢查過再動工。
+**先讀四份設計文件**：`.claude/skills/frontend-design/SKILL.md`（品味）、`.claude/skills/visual-explainer/SKILL.md` 與它的 `references/`（怎麼用圖解釋）、`.claude/skills/eli5-method/`（怎麼對完全外行的人解釋）、同資料夾的 `design.md`（版型與系列骨架 `assets/series.css`）。工具部分都不用，見各自的 NOTICE.md。在 `<style>` 開頭寫五行設計計畫，對照 AI 預設特徵檢查過再動工。
 
 **內容**（版型照骨架，細節見 design.md）
 - **主線**（讀者 2 分鐘看完，可見文字 ≤ 1500 字，Demo 不計）：`header` 標題寫結論 → `demo` 第一屏 → `tldr` 30 秒看懂（四句話）→ `how` 一張機制圖（畫機制不畫名詞，流程用步驟圖）→ `findings` 實測後的三個發現（每個是一張 figure，圖說寫結論）→ `ideas` 3–5 個點子（一句話＋工作量；至少一個貼近主人背景：macOS app、Python/FastAPI、台灣市場；主人有收藏的點子時，至少一個延伸那個方向）。

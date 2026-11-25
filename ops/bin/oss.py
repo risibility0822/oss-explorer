@@ -343,6 +343,12 @@ def cmd_check(a):
             if not re.match(r"https://fonts\.(googleapis|gstatic)\.com", u): warns.append(f"外部資源（網站上可用，但工作區測不到）：{u}")
         elif u in ("../feed.xml",): pass  # build 產生
         elif not (ep / u.split("?")[0]).exists(): errs.append(f"<{tag}> 指到不存在的檔案：{u}")
+    # 系列骨架：一定要引用 ../assets/series.css，而且本集的 <style> 不能覆寫骨架的版面與字型
+    if not re.search(r'<link[^>]+href="\.\./assets/series\.css"', text): errs.append('沒有引用系列骨架 <link rel="stylesheet" href="../assets/series.css">')
+    for css in re.findall(r"<style[^>]*>(.*?)</style>", text, re.S):
+        css = re.sub(r"/\*.*?\*/", "", css, flags=re.S)
+        bad_sel = sorted(set(m.group(2) for m in re.finditer(r"(^|[}\s,])(body|h1|h2|h3|section|footer|figcaption|\.wrap|\.kicker|\.dek|\.tldr|\.finding|\.idea|\.effort|\.deep|\.stepper|\.mech)(?=[\s{.:,\[>])[^{}]*\{", css)))
+        if bad_sel: errs.append(f"本集的 <style> 覆寫了系列骨架的樣式：{bad_sel}。每集只能改 :root 的 --accent／--accent-ink／--accent-soft／--stage、Demo 自己的元素，以及 2–3 個主題小細節")
     if "../" not in col.links: errs.append("缺「回到首頁」連結 href=\"../\"")
     if not any("feedback.md" in l for l in col.links): errs.append("缺 feedback.md 評分連結")
     if not any(f"/tree/main/{ep.name}/lab" in l for l in col.links): errs.append(f"Demo 區缺 lab/ 連結（{REPO_URL}/tree/main/{ep.name}/lab）")

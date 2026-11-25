@@ -12,72 +12,36 @@
 <meta property="og:type" content="article">
 <link rel="alternate" type="application/atom+xml" title="開源探索誌" href="../feed.xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<!-- 字型：依主題挑選（Google Fonts），中文一定要有 Noto Sans TC 或 Noto Serif TC -->
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;600;800&display=swap" rel="stylesheet">
+<!-- 系列字型（固定）：Noto Sans TC＋Bricolage Grotesque。Demo 需要特別字型可以再加一個 -->
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,800&family=Noto+Sans+TC:wght@400;600;700;800&display=swap" rel="stylesheet">
+<!-- 系列骨架（固定，不要覆寫）：版面、字型、30 秒看懂、發現、圖說、步驟圖、點子、深入區 -->
+<link rel="stylesheet" href="../assets/series.css">
 <style>
-/* ===== 設計計畫（先讀 .claude/skills/frontend-design/SKILL.md 與 oss-episode/design.md，寫完再動工）=====
+/* ===== 本集設計（先讀 frontend-design、visual-explainer、eli5-method 與 oss-episode/design.md）=====
    SUBJECT: {{這集主題的世界：材料、行話、慣用的視覺}}
-   COLOR:   {{4–6 個有名字的色票，從主題取材；深色模式是同一個點子的夜間版}}
-   TYPE:    {{字型與角色}}
-   LAYOUT:  {{主線版面一句話；唯一大膽的地方在哪}}
-   CHECKED: {{對照 frontend-design 列的 AI 預設特徵，哪些刻意避開了}}
-   ===== 下面是安全的基礎（保留），顏色與字型請依主題改 ===== */
-:root{color-scheme:light dark;
-  --bg:light-dark(#ffffff,#1d1f23); --ink:light-dark(#16181b,#eceef1); --mute:light-dark(#5b616a,#a3a9b2);
-  --line:light-dark(#e1e4e8,#33363c); --tint:light-dark(#f3f4f6,#26282d); --accent:#d9480f;
-  --font:"Noto Sans TC",system-ui,sans-serif; --mono:ui-monospace,SFMono-Regular,Menlo,monospace}
-:root[data-theme=light]{color-scheme:light}:root[data-theme=dark]{color-scheme:dark}
-*{box-sizing:border-box;min-width:0}
-body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font);font-size:17px;line-height:1.7;overflow-x:clip}
-.wrap{max-width:1120px;margin-left:auto;margin-right:auto;padding-left:max(5vw,18px);padding-right:max(5vw,18px)}
-h1{font-size:clamp(32px,5vw,52px);line-height:1.08;margin:8px 0 12px;text-wrap:balance}
-h2{font-size:clamp(22px,2.6vw,28px);line-height:1.2;margin:0 0 16px;text-wrap:balance}
-h3{font-size:19px;line-height:1.35;margin:0 0 6px}
-p{max-width:66ch;margin:0 0 10px}
-a{color:inherit;text-underline-offset:3px;text-decoration-thickness:1px}
-button,select,input,textarea{font:inherit;font-size:16px;min-height:44px}
-:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
-section{padding-top:clamp(28px,5vw,56px);padding-bottom:clamp(28px,5vw,56px)}
-/* 30 秒卡：標籤欄＋一句話，不是卡片牆 */
-.tldr dl{display:grid;grid-template-columns:minmax(0,9em) minmax(0,1fr);gap:12px 24px;margin:0}
-.tldr dt{color:var(--mute);font-size:15px;padding-top:2px}.tldr dd{margin:0;max-width:62ch}
-@media(max-width:640px){.tldr dl{grid-template-columns:minmax(0,1fr);gap:2px}.tldr dd{margin-bottom:12px}}
-/* 三個發現：左邊是圖或大數字，右邊兩三句話 */
-.finding{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,6fr);gap:clamp(18px,4vw,48px);align-items:center;padding-block:24px;border-top:1px solid var(--line)}
-.finding .fig{min-height:120px;margin:0}figure{margin:0}figcaption{font-size:15px;color:var(--mute);margin-top:8px}
-@media(max-width:760px){.finding{grid-template-columns:minmax(0,1fr)}}
-/* 點子：清單，不是卡片 */
-.idea{padding-block:14px;border-top:1px solid var(--line)}.idea p{margin:2px 0 0}
-.effort{display:inline-block;font-size:14px;color:var(--mute);margin-inline-start:8px;font-weight:400}
-/* 深入：預設收合 */
-.deep details{border-top:1px solid var(--line)}
-.deep summary{cursor:pointer;list-style:none;padding:16px 0;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:4px 16px;align-items:baseline}
-.deep summary::-webkit-details-marker{display:none}
-.deep summary b{font-size:19px}.deep summary span{color:var(--mute);font-size:15px;grid-column:1}
-.deep summary::after{content:"＋";grid-row:1;grid-column:2;color:var(--accent);font-size:22px}
-.deep details[open] summary::after{content:"－"}
-.deep .body{padding-bottom:28px}
-pre{background:var(--tint);border-radius:10px;padding:14px 16px;font:14px/1.6 var(--mono);overflow-x:auto}
-code{overflow-wrap:anywhere}
-table{border-collapse:collapse;width:100%;font-size:15px}th,td{text-align:left;padding:9px 10px;border-bottom:1px solid var(--line);vertical-align:top}
-th{color:var(--mute);font-weight:600}td.n{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}td:first-child{white-space:nowrap}
-.scroll{overflow-x:auto}
-footer{padding-block:32px 56px;border-top:1px solid var(--line);color:var(--mute)}
-@media(max-width:600px){table{font-size:14px}.stack thead{display:none}.stack tr{display:grid;padding-block:10px}.stack td{display:flow-root;border:0;padding:3px 0;padding-inline-start:7em;text-align:start;white-space:normal}.stack td::before{content:attr(data-l);float:inline-start;width:6.5em;margin-inline-start:-7em;color:var(--mute)}.stack td:empty{display:none}}
-@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+   ACCENT:  {{主題色＝從主題來的一個顏色，例如 Postgres 藍、Rust 橘；寫出亮／暗兩個值與出處}}
+   MOTIF:   {{2–3 個主題小細節：Demo 舞台的質感、一種主題符號、一個字體習慣。拿掉不會更難讀的就不要}}
+   ANSWER:  {{答案句：這東西替人做了什麼，約 25 字內}}
+   ===== 只能設定這四個 token，加上 Demo 自己的元素與上面的小細節 ===== */
+:root{
+  --accent:light-dark({{亮}},{{暗}});
+  --accent-ink:light-dark({{亮，對白底 ≥4.5:1}},{{暗}});
+  --accent-soft:light-dark({{淡底}},{{暗淡底}});
+  --stage:light-dark({{Demo 舞台底}},{{暗}});
+}
+/* ↓ Demo 自己的元素（用 #demo 或 .demo-* 開頭的選擇器） */
 </style>
 <script>new MutationObserver(()=>{for(const c of document.querySelectorAll('.stack td:not([data-l])')){let i=0,p=c;while(p=p.previousElementSibling)i+=p.colSpan;c.dataset.l=c.closest('table').rows[0].cells[i]?.textContent||''}}).observe(document,{childList:true,subtree:true})</script>
 </head>
 <body>
 <!-- 版型規則（oss.py check／qa 會檢查）：
-     主線 = header → demo → tldr → how（一張機制圖）→ findings（三張圖）→ ideas，讀者 2 分鐘內看完，
-     可見文字 ≤ 1500 字，至少 4 張 <figure>，每張都有寫結論的 <figcaption>。
-     深入 = run / start / limits / more / cross / sources，全部收在 <details>（預設收合）。
-     先讀 frontend-design 與 visual-explainer 兩份 skill。 -->
+     主線＝header → demo → tldr → how（從兩格長大的機制圖）→ findings（三張圖）→ ideas；可見文字 ≤ 1500 字，至少 4 張 <figure>，每張有寫結論的 <figcaption>。
+     深入＝run／start／limits／more／cross／sources，全部收在 <details>。
+     讀者什麼都不懂：名詞第一次出現就用白話解釋 <dfn>名詞</dfn><span class="gloss">（白話）</span>；先講背景，再講新東西。 -->
 <header class="wrap" data-section="header" style="padding-top:clamp(24px,4vw,48px)">
-  <p class="kicker"><b>開源探索誌 第 {{NNN}} 集</b>　{{DATE}}　{{DOMAIN}}</p>
-  <h1>{{TITLE}}</h1>
-  <p>{{一句話：它是什麼、你可以在下面直接玩什麼}}</p>
+  <p class="kicker"><b>開源探索誌 第 {{NNN}} 集</b><span>{{DATE}}</span><span>{{DOMAIN}}</span></p>
+  <h1>{{結論式標題}}</h1>
+  <p class="dek">{{答案句：這東西替人做了什麼＋你可以在下面玩什麼}}</p>
 </header>
 
 <section class="wrap" data-section="demo" id="demo" aria-label="Demo">
@@ -88,32 +52,42 @@ footer{padding-block:32px 56px;border-top:1px solid var(--line);color:var(--mute
 <section class="wrap tldr" data-section="tldr" id="tldr">
   <h2>30 秒看懂</h2>
   <dl>
+    <dt>先說背景</dt><dd>{{一句話：這個領域平常的做法或問題是什麼（讀者什麼都不懂也能懂）}}</dd>
     <dt>它是什麼</dt><dd>{{一句話，含星數（日期）與授權}}</dd>
     <dt>為什麼值得看</dt><dd>{{一句話：最厲害／最好玩的那一點}}</dd>
-    <dt>要注意</dt><dd>{{一句話：最大的陷阱（授權、成熟度、效能）}}</dd>
+    <dt>要注意</dt><dd>{{一句話：最大的陷阱}}</dd>
     <dt>最適合你的點子</dt><dd>{{一句話，連到下面的點子}}</dd>
   </dl>
 </section>
 
 <section class="wrap" data-section="how" id="how">
-  <h2>{{用一句話寫出機制的重點，例如「每個像素都被問一次：你是主體嗎？」}}</h2>
-  <!-- 一張機制圖：畫資料怎麼流（箭頭寫動詞、尺寸標在它量的那段上）。流程用步驟圖（上一步／下一步，一步一句圖說），可調的設定用 live figure -->
-  <figure><svg viewBox="0 0 800 300" role="img" aria-label="{{機制圖的文字描述}}">{{手寫 SVG}}</svg>
-    <figcaption>{{一句話：這張圖證明了什麼}}</figcaption></figure>
-  <p>{{最多兩三句補充；能放進圖的就放進圖}}</p>
+  <h2>{{用一句話寫出機制的重點}}</h2>
+  <!-- 從兩格長大：第 1 步只有「你（或你碰到的東西）」和「結果」，中間是黑盒子；每一步打開一點、加 1–3 個部分；最後一步才是全圖。
+       每步：一個寫「發生什麼」的標題＋一句白話（12 歲讀得懂）。比喻只放在說明、不放在圖上的標籤。預設停在最後一步。 -->
+  <figure class="mech">
+    <svg viewBox="0 0 440 600" role="img" aria-label="{{機制圖的文字描述}}" id="mechSvg">{{手寫 SVG，各部分用 <g class="st" data-s="N"> 標出第幾步出現}}</svg>
+    <div class="stepper">
+      <ol class="caps" id="mCaps">
+        <li data-n="1" data-of="{{總步數}}"><b class="h">{{答案句}}</b>{{這是你，和你碰到的第一個東西。}}</li>
+        <li data-n="2" data-of="{{總步數}}"><b class="h">{{發生什麼}}</b>{{一句白話}}</li>
+      </ol>
+      <div class="ctrl"><button type="button" id="mPrev">上一步</button><span class="pos" id="mPos" aria-live="polite"></span><button type="button" id="mNext">下一步</button></div>
+    </div>
+    <figcaption>{{一句話：這張圖證明了什麼}}</figcaption>
+  </figure>
 </section>
 
 <section class="wrap" data-section="findings" id="findings">
-  <h2>{{三個發現的總標題，例如「實測後的三件事」}}</h2>
-  <!-- 恰好三個，跟 meta.highlights 一致。每個是一張 figure：圖先、字當標籤；figcaption 一句話寫結論；h3 寫重點不寫主題 -->
-  <div class="finding"><figure class="fig">{{大數字＋小圖表／對照圖／號誌表}}<figcaption>{{一句話結論}}</figcaption></figure><div><h3>{{發現一（寫重點）}}</h3><p>{{兩三句，數字來自 lab}}</p></div></div>
-  <div class="finding"><figure class="fig">{{圖}}<figcaption>{{結論}}</figcaption></figure><div><h3>{{發現二}}</h3><p>{{…}}</p></div></div>
-  <div class="finding"><figure class="fig">{{圖}}<figcaption>{{結論}}</figcaption></figure><div><h3>{{發現三}}</h3><p>{{…}}</p></div></div>
+  <h2>{{三個發現的總標題，寫重點，例如「全對、怕雜訊、單題很慢」}}</h2>
+  <!-- 恰好三個，跟 meta.highlights 一致。左邊一張 figure（圖先、字當標籤，figcaption 寫數字），右邊只有一個寫結論的 h3 -->
+  <div class="finding"><figure>{{圖：small multiples／長條（.bars）／對照圖／號誌表}}<figcaption>{{數字與出處}}</figcaption></figure><div><h3>{{發現一的結論}}</h3></div></div>
+  <div class="finding"><figure>{{圖}}<figcaption>{{…}}</figcaption></figure><div><h3>{{發現二}}</h3></div></div>
+  <div class="finding"><figure>{{圖}}<figcaption>{{…}}</figcaption></figure><div><h3>{{發現三}}</h3></div></div>
 </section>
 
 <section class="wrap" data-section="ideas" id="ideas">
   <h2>你可以拿它做什麼</h2>
-  <!-- 每個點子一個 class="idea"，與 meta.json 的 ideas 一致；一句話就好，細節不需要 -->
+  <!-- 每個點子一個 class="idea"，與 meta.json 的 ideas 一致；一句話就好 -->
   <div class="idea"><h3>{{點子標題}}<span class="effort">{{一個週末／一個月／長期}}</span></h3><p>{{一句話 pitch 與價值}}</p></div>
 </section>
 
@@ -122,16 +96,15 @@ footer{padding-block:32px 56px;border-top:1px solid var(--line);color:var(--mute
   <details data-section="run" id="run"><summary><b>實測紀錄</b><span>{{一句話}}</span></summary><div class="body">
     <p>{{DATE}} 在雲端工作區實際執行。腳本與原始輸出在 <a href="{{REPO}}/tree/main/{{SLUG}}/lab">lab/ 資料夾</a>，clone 下來就能重跑。</p>
     {{指令、版本、數字、輸出}}</div></details>
-  <details data-section="start" id="start"><summary><b>五分鐘上手</b><span>{{一句話}}</span></summary><div class="body">{{最小可行程式碼＋複製按鈕 <button data-copy="c1">複製</button><pre id="c1">…</pre>}}</div></details>
+  <details data-section="start" id="start"><summary><b>五分鐘上手</b><span>{{一句話}}</span></summary><div class="body">{{最小可行程式碼＋複製按鈕 <div class="codehead"><span>說明</span><button type="button" class="copybtn" data-copy="c1">複製</button></div><pre id="c1">…</pre>}}</div></details>
   <details data-section="limits" id="limits"><summary><b>授權、限制與替代品</b><span>{{一句話}}</span></summary><div class="body">{{授權陷阱、成熟度、效能；替代品比較表 class="stack"}}</div></details>
   <details data-section="more" id="more"><summary><b>延伸探索與跨集組合</b><span>{{一句話}}</span></summary><div class="body">{{3–5 個相關資源；跟以前哪一集搭配（../ep-XXX-slug/）}}</div></details>
-  <details data-section="sources" id="sources"><summary><b>來源</b><span>{{N}} 筆，數字都標了取得日期</span></summary><div class="body"><ol>{{來源連結}}</ol></div></details>
+  <details data-section="sources" id="sources"><summary><b>來源</b><span>{{N}} 筆，數字都標了取得日期</span></summary><div class="body"><ol class="src">{{來源連結}}</ol></div></details>
 </section>
 
 <footer class="wrap">
   <p>本集由 Claude 自動選題、研究、實作，製作於 {{DATE}}。</p>
-  <p><a href="https://github.com/risibility0822/oss-explorer/edit/main/feedback.md">幫這集評分或許願（feedback.md）</a></p>
-  <p><a href="../">回到開源探索誌首頁</a></p>
+  <p><a href="https://github.com/risibility0822/oss-explorer/edit/main/feedback.md">幫這集評分或許願（feedback.md）</a>　<a href="../">回到開源探索誌首頁</a></p>
 </footer>
 <script>
 {
@@ -141,9 +114,12 @@ document.querySelectorAll("[data-copy]").forEach(b=>b.addEventListener("click",a
   const t=document.getElementById(b.dataset.copy);if(!t)return;
   try{await navigator.clipboard.writeText(t.textContent);b.textContent="已複製"}catch(e){b.textContent="請手動選取"}
   setTimeout(()=>b.textContent="複製",1600)}));
-// 從網址 #錨點 直接連到收合區塊時自動展開
 const openHash=()=>{const d=document.getElementById(location.hash.slice(1));if(d&&d.tagName==="DETAILS")d.open=true};
 addEventListener("hashchange",openHash);openHash();
+// 步驟圖：<g class="st" data-s="N">、<li data-n="N">；預設停在最後一步（完整的圖），不自動播放
+{const $=id=>document.getElementById(id),groups=[...document.querySelectorAll("#mechSvg .st")],caps=[...document.querySelectorAll("#mCaps li")],N=caps.length;let step=N;
+ const go=k=>{step=Math.max(1,Math.min(N,k));groups.forEach(g=>{const s=+g.dataset.s;g.classList.toggle("off",s>step);g.classList.toggle("now",s===step&&step<N)});caps.forEach(li=>li.classList.toggle("on",+li.dataset.n===step));$("mPos").textContent=`${step} / ${N}`;$("mPrev").disabled=step===1;$("mNext").disabled=step===N};
+ if(N){$("mPrev").addEventListener("click",()=>go(step-1));$("mNext").addEventListener("click",()=>go(step+1));go(N);window.__mech={go,get step(){return step}}}}
 // ↓ 本集的 Demo 程式
 }
 </script>

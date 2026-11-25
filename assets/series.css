@@ -1,0 +1,134 @@
+/* 開源探索誌 系列骨架（全站共用）
+   每集只能設定下面「每集可調」的 token，以及 Demo 本身與 2–3 個主題小細節（見 .claude/skills/oss-episode/design.md）。
+   字型、版面、標題、30 秒看懂、發現、圖與圖說、步驟圖、點子、深入區、表格、頁尾的樣子由這裡統一決定。
+   字型（每集 <head> 都要載入）：Noto Sans TC（內文）＋ Bricolage Grotesque（大數字與英文標題）。 */
+
+:root{
+  color-scheme:light dark;
+  /* ── 系列固定 ── */
+  --bg:light-dark(#ffffff,#1c1e22);
+  --ink:light-dark(#16181b,#eceef1);
+  --mute:light-dark(#5a6069,#a4aab3);
+  --line:light-dark(#e2e5e9,#32363c);
+  --tint:light-dark(#f3f4f6,#25282d);
+  --ok:light-dark(#2b8a3e,#69db7c); --warn:light-dark(#b35c00,#ffa94d); --risk:light-dark(#c92a2a,#ff8787);
+  --font:"Noto Sans TC",system-ui,sans-serif;
+  --disp:"Bricolage Grotesque","Noto Sans TC",system-ui,sans-serif;
+  --mono:ui-monospace,SFMono-Regular,Menlo,monospace;
+  /* ── 每集可調（在本集 <style> 的 :root 覆寫）── */
+  --accent:light-dark(#d9480f,#ff8a4c);        /* 主題色：重點節點、長條、步驟編號 */
+  --accent-ink:light-dark(#b23c0c,#ff9d66);    /* 主題色當文字用（對比 ≥ 4.5:1） */
+  --accent-soft:light-dark(#fff1e8,#3a2a22);   /* 主題色的淡底 */
+  --stage:light-dark(#f3f4f6,#25282d);         /* Demo 舞台底色 */
+}
+:root[data-theme=light]{color-scheme:light}:root[data-theme=dark]{color-scheme:dark}
+*{box-sizing:border-box;min-width:0}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font);font-size:17px;line-height:1.75;overflow-x:clip;counter-reset:fig}
+.wrap{max-width:1120px;margin-left:auto;margin-right:auto;padding-left:max(5vw,18px);padding-right:max(5vw,18px)}
+section{padding-top:clamp(32px,5vw,64px);padding-bottom:clamp(32px,5vw,64px)}
+h1{font-size:clamp(30px,4.8vw,52px);line-height:1.12;font-weight:800;letter-spacing:-.01em;margin:10px 0 14px;text-wrap:balance;word-break:keep-all}
+h2{font-size:clamp(22px,2.8vw,30px);line-height:1.25;font-weight:800;margin:0 0 20px;text-wrap:balance;word-break:keep-all}
+h3{font-size:19px;line-height:1.4;font-weight:700;margin:0 0 6px;word-break:keep-all}
+p{max-width:64ch;margin:0 0 12px}
+a{color:inherit;text-underline-offset:3px;text-decoration-thickness:1px;text-decoration-color:var(--accent)}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+button,select,input,textarea{font:inherit;font-size:16px;min-height:44px;color:inherit}
+.btn,.stepper button,.copybtn{padding:8px 16px;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:var(--ink);cursor:pointer}
+.btn[aria-pressed=true]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+button:disabled{cursor:default}
+.num{font-family:var(--disp);font-variant-numeric:tabular-nums}
+
+/* ── 頁首：期數標籤＋結論式標題＋答案句 ── */
+.kicker{display:flex;flex-wrap:wrap;gap:2px 16px;align-items:baseline;margin:0;color:var(--mute);font-size:15px}
+.kicker b{color:var(--ink);font-weight:700}
+.kicker b::before{content:"";display:inline-block;width:10px;height:10px;border-radius:2px;background:var(--accent);margin-inline-end:8px;vertical-align:0}
+.kicker span{white-space:nowrap}
+.dek{font-size:19px;line-height:1.6;max-width:40ch;margin:0}
+
+/* ── 名詞第一次出現：白話註解 ── */
+dfn{font-style:normal;font-weight:700}
+.gloss{color:var(--mute)}
+
+/* ── 30 秒看懂 ── */
+.tldr dl{display:grid;grid-template-columns:minmax(0,9em) minmax(0,1fr);gap:14px 28px;margin:0}
+.tldr dt{color:var(--mute);font-size:15px;padding-top:2px}
+.tldr dd{margin:0;max-width:60ch}
+@media(max-width:640px){.tldr dl{grid-template-columns:minmax(0,1fr);gap:2px}.tldr dd{margin-bottom:14px}}
+
+/* ── 圖與圖說：系列自動編號「圖 1」「圖 2」… ── */
+figure{margin:0}
+main figure,section figure{counter-increment:fig}
+figcaption{font-size:15px;line-height:1.6;color:var(--mute);margin-top:10px;max-width:60ch}
+figcaption::before{content:"圖 " counter(fig) "　";color:var(--accent-ink);font-weight:700}
+details figure figcaption::before,[data-section=demo] figcaption::before{content:none}
+
+/* ── 機制圖（步驟圖）── */
+.mech{display:grid;grid-template-columns:minmax(0,440px) minmax(0,1fr);grid-template-rows:auto auto;column-gap:clamp(20px,4vw,56px);row-gap:12px;align-items:end}
+.mech>svg{grid-row:1/3;width:100%;height:auto;display:block;color:var(--ink)}
+.mech .stepper{grid-column:2;align-self:end}
+.mech>figcaption{grid-column:2;align-self:start;margin-top:0}
+@media(max-width:760px){.mech{grid-template-columns:minmax(0,1fr)}.mech>svg,.mech .stepper,.mech>figcaption{grid-row:auto;grid-column:1}}
+.mech text{fill:currentColor;font-family:var(--font)}
+.mech .nd{fill:var(--bg);stroke:var(--line);stroke-width:1.5}
+.mech .nd.key,.mech .st.now .nd{stroke:var(--accent);stroke-width:2.5}
+.mech .nd.you{fill:var(--accent-soft);stroke:var(--accent)}
+.mech .e{fill:none;stroke:currentColor;stroke-width:1.5}
+.mech .e.hero{stroke:var(--accent);stroke-width:3}
+.mech .v{font-size:18px;font-weight:600;font-variant-numeric:tabular-nums}
+.mech .lbl,.mech .sub{font-size:16px;fill:var(--mute)}
+.mech .st{transition:opacity .25s}.mech .st.off{opacity:.08}
+.stepper .caps{list-style:none;padding:0;margin:0 0 12px;min-height:3.6em}
+.stepper .caps li{display:none;font-size:17px;max-width:46ch}
+.stepper .caps li.on{display:block}
+.stepper .caps li b.h{display:block;font-size:19px;margin-bottom:2px}
+.stepper .caps li::before{content:attr(data-n) " / " attr(data-of);display:block;color:var(--accent-ink);font-weight:700;font-size:14px;font-variant-numeric:tabular-nums}
+.stepper .ctrl{display:flex;gap:10px;align-items:center}
+.stepper .pos{font-variant-numeric:tabular-nums;color:var(--mute);min-width:3.5em;text-align:center}
+.stepper button:disabled{opacity:.4}
+
+/* ── 三個發現：圖在左、一句結論在右 ── */
+.finding{display:grid;grid-template-columns:minmax(0,6fr) minmax(0,5fr);gap:clamp(18px,4vw,52px);align-items:center;padding-top:28px;padding-bottom:28px;border-top:1px solid var(--line)}
+.finding h3{font-size:clamp(20px,2.2vw,24px);line-height:1.35}
+@media(max-width:760px){.finding{grid-template-columns:minmax(0,1fr)}}
+.big{font-family:var(--disp);font-weight:800;font-size:clamp(46px,7vw,76px);line-height:1;letter-spacing:-.02em;font-variant-numeric:tabular-nums;color:var(--accent-ink)}
+/* 長條圖：.bars > [標籤][.t > i（寬度＝值）][數值]；參考線用 style="--ref:53%" */
+.bars{display:grid;grid-template-columns:minmax(0,6em) minmax(0,1fr) 3.2em;gap:6px 10px;align-items:center;font-size:14px;font-variant-numeric:tabular-nums}
+.bars .t{position:relative;height:16px;background:var(--tint);border-radius:4px}
+.bars .t i{display:block;height:100%;border-radius:4px;background:var(--accent)}
+.bars .t i.base{background:var(--mute)}
+.bars .v{text-align:right}
+.bars[style*="--ref"] .t::after{content:"";position:absolute;left:var(--ref);top:-3px;bottom:-3px;width:2px;background:var(--ink)}
+.bars .ref{grid-column:2;font-size:13px;color:var(--mute);padding-left:calc(var(--ref) - 3px);white-space:nowrap}
+
+/* ── 點子 ── */
+.idea{padding-top:16px;padding-bottom:14px;border-top:1px solid var(--line)}
+.idea p{margin:2px 0 0}
+.effort{font-size:14px;color:var(--mute);font-weight:400;margin-inline-start:10px;white-space:nowrap}
+
+/* ── 深入（預設收合）── */
+.deep details{border-top:1px solid var(--line)}.deep details:last-of-type{border-bottom:1px solid var(--line)}
+.deep summary{cursor:pointer;list-style:none;padding:18px 0;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:2px 16px;align-items:baseline}
+.deep summary::-webkit-details-marker{display:none}
+.deep summary b{font-size:19px}
+.deep summary span{color:var(--mute);font-size:15px;grid-column:1}
+.deep summary::after{content:"＋";grid-row:1;grid-column:2;color:var(--accent-ink);font-size:22px;line-height:1}
+.deep details[open] summary::after{content:"－"}
+.deep .body{padding-bottom:32px}
+pre{background:var(--tint);border-radius:10px;padding:14px 16px;font:14px/1.6 var(--mono);overflow-x:auto;margin:6px 0 0}
+code{font-family:var(--mono);font-size:.9em;overflow-wrap:anywhere}
+.codehead{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:18px}
+.codehead span{font-size:14px;color:var(--mute)}.codehead button{flex:none;white-space:nowrap}
+table{border-collapse:collapse;width:100%;font-size:15px}
+th,td{text-align:left;padding:9px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+th{color:var(--mute);font-weight:600;font-size:14px}
+td.n{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}td:first-child{white-space:nowrap}
+.scroll{overflow-x:auto;margin-top:10px;margin-bottom:10px}
+.src li{margin:4px 0;font-size:15px;overflow-wrap:anywhere}
+@media(max-width:600px){table{font-size:14px}.stack thead{display:none}.stack tr{display:grid;padding-top:10px;padding-bottom:10px}.stack td{display:flow-root;border:0;padding:3px 0;padding-inline-start:7.5em;text-align:start;white-space:normal}.stack td::before{content:attr(data-l);float:inline-start;width:7em;margin-inline-start:-7.5em;white-space:normal;color:var(--mute)}.stack td:empty{display:none}}
+
+/* ── 頁尾 ── */
+footer{padding-top:32px;padding-bottom:64px;border-top:1px solid var(--line);color:var(--mute);font-size:15px}
+footer a{color:var(--ink)}
+
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}

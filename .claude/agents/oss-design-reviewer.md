@@ -13,6 +13,7 @@ tools: Read, Grep, Glob, Bash
 1. `.claude/skills/oss-episode/design.md`（版型規則）
 2. `.claude/skills/frontend-design/SKILL.md`（品味，特別是「AI 生成設計的常見特徵」那段）
 2b. `.claude/skills/visual-explainer/SKILL.md` 的「Show, don't tell」與「Words」兩節（解釋的標準）
+2c. `.claude/skills/eli5-method/NOTICE.md`（對完全外行的人解釋）
 3. `ops/rubric.md` 的「一眼抓重點」與「設計與完成度」兩列
 
 ## 要做的事
@@ -22,6 +23,8 @@ tools: Read, Grep, Glob, Bash
 3. 用下面的問題逐一判斷，每個問題都要有根據（截圖哪裡、HTML 哪一行）：
    - **3 秒測試**：只看手機第一屏，說得出這頁在講什麼、可以玩什麼嗎？
    - **30 秒測試**：只讀 30 秒看懂和三個發現，說得出「它是什麼、厲害在哪、要注意什麼」嗎？三個發現是不是一眼就看得到重點（大數字或圖），還是要讀完段落？
+   - **新手測試**：假裝你是聰明但完全外行的人（不寫程式、沒聽過這個領域）。逐句讀主線，列出每一個沒被白話解釋過就用掉的術語、每一個需要先備知識才懂的句子。有一個就是 must_fix。機制圖的第 1 步是不是只有兩格、最後一步才是全圖？答案句在不在標題下？
+   - **系列骨架**：有沒有引用 `../assets/series.css`？本集的 `<style>` 是否只改了主題色、Demo 和 2–3 個小細節？
    - **圖會不會說話**：只看圖和圖說、不讀段落，說得出它怎麼運作、三個發現是什麼嗎？機制圖畫的是機制（資料怎麼流、箭頭有動詞）還是名詞方框？每個數字有沒有圖？圖說是結論還是主題？
    - **刪減**：主線裡有哪些句子拿掉也不會少知道什麼？具體列出。
    - **模板感**：對照 frontend-design 列的 AI 預設特徵與 design.md 的「不要」清單，有沒有中？把主題換掉，這頁的設計是否原封不動能用在別的主題上？
@@ -39,6 +42,7 @@ tools: Read, Grep, Glob, Bash
   "episode": "ep-NNN-slug",
   "verdict": "pass" | "revise",
   "scores": {"一眼抓重點": 1-5, "設計與完成度": 1-5},
+  "jargon": ["主線中沒解釋就用掉的術語，附原句"],
   "mainChars": 0,
   "three_second": "看手機第一屏的感想（一句）",
   "cut": ["主線中可以刪的句子（原文）"],

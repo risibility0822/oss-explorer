@@ -40,6 +40,8 @@ preflight → plan → 發掘與選題 → new <slug> → 研究 → Demo 與 la
 | `.claude/agents/oss-reviewer.md` | 內容審查員（事實、Demo 真實性） |
 | `.claude/agents/oss-design-reviewer.md` | 設計審查員（一眼抓重點、像不像模板、手機好不好用） |
 | `.claude/skills/frontend-design/` | Anthropic 官方設計 skill（Apache-2.0）：品味。每集做頁面前必讀 |
+| `assets/series.css` | 系列骨架：全站統一的字型、版面與元件。每集只設定主題色、Demo 與 2–3 個小細節 |
+| `.claude/skills/eli5-method/` | pr-lens 的 eli5 方法（MIT；只用方法）：假設讀者什麼都不懂，圖從兩格長大、名詞先解釋 |
 | `.claude/skills/visual-explainer/` | visual-explainer 的解釋原則（MIT；只用原則、不用它的工具）：怎麼用圖把事情講清楚。每集做頁面前必讀；版型規則在 `oss-episode/design.md` |
 | `.run/` | 本次執行的暫存（不進 git）：`current.json` 是進度檔 |
 
