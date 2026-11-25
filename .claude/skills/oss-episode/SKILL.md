@@ -30,7 +30,7 @@ python3 ops/bin/oss.py plan         # 解析 feedback.md，決定本集編號／
 
 **來源**（每集至少 3 個不同來源、5–10 個候選）。**資料新鮮度很重要：WebFetch 會給舊快取。**
 - GitHub 搜尋 API（網址帶日期，會拿到新資料）：`https://api.github.com/search/repositories?q=created:>YYYY-MM-DD+stars:>200+topic:<主題>&sort=stars&order=desc&per_page=20`；也可以用 `pushed:>`、`language:`、`topic:` 組合。
-- Hacker News Show HN（帶時間範圍）：`https://hn.algolia.com/api/v1/search?tags=show_hn&numericFilters=created_at_i>UNIX秒,points>50&hitsPerPage=30`
+- Hacker News Show HN（帶時間範圍）：`https://hn.algolia.com/api/v1/search?tags=show_hn&numericFilters=created_at_i>UNIX秒,points>50&hitsPerPage=30`。2026-11-25 起排程環境連不到 HN（WebFetch 回 ENOTFOUND）：連不到就改用 WebSearch 搜「Show HN <本週主題>」，不要卡在這裡。
 - 其他：trendshift.io、ossinsight.io、awesome-* 清單（awesome-selfhosted、Awesome Public Datasets）、selfh.st、console.dev、Changelog、Hugging Face Trending Papers（https://huggingface.co/papers/trending ，Papers with Code 已在 2025 年 7 月關閉）、data.gov.tw、WebSearch。
 - **不要用** `github.com/trending` 的 WebFetch 結果（實測會拿到好幾年前的快取）。
 - 其他網址加 `?v=<runId>` 避開快取。
@@ -51,7 +51,7 @@ python3 ops/bin/oss.py plan         # 解析 feedback.md，決定本集編號／
 
 clone 到 `/home/claude/work/<id>/src/<name>/`（新的空目錄）。收集：
 - 真實數據：最後 commit、近 12 個月 commit 數、作者數、版本 tag、LICENSE 原文。
-- 星數：`https://api.github.com/repos/<owner>/<repo>?v=<runId>`，標明「截至 YYYY-MM-DD」。
+- 星數與授權：`https://api.github.com/search/repositories?q=repo:<owner>/<repo>&v=<runId>`（排程環境裡 `/repos/<owner>/<repo>` 對沒掛在任務上的 repo 會回「not enabled for this session」，search 拿得到），標明「截至 YYYY-MM-DD」。授權最後仍以 clone 下來的 LICENSE 原文為準。
 - 它是什麼、誰做的、解決什麼問題、核心原理、生態系（誰在用、周邊套件、靠它賺錢的公司）、替代品、授權對商用的影響（AGPL、SSPL、BSL、CC-BY-NC、CC-BY-ND 要特別講）、成熟度與坑。
 - 每個要寫上頁面的事實都記下來源網址（之後放進 meta.json 的 `sources` 與頁尾）。
 

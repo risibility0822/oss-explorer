@@ -29,5 +29,5 @@
 - 2026-11-24：發布後要用真的瀏覽器親手玩一次線上版（不只看自動截圖）。ep-001 這樣抓到：圖上的對照把手看起來能拖卻拖不動、手機上換背景要捲回去才看得到結果、表格第一欄斷行、首頁對非 GitHub 資源顯示「★—」。自動測試只驗證你想到的事，親手玩才會發現沒想到的。
 - 2026-11-24：頁面要讓人 2 分鐘看完：主線（30 秒看懂、三個發現、點子）≤1500 字，其餘收進 <details>。舊版第 1 集 5,754 字、約 14 分鐘，主人說「塞滿八成會跳過的文字」。數字比較畫成長條、對照用並排圖，不要用段落講。
 - 2026-11-24：impeccable 偵測器在 jsdom 裡讀不懂混了 var() 的 font 簡寫和 padding-block，會誤報「字級階層太平」「內距擠」：字型與內距請寫成分開的屬性（font-size、padding-top…）。另外 .wrap 用 padding 簡寫會蓋掉 section 的上下留白（CSS 權重陷阱），左右留白請用 padding-left/right。
-- 2026-11-25：2026-11-25：WebFetch 在新環境也受網路允許清單限制（news.ycombinator.com、hn.algolia.com、joelgrus.com 都 ENOTFOUND），api.github.com/repos/<owner>/<repo> 對未掛載的 repo 會回『not enabled for this session』，但 search/repositories?q=repo:owner/name 拿得到星數與授權。
-- 2026-11-25：2026-11-25：系統的 python3 PIL 壞掉（cannot import _imaging），qa 縮圖會失敗；先 python3 -m pip install --user --force-reinstall --no-deps pillow 就好。手機上寬的 inline SVG 圖會把字縮到 5px，設 min-width 並包在 .scroll 裡。
+- 2026-11-25：WebFetch 在新環境也受網路允許清單限制（news.ycombinator.com、hn.algolia.com、joelgrus.com 都 ENOTFOUND），api.github.com/repos/<owner>/<repo> 對未掛載的 repo 會回『not enabled for this session』，但 search/repositories?q=repo:owner/name 拿得到星數與授權。
+- 2026-11-25：系統的 python3 PIL 壞掉（cannot import _imaging），qa 縮圖會失敗；先 python3 -m pip install --user --force-reinstall --no-deps pillow 就好。手機上寬的 inline SVG 圖會把字縮到 5px，設 min-width 並包在 .scroll 裡。

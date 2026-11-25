@@ -142,6 +142,12 @@ def cmd_preflight(a):
         import urllib.request; urllib.request.urlopen(SITE, timeout=20); ok("連得到網站（發布後的線上檢查可以做）")
     except Exception as e:
         warn(f"工作區連不到 {SITE}（{str(e)[:80]}）：發布後的線上檢查會降級成本機檢查，最後訊息要加 ⚠️。請主人把 risibility0822.github.io 加進雲端環境的網路允許清單")
+    pil = "from PIL import Image; Image.new('RGB',(2,2)).save('/tmp/_pf.jpg')"
+    r = sh(sys.executable, "-c", pil, timeout=60)
+    if r.returncode:
+        sh(sys.executable, "-m", "pip", "install", "-q", "--user", "--force-reinstall", "--no-deps", "--break-system-packages", "pillow", timeout=300)
+        r = sh(sys.executable, "-c", pil, timeout=60)
+    need(r.returncode == 0, "Pillow 可用（縮圖）", f"Pillow 壞掉且自動重裝失敗：{(r.stderr or '')[-200:]}", is_fatal=False)
     free = shutil.disk_usage(ROOT).free // 2**30; need(free >= 3, f"磁碟剩 {free} GB", f"磁碟只剩 {free} GB", is_fatal=False)
     RUN.mkdir(exist_ok=True); save(RUN / "preflight.json", {"at": iso(), "fatal": fatal})
     if fatal: die(f"Preflight 有 {fatal} 個致命問題。先處理；處理不了就 `oss.py abort --reason ...`")
@@ -926,8 +932,9 @@ def cmd_status(a):
 
 def cmd_lesson(a):
     p = OPS / "LESSONS.md"; t = p.read_text("utf-8") if p.exists() else "# 經驗累積\n"
-    line = f"- {today()}：{a.text.strip()}"
-    if a.text.strip()[:30] in t: print("類似的經驗已經記過了"); return
+    text = re.sub(r"^(\d{4}-\d{2}-\d{2}[：:]\s*)+", "", a.text.strip())  # 已經自帶日期就不要再加一次
+    line = f"- {today()}：{text}"
+    if text[:30] in t: print("類似的經驗已經記過了"); return
     p.write_text(t.rstrip() + "\n" + line + "\n", "utf-8"); ok("已追加到 ops/LESSONS.md")
 
 
