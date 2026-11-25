@@ -1,0 +1,4 @@
+u2netp 0.218
+silueta 0.401
+u2net 0.234
+isnet-general-use 0.329

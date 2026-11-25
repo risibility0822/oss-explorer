@@ -4,7 +4,7 @@
  "slug": "ep-001-rembg",
  "date": "2026-11-24",
  "title": "照片不用上傳，在瀏覽器裡 AI 去背（rembg）",
- "oneliner": "GitHub 上星數最多的開源去背工具之一；這集把 4.4 MB 的 u2netp 模型放進網頁，照片不離開你的裝置就能去背。",
+ "oneliner": "免費開源的去背工具 rembg，最小的 AI 模型只有 4.4 MB，小到能放進網頁：照片不用上傳，在你的瀏覽器裡就能去背。",
  "domain": "AI 模型與推論",
  "format": "單品",
  "tier": "巨星",
@@ -14,7 +14,7 @@
    "name": "danielgatis/rembg",
    "url": "https://github.com/danielgatis/rembg",
    "license": "MIT（模型另有授權）",
-   "stars": "25.7k（2026-11-24）",
+   "stars": "25.7k（2026-11-25）",
    "lang": "Python",
    "role": "main"
   },
@@ -27,11 +27,11 @@
    "role": "support"
   }
  ],
- "demo": "瀏覽器內用 onnxruntime-web 跑 u2netp：選範例或上傳照片、即時去背、換背景、下載 PNG；另附四個模型實測與瀏覽器／Python 一致性測試。",
+ "demo": "瀏覽器裡用 onnxruntime-web 跑 u2netp：選範例或放自己的照片、即時去背、換背景、下載 PNG；機制圖的每張小圖都是 Demo 真的算出來的中間結果。另附四個模型實測與瀏覽器／Python 一致性測試。",
  "highlights": [
-  "u2netp 只有 4.4 MB，2 vCPU 上每張 0.4–0.6 秒；同機的瀏覽器單執行緒約 1.6 秒，遮罩與 Python 版 IoU 0.97–0.999",
-  "模型對「主體」看法不同：同一張火箭照，u2netp 留下 2.3% 前景，isnet 連發射塔都留（約 10%）",
-  "rembg 程式是 MIT，但預設模型 RMBG-2.0 商用要付費；isnet、BiRefNet 與禁止商用的 DIS5K 有關，屬灰色地帶"
+  "u2netp 只有 4.4 MB，雲端每張 0.4–0.6 秒；瀏覽器裡約 1.6 秒，結果跟原版重疊約 97%～99.9%",
+  "模型對「主角是誰」看法不同：同一張火箭照，u2netp 只留火箭（2.3%），isnet 連發射塔都留（約 10%）",
+  "rembg 程式 MIT 可以免費商用，但預設模型 BRIA RMBG-2.0 商用要付費；BiRefNet 用了禁止商用的 DIS5K、isnet 沒寫授權，屬灰色地帶"
  ],
  "tags": [
   "去背",
@@ -48,7 +48,7 @@
   },
   {
    "title": "自架的去背 API（FastAPI）",
-   "pitch": "包裝 rembg 的伺服器模式，加 API 金鑰與用量計費，只用權重以 Apache-2.0 釋出的 u2net／u2netp，賣給不想把照片送到國外的公司。",
+   "pitch": "以 rembg 內建的 rembg s 網路服務為底，加上 API 金鑰與用量計費，只用權重以 Apache-2.0 釋出的 u2net／u2netp，賣給不想把照片送到國外、也不想自己維護的公司。",
    "effort": "一個週末",
    "value": "按張數計費；強調資料不出台灣"
   },
@@ -78,7 +78,8 @@
   "https://www.npmjs.com/package/onnxruntime-web",
   "https://scikit-image.org/docs/stable/api/skimage.data.html",
   "https://github.com/xuebinqin/DIS/blob/main/DIS5K-Dataset-Terms-of-Use.pdf",
-  "https://github.com/Bria-AI/RMBG-2.0"
+  "https://github.com/Bria-AI/RMBG-2.0",
+  "https://huggingface.co/briaai/RMBG-2.0"
  ],
  "poolAdd": [
   {

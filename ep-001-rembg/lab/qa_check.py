@@ -15,12 +15,27 @@ def _alpha_stats(page):
 
 def check(page):
     log = []
-    page.wait_for_function("document.getElementById('sInfer').textContent.includes('ms')", timeout=60000)
+    page.wait_for_function("document.getElementById('sInfer').textContent.includes('秒')", timeout=60000)
     s = _alpha_stats(page)
     assert (s["w"], s["h"]) == (600, 400), f"咖啡杯輸出尺寸不對：{s}"
     assert s["clear"] > 0.3 and s["solid"] > 0.3, f"去背結果不像去背（透明 {s['clear']:.0%}、不透明 {s['solid']:.0%}）"
     assert s["corner"] < 16 and s["center"] > 240, f"角落應透明、中央（杯子）應不透明：{s}"
     log.append(f"咖啡杯去背：透明 {s['clear']:.0%}、不透明 {s['solid']:.0%}，推論 {page.text_content('#sInfer')}")
+    # 機制圖：從第 1 步開始，小圖是 Demo 的真實中間結果
+    assert page.text_content("#mPos").strip() == "1 / 5", "機制圖應從第 1 步開始"
+    st = page.evaluate("""() => ({off:[...document.querySelectorAll('#mechSvg .st.off')].length,
+        q:getComputedStyle(document.querySelector('#mechSvg .only1')).opacity,
+        href:['mIn','mSmall','mProb','mMask','mOut'].map(i=>(document.getElementById(i).getAttribute('href')||'').slice(0,22)),
+        ms:document.getElementById('mMs').textContent})""")
+    assert st["off"] == 4 and st["q"] == "1", f"第 1 步應只有照片、黑盒子、結果：{st}"
+    assert all(h.startswith("data:image/png") for h in st["href"]), f"機制圖小圖沒有接上 Demo：{st['href']}"
+    assert "秒" in st["ms"], f"機制圖數字沒有更新：{st}"
+    page.click("#mNext"); page.click("#mNext"); page.wait_for_timeout(450)
+    assert page.text_content("#mPos").strip() == "3 / 5"
+    assert page.evaluate("getComputedStyle(document.querySelector('#mechSvg .only1')).opacity") == "0", "第 2 步之後黑盒子的？要消失"
+    page.evaluate("window.__mech.go(5)")
+    assert page.evaluate("document.querySelectorAll('#mechSvg .st.off').length") == 0
+    log.append(f"機制圖：1/5 起始、小圖接上 Demo（{st['ms']}）、步驟按鈕正常")
     # 切換到貓
     page.click("[data-sample=cat]")
     page.wait_for_function("document.getElementById('sSize').textContent==='451×300'", timeout=30000)

@@ -1,0 +1,6 @@
+# 2026-11-25 雲端工作區（2 vCPU），乾淨 venv
+$ pip install "rembg[cpu,cli]==2.0.87"   → rembg 2.0.87
+$ rembg i -m u2netp coffee.jpg out.png
+real 0m36.087s（含第一次下載 u2netp 模型與載入函式庫）
+out.png: RGBA (600, 400)  透明 0.515  不透明 0.466
+# 註：只裝 "rembg[cpu]" 不含 CLI 依賴（click 等），rembg i 會印出 'The CLI dependencies are not installed' 並結束（內容審查員以 pip --dry-run 與 rembg/cli.py 確認）。

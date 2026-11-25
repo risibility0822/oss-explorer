@@ -80,5 +80,21 @@
    "live": "fallback",
    "played": "pass"
   }
+ },
+ {
+  "runId": "20261125-1156",
+  "startedAt": "2026-11-25T11:56:12+08:00",
+  "endedAt": "2026-11-25T12:17:30+08:00",
+  "status": "ok",
+  "episode": "ep-001",
+  "note": "",
+  "steps": {
+   "check": "pass",
+   "qa": "pass",
+   "register": "pass",
+   "build": "pass",
+   "review": "pass",
+   "design": "pass"
+  }
  }
 ]
