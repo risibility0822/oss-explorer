@@ -123,7 +123,7 @@ section{padding-top:clamp(28px,5vw,56px);padding-bottom:clamp(28px,5vw,56px)}
 .deep summary::after{content:"＋";grid-row:1;grid-column:2;color:var(--accent);font-size:22px}
 .deep details[open] summary::after{content:"－"}
 .deep .body{padding-bottom:28px}
-.diagram{width:100%;max-width:760px;height:auto;display:block;margin:6px 0 14px}
+.diagram{width:100%;min-width:620px;max-width:760px;height:auto;display:block;margin:6px 0 14px}
 pre{background:var(--tint);border-radius:10px;padding:14px 16px;font:14px/1.6 var(--mono);overflow-x:auto}
 code{overflow-wrap:anywhere;font-family:var(--mono);font-size:.92em}
 table{border-collapse:collapse;width:100%;font-size:15px}th,td{text-align:left;padding:9px 10px;border-bottom:1px solid var(--line);vertical-align:top}
@@ -239,7 +239,7 @@ footer{padding-top:32px;padding-bottom:56px;border-top:1px solid var(--line);col
 <section class="wrap deep" aria-label="深入">
   <h2>想深入再展開</h2>
   <details data-section="how" id="how"><summary><b>它怎麼運作</b><span>FizzBuzz 怎麼變成 467 個比較器加一個 AND</span></summary><div class="body">
-    <svg class="diagram" viewBox="0 0 760 210" role="img" aria-label="原理圖：n 進入 333 個 n≥3k 比較器與 200 個 n≥5k 比較器，加總得到 n/3 與 n/5 的商，再算餘數、判斷是否為 0，最後用 ReLU 做 AND 得到四個輸出">
+    <div class="scroll" role="region" aria-label="原理圖（手機可左右捲動）" tabindex="0"><svg class="diagram" viewBox="0 0 760 210" role="img" aria-label="原理圖：n 進入 333 個 n≥3k 比較器與 200 個 n≥5k 比較器，加總得到 n/3 與 n/5 的商，再算餘數、判斷是否為 0，最後用 ReLU 做 AND 得到四個輸出">
       <style>.d text{font:15px 'Noto Sans TC',sans-serif;fill:currentColor}.d .m{fill:none;stroke:currentColor;stroke-width:1.5}.d .w{stroke:#a8541c;stroke-width:2;fill:none}</style>
       <g class="d" style="color:var(--ink)">
         <rect class="m" x="6" y="80" width="60" height="44" rx="8"/><text x="28" y="108">n</text>
@@ -254,7 +254,7 @@ footer{padding-top:32px;padding-bottom:56px;border-top:1px solid var(--line);col
         <path class="w" d="M270 48 H310"/><path class="w" d="M270 158 H310"/><path class="w" d="M460 48 H500"/><path class="w" d="M460 158 H500"/>
         <path class="w" d="M596 48 C615 48 612 96 630 96"/><path class="w" d="M596 158 C615 158 612 112 630 112"/>
       </g>
-    </svg>
+    </svg></div>
     <p>handwired 的程式只有四種運算：加權和、ReLU 乘積（<code>(a) × max(0, b)</code>）、四捨五入成 0／1、查表。你寫的是「建構程式」：一段普通 JS，執行一次，把運算一個個加進 <code>Circuit</code>。執行期沒有任何分支或迴圈，所以 <code>if</code> 會變成兩邊都算再挑一邊，迴圈會變成固定數量的平行運算。</p>
     <p>比較器 <code>emitCompare(n, '&gt;=', 3k)</code> 在整數格點上只要 2 個運算：<code>relu(1 − relu(3k − n))</code>，n 跨過 3k 就剛好是 1。把 333 個比較器加起來就是 ⌊n/3⌋，這是它文件裡「threshold count」的寫法。其中 [n ≥ 15]、[n ≥ 30]… 這 66 個在兩排都會用到，handwired 建構時會認出是同一個運算而共用，所以實際是 333＋200−66＝467 個 ≥ 比較器，再加 2 個「餘數＝0」的比較器。因為所有東西都是加權和與 ReLU，整個程式可以反向傳播（<code>backpropagateReference</code>），也能編譯成 WebGPU shader。</p>
     <p>雜訊實驗會壞，是因為比較器的偏差值剛好卡在整數邊界：n 剛好等於 3k 時，<code>3k − n</code> 應該是 0；係數偏一點點它就變成很小的正數或負數，ReLU 的輸出不再是整數，後面的加總與餘數判斷就跟著錯。</p>
