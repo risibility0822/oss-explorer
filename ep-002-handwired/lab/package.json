@@ -1,0 +1,7 @@
+{
+  "name": "ep-002-handwired-lab",
+  "private": true,
+  "type": "module",
+  "description": "第 002 集實測：用 handwired runtime（commit ade1a75）把 FizzBuzz 接成數值程式",
+  "devDependencies": {"esbuild": "0.25.12"}
+}

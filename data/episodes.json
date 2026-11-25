@@ -43,5 +43,43 @@
   "lab": "ep-001-rembg/lab",
   "thumb": "ep-001-rembg/og.jpg",
   "createdAt": "2026-11-24T18:40:00+08:00"
+ },
+ {
+  "no": 2,
+  "id": "ep-002",
+  "date": "2026-11-25",
+  "title": "不用訓練的神經網路：FizzBuzz 手工接線，1000 題全對",
+  "oneliner": "handwired 把 if/else 改寫成加權和與 ReLU，權重是寫出來的。我們把 FizzBuzz 接成 1,416 個運算的網路，1000 題全對，還能解凍權重加雜訊看它壞掉。",
+  "domain": "好玩・怪奇・創意程式・藝術",
+  "format": "單品",
+  "tier": "寶石",
+  "lens": "好玩",
+  "resources": [
+   {
+    "name": "chenglou/handwired",
+    "url": "https://github.com/chenglou/handwired",
+    "license": "MIT",
+    "stars": "2.2k（2026-11-24）",
+    "lang": "TypeScript",
+    "role": "main"
+   }
+  ],
+  "demo": "瀏覽器裡的 FizzBuzz 神經網路：輸入 1–1000 看兩排比較器神經元（333＋200 顆燈）亮燈；切換權重雜訊（0.01%–10%），看 1–100 答案板答錯幾題。",
+  "highlights": [
+   "0 次訓練，1–1000 全對；Joel Grus 的 TensorFlow 訓練版 100 題錯 4 題",
+   "權重偏 0.1% 就開始答錯，偏 1% 只剩約 64 題對",
+   "單次比普通 JS 慢約 7,600 倍，價值在 GPU 上大量批次"
+  ],
+  "tags": [
+   "神經網路",
+   "TypeScript",
+   "WebGPU",
+   "可微分程式",
+   "FizzBuzz"
+  ],
+  "path": "ep-002-handwired/",
+  "lab": "ep-002-handwired/lab",
+  "thumb": "ep-002-handwired/og.jpg",
+  "createdAt": "2026-11-25T08:04:49+08:00"
  }
 ]

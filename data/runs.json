@@ -26,5 +26,21 @@
    "played": "pass",
    "design": "pass"
   }
+ },
+ {
+  "runId": "20261125-0724",
+  "startedAt": "2026-11-25T07:24:46+08:00",
+  "endedAt": "2026-11-25T08:04:49+08:00",
+  "status": "ok",
+  "episode": "ep-002",
+  "note": "",
+  "steps": {
+   "check": "pass",
+   "qa": "pass",
+   "register": "pass",
+   "build": "pass",
+   "review": "pass",
+   "design": "pass"
+  }
  }
 ]

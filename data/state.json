@@ -1,13 +1,16 @@
 {
- "episodeCount": 1,
+ "episodeCount": 2,
  "domainCounts": {
-  "AI 模型與推論": 1
+  "AI 模型與推論": 1,
+  "好玩・怪奇・創意程式・藝術": 1
  },
  "recentDomains": [
-  "AI 模型與推論"
+  "AI 模型與推論",
+  "好玩・怪奇・創意程式・藝術"
  ],
  "covered": [
-  "https://github.com/danielgatis/rembg"
+  "https://github.com/danielgatis/rembg",
+  "https://github.com/chenglou/handwired"
  ],
  "pool": [
   {
@@ -57,11 +60,35 @@
    "url": "https://github.com/ZhengPeng7/BiRefNet",
    "domain": "AI 模型與推論",
    "why": "MIT 授權的高解析去背，可跟 rembg 做組合技"
+  },
+  {
+   "name": "forge",
+   "url": "https://github.com/antoinezambelli/forge",
+   "domain": "AI 應用與 Agent 框架",
+   "why": "讓本機小模型的 tool-calling 變可靠（MIT，2.3k ★），需要能在 CPU 跑的小模型才能 Demo"
+  },
+  {
+   "name": "cocoindex-code",
+   "url": "https://github.com/cocoindex-io/cocoindex-code",
+   "domain": "開發者工具",
+   "why": "輕量 AST 程式碼搜尋 CLI，給 coding agent 用（Apache-2.0，3.0k ★）"
+  },
+  {
+   "name": "pooled",
+   "url": "https://github.com/Nehanth/pooled",
+   "domain": "AI 應用與 Agent 框架",
+   "why": "瀏覽器 P2P 合力跑大模型（MIT，666 ★）"
+  },
+  {
+   "name": "Tracr",
+   "url": "https://github.com/google-deepmind/tracr",
+   "domain": "AI 模型與推論",
+   "why": "把 RASP 程式編譯成 transformer 權重，可跟 handwired 做組合技"
   }
  ],
  "wishes": [],
- "lastRunAt": "2026-11-24T19:12:44+08:00",
- "nextHint": "第 002 集：隱藏寶石（<3k ★）・單品・主鏡頭「好玩」，從還沒去過的領域挑",
+ "lastRunAt": "2026-11-25T08:04:49+08:00",
+ "nextHint": "第 003 集：回到 AI 應用與 Agent 框架，找一個能在 CPU 上真的跑起來的 Agent 工具",
  "feedback": {},
  "starNotes": []
 }

@@ -1,0 +1,3 @@
+9 { fizzbuzz: 0, fizz: 1 }
+15 { fizzbuzz: 1, fizz: 0 }
+22 { fizzbuzz: 0, fizz: 0 }

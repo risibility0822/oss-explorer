@@ -1,0 +1,13 @@
+{
+ "maxN": 1000,
+ "correct": 1000,
+ "wrong": [],
+ "operations": 1416,
+ "kinds": {
+  "affine": 475,
+  "reglu": 941
+ },
+ "depth": 8,
+ "parameters": 4320,
+ "msFor1000": 21.42
+}
