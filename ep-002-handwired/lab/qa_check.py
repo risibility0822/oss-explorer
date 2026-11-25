@@ -47,7 +47,7 @@ def check(page):
     assert s["n"] == "10" and s["word"] == "Buzz", f"點 10 應變成 Buzz：{s}"
     log.append("點答案板正常")
     # 1% 雜訊：應該答錯不少題，與 lab（種子 1 → 61 題）一致
-    page.click(".sig button[data-s='0.01']")
+    page.click(".demo-sig button[data-s='0.01']")
     s = _state(page)
     assert s["score"] == 61 and s["wrong"] == 39, f"1% 雜訊種子 1 應答對 61 題（lab/out/noise.json）：{s}"
     assert not page.is_disabled("#reseed"), "有雜訊時應可重抽"
@@ -56,27 +56,30 @@ def check(page):
     assert s2["score"] == 46, f"重抽（種子 2）應答對 46 題（lab）：{s2}"
     log.append(f"雜訊 1%：61 → 重抽 46 題，跟 lab 一致")
     # 回到原廠
-    page.click(".sig button[data-s='0']")
+    page.click(".demo-sig button[data-s='0']")
     s = _state(page)
     assert s["score"] == 100 and page.is_disabled("#reseed"), f"回原廠應 100 題且不能重抽：{s}"
     log.append("回原廠權重 100/100")
     # 機制圖：跟著 Demo 的數字更新（用網路實際算出的中間值），步驟按鈕可用
     page.fill("#n", "9"); page.press("#n", "Enter"); page.wait_for_timeout(200)
-    t = page.evaluate("({n:document.getElementById('mN').textContent, q3:document.getElementById('mQ3').textContent, z5:document.getElementById('mZ5').textContent, out:document.getElementById('mOut').textContent})")
-    assert t["n"] == "n = 9" and t["q3"].endswith("= 3") and t["z5"] == "整除？0" and t["out"] == "輸出 Fizz", f"機制圖沒跟 Demo 同步：{t}"
-    assert page.text_content("#mPos").strip() == "5 / 5", "機制圖預設應停在最後一步（完整的圖）"
-    for _ in range(4): page.click("#mPrev")
-    assert page.text_content("#mPos").strip() == "1 / 5" and page.is_disabled("#mPrev"), "上一步按到底應停在 1 / 5"
-    assert page.evaluate("document.querySelectorAll('#mechSvg .st.off').length") == 4, "第 1 步應只顯示輸入 n"
+    t = page.evaluate("({n:document.getElementById('mN').textContent, q3:document.getElementById('mQ3').textContent, z5:document.getElementById('mZ5').textContent, ans:document.getElementById('mAns').textContent, out:document.getElementById('mOut').textContent})")
+    assert t["n"] == "你輸入 9" and t["q3"] == "有 3 個 3" and t["z5"] == "不整除（0）" and t["ans"] == "答案：Fizz" and t["out"] == "輸出 Fizz", f"機制圖沒跟 Demo 同步：{t}"
+    assert page.text_content("#mPos").strip() == "1 / 6", "機制圖應從第 1 步（兩格）開始"
+    page.evaluate("window.__mech.go(6)")
+    for _ in range(5): page.click("#mPrev")
+    assert page.text_content("#mPos").strip() == "1 / 6" and page.is_disabled("#mPrev"), "上一步按到底應停在 1 / 6"
+    s1 = page.evaluate("({off:document.querySelectorAll('#mechSvg .st.off').length, box:!document.querySelector('#mechSvg .only1').classList.contains('hide')})")
+    assert s1["off"] == 5 and s1["box"], f"第 1 步應只有輸入、黑盒子與答案：{s1}"
     page.click("#mNext")
-    assert page.text_content("#mPos").strip() == "2 / 5", "下一步沒有作用"
+    assert page.text_content("#mPos").strip() == "2 / 6" and page.evaluate("document.querySelector('#mechSvg .only1').classList.contains('hide')"), "第 2 步應打開黑盒子"
+    page.evaluate("window.__mech.go(6)")
     log.append("機制圖跟 Demo 同步（9 → Fizz）、步驟按鈕正常")
     # 加雜訊時，機制圖必須顯示網路的實際值，跟輸出一致（內容審查抓到的矛盾）
     page.fill("#n", "15"); page.press("#n", "Enter")
-    page.click(".sig button[data-s='0.01']"); page.click("#reseed"); page.wait_for_timeout(200)
+    page.click(".demo-sig button[data-s='0.01']"); page.click("#reseed"); page.wait_for_timeout(200)
     m = page.evaluate("({a:document.getElementById('mA').textContent, fb:window.HW.run(15).vals[3], label:window.HW.run(15).label, lit:[...document.querySelectorAll('#mOuts rect.on')].length, word:document.getElementById('word').textContent})")
-    assert m["a"].endswith("= " + f"{m['fb']:.2f}"), f"AND 方框應顯示網路的 fizzbuzz 值：{m}"
+    assert m["a"].endswith(f"{m['fb']:.2f}"), f"「兩邊都整除？」應顯示網路的 fizzbuzz 值：{m}"
     assert m["lit"] == 1, f"四顆輸出燈應只亮一顆：{m}"
     log.append(f"雜訊下機制圖與網路一致（{m['a']} → {m['word']}）")
-    page.click(".sig button[data-s='0']")
+    page.click(".demo-sig button[data-s='0']")
     return log

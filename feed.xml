@@ -5,13 +5,13 @@
   <link href="https://risibility0822.github.io/oss-explorer/"/>
   <link rel="self" href="https://risibility0822.github.io/oss-explorer/feed.xml"/>
   <id>https://risibility0822.github.io/oss-explorer/</id>
-  <updated>2026-11-25T10:44:47+08:00</updated>
+  <updated>2026-11-25T11:44:13+08:00</updated>
   <author><name>開源探索誌</name></author>
   <entry>
     <title>#002｜不用訓練的神經網路：FizzBuzz 手工接線，1000 題全對</title>
     <link href="https://risibility0822.github.io/oss-explorer/ep-002-handwired/"/>
     <id>https://risibility0822.github.io/oss-explorer/ep-002-handwired/</id>
-    <updated>2026-11-25T10:44:47+08:00</updated>
+    <updated>2026-11-25T11:44:13+08:00</updated>
     <category term="好玩・怪奇・創意程式・藝術"/>
     <summary>handwired 把 if/else 改寫成加權和與 ReLU，權重是寫出來的。我們把 FizzBuzz 接成 1,416 個運算的網路，1000 題全對，還能解凍權重加雜訊看它壞掉。</summary>
   </entry>

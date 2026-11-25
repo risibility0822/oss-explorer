@@ -53,7 +53,7 @@
   <h2>30 秒看懂</h2>
   <dl>
     <dt>先說背景</dt><dd>{{一句話：這個領域平常的做法或問題是什麼（讀者什麼都不懂也能懂）}}</dd>
-    <dt>它是什麼</dt><dd>{{一句話，含星數（日期）與授權}}</dd>
+    <dt>它是什麼</dt><dd>{{一句話：誰做的、它怎麼做；星數放深入區，這裡只講能不能免費商用}}</dd>
     <dt>為什麼值得看</dt><dd>{{一句話：最厲害／最好玩的那一點}}</dd>
     <dt>要注意</dt><dd>{{一句話：最大的陷阱}}</dd>
     <dt>最適合你的點子</dt><dd>{{一句話，連到下面的點子}}</dd>
@@ -63,7 +63,7 @@
 <section class="wrap" data-section="how" id="how">
   <h2>{{用一句話寫出機制的重點}}</h2>
   <!-- 從兩格長大：第 1 步只有「你（或你碰到的東西）」和「結果」，中間是黑盒子；每一步打開一點、加 1–3 個部分；最後一步才是全圖。
-       每步：一個寫「發生什麼」的標題＋一句白話（12 歲讀得懂）。比喻只放在說明、不放在圖上的標籤。預設停在最後一步。 -->
+       每步：一個寫「發生什麼」的標題＋一句白話（12 歲讀得懂）。比喻只放在說明、不放在圖上的標籤。從第 1 步開始。 -->
   <figure class="mech">
     <svg viewBox="0 0 440 600" role="img" aria-label="{{機制圖的文字描述}}" id="mechSvg">{{手寫 SVG，各部分用 <g class="st" data-s="N"> 標出第幾步出現}}</svg>
     <div class="stepper">
@@ -116,10 +116,10 @@ document.querySelectorAll("[data-copy]").forEach(b=>b.addEventListener("click",a
   setTimeout(()=>b.textContent="複製",1600)}));
 const openHash=()=>{const d=document.getElementById(location.hash.slice(1));if(d&&d.tagName==="DETAILS")d.open=true};
 addEventListener("hashchange",openHash);openHash();
-// 步驟圖：<g class="st" data-s="N">、<li data-n="N">；預設停在最後一步（完整的圖），不自動播放
-{const $=id=>document.getElementById(id),groups=[...document.querySelectorAll("#mechSvg .st")],caps=[...document.querySelectorAll("#mCaps li")],N=caps.length;let step=N;
+// 步驟圖：<g class="st" data-s="N">、<li data-n="N">；從第 1 步（兩格）開始，讀者按「下一步」讓圖長大；不自動播放
+{const $=id=>document.getElementById(id),groups=[...document.querySelectorAll("#mechSvg .st")],caps=[...document.querySelectorAll("#mCaps li")],N=caps.length;let step=1;
  const go=k=>{step=Math.max(1,Math.min(N,k));groups.forEach(g=>{const s=+g.dataset.s;g.classList.toggle("off",s>step);g.classList.toggle("now",s===step&&step<N)});caps.forEach(li=>li.classList.toggle("on",+li.dataset.n===step));$("mPos").textContent=`${step} / ${N}`;$("mPrev").disabled=step===1;$("mNext").disabled=step===N};
- if(N){$("mPrev").addEventListener("click",()=>go(step-1));$("mNext").addEventListener("click",()=>go(step+1));go(N);window.__mech={go,get step(){return step}}}}
+ if(N){$("mPrev").addEventListener("click",()=>go(step-1));$("mNext").addEventListener("click",()=>go(step+1));go(1);window.__mech={go,get step(){return step}}}}
 // ↓ 本集的 Demo 程式
 }
 </script>
