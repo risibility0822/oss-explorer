@@ -87,14 +87,16 @@
   "endedAt": "2026-11-25T12:17:30+08:00",
   "status": "ok",
   "episode": "ep-001",
-  "note": "",
+  "note": "⚠️ 線上檢查降級為本機檢查",
   "steps": {
    "check": "pass",
    "qa": "pass",
    "register": "pass",
    "build": "pass",
    "review": "pass",
-   "design": "pass"
+   "design": "pass",
+   "live": "fallback",
+   "played": "pass"
   }
  }
 ]
