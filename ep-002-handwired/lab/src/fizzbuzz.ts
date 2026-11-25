@@ -26,7 +26,9 @@ export function buildFizzBuzz(maxN = MAX_N) {
     const r = circuit.affine([[n, 1], [q, -k]], 0)
     circuit.assumeRange(r, 0, k - 1); circuit.assumeGrid(r, 1)
     probe['r' + k] = r
-    return emitCompare(circuit, r, '===', c(0))
+    const d = emitCompare(circuit, r, '===', c(0))
+    probe['d' + k] = d   // 「餘數＝0？」的輸出，機制圖第 4 步直接顯示這個網路值
+    return d
   }
   const d3 = divisible(3)
   const d5 = divisible(5)

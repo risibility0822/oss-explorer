@@ -13,7 +13,7 @@ function run(n: number) {
   const vals = outWires.map((w: number) => v[w])
   let best = 0; for (let i = 1; i < 4; i++) if (vals[i] > vals[best]) best = i
   const p = built.probe
-  return {label: LABELS[best], vals, bits3: p.bits3.map((w: number) => v[w]), bits5: p.bits5.map((w: number) => v[w]), q3: v[p.q3], q5: v[p.q5], r3: v[p.r3], r5: v[p.r5]}
+  return {label: LABELS[best], vals, bits3: p.bits3.map((w: number) => v[w]), bits5: p.bits5.map((w: number) => v[w]), q3: v[p.q3], q5: v[p.q5], r3: v[p.r3], r5: v[p.r5], d3: v[p.d3], d5: v[p.d5]}
 }
 function setNoise(s: number, sd: number) { sigma = s; seed = sd; live = s === 0 ? exact : perturbed(exact, s, sd) }
 const stats = (() => {

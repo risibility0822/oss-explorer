@@ -44,5 +44,21 @@
    "live": "pass",
    "played": "pass"
   }
+ },
+ {
+  "runId": "20261125-1019",
+  "startedAt": "2026-11-25T10:19:25+08:00",
+  "endedAt": "2026-11-25T10:44:47+08:00",
+  "status": "ok",
+  "episode": "ep-002",
+  "note": "依 visual-explainer 原則重做第 002 集呈現",
+  "steps": {
+   "check": "pass",
+   "qa": "pass",
+   "register": "pass",
+   "build": "pass",
+   "review": "pass",
+   "design": "pass"
+  }
  }
 ]

@@ -28,3 +28,7 @@ npx esbuild entry.ts --bundle --minify --format=iife --outfile=../../handwired-f
 ```
 
 速度數字會隨機器變動；正確性與雜訊實驗（固定種子）每次結果相同。
+
+## 2026-11-25 重做呈現
+
+機制圖第 4、5 步要顯示網路的實際值，所以 `src/fizzbuzz.ts` 把「餘數＝0？」的輸出存成 `probe.d3`／`probe.d5`，`src/entry.ts` 的 `run()` 多回傳 `d3`、`d5`，並用同樣指令重新打包 `../handwired-fizzbuzz.bundle.js`（運算數仍是 1,416，1–1000 仍全對）。

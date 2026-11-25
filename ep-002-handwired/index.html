@@ -40,7 +40,7 @@ a{color:inherit;text-underline-offset:3px;text-decoration-thickness:1px}
 button,select,input,textarea{font:inherit;font-size:16px;min-height:44px}
 :focus-visible{outline:3px solid var(--accent);outline-offset:2px}
 section{padding-top:clamp(28px,5vw,56px);padding-bottom:clamp(28px,5vw,56px)}
-.kicker{color:var(--mute);font-size:15px;margin:0}
+.kicker{color:var(--mute);font-size:15px;margin:0;display:flex;flex-wrap:wrap;gap:2px 14px}.kicker span{white-space:nowrap}
 .kicker b{color:var(--ink)}
 .lede{font-size:18px;color:var(--mute)}
 /* ===== Demo：洞洞板 ===== */
@@ -48,7 +48,7 @@ section{padding-top:clamp(28px,5vw,56px);padding-bottom:clamp(28px,5vw,56px)}
 .board{background:var(--board);border-radius:18px;padding-top:clamp(16px,3vw,28px);padding-bottom:clamp(16px,3vw,28px);padding-left:clamp(14px,3vw,30px);padding-right:clamp(14px,3vw,30px);
   background-image:radial-gradient(circle,var(--hole) 1.4px,transparent 1.6px);background-size:14px 14px;background-position:7px 7px;display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:clamp(18px,3vw,36px)}
 @media(max-width:820px){.board{grid-template-columns:minmax(0,1fr)}}
-@media(max-width:480px){.board{padding-left:8px;padding-right:8px;padding-top:10px;padding-bottom:10px;gap:10px}.panel{padding-left:10px;padding-right:10px}#grid{gap:2px}.ledrow{grid-template-columns:repeat(auto-fill,minmax(6px,1fr));gap:1px}}
+@media(max-width:480px){.board{padding-left:8px;padding-right:8px;padding-top:10px;padding-bottom:10px;gap:10px}.panel{padding-left:10px;padding-right:10px}#grid{gap:2px}.ledrow{grid-template-columns:repeat(auto-fill,minmax(5px,1fr));gap:1px}}
 .panel{align-self:start;background:var(--bg);border-radius:12px;padding-top:16px;padding-bottom:16px;padding-left:16px;padding-right:16px}
 .ctrl{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
 .ctrl label{font-weight:600;white-space:nowrap}
@@ -79,9 +79,11 @@ section{padding-top:clamp(28px,5vw,56px);padding-bottom:clamp(28px,5vw,56px)}
 #grid button[data-l=fizz]{background:var(--fizz)}#grid button[data-l=buzz]{background:var(--buzz)}#grid button[data-l=fizzbuzz]{background:var(--fb)}
 #grid button.wrong{outline:3px solid var(--led);outline-offset:-3px}
 #grid button.wrong::after{content:"";position:absolute;top:2px;right:2px;width:7px;height:7px;border-radius:50%;background:var(--led);box-shadow:0 0 0 1.5px #fff}
+#grid button:disabled{cursor:default;opacity:1}
 #grid button.cur{box-shadow:0 0 0 2px var(--bg),0 0 0 4px var(--ink)}
 .key{display:flex;gap:12px;flex-wrap:wrap;font-size:14px;color:var(--mute);margin-top:8px}
 .key span::before{content:"";display:inline-block;width:11px;height:11px;border-radius:3px;margin-inline-end:5px;vertical-align:-1px;background:var(--c)}
+.key span.wrongk::before{background:radial-gradient(circle,var(--led) 2.5px,transparent 3px);outline:2px solid var(--led);outline-offset:-2px}
 #score{font-family:var(--disp);font-weight:800;font-size:34px;line-height:1.1;font-variant-numeric:tabular-nums}
 #pick{font-size:15px;color:var(--mute);margin:0 0 4px;min-height:1.7em}
 #score small{font-family:var(--font);font-size:15px;font-weight:400;color:var(--mute)}
@@ -93,8 +95,39 @@ section{padding-top:clamp(28px,5vw,56px);padding-bottom:clamp(28px,5vw,56px)}
 .tldr dt{color:var(--mute);font-size:15px;padding-top:2px}.tldr dd{margin:0;max-width:62ch}
 @media(max-width:640px){.tldr dl{grid-template-columns:minmax(0,1fr);gap:2px}.tldr dd{margin-bottom:12px}}
 /* 三個發現 */
-.finding{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,6fr);gap:clamp(18px,4vw,48px);align-items:center;padding-top:24px;padding-bottom:24px;border-top:1px solid var(--line)}
+.finding{display:grid;grid-template-columns:minmax(0,6fr) minmax(0,5fr);gap:clamp(18px,4vw,48px);align-items:center;padding-top:24px;padding-bottom:24px;border-top:1px solid var(--line)}
+figure{margin:0}figcaption{font-size:15px;color:var(--mute);margin-top:10px;max-width:60ch}
 .finding .fig{min-height:120px}
+.mini2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.mini{display:grid;grid-template-columns:repeat(10,minmax(0,1fr));gap:2px}
+.mini i{aspect-ratio:1;border-radius:2px;background:var(--num);position:relative}
+.mini i.f{background:var(--fizz)}.mini i.b{background:var(--buzz)}.mini i.fb{background:var(--fb)}
+.mini i.x{outline:2px solid var(--led);outline-offset:1px;z-index:1}
+.mini i.x::after{content:"";position:absolute;inset:30%;border-radius:50%;background:var(--led);box-shadow:0 0 0 1px #fff}
+.mlab{font-size:14px;color:var(--mute);margin:6px 0 0}
+.bars .t{position:relative}.bars .t::after{content:"";position:absolute;left:53%;top:-3px;bottom:-3px;width:2px;background:var(--ink)}
+.bars .ref{font-size:13px;color:var(--mute);padding-left:calc(53% - 3px);white-space:nowrap}
+.mech{display:grid;grid-template-columns:minmax(0,420px) minmax(0,1fr);grid-template-rows:auto auto;column-gap:clamp(20px,4vw,56px);row-gap:12px;align-items:end}
+.mech svg{grid-row:1/3}.mech .stepper{grid-column:2;align-self:end}.mech>figcaption{grid-column:2;align-self:start;margin-top:0}
+@media(max-width:760px){.mech svg,.mech .stepper,.mech>figcaption{grid-row:auto;grid-column:1}}
+@media(max-width:760px){.mech{grid-template-columns:minmax(0,1fr)}}
+.mech svg{width:100%;height:auto;display:block;color:var(--ink)}
+.mech .nd{fill:var(--bg);stroke:var(--line);stroke-width:1.5}.mech .nd.key{stroke:var(--accent);stroke-width:2.5}
+.mech .nd.on{stroke:var(--led);stroke-width:2.5}
+.mech .e{fill:none;stroke:currentColor;stroke-width:1.5}
+.mech text{fill:currentColor;font-family:var(--font)}.mech .v{font-size:18px;font-weight:600;font-variant-numeric:tabular-nums}
+.mech .lbl{font-size:16px;fill:var(--mute)}.mech .sub{font-size:16px;fill:var(--mute)}
+.mech .sm{font-size:16px}.mech .tiny{font-size:12px;fill:var(--mute)}.mech .sr{opacity:0;font-size:1px}
+.mech .dot{fill:var(--hole)}.mech .dot.on{fill:var(--led)}
+.mech .st{transition:opacity .25s}.mech .st.off{opacity:.1}.mech .st.now .nd{stroke:var(--accent);stroke-width:2.5}
+.stepper .caps{list-style:none;padding:0;margin:0 0 12px;min-height:3.6em}
+.stepper .caps li{display:none;font-size:17px;max-width:46ch}.stepper .caps li.on{display:block}
+.stepper .caps li::before{content:attr(data-n) " / 5　";color:var(--accent);font-weight:700}
+.stepper .ctrl{display:flex;gap:10px;align-items:center}
+.stepper button{padding:8px 16px;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:var(--ink);cursor:pointer}
+.stepper button:disabled{opacity:.4;cursor:default}
+#mPos{font-variant-numeric:tabular-nums;color:var(--mute);min-width:3.5em;text-align:center}
+@media(prefers-reduced-motion:reduce){.mech .st{transition:none}}
 @media(max-width:760px){.finding{grid-template-columns:minmax(0,1fr)}}
 .big{font-family:var(--disp);font-weight:800;font-size:clamp(44px,7vw,72px);line-height:1;font-variant-numeric:tabular-nums}
 .big small{font-size:clamp(20px,3vw,30px);font-weight:500}
@@ -139,8 +172,8 @@ footer{padding-top:32px;padding-bottom:56px;border-top:1px solid var(--line);col
 </head>
 <body>
 <header class="wrap" data-section="header" style="padding-top:clamp(24px,4vw,48px)">
-  <p class="kicker"><b>開源探索誌 第 002 集</b>　2026-11-25　好玩、怪奇、創意程式</p>
-  <h1>不用訓練的<span style="white-space:nowrap">神經網路</span>：FizzBuzz 手工接線，1000 題全對</h1>
+  <p class="kicker"><b>開源探索誌 第 002 集</b><span>2026-11-25</span><span>好玩、怪奇、創意程式</span></p>
+  <h1>不用訓練的<span style="white-space:nowrap">神經網路</span>：<span style="white-space:nowrap">FizzBuzz 手工接線</span>，<span style="white-space:nowrap">1000 題全對</span></h1>
   <p class="lede">handwired 把 if/else 改寫成「加權和＋ReLU」，權重是寫出來的。下面這個 FizzBuzz 網路就跑在你的瀏覽器裡：換數字看神經元亮燈，再把權重「解凍」加點雜訊，看它怎麼壞掉。</p>
 </header>
 
@@ -178,8 +211,8 @@ footer{padding-top:32px;padding-bottom:56px;border-top:1px solid var(--line);col
       </div>
       <p id="pick" aria-live="polite"></p>
       <div id="grid" role="group" aria-label="1 到 100 的答案，點一格就把上面換成那個數字"></div>
-      <div class="key"><span style="--c:var(--num)">數字</span><span style="--c:var(--fizz)">Fizz</span><span style="--c:var(--buzz)">Buzz</span><span style="--c:var(--fb)">FizzBuzz</span><span style="--c:var(--led)">紅框＝答錯</span></div>
-      <p class="note">雜訊＝每個權重乘上 (1 + σ × 常態亂數)。對照：Joel Grus 那篇 2016 年玩笑文的 TensorFlow 訓練版，repo 裡 notebook 存下的一次結果答錯 4 題（4、23、49、53）。兩排燈裡 15 的倍數那 66 顆其實是同一批神經元，handwired 會自動共用。</p>
+      <div class="key"><span style="--c:var(--num)">數字</span><span style="--c:var(--fizz)">Fizz</span><span style="--c:var(--buzz)">Buzz</span><span style="--c:var(--fb)">FizzBuzz</span><span class="wrongk">紅框＝錯</span></div>
+      <p class="note">雜訊＝每個權重乘上 (1 + σ × 常態亂數)。</p>
     </div>
   </div>
 </section>
@@ -194,43 +227,98 @@ footer{padding-top:32px;padding-bottom:56px;border-top:1px solid var(--line);col
   </dl>
 </section>
 
+<section class="wrap" data-section="how" id="how">
+  <h2>沒有 if，只有一排排會亮的門檻</h2>
+  <figure class="mech">
+    <svg viewBox="0 0 420 640" role="img" aria-label="機制圖：數字 n 進入兩排比較器，亮燈數加總得到 n 除以 3 與 5 的商，算出餘數並判斷是否為 0，最後用 ReLU 做 AND 得到答案" id="mechSvg">
+      <defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="currentColor"/></marker></defs>
+      <g class="st" data-s="1"><rect class="nd key" x="150" y="10" width="120" height="50" rx="8"/><text class="v" x="210" y="42" text-anchor="middle" id="mN">n = 15</text></g>
+      <g class="st" data-s="2">
+        <path class="e" d="M210 60V82H105V104" marker-end="url(#ah)"/><path class="e" d="M210 60V82H315V104" marker-end="url(#ah)"/>
+        <text class="lbl" x="104" y="76" text-anchor="middle">問 n ≥ 3k？</text><text class="lbl" x="316" y="76" text-anchor="middle">問 n ≥ 5k？</text>
+        <rect class="nd" x="20" y="108" width="170" height="74" rx="8"/><g id="dots3" transform="translate(36 122)"></g><text class="sub" x="105" y="172" text-anchor="middle" id="mC3">333 顆亮 5 顆</text>
+        <rect class="nd" x="230" y="108" width="170" height="74" rx="8"/><g id="dots5" transform="translate(246 122)"></g><text class="sub" x="315" y="172" text-anchor="middle" id="mC5">200 顆亮 3 顆</text>
+      </g>
+      <g class="st" data-s="3">
+        <path class="e" d="M105 182V214" marker-end="url(#ah)"/><path class="e" d="M315 182V214" marker-end="url(#ah)"/>
+        <text class="lbl" x="114" y="203">加總</text><text class="lbl" x="324" y="203">加總</text>
+        <rect class="nd" x="45" y="218" width="120" height="46" rx="8"/><text class="v" x="105" y="248" text-anchor="middle" id="mQ3">⌊n/3⌋ = 5</text>
+        <rect class="nd" x="255" y="218" width="120" height="46" rx="8"/><text class="v" x="315" y="248" text-anchor="middle" id="mQ5">⌊n/5⌋ = 3</text>
+      </g>
+      <g class="st" data-s="4">
+        <path class="e" d="M105 264V296" marker-end="url(#ah)"/><path class="e" d="M315 264V296" marker-end="url(#ah)"/>
+        <text class="lbl" x="114" y="285">n − 3q</text><text class="lbl" x="324" y="285">n − 5q</text>
+        <rect class="nd" x="45" y="300" width="120" height="46" rx="8"/><text class="v" x="105" y="330" text-anchor="middle" id="mR3">餘數 0</text>
+        <rect class="nd" x="255" y="300" width="120" height="46" rx="8"/><text class="v" x="315" y="330" text-anchor="middle" id="mR5">餘數 0</text>
+        <path class="e" d="M105 346V378" marker-end="url(#ah)"/><path class="e" d="M315 346V378" marker-end="url(#ah)"/>
+        <text class="lbl" x="114" y="367">＝ 0？</text><text class="lbl" x="324" y="367">＝ 0？</text>
+        <rect class="nd" x="45" y="382" width="120" height="46" rx="8" id="mZ3b"/><text class="v" x="105" y="412" text-anchor="middle" id="mZ3">整除？1</text>
+        <rect class="nd" x="255" y="382" width="120" height="46" rx="8" id="mZ5b"/><text class="v" x="315" y="412" text-anchor="middle" id="mZ5">整除？1</text>
+      </g>
+      <g class="st" data-s="5">
+        <path class="e" d="M105 428V452H170V470" marker-end="url(#ah)"/><path class="e" d="M315 428V452H250V470" marker-end="url(#ah)"/>
+        <text class="lbl" x="210" y="448" text-anchor="middle">AND</text>
+        <rect class="nd key" x="110" y="474" width="200" height="46" rx="8"/><text class="v" x="210" y="503" text-anchor="middle" id="mA">AND(1, 1) = 1</text>
+        <path class="e" d="M210 520V546" marker-end="url(#ah)"/><text class="lbl" x="220" y="538">組出四個輸出</text>
+        <g id="mOuts"></g>
+        <text id="mOut" aria-hidden="true" style="display:none" x="0" y="0">輸出 FizzBuzz</text>
+      </g>
+    </svg>
+    <div class="stepper">
+      <ol class="caps" id="mCaps">
+        <li data-n="1">數字 <b id="cN">15</b> 送進網路（跟上面 Demo 的數字同步）。</li>
+        <li data-n="2">兩排比較器各問一次「n 跨過這個門檻了嗎？」。每顆只是兩個 ReLU 疊成的台階，跨過就輸出 1（圖上只畫每排前 12 顆）。</li>
+        <li data-n="3">把亮的燈加起來就是商：數一數跨過幾個門檻，就是除法。</li>
+        <li data-n="4">n 減掉 3q、5q 就是餘數；再用一顆比較器問「餘數是 0 嗎？」。</li>
+        <li data-n="5">AND 也是一個 ReLU：ReLU(a + b − 1)，兩邊都是 1 才得 1。再用加減組出四個輸出，最大的那顆亮燈，就是答案。加了雜訊，這些值就不再是整齊的 0 和 1。</li>
+      </ol>
+      <div class="ctrl"><button type="button" id="mPrev">上一步</button><span id="mPos" aria-live="polite">5 / 5</span><button type="button" id="mNext">下一步</button></div>
+    </div>
+    <figcaption>整個 FizzBuzz 沒有一行 if：1,416 個運算裡 941 個是 ReLU，468 個只是門檻常數。圖上每個數字都是網路的實際值，跟著 Demo 變，加雜訊也看得到。</figcaption>
+  </figure>
+</section>
+
 <section class="wrap" data-section="findings" id="findings">
-  <h2>實測後的三件事</h2>
+  <h2>全對、怕雜訊、單題很慢</h2>
   <div class="finding">
-    <div class="fig vs" role="img" aria-label="handwired 1000 題全對，TensorFlow 訓練版 100 題錯 4 題">
-      <span class="big">100<small> / 100</small></span><span class="lbl">手工接線，0 次訓練（1–1000 也全對）</span>
-      <span class="b2">96 / 100</span><span class="lbl">Joel Grus 的 TensorFlow 訓練版</span>
-    </div>
-    <div><h3>不訓練，反而全對</h3><p>我們用 handwired 的比較器把 FizzBuzz 接成 1,416 個運算、8 層的網路，1 到 1000 每一題都跟普通 JS 一模一樣，輸出都是精確的 0 或 1。訓練了 10,000 輪的 Joel Grus 版，存下的那次還錯 4 題。</p></div>
+    <figure class="fig">
+      <div class="mini2" role="img" aria-label="兩張 1 到 100 的答案板：手工接線 100 格都對；訓練 10,000 輪的版本在 4、23、49、53 答錯">
+        <div><div class="mini"><i class="n"></i><i class="n"></i><i class="f"></i><i class="n"></i><i class="b"></i><i class="f"></i><i class="n"></i><i class="n"></i><i class="f"></i><i class="b"></i><i class="n"></i><i class="f"></i><i class="n"></i><i class="n"></i><i class="fb"></i><i class="n"></i><i class="n"></i><i class="f"></i><i class="n"></i><i class="b"></i><i class="f"></i><i class="n"></i><i class="n"></i><i class="f"></i><i class="b"></i><i class="n"></i><i class="f"></i><i class="n"></i><i class="n"></i><i class="fb"></i><i class="n"></i><i class="n"></i><i class="f"></i><i class="n"></i><i class="b"></i><i class="f"></i><i class="n"></i><i class="n"></i><i class="f"></i><i class="b"></i><i class="n"></i><i class="f"></i><i class="n"></i><i class="n"></i><i class="fb"></i><i class="n"></i><i class="n"></i><i class="f"></i><i class="n"></i><i class="b"></i><i class="f"></i><i class="n"></i><i class="n"></i><i class="f"></i><i class="b"></i><i class="n"></i><i class="f"></i><i class="n"></i><i class="n"></i><i class="fb"></i><i class="n"></i><i class="n"></i><i class="f"></i><i class="n"></i><i class="b"></i><i class="f"></i><i class="n"></i><i class="n"></i><i class="f"></i><i class="b"></i><i class="n"></i><i class="f"></i><i class="n"></i><i class="n"></i><i class="fb"></i><i class="n"></i><i class="n"></i><i class="f"></i><i class="n"></i><i class="b"></i><i class="f"></i><i class="n"></i><i class="n"></i><i class="f"></i><i class="b"></i><i class="n"></i><i class="f"></i><i class="n"></i><i class="n"></i><i class="fb"></i><i class="n"></i><i class="n"></i><i class="f"></i><i class="n"></i><i class="b"></i><i class="f"></i><i class="n"></i><i class="n"></i><i class="f"></i><i class="b"></i></div><p class="mlab">手工接線，0 次訓練</p></div>
+        <div><div class="mini"><i class="n"></i><i class="n"></i><i class="f"></i><i class="n x"></i><i class="b"></i><i class="f"></i><i class="n"></i><i class="n"></i><i class="f"></i><i class="b"></i><i class="n"></i><i class="f"></i><i class="n"></i><i class="n"></i><i class="fb"></i><i class="n"></i><i class="n"></i><i class="f"></i><i class="n"></i><i class="b"></i><i class="f"></i><i class="n"></i><i class="n x"></i><i class="f"></i><i class="b"></i><i class="n"></i><i class="f"></i><i class="n"></i><i class="n"></i><i class="fb"></i><i class="n"></i><i class="n"></i><i class="f"></i><i class="n"></i><i class="b"></i><i class="f"></i><i class="n"></i><i class="n"></i><i class="f"></i><i class="b"></i><i class="n"></i><i class="f"></i><i class="n"></i><i class="n"></i><i class="fb"></i><i class="n"></i><i class="n"></i><i class="f"></i><i class="n x"></i><i class="b"></i><i class="f"></i><i class="n"></i><i class="n x"></i><i class="f"></i><i class="b"></i><i class="n"></i><i class="f"></i><i class="n"></i><i class="n"></i><i class="fb"></i><i class="n"></i><i class="n"></i><i class="f"></i><i class="n"></i><i class="b"></i><i class="f"></i><i class="n"></i><i class="n"></i><i class="f"></i><i class="b"></i><i class="n"></i><i class="f"></i><i class="n"></i><i class="n"></i><i class="fb"></i><i class="n"></i><i class="n"></i><i class="f"></i><i class="n"></i><i class="b"></i><i class="f"></i><i class="n"></i><i class="n"></i><i class="f"></i><i class="b"></i><i class="n"></i><i class="f"></i><i class="n"></i><i class="n"></i><i class="fb"></i><i class="n"></i><i class="n"></i><i class="f"></i><i class="n"></i><i class="b"></i><i class="f"></i><i class="n"></i><i class="n"></i><i class="f"></i><i class="b"></i></div><p class="mlab">訓練 10,000 輪</p></div>
+      </div>
+      <figcaption>前 100 題：手工接線全對，訓練版錯 4 題（紅框）。手工接線 1 到 1000 也全對，見實測紀錄。</figcaption>
+    </figure>
+    <div><h3>不訓練，反而全對</h3></div>
   </div>
   <div class="finding">
-    <div class="fig bars" role="img" aria-label="雜訊越大答對越少：0.01% 100 題、0.1% 97 題、1% 64 題、10% 50.5 題">
-      <span>原廠</span><span class="t"><i style="width:100%"></i></span><span class="v">100</span>
-      <span>0.01%</span><span class="t"><i style="width:100%"></i></span><span class="v">100</span>
-      <span>0.1%</span><span class="t"><i style="width:97.1%"></i></span><span class="v">97.1</span>
-      <span>1%</span><span class="t"><i style="width:63.9%"></i></span><span class="v">63.9</span>
-      <span>10%</span><span class="t"><i style="width:50.5%"></i></span><span class="v">50.5</span>
-      <span>全猜數字</span><span class="t"><i class="base" style="width:53%"></i></span><span class="v">53</span>
-      <span class="cap">1 到 100 平均答對題數（各 10 組亂數）</span>
-    </div>
-    <div><h3>精確，但很脆</h3><p>權重只要偏 0.1% 就開始答錯。這種網路靠的是剛好卡在整數邊界的偏差值，跟訓練出來、本來就模糊的網路完全不同。</p></div>
+    <figure class="fig">
+      <div class="bars" role="img" aria-label="權重雜訊越大答對越少：原廠與 0.01% 100 題、0.1% 97.1 題、1% 63.9 題、10% 50.5 題；參考線是全部猜數字的 53 題">
+        <span>原廠</span><span class="t"><i style="width:100%"></i></span><span class="v">100</span>
+        <span>0.01%</span><span class="t"><i style="width:100%"></i></span><span class="v">100</span>
+        <span>0.1%</span><span class="t"><i style="width:97.1%"></i></span><span class="v">97.1</span>
+        <span>1%</span><span class="t"><i style="width:63.9%"></i></span><span class="v">63.9</span>
+        <span>10%</span><span class="t"><i style="width:50.5%"></i></span><span class="v">50.5</span>
+        <span></span><span class="ref">│ 亂猜 53 題</span><span></span>
+      </div>
+      <figcaption>1 到 100 平均答對題數（各 10 組亂數）：1% 平均剩 64 題。在上面 Demo 點 1% 試試看。</figcaption>
+    </figure>
+    <div><h3>權重偏 0.1% 就開始答錯，10% 等於亂猜</h3></div>
   </div>
   <div class="finding">
-    <div class="fig">
-      <div class="big">慢 7,600 倍</div>
-      <div class="speed" role="img" aria-label="每次執行：handwired 約 12 微秒，普通 JS 約 1.6 奈秒（長條非等比）">
+    <figure class="fig">
+      <div class="speed" role="img" aria-label="每次執行：handwired 約 12 微秒，普通 JS 約 1.6 奈秒">
         <div class="row"><span>handwired</span><span class="t"><i style="width:100%"></i></span><span>12 µs</span></div>
         <div class="row"><span>普通 JS</span><span class="t"><i style="width:1px"></i></span><span>1.6 ns</span></div>
-        <div class="row"><span></span><span style="color:var(--mute)">普通 JS 的長條只畫 1px：真實比例短到畫不出來</span><span></span></div>
       </div>
-    </div>
-    <div><h3>單次很慢，重點在批次</h3><p>在 Node 22 上單題約 12 微秒，普通 JS 只要 1.6 奈秒，三輪平均慢約 7,600 倍。它的 JSON 搜尋 Demo 是在 GPU 上一次讓 10 萬份文件跑同一組運算。</p></div>
+      <figcaption>單題 12 µs 對 1.6 ns，普通 JS 的長條按比例畫不到 1 像素（Node 22 三輪平均，本集沒有在 GPU 上實測）。</figcaption>
+    </figure>
+    <div><h3>一次一題慢約 7,600 倍，價值在批次</h3></div>
   </div>
 </section>
 
 <section class="wrap" data-section="ideas" id="ideas">
   <h2>你可以拿它做什麼</h2>
-  <div class="idea"><h3>用 numpy 移植四種運算，在 FastAPI 批次跑規則<span class="effort">一個週末</span></h3><p>運費、折扣、會員等級這類 if/else 規則寫成矩陣，一次請求算十萬筆。比單純 np.where 多的是：同一份規則可以微分、拿資料微調門檻，也能原封不動編成 GPU shader。</p></div>
+  <div class="idea"><h3>用 numpy 移植四種運算，在 FastAPI 批次跑規則<span class="effort">一個週末</span></h3><p>運費、折扣、會員等級這類 if/else 規則寫成矩陣，一次請求算十萬筆。比單純 np.where 多的是：同一份規則可以微分、拿資料微調門檻，結構也適合改寫成 GPU 程式（要自己寫產生器）。</p></div>
   <div class="idea"><h3>「看見神經元在想什麼」互動教材<span class="effort">一個月</span></h3><p>閏年、BMI、統一發票對獎都接成會亮燈的網路，給 AI 入門課與補習班當教具。</p></div>
   <div class="idea"><h3>從正確答案開始訓練的小實驗<span class="effort">一個週末</span></h3><p>拿手工權重當起點去訓練，看梯度下降會把它練得更好還是練壞。</p></div>
   <div class="idea"><h3>Metal 版執行器的 macOS 批次工具<span class="effort">長期</span></h3><p>仿照它把 JSON 搜尋編成 WebGPU shader 的做法，改寫成 Metal compute shader，做一個在 Mac 上一次篩選幾十萬筆 CSV／日誌的工具。</p></div>
@@ -238,25 +326,8 @@ footer{padding-top:32px;padding-bottom:56px;border-top:1px solid var(--line);col
 
 <section class="wrap deep" aria-label="深入">
   <h2>想深入再展開</h2>
-  <details data-section="how" id="how"><summary><b>它怎麼運作</b><span>FizzBuzz 怎麼變成 467 個比較器加一個 AND</span></summary><div class="body">
-    <div class="scroll" role="region" aria-label="原理圖（手機可左右捲動）" tabindex="0"><svg class="diagram" viewBox="0 0 760 210" role="img" aria-label="原理圖：n 進入 333 個 n≥3k 比較器與 200 個 n≥5k 比較器，加總得到 n/3 與 n/5 的商，再算餘數、判斷是否為 0，最後用 ReLU 做 AND 得到四個輸出">
-      <style>.d text{font:15px 'Noto Sans TC',sans-serif;fill:currentColor}.d .m{fill:none;stroke:currentColor;stroke-width:1.5}.d .w{stroke:#a8541c;stroke-width:2;fill:none}</style>
-      <g class="d" style="color:var(--ink)">
-        <rect class="m" x="6" y="80" width="60" height="44" rx="8"/><text x="28" y="108">n</text>
-        <rect class="m" x="110" y="20" width="160" height="56" rx="8"/><text x="122" y="44">333 個比較器</text><text x="122" y="66">[n ≥ 3], [n ≥ 6] …</text>
-        <rect class="m" x="110" y="130" width="160" height="56" rx="8"/><text x="122" y="154">200 個比較器</text><text x="122" y="176">[n ≥ 5], [n ≥ 10] …</text>
-        <rect class="m" x="310" y="20" width="150" height="56" rx="8"/><text x="322" y="44">加總＝⌊n/3⌋</text><text x="322" y="66">餘數 n − 3q</text>
-        <rect class="m" x="310" y="130" width="150" height="56" rx="8"/><text x="322" y="154">加總＝⌊n/5⌋</text><text x="322" y="176">餘數 n − 5q</text>
-        <rect class="m" x="500" y="20" width="96" height="56" rx="8"/><text x="512" y="54">餘數＝0？</text>
-        <rect class="m" x="500" y="130" width="96" height="56" rx="8"/><text x="512" y="164">餘數＝0？</text>
-        <rect class="m" x="630" y="72" width="124" height="64" rx="8"/><text x="642" y="98">AND＝ReLU</text><text x="642" y="122">四個輸出</text>
-        <path class="w" d="M66 102 C90 102 90 48 110 48"/><path class="w" d="M66 102 C90 102 90 158 110 158"/>
-        <path class="w" d="M270 48 H310"/><path class="w" d="M270 158 H310"/><path class="w" d="M460 48 H500"/><path class="w" d="M460 158 H500"/>
-        <path class="w" d="M596 48 C615 48 612 96 630 96"/><path class="w" d="M596 158 C615 158 612 112 630 112"/>
-      </g>
-    </svg></div>
-    <p>handwired 的程式只有四種運算：加權和、ReLU 乘積（<code>(a) × max(0, b)</code>）、四捨五入成 0／1、查表。你寫的是「建構程式」：一段普通 JS，執行一次，把運算一個個加進 <code>Circuit</code>。執行期沒有任何分支或迴圈，所以 <code>if</code> 會變成兩邊都算再挑一邊，迴圈會變成固定數量的平行運算。</p>
-    <p>比較器 <code>emitCompare(n, '&gt;=', 3k)</code> 在整數格點上只要 2 個運算：<code>relu(1 − relu(3k − n))</code>，n 跨過 3k 就剛好是 1。把 333 個比較器加起來就是 ⌊n/3⌋，這是它文件裡「threshold count」的寫法。其中 [n ≥ 15]、[n ≥ 30]… 這 66 個在兩排都會用到，handwired 建構時會認出是同一個運算而共用，所以實際是 333＋200−66＝467 個 ≥ 比較器，再加 2 個「餘數＝0」的比較器。因為所有東西都是加權和與 ReLU，整個程式可以反向傳播（<code>backpropagateReference</code>），也能編譯成 WebGPU shader。</p>
+  <details id="how-more"><summary><b>原理細節</b><span>比較器的公式、共用運算、為什麼加雜訊會壞</span></summary><div class="body"><p>四個輸出由兩個「整除？」z3、z5 和 AND 的結果 A 加減組成：FizzBuzz＝A、Fizz＝z3 − A、Buzz＝z5 − A、數字＝1 − z3 − z5 + A，正好只有一個是 1。</p><p>對照：Joel Grus 那篇 2016 年玩笑文的 TensorFlow 訓練版，repo 裡 notebook 存下的一次結果答錯 4 題（4、23、49、53）。兩排燈裡 15 的倍數那 66 顆其實是同一批神經元，handwired 會自動共用。</p><p>handwired 的程式只有四種運算：加權和、ReLU 乘積（<code>(a) × max(0, b)</code>）、四捨五入成 0／1、查表。你寫的是「建構程式」：一段普通 JS，執行一次，把運算一個個加進 <code>Circuit</code>。執行期沒有任何分支或迴圈，所以 <code>if</code> 會變成兩邊都算再挑一邊，迴圈會變成固定數量的平行運算。</p>
+    <p>比較器 <code>emitCompare(n, '&gt;=', 3k)</code> 在整數格點上只要 2 個運算：<code>relu(1 − relu(3k − n))</code>，n 跨過 3k 就剛好是 1。把 333 個比較器加起來就是 ⌊n/3⌋，這是它文件裡「threshold count」的寫法。其中 [n ≥ 15]、[n ≥ 30]… 這 66 個在兩排都會用到，handwired 建構時會認出是同一個運算而共用，所以實際是 333＋200−66＝467 個 ≥ 比較器，再加 2 個「餘數＝0」的比較器。因為所有東西都是加權和與 ReLU，整個程式可以反向傳播（<code>backpropagateReference</code>）；通用的 runtime 只在 CPU 上跑，作者的 JSON 搜尋 Demo 另外寫了產生器才跑在 WebGPU 上。</p>
     <p>雜訊實驗會壞，是因為比較器的偏差值剛好卡在整數邊界：n 剛好等於 3k 時，<code>3k − n</code> 應該是 0；係數偏一點點它就變成很小的正數或負數，ReLU 的輸出不再是整數，後面的加總與餘數判斷就跟著錯。</p>
   </div></details>
   <details data-section="run" id="run"><summary><b>實測紀錄</b><span>三支腳本：正確性、雜訊、速度，含原始輸出</span></summary><div class="body">
@@ -362,6 +433,7 @@ else{
   const led3=mk($("led3"),333),led5=mk($("led5"),200);
   const grid=$("grid");
   for(let n=1;n<=100;n++){const b=document.createElement("button");b.type="button";b.dataset.n=n;b.textContent=n;grid.appendChild(b)}
+  const mq=matchMedia("(max-width:480px)");const tap=()=>{for(const b of grid.children)b.disabled=mq.matches};mq.addEventListener("change",tap);tap();
   let cur=15;
   const show=n=>{
     n=Math.max(1,Math.min(1000,Math.round(Number(n)||1)));cur=n;
@@ -380,6 +452,7 @@ else{
     grid.querySelectorAll("button.cur").forEach(b=>b.classList.remove("cur"));
     if(n<=100)grid.children[n-1].classList.add("cur");
     $("pick").textContent=`${n} → ${r.label==="number"?n:NAMES[r.label]}${ok?"":"（錯）"}`;
+    document.dispatchEvent(new CustomEvent("hw:show",{detail:{n,r}}));
   };
   const board=()=>{
     let ok=0;
@@ -401,6 +474,51 @@ else{
   $("nRange").addEventListener("input",e=>show(e.target.value));
   board();show(15);
 }
+}
+
+// 機制圖：用 Demo 的數字與網路實際算出的中間值
+{
+  const $=id=>document.getElementById(id), NS="http://www.w3.org/2000/svg";
+  const mkDots=(g,k)=>{for(let i=0;i<12;i++){const c=document.createElementNS(NS,"circle");c.setAttribute("cx",(i%6)*25+5);c.setAttribute("cy",Math.floor(i/6)*16);c.setAttribute("r",5.5);c.setAttribute("class","dot");g.appendChild(c)}};
+  const g3=$("dots3"),g5=$("dots5");mkDots(g3,3);mkDots(g5,5);
+  // 四顆輸出燈：數字＝1−z3−z5+AND、Fizz＝z3−AND、Buzz＝z5−AND、FizzBuzz＝AND
+  const OUT=[["number","數字","1−z3−z5+A"],["fizz","Fizz","z3 − A"],["buzz","Buzz","z5 − A"],["fizzbuzz","FizzBuzz","A"]];
+  const mk=(tag,at)=>{const e=document.createElementNS(NS,tag);for(const k in at)e.setAttribute(k,at[k]);return e};
+  const og=$("mOuts");const outs=OUT.map(([k,t,f],i)=>{const x=8+i*102;const g=mk("g",{});
+    const box=mk("rect",{class:"nd",x,y:552,width:96,height:80,rx:8});const dot=mk("circle",{class:"dot",cx:x+16,cy:570,r:6});
+    const name=mk("text",{class:"v sm",x:x+48,y:597,"text-anchor":"middle"});name.textContent=t;
+    const val=mk("text",{class:"sub",x:x+48,y:621,"text-anchor":"middle"});
+    g.append(box,dot,name,val);og.appendChild(g);return {k,t,box,dot,name,val}});
+  const fmt=v=>Math.abs(v-Math.round(v))<1e-9?String(Math.round(v)):v.toFixed(2);
+  const NAMES2={number:null,fizz:"Fizz",buzz:"Buzz",fizzbuzz:"FizzBuzz"};
+  const draw=({n,r})=>{
+    $("mN").textContent=`n = ${n}`;$("cN").textContent=n;
+    const lit3=r.bits3.filter(v=>v>0.5).length,lit5=r.bits5.filter(v=>v>0.5).length;
+    [...g3.children].forEach((c,i)=>c.classList.toggle("on",(r.bits3[i]??0)>0.5));
+    [...g5.children].forEach((c,i)=>c.classList.toggle("on",(r.bits5[i]??0)>0.5));
+    $("mC3").textContent=`333 顆亮 ${lit3} 顆`;$("mC5").textContent=`200 顆亮 ${lit5} 顆`;
+    const q=(v,k)=>Number.isInteger(v)?`⌊n/${k}⌋ = ${v}`:`商 q = ${fmt(v)}`;
+    $("mQ3").textContent=q(r.q3,3);$("mQ5").textContent=q(r.q5,5);
+    $("mR3").textContent=`餘數 ${fmt(r.r3)}`;$("mR5").textContent=`餘數 ${fmt(r.r5)}`;
+    // 以下全部是網路的 wire 值（HW.run 回傳），不是頁面自己算的
+    const d3=r.d3,d5=r.d5,a=r.vals[3];
+    $("mZ3").textContent=`整除？${fmt(d3)}`;$("mZ5").textContent=`整除？${fmt(d5)}`;
+    $("mZ3b").classList.toggle("on",d3>0.5);$("mZ5b").classList.toggle("on",d5>0.5);
+    $("mA").textContent=`AND(${fmt(d3)}, ${fmt(d5)}) = ${fmt(a)}`;
+    const vals={number:r.vals[0],fizz:r.vals[1],buzz:r.vals[2],fizzbuzz:r.vals[3]};
+    outs.forEach(o=>{const v=vals[o.k],lit=r.label===o.k;o.box.classList.toggle("on",lit);o.dot.classList.toggle("on",lit);o.val.textContent=`= ${fmt(v)}`;o.name.textContent=o.k==="number"&&lit?String(n):o.t});
+    $("mOut").textContent=r.label==="number"?`輸出數字 ${n}`:`輸出 ${NAMES2[r.label]}`;
+  };
+  document.addEventListener("hw:show",e=>draw(e.detail));
+  if(window.HW){try{draw({n:15,r:window.HW.run(15)})}catch(e){}}
+  let step=5;const groups=[...document.querySelectorAll("#mechSvg .st")],caps=[...document.querySelectorAll("#mCaps li")];
+  const go=k=>{step=Math.max(1,Math.min(5,k));
+    groups.forEach(g=>{const s=+g.dataset.s;g.classList.toggle("off",s>step);g.classList.toggle("now",s===step&&step<5)});
+    caps.forEach(li=>li.classList.toggle("on",+li.dataset.n===step));
+    $("mPos").textContent=`${step} / 5`;$("mPrev").disabled=step===1;$("mNext").disabled=step===5;};
+  $("mPrev").addEventListener("click",()=>go(step-1));$("mNext").addEventListener("click",()=>go(step+1));
+  go(5);
+  window.__mech={go,get step(){return step}};
 }
 </script>
 </body>
