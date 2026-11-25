@@ -1,45 +1,5 @@
 [
  {
-  "id": "ep-002-1",
-  "episode": "ep-002",
-  "no": 2,
-  "title": "用 numpy 移植四種運算，在 FastAPI 批次跑規則",
-  "pitch": "自己用 numpy 重寫 handwired 的四種運算，把運費、折扣等規則接成網路，在 FastAPI 一次算十萬筆；速度不比 np.where 快，賣點是能拿資料微調門檻。",
-  "effort": "一個週末",
-  "value": "可微調的規則引擎：賣點是能用資料校準門檻，不是速度",
-  "starred": false
- },
- {
-  "id": "ep-002-2",
-  "episode": "ep-002",
-  "no": 2,
-  "title": "「看見神經元在想什麼」互動教材",
-  "pitch": "閏年、BMI、統一發票對獎都接成會亮燈的網路，給 AI 入門課與補習班當教具。",
-  "effort": "一個月",
-  "value": "授權給線上課程或補習班的互動教材",
-  "starred": false
- },
- {
-  "id": "ep-002-3",
-  "episode": "ep-002",
-  "no": 2,
-  "title": "從正確答案開始訓練的小實驗",
-  "pitch": "拿手工權重當起點去訓練，看梯度下降會把它練得更好還是練壞，很適合寫成技術文章。",
-  "effort": "一個週末",
-  "value": "技術文章與個人品牌曝光",
-  "starred": false
- },
- {
-  "id": "ep-002-4",
-  "episode": "ep-002",
-  "no": 2,
-  "title": "Metal 版執行器的 macOS 批次工具",
-  "pitch": "仿照它把 JSON 搜尋編成 WebGPU shader 的做法，改寫成 Metal compute shader，做一個在 Mac 上一次篩選幾十萬筆 CSV／日誌的工具。先量再做：作者實測顯示卡沒有明顯比多條一般程式（8 個 worker）快。",
-  "effort": "長期",
-  "value": "macOS 付費工具的候選；先量過速度再決定",
-  "starred": false
- },
- {
   "id": "ep-001-1",
   "episode": "ep-001",
   "no": 1,
@@ -77,6 +37,46 @@
   "pitch": "上傳寵物或自拍，自動去背、加白邊和文字，輸出成符合 LINE 規格的貼圖組；白邊剛好蓋住去背最弱的毛邊。",
   "effort": "一個月",
   "value": "台灣使用者熟悉的付費習慣，按組收費",
+  "starred": false
+ },
+ {
+  "id": "ep-002-1",
+  "episode": "ep-002",
+  "no": 2,
+  "title": "用 numpy 移植四種運算，在 FastAPI 批次跑規則",
+  "pitch": "自己用 numpy 重寫 handwired 的四種運算，把運費、折扣等規則接成網路，在 FastAPI 一次算十萬筆；速度不比 np.where 快，賣點是能拿資料微調門檻。",
+  "effort": "一個週末",
+  "value": "可微調的規則引擎：賣點是能用資料校準門檻，不是速度",
+  "starred": false
+ },
+ {
+  "id": "ep-002-2",
+  "episode": "ep-002",
+  "no": 2,
+  "title": "「看見神經元在想什麼」互動教材",
+  "pitch": "閏年、BMI、統一發票對獎都接成會亮燈的網路，給 AI 入門課與補習班當教具。",
+  "effort": "一個月",
+  "value": "授權給線上課程或補習班的互動教材",
+  "starred": false
+ },
+ {
+  "id": "ep-002-3",
+  "episode": "ep-002",
+  "no": 2,
+  "title": "從正確答案開始訓練的小實驗",
+  "pitch": "拿手工權重當起點去訓練，看梯度下降會把它練得更好還是練壞，很適合寫成技術文章。",
+  "effort": "一個週末",
+  "value": "技術文章與個人品牌曝光",
+  "starred": false
+ },
+ {
+  "id": "ep-002-4",
+  "episode": "ep-002",
+  "no": 2,
+  "title": "Metal 版執行器的 macOS 批次工具",
+  "pitch": "仿照它把 JSON 搜尋編成 WebGPU shader 的做法，改寫成 Metal compute shader，做一個在 Mac 上一次篩選幾十萬筆 CSV／日誌的工具。先量再做：作者實測顯示卡沒有明顯比多條一般程式（8 個 worker）快。",
+  "effort": "長期",
+  "value": "macOS 付費工具的候選；先量過速度再決定",
   "starred": false
  }
 ]

@@ -736,7 +736,7 @@ def cmd_register(a):
             ok(f"重做：已移除舊的 {redo['path']}/（仍保留在 git 歷史中）")
     entry = {k: meta[k] for k in ("no", "id", "date", "title", "oneliner", "domain", "format", "tier", "lens", "resources", "demo", "highlights", "tags")}
     entry.update(path=f"{ep.name}/", lab=f"{ep.name}/lab", thumb=f"{ep.name}/og.jpg" if (ep / "og.jpg").exists() else None,
-                 createdAt=meta.get("createdAt") or iso())
+                 createdAt=meta.get("createdAt") or (None if (redo and redo["id"] == meta["id"]) else next((x.get("createdAt") for x in episodes if x["id"] == meta["id"]), None)) or iso())   # 重新登錄不改原本的時間；重做才更新
     episodes = [x for x in episodes if x["id"] != meta["id"]] + [entry]; episodes.sort(key=lambda x: x["no"])
     ideas = [i for i in ideas if i["episode"] != meta["id"]]
     starred_titles = parse_feedback()["stars"]
@@ -762,7 +762,9 @@ def cmd_register(a):
     for w in meta.get("wishUpdates", []):
         for x in state.get("wishes", []):
             if x["id"] == w["id"]: x.update({k: v for k, v in w.items() if k != "id"})
-    state["lastRunAt"] = iso(); state["nextHint"] = meta.get("nextHint", state.get("nextHint", ""))
+    state["lastRunAt"] = iso()
+    if meta["no"] >= max([e["no"] for e in episodes], default=0):   # 重做舊集數時不要蓋掉最新一集的預告
+        state["nextHint"] = meta.get("nextHint", state.get("nextHint", ""))
     for name, obj in (("episodes", episodes), ("ideas", ideas), ("state", state)):
         errs = validate_schema(obj, name)
         if errs: [bad(x) for x in errs]; die(f"寫入後的 data/{name}.json 不符合 schema，未儲存")

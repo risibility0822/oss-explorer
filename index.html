@@ -11,7 +11,7 @@
 <link rel="alternate" type="application/atom+xml" title="開源探索誌" href="feed.xml">
 <title>開源探索誌</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@112,800&family=Archivo:wght@400;600&family=Noto+Sans+TC:wght@400;600;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@112,800&family=Archivo:wght@400;600&family=Noto+Sans+TC:wght@400;600;800&family=Noto+Serif+TC:wght@700;800&display=swap" rel="stylesheet">
 <style>
 /* VOICE: a station timetable — precise, calm, every line earns its place
    IDEA: a departures board where each episode is a departure and each domain a platform
@@ -24,8 +24,8 @@
 body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 "Noto Sans TC","Archivo",system-ui,sans-serif;overflow-x:clip}
 .band{padding:clamp(24px,4vw,56px) max(5vw,16px);max-width:1240px;margin:0 auto}
 .num{font-family:"Archivo",sans-serif;font-stretch:112%;font-weight:800;font-variant-numeric:tabular-nums}
-h1{font-size:clamp(36px,6vw,52px);line-height:1.05;margin:0;font-weight:800;text-wrap:balance}
-h2{font-size:clamp(24px,3vw,32px);line-height:1.1;margin:0 0 6px;font-weight:800}
+h1{font-family:"Noto Serif TC","Noto Sans TC",serif;font-size:clamp(36px,6vw,52px);line-height:1.05;margin:0;font-weight:800;text-wrap:balance}
+h2{font-family:"Noto Serif TC","Noto Sans TC",serif;font-size:clamp(24px,3vw,32px);line-height:1.1;margin:0 0 6px;font-weight:800}
 .rule{border-top:6px solid var(--line);padding-top:14px}
 .sub{color:var(--grey);margin:8px 0 0;max-width:68ch}
 .stats{display:flex;flex-wrap:wrap;gap:12px 40px;margin-top:26px}
@@ -58,7 +58,7 @@ button.primary{background:var(--red);border-color:var(--red);color:#fff;font-wei
 .runline{font-size:14px;color:var(--grey);margin-top:10px}.runline.fail{color:var(--redink);font-weight:600}
 .subs{font-size:14px;margin-top:6px}.subs a{color:var(--ink)}
 .ep .date{color:var(--grey);font-size:14px;margin-top:8px}
-.ep h3{font-size:clamp(21px,2.6vw,28px);line-height:1.2;margin:0 0 6px}
+.ep h3{font-family:"Noto Serif TC","Noto Sans TC",serif;font-size:clamp(21px,2.6vw,28px);line-height:1.2;margin:0 0 6px}
 .ep p{margin:4px 0 10px;max-width:70ch}
 .tags{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0}
 .tag{font-size:13px;border:1px solid var(--soft);padding:2px 8px;white-space:nowrap}
@@ -89,7 +89,7 @@ footer{color:var(--grey);font-size:14px}
 <body>
 <header class="band">
   <div class="rule"><h1>開源探索誌</h1></div>
-  <p class="sub">每週一・三・五早上 7:23（台北）自動出刊。每集由 Claude 自己選題、讀原始碼、在雲端實際跑起來、做一個能玩的 Demo，再寫成一頁介紹。所有內容都存在 GitHub，任何裝置打開這個網址都能看。</p>
+  <p class="sub">每週一到週五早上 7:23（台北）自動出刊。每集由 Claude 自己選題、讀原始碼、在雲端實際跑起來、做一個能玩的 Demo，再寫成一頁介紹。所有內容都存在 GitHub，任何裝置打開這個網址都能看。</p>
   <div class="stats">
     <div class="stat"><b class="num" id="sEp">–</b><span>已出刊集數</span></div>
     <div class="stat"><b class="num" id="sDom">–</b><span>領域覆蓋（共 14）</span></div>
