@@ -2,7 +2,7 @@
 
 ## 一次出刊怎麼跑
 
-1. 排程（Claude 帳號裡的「開源探索誌 每週一三五出刊」）在週一、三、五 07:23（台北）啟動一個雲端 session。
+1. 排程（Claude 帳號裡的「開源探索誌 自動出刊」）在週一到週五 07:23（台北）啟動一個雲端 session。
 2. session 取得這個 repo，讀 `CLAUDE.md`（營運手冊），用 `oss-episode` skill（`.claude/skills/oss-episode/SKILL.md`）一步一步做。
 3. 能寫死的步驟都交給 `ops/bin/oss.py`：
    - `preflight`：環境、網路、推送權限、資料格式

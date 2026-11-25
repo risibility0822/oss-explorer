@@ -6,7 +6,7 @@
 
 ## 出刊一集＝使用 `oss-episode` skill
 
-排程每週一、三、五早上觸發。照 `.claude/skills/oss-episode/SKILL.md` 一步一步做。如果 Skill 工具不能用，就直接讀那個檔案照做。所有能寫死的步驟都在 `python3 ops/bin/oss.py`，不要手改 `data/*.json`。
+排程每週一到週五早上觸發。照 `.claude/skills/oss-episode/SKILL.md` 一步一步做。如果 Skill 工具不能用，就直接讀那個檔案照做。所有能寫死的步驟都在 `python3 ops/bin/oss.py`，不要手改 `data/*.json`。
 
 ```
 preflight → plan → 發掘與選題 → new <slug> → 研究 → Demo 與 lab → 頁面與 meta.json

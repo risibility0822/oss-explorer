@@ -791,7 +791,7 @@ def cmd_build(a):
     feed = f"""<?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
   <title>開源探索誌</title>
-  <subtitle>每週一、三、五自動出刊：認識一個開源資源，附可玩的 Demo。</subtitle>
+  <subtitle>每週一到週五自動出刊：認識一個開源資源，附可玩的 Demo。</subtitle>
   <link href="{SITE}"/>
   <link rel="self" href="{SITE}feed.xml"/>
   <id>{SITE}</id>
