@@ -465,8 +465,10 @@ def cmd_qa(a):
                 pg.screenshot(path=str(out / f"{name}.png"), full_page=False)
                 if name == "desktop":
                     pg.screenshot(path=str(out / "desktop-full.png"), full_page=True)
+                    # 縮圖＝Demo 本身（作品就是封面照）；沒有 #demo 才用頁面頂端
                     pg.set_viewport_size({"width": 1200, "height": 630}); pg.wait_for_timeout(300)
-                    pg.screenshot(path=str(out / "og.png")); pg.set_viewport_size(vp)
+                    pg.evaluate("(()=>{const d=document.getElementById('demo');if(d){d.scrollIntoView();window.scrollBy(0,(parseFloat(getComputedStyle(d).paddingTop)||0)-12)}})()"); pg.wait_for_timeout(300)
+                    pg.screenshot(path=str(out / "og.png")); pg.evaluate("window.scrollTo(0,0)"); pg.set_viewport_size(vp)
                 if axe.exists() and name == "desktop":
                     pg.add_script_tag(path=str(axe))
                     res = pg.evaluate("async()=>{const r=await axe.run(document,{runOnly:['wcag2a','wcag2aa']});return r.violations.map(v=>({id:v.id,impact:v.impact,n:v.nodes.length,help:v.help}))}")

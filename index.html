@@ -11,107 +11,119 @@
 <link rel="alternate" type="application/atom+xml" title="開源探索誌" href="feed.xml">
 <title>開源探索誌</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@112,800&family=Archivo:wght@400;600&family=Noto+Sans+TC:wght@400;600;800&family=Noto+Serif+TC:wght@700;800&display=swap" rel="stylesheet">
+<!-- 系列字型（跟各集相同）：Noto Serif TC（標題）＋Noto Sans TC（內文）＋Bricolage Grotesque（大數字）＋Archivo（刊頭）＋Bodoni Moda（期數、章節編號） -->
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,800&family=Noto+Sans+TC:wght@400;600;700;800&family=Noto+Serif+TC:wght@700;800&family=Archivo:wght@900&family=Bodoni+Moda:ital,wght@0,400;1,400;1,500&display=swap" rel="stylesheet">
+<!-- 系列骨架：跟各集共用刊頭、章節頭、目錄、頁尾、紙色與字型 -->
+<link rel="stylesheet" href="assets/series.css">
 <style>
-/* VOICE: a station timetable — precise, calm, every line earns its place
-   IDEA: a departures board where each episode is a departure and each domain a platform
-   PICTURE: the coverage board — 14 domains, one red block per episode, gaps visible at a glance
-   COLOUR and TYPE: white, black, signal red #e4002b, one grey; Archivo wide numerals + Noto Sans TC
-   LAYOUT: strict left edge, huge episode numerals hanging in a wide left column, thick top rules */
-:root{color-scheme:light dark;--bg:light-dark(#fff,#0e0e0e);--ink:light-dark(#111,#f2f2f2);--grey:light-dark(#6b6b6b,#9a9a9a);--line:light-dark(#111,#f2f2f2);--soft:light-dark(#ececec,#232323);--red:#e4002b;--redink:light-dark(#c80026,#ff4d6a)}
-:root[data-theme=light]{color-scheme:light}:root[data-theme=dark]{color-scheme:dark}
-*{box-sizing:border-box;min-width:0}
-body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 "Noto Sans TC","Archivo",system-ui,sans-serif;overflow-x:clip}
-.band{padding:clamp(24px,4vw,56px) max(5vw,16px);max-width:1240px;margin:0 auto}
-.num{font-family:"Archivo",sans-serif;font-stretch:112%;font-weight:800;font-variant-numeric:tabular-nums}
-h1{font-family:"Noto Serif TC","Noto Sans TC",serif;font-size:clamp(36px,6vw,52px);line-height:1.05;margin:0;font-weight:800;text-wrap:balance}
-h2{font-family:"Noto Serif TC","Noto Sans TC",serif;font-size:clamp(24px,3vw,32px);line-height:1.1;margin:0 0 6px;font-weight:800}
-.rule{border-top:6px solid var(--line);padding-top:14px}
-.sub{color:var(--grey);margin:8px 0 0;max-width:68ch}
-.stats{display:flex;flex-wrap:wrap;gap:12px 40px;margin-top:26px}
-.stat b{display:block;font-size:clamp(34px,5vw,48px);line-height:1}
-.stat span{color:var(--grey);font-size:14px}
-.next{margin-top:18px;font-size:15px}.next strong{color:var(--redink)}
-nav.scroll{display:flex;gap:6px;overflow-x:auto;padding:12px max(5vw,16px);max-width:1240px;margin:0 auto;border-bottom:1px solid var(--soft)}
-nav a{flex:none;color:var(--ink);text-decoration:none;padding:10px 14px;border:1px solid var(--soft);font-size:15px}
-nav a:hover,nav a:focus-visible{border-color:var(--line)}
-@media(min-width:900px){nav.scroll{position:sticky;top:0;background:var(--bg);z-index:5}}
-.board{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 48px;margin-top:18px}
-.row{display:grid;grid-template-columns:minmax(0,11em) minmax(0,1fr) 2.4em;align-items:center;gap:12px;padding:9px 0;border-bottom:1px solid var(--soft)}
-.row .dn{font-size:15px}.row .ct{text-align:right;font-size:20px}
+/* 首頁＝雜誌封面＋過刊目錄。只放首頁獨有的元件；字型、紙色、刊頭、章節頭都來自 series.css */
+:root{--accent:light-dark(#d9480f,#ff8a4c);--accent-ink:light-dark(#b23c0c,#ff9d66);--accent-soft:light-dark(#fff1e8,#3a2a22)}
+.home-hero{padding-top:clamp(24px,4vw,48px)}
+.home-lead h1 a{color:inherit;text-decoration:none}
+.home-lead h1 a:hover{text-decoration:underline;text-decoration-color:var(--accent);text-decoration-thickness:2px}
+.home-lead .label{margin:0 0 6px;font-family:var(--it);font-style:italic;font-size:17px;color:var(--mute)}
+.home-thumb{display:block;margin-top:clamp(14px,2vw,20px);aspect-ratio:1200/630;overflow:hidden;border-radius:6px;max-width:640px}
+.home-thumb img{width:100%;height:100%;object-fit:cover;display:block}
+.home-stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));margin:clamp(20px,3vw,32px) 0 0;border-top:1px solid var(--ink)}
+.home-stats div{padding-top:10px;padding-bottom:4px;padding-right:12px}
+.home-stats b{display:block;font-family:var(--disp);font-weight:800;font-size:clamp(30px,4vw,44px);line-height:1;font-variant-numeric:tabular-nums}
+.home-stats span{font-size:14px;color:var(--mute)}
+@media(max-width:600px){.home-stats{grid-template-columns:repeat(2,minmax(0,1fr));row-gap:10px}}
+.home-note{max-width:none;font-size:15px;margin:14px 0 0}
+.home-note strong{color:var(--accent-ink)}
+.home-run{max-width:none;font-size:14px;color:var(--mute);margin:6px 0 0}.home-run.fail{color:var(--risk);font-weight:600}
+.home-status{font-size:14px;color:var(--mute);margin:6px 0 0;min-height:1.4em}
+.home-jump{display:none}
+@media(max-width:860px){.home-jump{display:flex;gap:6px;overflow-x:auto;padding-top:4px;padding-bottom:4px}.home-jump a{flex:none;color:var(--ink);text-decoration:none;padding:10px 12px;border:1px solid var(--line);border-radius:8px;font-size:15px}}
+/* 01 領域地圖 */
+.board{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:48px}
+.row{display:grid;grid-template-columns:minmax(0,11em) minmax(0,1fr) 2em;align-items:center;gap:12px;padding-top:9px;padding-bottom:9px;border-bottom:1px solid var(--line)}
+.row .dn{font-size:15px}.row .ct{text-align:right;font-family:var(--it);font-size:20px}
+.row.zero .dn,.row.zero .ct{color:var(--mute)}
 .blocks{display:flex;flex-wrap:wrap;gap:4px}
-.blk{width:18px;height:18px;background:var(--red);display:inline-block;text-decoration:none}
-.blk.empty{background:none;border:1px dashed var(--grey);opacity:.6}
-.row.zero .dn{color:var(--grey)}
+.blk{width:18px;height:18px;background:var(--accent);display:inline-block;border-radius:2px}
+.blk.empty{background:none;border:1px dashed var(--mute);opacity:.6}
 @media(max-width:760px){.board{grid-template-columns:minmax(0,1fr)}}
-.tools{display:flex;flex-wrap:wrap;gap:10px;margin:18px 0 4px}
-select,input[type=search],textarea,input[type=text]{font:inherit;font-size:16px;color:var(--ink);background:var(--bg);border:1px solid var(--grey);padding:10px 12px;min-height:44px;border-radius:0}
-select:focus-visible,input:focus-visible,textarea:focus-visible,button:focus-visible{outline:3px solid var(--red);outline-offset:1px}
-button{font:inherit;font-size:15px;min-height:44px;padding:8px 14px;border:1px solid var(--line);background:var(--bg);color:var(--ink);cursor:pointer;border-radius:0}
-button.on{background:var(--ink);color:var(--bg)}
-button.primary{background:var(--red);border-color:var(--red);color:#fff;font-weight:600}
-.ep{display:grid;grid-template-columns:clamp(84px,14vw,170px) minmax(0,1fr);gap:0 24px;border-top:2px solid var(--line);padding:22px 0 26px}
-.ep .no{font-size:clamp(44px,8vw,92px);line-height:.9;color:var(--ink)}
-.ep .thumb{display:block;margin:4px 0 12px;max-width:520px;aspect-ratio:1200/630;overflow:hidden;border:1px solid var(--soft)}
-.ep .thumb img{width:100%;height:100%;object-fit:cover;display:block}
-.status:empty{display:none}
-.runline{font-size:14px;color:var(--grey);margin-top:10px}.runline.fail{color:var(--redink);font-weight:600}
-.subs{font-size:14px;margin-top:6px}.subs a{color:var(--ink)}
-.ep .date{color:var(--grey);font-size:14px;margin-top:8px}
-.ep h3{font-family:"Noto Serif TC","Noto Sans TC",serif;font-size:clamp(21px,2.6vw,28px);line-height:1.2;margin:0 0 6px}
-.ep p{margin:4px 0 10px;max-width:70ch}
-.tags{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0}
-.tag{font-size:13px;border:1px solid var(--soft);padding:2px 8px;white-space:nowrap}
-.tag.hot{border-color:var(--red);color:var(--redink)}
-.res{font-size:14px;color:var(--grey);margin:6px 0}
-.res a{color:var(--ink)}
-.go{display:inline-block;margin:6px 0 12px;font-weight:600;color:var(--redink);text-decoration:none;border-bottom:2px solid var(--red);padding:6px 0}
-.fb{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin-top:6px}
-.fb .lbl{font-size:14px;color:var(--grey);margin-right:4px}
-.stars button{min-width:44px;padding:8px 0}
-.note{display:flex;gap:8px;margin-top:8px;flex-wrap:wrap}.note textarea{flex:1 1 280px;min-height:44px;resize:vertical}
-.saved{font-size:13px;color:var(--grey);min-height:1.2em}
-.hl{margin:4px 0 8px;padding-left:1.2em}.hl li{margin:2px 0}
-.ideas{display:grid;gap:0}
-.idea{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:6px 16px;border-bottom:1px solid var(--soft);padding:14px 0}
-.idea h4{margin:0;font-size:17px}.idea p{margin:2px 0;color:var(--ink);max-width:72ch}
-.idea .meta{font-size:13px;color:var(--grey)}
-.wish{border-bottom:1px solid var(--soft);padding:12px 0;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:4px 12px}
-.st{font-size:13px;white-space:nowrap}.st.open{color:var(--redink)}
-.empty-state{border:1px dashed var(--grey);padding:22px;color:var(--grey);margin-top:14px}
-.status{font-size:14px;color:var(--grey);margin-top:10px;min-height:1.4em}
-.how ol{padding-left:1.4em;max-width:72ch}.how li{margin:6px 0}
-footer{color:var(--grey);font-size:14px}
-@media(max-width:600px){.ep{grid-template-columns:minmax(0,1fr)}.ep .no{font-size:56px}.row{grid-template-columns:minmax(0,8.5em) minmax(0,1fr) 2em}}
-@media(prefers-reduced-motion:no-preference){.blk{transition:transform .2s}.blk:hover{transform:scale(1.25)}}
+@media(max-width:600px){.row{grid-template-columns:minmax(0,8.5em) minmax(0,1fr) 2em}}
+/* 02 各集（過刊） */
+.tools{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:8px}
+.tools input,.tools select{font-size:16px;color:var(--ink);background:var(--bg);border:1px solid var(--mute);border-radius:8px;padding:10px 12px;min-height:44px}
+.issue{display:grid;grid-template-columns:clamp(72px,11vw,128px) minmax(0,1fr) minmax(0,300px);column-gap:clamp(16px,3vw,32px);padding-top:22px;padding-bottom:24px;border-top:1px solid var(--line)}
+.issue .no{font-family:var(--it);font-size:clamp(40px,6vw,64px);line-height:.85;margin:0}
+.issue .date{font-size:13px;color:var(--mute);margin:8px 0 0}
+.issue h3{font-size:clamp(20px,2.4vw,26px);margin-bottom:6px}
+.issue h3 a{color:inherit;text-decoration:none}.issue h3 a:hover{text-decoration:underline;text-decoration-color:var(--accent)}
+.issue p{margin:4px 0 8px}
+.issue .dom{font-family:var(--it);font-style:italic;color:var(--mute);font-size:15px;margin:0 0 4px}
+.issue .hl{margin:6px 0 8px;padding-left:1.2em;font-size:15px}.issue .hl li{margin:2px 0}
+.issue .res{font-size:14px;color:var(--mute);margin:4px 0}
+.issue .res a,.issue .links a{color:var(--ink)}
+.issue .links{display:flex;flex-wrap:wrap;gap:4px 18px;font-weight:600;margin-top:8px}
+.issue .links a{text-decoration-color:var(--accent);text-decoration-thickness:2px;text-underline-offset:5px;padding-top:6px;padding-bottom:6px}
+.issue .pic{display:block;aspect-ratio:1200/630;overflow:hidden;border-radius:6px;align-self:start}
+.issue .pic img{width:100%;height:100%;object-fit:cover;display:block}
+@media(max-width:860px){.issue{grid-template-columns:clamp(64px,14vw,96px) minmax(0,1fr)}.issue .pic{grid-column:2;grid-row:1;margin-bottom:12px}}
+@media(max-width:600px){.issue{grid-template-columns:minmax(0,1fr)}.issue .pic{grid-column:1;grid-row:auto}.issue .no{font-size:44px}}
+/* 03 點子庫 */
+.idea-row{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:6px 16px;border-bottom:1px solid var(--line);padding-top:14px;padding-bottom:14px}
+.idea-row h3{font-size:18px;margin:0}.idea-row p{margin:2px 0}
+.idea-row .meta{font-size:13px;color:var(--mute)}
+.idea-row .meta i{font-family:var(--it);font-size:15px;color:var(--ink);margin-right:6px}
+.starred{font-size:13px;color:var(--accent-ink);border:1px solid var(--accent);border-radius:999px;padding:2px 10px;white-space:nowrap}
+.btn.on{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+/* 04 許願 */
+.wish{border-bottom:1px solid var(--line);padding-top:12px;padding-bottom:12px;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:4px 12px}
+.wish .re{color:var(--mute);font-size:14px}
+.st{font-size:13px;white-space:nowrap}.st.open{color:var(--accent-ink)}
+.edit{display:inline-block;font-weight:600;color:var(--accent-ink);text-decoration-thickness:2px;padding-top:6px;padding-bottom:6px}
+.empty-state{border:1px dashed var(--mute);border-radius:8px;padding:20px;color:var(--mute);margin-top:12px}
+/* 05 怎麼運作 */
+.how-list{padding-left:1.4em;max-width:72ch}.how-list li{margin:6px 0}
 </style>
 </head>
 <body>
-<header class="band">
-  <div class="rule"><h1>開源探索誌</h1></div>
-  <p class="sub">每週一到週五早上 7:23（台北）自動出刊。每集由 Claude 自己選題、讀原始碼、在雲端實際跑起來、做一個能玩的 Demo，再寫成一頁介紹。所有內容都存在 GitHub，任何裝置打開這個網址都能看。</p>
-  <div class="stats">
-    <div class="stat"><b class="num" id="sEp">–</b><span>已出刊集數</span></div>
-    <div class="stat"><b class="num" id="sDom">–</b><span>領域覆蓋（共 14）</span></div>
-    <div class="stat"><b class="num" id="sIdea">–</b><span>累積點子</span></div>
-    <div class="stat"><b class="num" id="sStar">–</b><span>你收藏的點子</span></div>
+<header class="wrap mast-wrap home-hero" data-section="header">
+  <p class="spine">開源探索誌｜每集打開一個黑盒子</p>
+  <div class="mast"><p class="logo"><small>開源探索誌</small>OSS <br>EXPLORER</p><p class="no" id="mNo">–</p><p class="meta">每週一到週五　<br>早上 7:23（台北）出刊</p></div>
+  <div class="cover">
+    <div class="home-lead">
+      <p class="label">Latest Issue</p>
+      <h1 id="leadTitle">開源探索誌</h1>
+      <p class="dek" id="leadDek">每集由 Claude 自己選題、讀原始碼、在雲端實際跑起來、做一個能玩的 Demo，再寫成一頁給外行人也看得懂的介紹。</p>
+      <a class="home-thumb" id="leadPic" href="#episodes" hidden tabindex="-1" aria-hidden="true"></a>
+    </div>
+    <nav class="toc" aria-label="首頁目錄"><p class="t">目錄</p><ol>
+      <li><a href="#map"><i>01</i><span>領域地圖</span></a></li>
+      <li><a href="#episodes"><i>02</i><span>各集</span></a></li>
+      <li><a href="#ideas"><i>03</i><span>點子庫</span></a></li>
+      <li><a href="#wishes"><i>04</i><span>許願與回饋</span></a></li>
+      <li><a href="#how"><i>05</i><span>怎麼運作</span></a></li>
+    </ol></nav>
   </div>
-  <p class="next" id="next"></p>
-  <p class="runline" id="runline"></p>
-  <p class="subs">新一集出刊時會推播到你的手機；也可以用 RSS 閱讀器訂閱 <a href="feed.xml">feed.xml</a>。</p>
-  <p class="status" id="status">載入中…</p>
+  <div class="home-stats">
+    <div><b id="sEp">–</b><span>已出刊集數</span></div>
+    <div><b id="sDom">–</b><span>領域覆蓋（共 14）</span></div>
+    <div><b id="sIdea">–</b><span>累積點子</span></div>
+    <div><b id="sStar">–</b><span>你收藏的點子</span></div>
+  </div>
+  <p class="home-note" id="next"></p>
+  <p class="home-run" id="runline"></p>
+  <p class="home-run">新一集出刊時會推播到你的手機；也可以用 RSS 閱讀器訂閱 <a href="feed.xml">feed.xml</a>。</p>
+  <p class="home-status" id="status">載入中…</p>
+  <nav class="home-jump" aria-label="區段"><a href="#map">領域地圖</a><a href="#episodes">各集</a><a href="#ideas">點子庫</a><a href="#wishes">許願池</a><a href="#how">怎麼運作</a></nav>
 </header>
-<nav class="scroll" aria-label="區段">
-  <a href="#map">領域地圖</a><a href="#episodes">各集</a><a href="#ideas">點子庫</a><a href="#wishes">許願池</a><a href="#how">怎麼運作</a>
-</nav>
 
-<section class="band" id="map">
-  <div class="rule"><h2>領域地圖</h2><p class="sub">每個紅格是一集。虛線格表示還沒探索過，排程會優先往那裡走。點紅格可直接跳到那一集。</p></div>
+<section class="wrap" id="map">
+  <div class="sec" aria-hidden="true"><i>01</i><em>Coverage Map</em></div>
+  <h2>領域地圖</h2>
+  <p>每個色塊是一集，虛線格是還沒探索過的領域，排程會優先往那裡走。點色塊可以直接跳到那一集。</p>
   <div class="board" id="board"></div>
 </section>
 
-<section class="band" id="episodes">
-  <div class="rule"><h2>各集</h2><p class="sub">最新的在最上面。每集都附上 Demo 與可直接執行的實驗程式碼。</p></div>
+<section class="wrap" id="episodes">
+  <div class="sec" aria-hidden="true"><i>02</i><em>Back Issues</em></div>
+  <h2>各集</h2>
+  <p>最新的在最上面。每集都附可以玩的 Demo 和可以直接執行的實驗程式碼。</p>
   <div class="tools">
     <input type="search" id="q" placeholder="搜尋標題、資源、標籤" aria-label="搜尋">
     <select id="fDom" aria-label="領域"><option value="">全部領域</option></select>
@@ -120,30 +132,38 @@ footer{color:var(--grey);font-size:14px}
   <div id="epList"></div>
 </section>
 
-<section class="band" id="ideas">
-  <div class="rule"><h2>點子庫</h2><p class="sub">每集都會留下 3–5 個「可以拿它做什麼」的點子。想收藏哪個點子，寫進下方「許願與回饋」就好。</p></div>
-  <div class="tools"><button id="onlyStar" aria-pressed="false">只看收藏</button></div>
-  <div class="ideas" id="ideaList"></div>
+<section class="wrap" id="ideas">
+  <div class="sec" aria-hidden="true"><i>03</i><em>Ideas</em></div>
+  <h2>點子庫</h2>
+  <p>每集都會留下 3–5 個「可以拿它做什麼」的點子。想收藏哪個，寫進下面的許願與回饋就好。</p>
+  <div class="tools"><button type="button" class="btn" id="onlyStar" aria-pressed="false">只看收藏</button></div>
+  <div id="ideaList"></div>
 </section>
 
-<section class="band" id="wishes">
-  <div class="rule"><h2>許願與回饋</h2><p class="sub">想看什麼主題、對哪一集打幾分、想收藏哪個點子，都寫在 repo 裡的 <b>feedback.md</b>。在手機或電腦打開下面的連結，點鉛筆圖示編輯、按 Commit 就完成。每次出刊前都會先讀這個檔案。</p></div>
-  <p><a class="go" id="fbEdit" href="#">編輯 feedback.md →</a></p>
+<section class="wrap" id="wishes">
+  <div class="sec" aria-hidden="true"><i>04</i><em>Letters</em></div>
+  <h2>許願與回饋</h2>
+  <p>想看什麼主題、對哪一集打幾分、想收藏哪個點子，都寫在 repo 裡的 <b>feedback.md</b>。在手機或電腦打開下面的連結，點鉛筆圖示編輯、按 Commit 就完成。每次出刊前都會先讀這個檔案。</p>
+  <p><a class="edit" id="fbEdit" href="#">編輯 feedback.md</a></p>
   <div id="wishList"></div>
 </section>
 
-<section class="band how" id="how">
-  <div class="rule"><h2>怎麼運作</h2></div>
-  <ol>
+<section class="wrap" id="how">
+  <div class="sec" aria-hidden="true"><i>05</i><em>How it Works</em></div>
+  <h2>怎麼運作</h2>
+  <ol class="how-list">
     <li><b>讀狀態</b>：每次出刊先讀 repo 裡的 data/（過去各集、點子、輪替狀態）與 feedback.md（你的許願、評分、收藏）。</li>
     <li><b>選題</b>：許願優先；否則在 14 個領域中挑最久沒去、你評價高的方向；「巨星 → 隱藏寶石 → 新星＋組合技」三集一輪；主鏡頭在「厲害／好玩／商業潛力」間輪替。</li>
     <li><b>發掘與研究</b>：從 GitHub Trending、Show HN、awesome 清單、開放資料目錄等至少三個來源找候選，clone 原始碼拿真實的活躍度與授權資訊。</li>
     <li><b>實際跑起來</b>：在雲端工作區安裝執行，結果全部是真的輸出；能在瀏覽器跑的就做成可互動 Demo。</li>
-    <li><b>發布</b>：寫成一頁介紹（原理圖、Demo、上手程式碼、點子、跨集組合、限制、來源），連同實驗程式碼推到 GitHub，網站自動更新，並推播通知你。</li>
+    <li><b>審查與發布</b>：內容審查員查事實、設計審查員用外行人的眼睛看頁面，通過後推到 GitHub，網站自動更新；再到線上版親手玩一次，並推播通知你。</li>
   </ol>
 </section>
-<footer class="band">資料來自本 repo 的 data/episodes.json 與 data/ideas.json。數字以各集頁面標示的日期為準。</footer>
 
+<footer class="wrap">
+  <p class="folio"><span><i id="fNo">–</i>開源探索誌</span><span>每集打開一個黑盒子</span></p>
+  <p>資料來自本 repo 的 data/episodes.json 與 data/ideas.json。數字以各集頁面標示的日期為準。</p>
+</footer>
 <script>
 {
 const DOMAINS=["AI 模型與推論","AI 應用與 Agent 框架","開發者工具","資料庫與後端基礎設施","自架服務 self-hosted","開放資料集","前端・設計・UI・字體・圖示","多媒體","地圖與地理空間","科學・數學・生醫・氣候","隱私・安全・網路","硬體・IoT・嵌入式・機器人","生產力・知識管理・桌面 App","好玩・怪奇・創意程式・藝術"];
@@ -162,12 +182,16 @@ function renderStats(){
   $("sIdea").textContent=S.ideas.length;$("sStar").textContent=S.ideas.filter(i=>i.starred).length;
   const h=S.state&&S.state.nextHint;
   $("next").innerHTML=h?`<strong>下一集預告</strong>　${esc(h)}`:"";
+  const L=[...S.eps].sort((a,b)=>b.no-a.no)[0];
+  if(L){const u=L.path?L.path:safeUrl(L.url);$("mNo").textContent=pad(L.no);$("fNo").textContent=pad(L.no);
+    $("leadTitle").innerHTML=u?`<a href="${esc(u)}">${esc(L.title)}</a>`:esc(L.title);$("leadDek").textContent=L.oneliner||"";
+    if(L.thumb){$("leadPic").href=u||"#episodes";$("leadPic").innerHTML=`<img src="${esc(L.thumb)}" alt="" width="1200" height="630">`;$("leadPic").hidden=false}}
 }
 function renderBoard(){
   $("board").innerHTML=DOMAINS.map(d=>{
     const list=S.eps.filter(e=>dmatch(e.domain,d)).sort((a,b)=>a.no-b.no);
     const blocks=list.length?list.map(e=>`<a class="blk" href="#ep-${pad(e.no)}" title="#${pad(e.no)} ${esc(e.title)}" aria-label="第 ${pad(e.no)} 集"></a>`).join(""):`<span class="blk empty" aria-hidden="true"></span>`;
-    return `<div class="row${list.length?"":" zero"}"><span class="dn">${esc(d)}</span><span class="blocks">${blocks}</span><span class="ct num">${list.length}</span></div>`;
+    return `<div class="row${list.length?"":" zero"}"><span class="dn">${esc(d)}</span><span class="blocks">${blocks}</span><span class="ct">${list.length}</span></div>`;
   }).join("");
 }
 function epVisible(e){
@@ -183,32 +207,30 @@ function renderEps(){
   if(!list.length){$("epList").innerHTML=`<div class="empty-state">沒有符合篩選條件的集數。</div>`;return}
   $("epList").innerHTML=list.map(e=>{
     const u=e.path?e.path:safeUrl(e.url);
-    const res=(e.resources||[]).map(x=>{const ru=safeUrl(x.url);return (ru?`<a href="${esc(ru)}">${esc(x.name)}</a>`:esc(x.name))+(x.license?` · ${esc(x.license)}`:"")+(x.stars&&/\d/.test(x.stars)?` · ★${esc(x.stars)}`:"")}).join("　／　");
-    const tags=[e.domain,e.format,e.tier,e.lens&&("主鏡頭："+e.lens)].filter(Boolean).map((t,i)=>`<span class="tag${i===3?" hot":""}">${esc(t)}</span>`).join("")+(e.tags||[]).map(t=>`<span class="tag">${esc(t)}</span>`).join("");
+    const res=(e.resources||[]).map(x=>{const ru=safeUrl(x.url);return (ru?`<a href="${esc(ru)}">${esc(x.name)}</a>`:esc(x.name))+(x.license?`（${esc(x.license)}`+(x.stars&&/\d/.test(x.stars)?`，${esc(x.stars)} 顆星`:"")+"）":"")}).join("、");
     const hl=(e.highlights||[]).length?`<ul class="hl">${e.highlights.map(h=>`<li>${esc(h)}</li>`).join("")}</ul>`:"";
-    return `<article class="ep" id="ep-${pad(e.no)}">
-      <div><div class="no num">${pad(e.no)}</div><div class="date num">${esc(e.date)}</div></div>
-      <div>${e.thumb?`<a class="thumb" href="${esc(u)}" aria-hidden="true" tabindex="-1"><img src="${esc(e.thumb)}" alt="" loading="lazy" width="1200" height="630"></a>`:""}<h3>${esc(e.title)}</h3><p>${esc(e.oneliner)}</p>
-      <div class="tags">${tags}</div>${hl}
+    return `<article class="issue" id="ep-${pad(e.no)}">
+      <div><p class="no">${pad(e.no)}</p><p class="date">${esc(e.date)}</p></div>
+      <div><p class="dom">${esc(e.domain)}</p><h3>${u?`<a href="${esc(u)}">${esc(e.title)}</a>`:esc(e.title)}</h3><p>${esc(e.oneliner)}</p>${hl}
       ${e.demo?`<p class="res"><b>Demo：</b>${esc(e.demo)}</p>`:""}
       <p class="res">${res}</p>
-      ${u?`<a class="go" href="${esc(u)}">閱讀本集 →</a>`:""}
-      ${e.lab?`<a class="go" href="${esc(REPO)}/tree/main/${esc(e.lab)}" style="margin-left:18px">實驗程式碼 →</a>`:""}
-      </div></article>`;
+      <p class="links">${u?`<a href="${esc(u)}">閱讀本集</a>`:""}${e.lab?`<a href="${esc(REPO)}/tree/main/${esc(e.lab)}">實驗程式碼</a>`:""}</p></div>
+      ${e.thumb&&u?`<a class="pic" href="${esc(u)}" aria-hidden="true" tabindex="-1"><img src="${esc(e.thumb)}" alt="" loading="lazy" width="1200" height="630"></a>`:"<span></span>"}
+      </article>`;
   }).join("");
 }
 function renderIdeas(){
   const list=S.ideas.filter(i=>!S.onlyStar||i.starred).sort((a,b)=>(b.no||0)-(a.no||0)||String(a.id).localeCompare(String(b.id)));
   if(!S.ideas.length){$("ideaList").innerHTML=`<div class="empty-state">點子會隨每集出刊累積在這裡。</div>`;return}
   if(!list.length){$("ideaList").innerHTML=`<div class="empty-state">還沒有收藏的點子。</div>`;return}
-  $("ideaList").innerHTML=list.map(i=>`<div class="idea"><div><h4>${esc(i.title)}</h4><p>${esc(i.pitch)}</p>
-    <div class="meta">#${pad(i.no||0)}　·　工作量：${esc(i.effort||"—")}　·　價值：${esc(i.value||"—")}</div></div>
-    <div>${i.starred?'<span class="tag hot">已收藏</span>':""}</div></div>`).join("");
+  $("ideaList").innerHTML=list.map(i=>`<div class="idea-row"><div><h3>${esc(i.title)}</h3><p>${esc(i.pitch)}</p>
+    <p class="meta"><i>${pad(i.no||0)}</i>工作量：${esc(i.effort||"—")}；價值：${esc(i.value||"—")}</p></div>
+    <div>${i.starred?'<span class="starred">已收藏</span>':""}</div></div>`).join("");
 }
 function renderWishes(){
   $("fbEdit").href=REPO+"/edit/main/feedback.md";
   const list=(S.state&&S.state.wishes)||[];const lbl={open:"排隊中",done:"已完成",blocked:"做不到"};
-  $("wishList").innerHTML=list.length?list.map(w=>`<div class="wish"><div>${esc(w.text)}${w.reply?`<div style="color:var(--grey);font-size:14px">↳ ${esc(w.reply)}${w.doneIn?`（${esc(w.doneIn)}）`:""}</div>`:""}</div><span class="st ${esc(w.status)}">${esc(lbl[w.status]||w.status)}</span></div>`).join(""):`<div class="empty-state">目前沒有排隊中的許願。</div>`;
+  $("wishList").innerHTML=list.length?list.map(w=>`<div class="wish"><div>${esc(w.text)}${w.reply?`<div class="re">回覆：${esc(w.reply)}${w.doneIn?`（${esc(w.doneIn)}）`:""}</div>`:""}</div><span class="st ${esc(w.status)}">${esc(lbl[w.status]||w.status)}</span></div>`).join(""):`<div class="empty-state">目前沒有排隊中的許願。</div>`;
 }
 
 function renderAll(){renderStats();renderBoard();renderEps();renderIdeas();renderWishes()}

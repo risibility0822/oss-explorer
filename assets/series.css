@@ -161,3 +161,5 @@ header.mast-wrap{position:relative}
 .sec em{font-weight:400;font-size:15px;color:var(--mute);text-align:right}
 .folio{max-width:none;display:flex;flex-wrap:wrap;justify-content:space-between;gap:4px 16px;font-size:13px}
 .folio i{font-family:var(--it);margin-inline-end:8px}
+.mast .logo a{color:inherit;text-decoration:none}
+.mast .meta .home{color:var(--ink);font-weight:600;text-decoration-color:var(--accent);text-decoration-thickness:2px;text-underline-offset:4px;display:inline-block;padding-top:4px;padding-bottom:4px}

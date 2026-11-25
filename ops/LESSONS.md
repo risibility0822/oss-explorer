@@ -38,3 +38,4 @@
 - 2026-11-25：頁面上的指令範例一定要在乾淨環境真的跑過才能寫「實測」：rembg[cpu] 不含命令列依賴，要 rembg[cpu,cli]（ep-001 重做時審查員抓到）。倍數比較要用同一個單位的原始數字算（1,024,331,469 ÷ 4,574,861 bytes ≈ 224，不是 1024 MB ÷ 4.4 MB）。
 - 2026-11-25：推送後 GitHub Pages 偶爾不會開始部署（ep-001 重做時 3eddbbb 推了 10 分鐘都沒有 workflow run）。用 gh api repos/<repo>/actions/runs 查得到部署狀態；沒有就推一個空 commit 重新觸發，不要只看線上頁面是不是舊的就以為是快取。
 - 2026-11-25：2026-11-25 系列骨架改成雜誌版面（參考《大誌》）：刊頭＋期數、書背標語、目錄、章節頭 01–05、folio、紙色 #f8f8f6；字型加 Bodoni Moda（斜體數字與英文欄名）與 Archivo 900（刊頭）。impeccable 會把「字貼著底線」判成 cramped padding，章節頭的底線要留 padding-bottom:8px。
+- 2026-11-25：首頁也改用 assets/series.css（刊頭顯示最新一期期數、封面是最新一集、目錄、章節頭 01–05、過刊列表）；每集刊頭的 OSS EXPLORER 和「回首頁」都連回 ../。縮圖 og.jpg 改拍 Demo 本身（作品就是封面照），不再是頁面頂端，避免首頁出現「頁面裡的頁面」。meta.json 的 oneliner、demo 會直接顯示在首頁，也要用白話寫。
