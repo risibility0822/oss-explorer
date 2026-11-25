@@ -770,7 +770,7 @@ def cmd_register(a):
         if errs: [bad(x) for x in errs]; die(f"寫入後的 data/{name}.json 不符合 schema，未儲存")
     save(DATA / "episodes.json", episodes); save(DATA / "ideas.json", ideas); save(DATA / "state.json", state)
     step("register", "pass")
-    if cur(): set_cur(phase="registered")
+    if cur() and cur().get("id") == meta["id"] and cur().get("phase") not in ("published",): set_cur(phase="registered")   # 重新登錄別的集數（或已發布的這集）不改本次進度
     ok(f"已登錄 {meta['id']}：episodes {len(episodes)} 集、ideas {len(ideas)} 個、pool {len(state['pool'])} 筆")
 
 def move_done_wishes(state):
