@@ -51,14 +51,16 @@
   "endedAt": "2026-11-25T10:44:47+08:00",
   "status": "ok",
   "episode": "ep-002",
-  "note": "依 visual-explainer 原則重做第 002 集呈現",
+  "note": "依 visual-explainer 原則重做第 002 集呈現 ⚠️ 線上檢查降級為本機檢查",
   "steps": {
    "check": "pass",
    "qa": "pass",
    "register": "pass",
    "build": "pass",
    "review": "pass",
-   "design": "pass"
+   "design": "pass",
+   "live": "fallback",
+   "played": "pass"
   }
  }
 ]
