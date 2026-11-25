@@ -13,7 +13,7 @@
 <link rel="alternate" type="application/atom+xml" title="開源探索誌" href="../feed.xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <!-- 系列字型（固定）：Noto Serif TC（標題）＋Noto Sans TC（內文）＋Bricolage Grotesque（大數字） -->
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,800&family=Noto+Sans+TC:wght@400;600;700;800&family=Noto+Serif+TC:wght@700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,800&family=Noto+Sans+TC:wght@400;600;700;800&family=Noto+Serif+TC:wght@700;800&family=Archivo:wght@900&family=Bodoni+Moda:ital,wght@0,400;1,400;1,500&display=swap" rel="stylesheet">
 <!-- 系列骨架（固定，不要覆寫） -->
 <link rel="stylesheet" href="../assets/series.css">
 <style>
@@ -94,10 +94,14 @@
 <script>new MutationObserver(()=>{for(const c of document.querySelectorAll('.stack td:not([data-l])')){let i=0,p=c;while(p=p.previousElementSibling)i+=p.colSpan;c.dataset.l=c.closest('table').rows[0].cells[i]?.textContent||''}}).observe(document,{childList:true,subtree:true})</script>
 </head>
 <body>
-<header class="wrap" data-section="header" style="padding-top:clamp(24px,4vw,48px)">
-  <p class="kicker"><b>開源探索誌 第 001 集</b><span>2026-11-24</span><span>AI 模型與推論</span></p>
-  <h1>照片不用上傳，在瀏覽器裡 AI 去背</h1>
-  <p class="dek">AI 在你的瀏覽器裡把主角剪下來，照片不離開你的裝置。選一張範例，或放你自己的照片試試。</p>
+<header class="wrap mast-wrap" data-section="header" style="padding-top:clamp(24px,4vw,48px)">
+  <p class="spine">開源探索誌｜每集打開一個黑盒子</p>
+  <div class="mast"><p class="logo"><small>開源探索誌</small>OSS <br>EXPLORER</p><p class="no">001</p><p class="meta">2026-11-24　<br>AI 模型與推論</p></div>
+  <div class="cover">
+    <div><h1>照片不用上傳，在瀏覽器裡 AI 去背</h1>
+    <p class="dek">AI 在你的瀏覽器裡把主角剪下來，照片不離開你的裝置。選一張範例，或放你自己的照片試試。</p></div>
+    <nav class="toc" aria-label="本集目錄"><p class="t">本集</p><ol><li><a href="#tldr"><i>01</i><span>30 秒看懂</span></a></li><li><a href="#how"><i>02</i><span>打開黑盒子：AI 只是替每一點打分數</span></a></li><li><a href="#findings"><i>03</i><span>放得進網頁，但要挑對模型</span></a></li><li><a href="#ideas"><i>04</i><span>你可以拿它做什麼</span></a></li><li><a href="#deep"><i>05</i><span>想深入再展開</span></a></li></ol></nav>
+  </div>
 </header>
 
 <section class="wrap" data-section="demo" id="demo" aria-label="去背 Demo">
@@ -153,6 +157,7 @@
 </section>
 
 <section class="wrap tldr" data-section="tldr" id="tldr">
+  <div class="sec" aria-hidden="true"><i>01</i><em>Briefing</em></div>
   <h2>30 秒看懂</h2>
   <dl>
     <dt>先說背景</dt><dd>去背就是把照片裡的主角剪下來、背景變透明；以前要用修圖軟體一筆一筆描，或把照片上傳到 remove.bg 這類收費網站。</dd>
@@ -164,6 +169,7 @@
 </section>
 
 <section class="wrap" data-section="how" id="how">
+  <div class="sec" aria-hidden="true"><i>02</i><em>How it Works</em></div>
   <h2>打開黑盒子：AI 只是替每一點打分數</h2>
   <figure class="mech">
     <svg viewBox="0 0 440 700" role="img" aria-label="機制圖：你的照片進入去背 AI，先縮成 320×320 的小方塊，模型替每一點打分數，分數圖放大回原尺寸當成透明度，套回原圖就是去背結果。圖上的小圖都是 Demo 真的算出來的。" id="mechSvg">
@@ -222,6 +228,7 @@
 </section>
 
 <section class="wrap" data-section="findings" id="findings">
+  <div class="sec" aria-hidden="true"><i>03</i><em>Findings</em></div>
   <h2>放得進網頁，但要挑對模型</h2>
   <div class="finding">
     <figure>
@@ -261,6 +268,7 @@
 </section>
 
 <section class="wrap" data-section="ideas" id="ideas">
+  <div class="sec" aria-hidden="true"><i>04</i><em>Ideas</em></div>
   <h2>你可以拿它做什麼</h2>
   <div class="idea"><h3>Mac 商品照一次處理工具<span class="effort">一個月</span></h3><p>整個資料夾的商品照一次去背、換白底、裁成蝦皮或 momo 的尺寸。macOS 內建的主角擷取當主力，rembg 當備援；賣點是省時間，一次買斷。</p></div>
   <div class="idea"><h3>自己架的去背服務<span class="effort">一個週末</span></h3><p>rembg 自己就有一行指令開的網路服務（<code>rembg s</code>），讓別的程式把照片傳來去背。在它前面加上每個客戶一組通行碼、按張計費、只用可以商用的 u2net／u2netp，賣給不想把照片送出國、也不想自己維護的公司。</p></div>
@@ -268,7 +276,8 @@
   <div class="idea"><h3>LINE 貼圖製作器<span class="effort">一個月</span></h3><p>寵物或自拍自動去背、加白邊和字，輸出成 LINE 的規格；白邊剛好蓋住毛髮邊緣剪不乾淨的地方。</p></div>
 </section>
 
-<section class="wrap deep" aria-label="深入">
+<section class="wrap deep" id="deep" aria-label="深入">
+  <div class="sec" aria-hidden="true"><i>05</i><em>Deep Dive</em></div>
   <h2>想深入再展開</h2>
   <details id="how-more"><summary><b>原理細節</b><span>前處理的數學、U²-Net 的結構、分數怎麼變成透明度</span></summary><div class="body">
     <p><b>縮放與正規化。</b>照片縮成 320×320 後，每個顏色值先除以整張圖的最大值，再減去 ImageNet 資料集的平均、除以標準差（R/G/B 各一組），排成「先紅、再綠、再藍」的 Float32 陣列。這跟 rembg 的 U2netpSession 一模一樣，只有縮放演算法不同（Python 用 PIL 的 LANCZOS，瀏覽器用 canvas）。</p>
@@ -361,6 +370,7 @@ const prob = out[session.outputNames[0]].data;   // 320×320 的分數，拉伸�
 </section>
 
 <footer class="wrap">
+  <p class="folio"><span><i>001</i>開源探索誌｜rembg</span><span>每集打開一個黑盒子</span></p>
   <p>本集由 Claude 自動選題、研究、實作，製作於 2026-11-24，2026-11-25 依新版流程重做。</p>
   <p><a href="https://github.com/risibility0822/oss-explorer/edit/main/feedback.md">幫這集評分或許願（feedback.md）</a>　<a href="../">回到開源探索誌首頁</a></p>
 </footer>

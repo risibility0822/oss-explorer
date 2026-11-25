@@ -12,7 +12,7 @@
 <meta property="og:type" content="article">
 <link rel="alternate" type="application/atom+xml" title="開源探索誌" href="../feed.xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,800&family=Noto+Sans+TC:wght@400;600;700;800&family=Noto+Serif+TC:wght@700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,800&family=Noto+Sans+TC:wght@400;600;700;800&family=Noto+Serif+TC:wght@700;800&family=Archivo:wght@900&family=Bodoni+Moda:ital,wght@0,400;1,400;1,500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../assets/series.css">
 <style>
 /* ===== 本集設計 =====
@@ -96,10 +96,14 @@
 <script>new MutationObserver(()=>{for(const c of document.querySelectorAll('.stack td:not([data-l])')){let i=0,p=c;while(p=p.previousElementSibling)i+=p.colSpan;c.dataset.l=c.closest('table').rows[0].cells[i]?.textContent||''}}).observe(document,{childList:true,subtree:true})</script>
 </head>
 <body>
-<header class="wrap" data-section="header" style="padding-top:clamp(24px,4vw,48px)">
-  <p class="kicker"><b>開源探索誌 第 002 集</b><span>2026-11-25</span><span>好玩、怪奇、創意程式</span></p>
-  <h1>不用訓練的<span style="white-space:nowrap">神經網路</span>：<span style="white-space:nowrap">FizzBuzz 手工接線</span>，<span style="white-space:nowrap">1000 題全對</span></h1>
-  <p class="dek">照它的寫法把規則寫一遍，就變成 AI 的「腦」（神經網路），不用餵例子訓練。下面這個網路會玩 FizzBuzz：3 的倍數喊 Fizz、5 的倍數喊 Buzz，兩個都是就喊 FizzBuzz。</p>
+<header class="wrap mast-wrap" data-section="header" style="padding-top:clamp(24px,4vw,48px)">
+  <p class="spine">開源探索誌｜每集打開一個黑盒子</p>
+  <div class="mast"><p class="logo"><small>開源探索誌</small>OSS <br>EXPLORER</p><p class="no">002</p><p class="meta">2026-11-25　<br>好玩・怪奇・創意程式・藝術</p></div>
+  <div class="cover">
+    <div><h1>不用訓練的<span style="white-space:nowrap">神經網路</span>：<span style="white-space:nowrap">FizzBuzz 手工接線</span>，<span style="white-space:nowrap">1000 題全對</span></h1>
+    <p class="dek">照它的寫法把規則寫一遍，就變成 AI 的「腦」（神經網路），不用餵例子訓練。下面這個網路會玩 FizzBuzz：3 的倍數喊 Fizz、5 的倍數喊 Buzz，兩個都是就喊 FizzBuzz。</p></div>
+    <nav class="toc" aria-label="本集目錄"><p class="t">本集</p><ol><li><a href="#tldr"><i>01</i><span>30 秒看懂</span></a></li><li><a href="#how"><i>02</i><span>打開黑盒子：裡面只有會亮的燈和加減法</span></a></li><li><a href="#findings"><i>03</i><span>全對、一弄亂就錯、單題很慢</span></a></li><li><a href="#ideas"><i>04</i><span>你可以拿它做什麼</span></a></li><li><a href="#deep"><i>05</i><span>想深入再展開</span></a></li></ol></nav>
+  </div>
 </header>
 
 <section class="wrap" data-section="demo" id="demo" aria-label="Demo">
@@ -143,6 +147,7 @@
 </section>
 
 <section class="wrap tldr" data-section="tldr" id="tldr">
+  <div class="sec" aria-hidden="true"><i>01</i><em>Briefing</em></div>
   <h2>30 秒看懂</h2>
   <dl>
     <dt>先說背景</dt><dd><dfn>神經網路</dfn><span class="gloss">（AI 的「腦」：一大堆把數字相乘、相加的小開關）</span>平常要先餵大量例子去「訓練」，讓它自己調出裡面的數字，所以常常大致對、偶爾錯。</dd>
@@ -154,6 +159,7 @@
 </section>
 
 <section class="wrap" data-section="how" id="how">
+  <div class="sec" aria-hidden="true"><i>02</i><em>How it Works</em></div>
   <h2>打開黑盒子：裡面只有會亮的燈和加減法</h2>
   <figure class="mech">
     <svg viewBox="0 0 440 690" role="img" aria-label="機制圖：你輸入的數字進入神經網路，兩排燈各問「到 3 或 5 的倍數了嗎」，數亮燈得到有幾個 3、幾個 5，算出剩下多少判斷是否整除，再判斷是否兩邊都整除，最後四顆答案燈只亮一顆" id="mechSvg">
@@ -214,6 +220,7 @@
 </section>
 
 <section class="wrap" data-section="findings" id="findings">
+  <div class="sec" aria-hidden="true"><i>03</i><em>Findings</em></div>
   <h2>全對、一弄亂就錯、單題很慢</h2>
   <div class="finding">
     <figure class="fig">
@@ -253,6 +260,7 @@
 </section>
 
 <section class="wrap" data-section="ideas" id="ideas">
+  <div class="sec" aria-hidden="true"><i>04</i><em>Ideas</em></div>
   <h2>你可以拿它做什麼</h2>
   <div class="idea"><h3>用 Python 把商業規則接成網路<span class="effort">一個週末</span></h3><p>handwired 只有 JavaScript／TypeScript 版，沒有 Python 版，要自己用 numpy（Python 的數學套件）重寫它的幾種基本運算。運費、折扣、會員等級這類規則接成網路，放進 FastAPI（Python 的網站伺服器框架）一次算十萬筆。速度不會比一般寫法快，賣點是之後能拿真實資料微調門檻。</p></div>
   <div class="idea"><h3>「看見每顆燈在想什麼」互動教材<span class="effort">一個月</span></h3><p>閏年、BMI、統一發票對獎都接成會亮燈的網路，給 AI 入門課當教具：學生看得到每顆燈在想什麼。</p></div>
@@ -260,7 +268,8 @@
   <div class="idea"><h3>用 Mac 顯示卡一次篩很多資料<span class="effort">長期</span></h3><p>照作者讓顯示卡一次搜尋 10 萬份文件的做法，改用 Mac 的顯示卡（Metal）一次篩選幾十萬筆表格或系統紀錄。先量再做：作者的結果是顯示卡沒有明顯比同時開好幾條一般程式快。</p></div>
 </section>
 
-<section class="wrap deep" aria-label="深入">
+<section class="wrap deep" id="deep" aria-label="深入">
+  <div class="sec" aria-hidden="true"><i>05</i><em>Deep Dive</em></div>
   <h2>想深入再展開</h2>
   <details id="how-more"><summary><b>原理細節</b><span>比較器的公式、運算數的帳、為什麼弄亂會壞</span></summary><div class="body"><p>運算數的帳：帳面上 1,416 個運算，真正在算的是 941 個 ReLU（負數變 0、正數照舊）和 7 個加減法；另外 468 個只是存著「3、6、9…」這類門檻數字（含一個 0），實際算時已經併進 ReLU 裡。每顆燈是兩個 ReLU 疊成：relu(1 − relu(門檻 − n))。</p><p>四個輸出由兩個「整除？」z3、z5 和 AND 的結果 A 加減組成：FizzBuzz＝A、Fizz＝z3 − A、Buzz＝z5 − A、數字＝1 − z3 − z5 + A，正好只有一個是 1。</p><p>對照：Joel Grus 那篇 2016 年玩笑文的 TensorFlow 訓練版，repo 裡 notebook 存下的一次結果答錯 4 題（4、23、49、53）。兩排燈裡 15 的倍數那 66 顆其實是同一批神經元，handwired 會自動共用。</p><p>handwired 的程式只有四種運算：加權和、ReLU 乘積（<code>(a) × max(0, b)</code>）、四捨五入成 0／1、查表。你寫的是「建構程式」：一段普通 JS，執行一次，把運算一個個加進 <code>Circuit</code>。執行期沒有任何分支或迴圈，所以 <code>if</code> 會變成兩邊都算再挑一邊，迴圈會變成固定數量的平行運算。</p>
     <p>比較器 <code>emitCompare(n, '&gt;=', 3k)</code> 在整數格點上只要 2 個運算：<code>relu(1 − relu(3k − n))</code>，n 跨過 3k 就剛好是 1。把 333 個比較器加起來就是 ⌊n/3⌋，這是它文件裡「threshold count」的寫法。其中 [n ≥ 15]、[n ≥ 30]… 這 66 個在兩排都會用到，handwired 建構時會認出是同一個運算而共用，所以實際是 333＋200−66＝467 個 ≥ 比較器，再加 2 個「餘數＝0」的比較器。因為所有東西都是加權和與 ReLU，整個程式可以反向傳播（<code>backpropagateReference</code>）；通用的 runtime 只在 CPU 上跑，作者的 JSON 搜尋 Demo 另外寫了產生器才跑在 WebGPU 上。</p>
@@ -341,6 +350,7 @@ for (const n of [9, 15, 22]) {
 </section>
 
 <footer class="wrap">
+  <p class="folio"><span><i>002</i>開源探索誌｜handwired</span><span>每集打開一個黑盒子</span></p>
   <p>本集由 Claude 自動選題、研究、實作，製作於 2026-11-25。</p>
   <p><a href="https://github.com/risibility0822/oss-explorer/edit/main/feedback.md">幫這集評分或許願（feedback.md）</a></p>
   <p><a href="../">回到開源探索誌首頁</a></p>

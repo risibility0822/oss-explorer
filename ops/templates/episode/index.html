@@ -13,7 +13,7 @@
 <link rel="alternate" type="application/atom+xml" title="開源探索誌" href="../feed.xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <!-- 系列字型（固定）：Noto Serif TC（標題）＋Noto Sans TC（內文）＋Bricolage Grotesque（大數字）。Demo 需要特別字型可以再加一個 -->
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,800&family=Noto+Sans+TC:wght@400;600;700;800&family=Noto+Serif+TC:wght@700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,800&family=Noto+Sans+TC:wght@400;600;700;800&family=Noto+Serif+TC:wght@700;800&family=Archivo:wght@900&family=Bodoni+Moda:ital,wght@0,400;1,400;1,500&display=swap" rel="stylesheet">
 <!-- 系列骨架（固定，不要覆寫）：版面、字型、30 秒看懂、發現、圖說、步驟圖、點子、深入區 -->
 <link rel="stylesheet" href="../assets/series.css">
 <style>
@@ -38,10 +38,15 @@
      主線＝header → demo → tldr → how（從兩格長大的機制圖）→ findings（三張圖）→ ideas；可見文字 ≤ 1500 字，至少 4 張 <figure>，每張有寫結論的 <figcaption>。
      深入＝run／start／limits／more／cross／sources，全部收在 <details>。
      讀者什麼都不懂：名詞第一次出現就用白話解釋 <dfn>名詞</dfn><span class="gloss">（白話）</span>；先講背景，再講新東西。 -->
-<header class="wrap" data-section="header" style="padding-top:clamp(24px,4vw,48px)">
-  <p class="kicker"><b>開源探索誌 第 {{NNN}} 集</b><span>{{DATE}}</span><span>{{DOMAIN}}</span></p>
-  <h1>{{結論式標題}}</h1>
-  <p class="dek">{{答案句：這東西替人做了什麼＋你可以在下面玩什麼}}</p>
+<header class="wrap mast-wrap" data-section="header" style="padding-top:clamp(24px,4vw,48px)">
+  <p class="spine">開源探索誌｜每集打開一個黑盒子</p>
+  <div class="mast"><p class="logo"><small>開源探索誌</small>OSS <br>EXPLORER</p><p class="no">{{NNN}}</p><p class="meta">{{DATE}}　<br>{{DOMAIN}}</p></div>
+  <div class="cover">
+    <div><h1>{{結論式標題}}</h1>
+    <p class="dek">{{答案句：這東西替人做了什麼＋你可以在下面玩什麼}}</p></div>
+    <!-- 目錄：每列照抄該區的 h2（結論），check 會比對 -->
+    <nav class="toc" aria-label="本集目錄"><p class="t">本集</p><ol><li><a href="#tldr"><i>01</i><span>30 秒看懂</span></a></li><li><a href="#how"><i>02</i><span>它怎麼運作</span></a></li><li><a href="#findings"><i>03</i><span>三個發現</span></a></li><li><a href="#ideas"><i>04</i><span>你可以拿它做什麼</span></a></li><li><a href="#deep"><i>05</i><span>想深入再展開</span></a></li></ol></nav>
+  </div>
 </header>
 
 <section class="wrap" data-section="demo" id="demo" aria-label="Demo">
@@ -50,6 +55,7 @@
 </section>
 
 <section class="wrap tldr" data-section="tldr" id="tldr">
+  <div class="sec" aria-hidden="true"><i>01</i><em>Briefing</em></div>
   <h2>30 秒看懂</h2>
   <dl>
     <dt>先說背景</dt><dd>{{一句話：這個領域平常的做法或問題是什麼（讀者什麼都不懂也能懂）}}</dd>
@@ -61,6 +67,7 @@
 </section>
 
 <section class="wrap" data-section="how" id="how">
+  <div class="sec" aria-hidden="true"><i>02</i><em>How it Works</em></div>
   <h2>{{用一句話寫出機制的重點}}</h2>
   <!-- 從兩格長大：第 1 步只有「你（或你碰到的東西）」和「結果」，中間是黑盒子；每一步打開一點、加 1–3 個部分；最後一步才是全圖。
        每步：一個寫「發生什麼」的標題＋一句白話（12 歲讀得懂）。比喻只放在說明、不放在圖上的標籤。從第 1 步開始。 -->
@@ -78,6 +85,7 @@
 </section>
 
 <section class="wrap" data-section="findings" id="findings">
+  <div class="sec" aria-hidden="true"><i>03</i><em>Findings</em></div>
   <h2>{{三個發現的總標題，寫重點，例如「全對、怕雜訊、單題很慢」}}</h2>
   <!-- 恰好三個，跟 meta.highlights 一致。左邊一張 figure（圖先、字當標籤，figcaption 寫數字），右邊只有一個寫結論的 h3 -->
   <div class="finding"><figure>{{圖：small multiples／長條（.bars）／對照圖／號誌表}}<figcaption>{{數字與出處}}</figcaption></figure><div><h3>{{發現一的結論}}</h3></div></div>
@@ -86,12 +94,14 @@
 </section>
 
 <section class="wrap" data-section="ideas" id="ideas">
+  <div class="sec" aria-hidden="true"><i>04</i><em>Ideas</em></div>
   <h2>你可以拿它做什麼</h2>
   <!-- 每個點子一個 class="idea"，與 meta.json 的 ideas 一致；一句話就好 -->
   <div class="idea"><h3>{{點子標題}}<span class="effort">{{一個週末／一個月／長期}}</span></h3><p>{{一句話 pitch 與價值}}</p></div>
 </section>
 
-<section class="wrap deep" aria-label="深入">
+<section class="wrap deep" id="deep" aria-label="深入">
+  <div class="sec" aria-hidden="true"><i>05</i><em>Deep Dive</em></div>
   <h2>想深入再展開</h2>
   <details data-section="run" id="run"><summary><b>實測紀錄</b><span>{{一句話}}</span></summary><div class="body">
     <p>{{DATE}} 在雲端工作區實際執行。腳本與原始輸出在 <a href="{{REPO}}/tree/main/{{SLUG}}/lab">lab/ 資料夾</a>，clone 下來就能重跑。</p>
@@ -103,6 +113,7 @@
 </section>
 
 <footer class="wrap">
+  <p class="folio"><span><i>{{NNN}}</i>開源探索誌｜{{主要資源名稱，例如 rembg}}</span><span>每集打開一個黑盒子</span></p>
   <p>本集由 Claude 自動選題、研究、實作，製作於 {{DATE}}。</p>
   <p><a href="https://github.com/risibility0822/oss-explorer/edit/main/feedback.md">幫這集評分或許願（feedback.md）</a>　<a href="../">回到開源探索誌首頁</a></p>
 </footer>

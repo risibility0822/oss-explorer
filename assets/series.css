@@ -6,7 +6,7 @@
 :root{
   color-scheme:light dark;
   /* ── 系列固定 ── */
-  --bg:light-dark(#ffffff,#1c1e22);
+  --bg:light-dark(#f8f8f6,#1c1e22);   /* 紙色：取自大誌內頁的淺灰白（2026-11-25） */
   --ink:light-dark(#16181b,#eceef1);
   --mute:light-dark(#5a6069,#a4aab3);
   --line:light-dark(#e2e5e9,#32363c);
@@ -14,7 +14,9 @@
   --ok:light-dark(#2b8a3e,#69db7c); --warn:light-dark(#b35c00,#ffa94d); --risk:light-dark(#c92a2a,#ff8787);
   --font:"Noto Sans TC",system-ui,sans-serif;
   --disp:"Bricolage Grotesque","Noto Sans TC",system-ui,sans-serif;
-  --head:"Noto Serif TC","Noto Sans TC",serif;   /* 標題：思源宋體（2026-11-25 主人選定），內文維持思源黑體 */
+  --head:"Noto Serif TC","Noto Sans TC",serif;
+  --it:"Bodoni Moda","Noto Serif TC",serif;        /* 章節編號與英文欄名（斜體）、期數 */
+  --mast:"Archivo","Noto Sans TC",system-ui,sans-serif;   /* 刊頭 OSS EXPLORER */   /* 標題：思源宋體（2026-11-25 主人選定），內文維持思源黑體 */
   --mono:ui-monospace,SFMono-Regular,Menlo,monospace;
   /* ── 每集可調（在本集 <style> 的 :root 覆寫）── */
   --accent:light-dark(#d9480f,#ff8a4c);        /* 主題色：重點節點、長條、步驟編號 */
@@ -134,3 +136,28 @@ footer{padding-top:32px;padding-bottom:64px;border-top:1px solid var(--line);col
 footer a{color:var(--ink)}
 
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+/* ── 雜誌骨架（2026-11-25，參考《大誌》的版面規律：刊頭＋期數、書背色條、章節頭、目錄、頁尾 folio）── */
+header.mast-wrap{position:relative}
+.spine{position:absolute;left:0;top:0;width:24px;padding-top:14px;padding-bottom:14px;background:var(--accent-ink);color:var(--bg);writing-mode:vertical-rl;font-size:13px;font-weight:700;letter-spacing:.28em;text-align:center;margin:0}
+.mast{display:grid;grid-template-columns:auto auto minmax(0,1fr);align-items:end;column-gap:clamp(12px,2vw,22px);padding-bottom:10px;border-bottom:3px solid var(--ink);margin:0 0 clamp(18px,3vw,30px)}
+.mast .logo{margin:0;font-family:var(--mast);font-weight:900;font-size:clamp(26px,4vw,44px);line-height:.86;letter-spacing:-.035em}
+.mast .logo small{display:block;font-family:var(--font);font-size:13px;font-weight:700;letter-spacing:.3em;line-height:1;margin-bottom:8px}
+.mast .no{margin:0;font-family:var(--it);font-weight:400;font-size:clamp(44px,6vw,72px);line-height:.78;font-variant-numeric:lining-nums}
+.mast .meta{max-width:none;margin:0;text-align:right;font-size:13px;line-height:1.6;color:var(--mute)}
+.cover{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);column-gap:clamp(20px,4vw,48px);align-items:start}
+.toc{margin:0;padding-left:clamp(16px,3vw,28px);border-left:1px solid var(--line)}
+.toc ol{list-style:none;margin:0;padding:0}
+.toc .t{max-width:none;margin:0 0 4px;font-family:var(--it);font-style:italic;font-size:19px}
+.toc li{border-bottom:1px solid var(--line);font-size:15px;line-height:1.5}
+.toc a{display:grid;grid-template-columns:2.6em minmax(0,1fr);align-items:baseline;padding-top:6px;padding-bottom:6px;text-decoration:none;color:inherit}.toc a:hover span{text-decoration:underline;text-decoration-color:var(--accent)}
+.toc i{font-family:var(--it);font-weight:500;font-size:19px}
+.toc em{font-family:var(--it);color:var(--mute);margin-inline-start:6px}
+@media(max-width:860px){.cover{grid-template-columns:minmax(0,1fr)}.toc,.spine{display:none}}
+@media(max-width:600px){.mast{grid-template-columns:auto auto minmax(0,1fr);align-items:baseline;padding-bottom:6px;border-bottom-width:2px}.mast .logo{font-size:20px;line-height:1}.mast .logo small,.mast .logo br{display:none}.mast .no{font-size:32px;line-height:1}.mast .meta{grid-column:1/-1;text-align:left;font-size:13px;line-height:1.4;margin-top:4px}.mast .meta br{display:none}.mast .meta::first-line{word-spacing:0}}
+.sec{display:flex;justify-content:space-between;align-items:baseline;gap:12px;border-bottom:1px solid var(--ink);margin:0 0 clamp(14px,2.4vw,22px);padding-bottom:8px}
+.sec i,.sec em{font-family:var(--it);font-style:italic;line-height:1.1}
+.sec i{font-weight:500;font-size:clamp(22px,2.6vw,28px);color:var(--ink)}
+.sec em{font-weight:400;font-size:15px;color:var(--mute);text-align:right}
+.folio{max-width:none;display:flex;flex-wrap:wrap;justify-content:space-between;gap:4px 16px;font-size:13px}
+.folio i{font-family:var(--it);margin-inline-end:8px}

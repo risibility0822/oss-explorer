@@ -343,6 +343,15 @@ def cmd_check(a):
             if not re.match(r"https://fonts\.(googleapis|gstatic)\.com", u): warns.append(f"外部資源（網站上可用，但工作區測不到）：{u}")
         elif u in ("../feed.xml",): pass  # build 產生
         elif not (ep / u.split("?")[0]).exists(): errs.append(f"<{tag}> 指到不存在的檔案：{u}")
+    # 雜誌骨架：刊頭、目錄（每列＝該區 h2 的結論）、章節頭
+    if 'class="mast"' not in text: errs.append("缺少刊頭 .mast（照模板的 header）")
+    for sid in ("tldr", "how", "findings", "ideas", "deep"):
+        mt = re.search(r'<li><a href="#' + sid + r'"><i>\d+</i><span>(.*?)</span>', text)
+        if sid == "deep": mh = re.search(r'<section class="wrap deep"[^>]*>.*?<h2>(.*?)</h2>', text, re.S)
+        else: mh = re.search(r'data-section="' + sid + r'" id="' + sid + r'"[^>]*>.*?<h2>(.*?)</h2>', text, re.S)
+        strip = lambda x: re.sub(r"<[^>]+>", "", x).strip()
+        if not mt: errs.append(f"目錄缺少 #{sid} 這一列")
+        elif mh and strip(mt.group(1)) != strip(mh.group(1)): errs.append(f"目錄 #{sid} 寫「{strip(mt.group(1))}」，但該區 h2 是「{strip(mh.group(1))}」：目錄要照抄 h2")
     # 系列骨架：一定要引用 ../assets/series.css，而且本集的 <style> 不能覆寫骨架的版面與字型
     if not re.search(r'<link[^>]+href="\.\./assets/series\.css"', text): errs.append('沒有引用系列骨架 <link rel="stylesheet" href="../assets/series.css">')
     for css in re.findall(r"<style[^>]*>(.*?)</style>", text, re.S):
@@ -480,7 +489,7 @@ def cmd_qa(a):
                     except Exception as e: errs.append(f"互動測試出錯：{type(e).__name__}: {e}")
                 if name == "desktop" and not home:
                     lay = pg.evaluate("""([folded]) => {
-                      const skip = e => e.closest('details,[data-section=demo],script,style,svg,noscript');
+                      const skip = e => e.closest('details,[data-section=demo],script,style,svg,noscript,.sec,.sec-zh,.toc,.mast,.spine,.folio');   // 刊頭、章節頭、目錄是導覽，不算主線文字
                       const w = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT); let n = 0, t;
                       while (t = w.nextNode()) { const p = t.parentElement; if (!p || skip(p)) continue; const st = getComputedStyle(p); if (st.display === 'none' || st.visibility === 'hidden') continue; n += t.textContent.replace(/\\s+/g, '').length; }
                       const notFolded = folded.filter(s => { const e = document.querySelector(`[data-section="${s}"]`); return e && !e.closest('details'); });
