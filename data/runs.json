@@ -40,7 +40,9 @@
    "register": "pass",
    "build": "pass",
    "review": "pass",
-   "design": "pass"
+   "design": "pass",
+   "live": "pass",
+   "played": "pass"
   }
  }
 ]
