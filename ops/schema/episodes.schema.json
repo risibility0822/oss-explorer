@@ -178,6 +178,9 @@
    },
    "createdAt": {
     "type": "string"
+   },
+   "trend": {
+    "type": "object"
    }
   }
  }

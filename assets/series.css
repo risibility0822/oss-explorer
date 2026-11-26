@@ -181,3 +181,4 @@ header.mast-wrap{position:relative}
 @media(min-width:861px){.cover>aside,.cover>nav{grid-column:2}.cover>div:first-child{grid-row:1/span 3}}
 @media(min-width:861px){.cover .toc .t{display:none}.cover .toc li{font-size:14px;border-bottom:0}.cover .toc a{padding-top:2px;padding-bottom:6px;line-height:1.4}.cover .toc i{font-size:16px}}
 @media(max-width:600px){.subject{padding:8px 12px 10px;column-gap:8px}.subject .nm{font-size:18px}.subject .what,.subject .facts,.subject .also{font-size:13px}.subject .facts{gap:0 10px}.subject .src{display:none}.subject .open{min-height:44px;padding-left:10px;padding-right:10px}}
+.subject .why{margin-top:6px;padding-top:6px;border-top:1px solid var(--line);font-size:14px;color:var(--mute)}.subject .why b{color:var(--accent-ink);margin-right:8px}

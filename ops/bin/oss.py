@@ -38,6 +38,7 @@ DOMAINS = ["AI 模型與推論", "AI 應用與 Agent 框架", "開發者工具",
            "開放資料集", "前端・設計・UI・字體・圖示", "多媒體", "地圖與地理空間", "科學・數學・生醫・氣候",
            "隱私・安全・網路", "硬體・IoT・嵌入式・機器人", "生產力・知識管理・桌面 App", "好玩・怪奇・創意程式・藝術"]
 FORMATS, TIERS, LENSES = ["單品", "組合技"], ["巨星", "寶石", "新星"], ["厲害", "好玩", "商業潛力"]
+TREND_DAYS = (0, 3)   # 週一、週四是熱門話題日（主人 2026-11-26 指定：每週兩天、分散）
 # 版型：主線（30 秒卡 → Demo → 三個發現 → 點子）一眼看完；其餘全部收在 <details> 裡，想深入再展開
 SECTIONS = ["header", "demo", "tldr", "how", "findings", "ideas", "run", "start", "limits", "sources"]
 FOLDED = ["run", "start", "limits", "more", "cross", "sources"]   # 必須包在 <details> 裡（預設收合）；how 是主線的機制圖
@@ -248,8 +249,10 @@ def cmd_plan(a):
     ranking = domain_ranking(episodes, state)
     wishes = [w for w in state.get("wishes", []) if w["status"] == "open"]
     starred = [{"id": i["id"], "title": i["title"]} for i in ideas if i.get("starred")]
+    # 熱門話題日：每週一、四（分散在一週兩天），或許願裡寫了「熱門／趨勢」
+    trend_day = now().weekday() in TREND_DAYS or any(re.search(r"熱門|趨勢|話題", w.get("text", "")) for w in wishes[:1])
     plan = {"runId": now().strftime("%Y%m%d-%H%M"), "startedAt": iso(), "phase": "planned", "no": n, "id": f"ep-{pad(n)}",
-            "date": today(), "format": fmt, "tier": tier, "lens": lens,
+            "date": today(), "format": fmt, "tier": tier, "lens": lens, "trendDay": bool(trend_day and not redo),
             "wishFirst": wishes[0] if wishes else None, "openWishes": wishes,
             "domainTop": [r["domain"] for r in ranking if r["eligible"]][:4], "domainRanking": ranking,
             "covered": state.get("covered", []), "pool": state.get("pool", [])[:15], "starredIdeas": starred,
@@ -259,6 +262,8 @@ def cmd_plan(a):
     save(CUR, plan)
     print(f"本集：#{pad(n)}（{fmt}・{tier}・主鏡頭「{lens}」）" + (f"　← 重做，完成後取代舊的 {redo['path']}" if redo else ""))
     if plan["wishFirst"]: print(f"★ 許願優先：{plan['wishFirst']['text']}（id {plan['wishFirst']['id']}）")
+    if plan["trendDay"]: print("★ 今天是熱門話題日：主題要接上趨勢雷達（大眾話題或開發者圈），meta.json 的 trend 必填。先跑 `oss.py radar`")
+    else: print("今天不是熱門話題日：照常選題；雷達上的熱門關鍵字可以加分。先跑 `oss.py radar`")
     print("領域建議（依序）：" + " ＞ ".join(plan["domainTop"]))
     if starred: print("你收藏的點子：" + "；".join(s["title"] for s in starred))
     if fb["newWishes"]: print("新許願：" + "；".join(fb["newWishes"]))
@@ -286,6 +291,96 @@ def cmd_new(a):
     print(f"已建立 {name}/：index.html（骨架）、meta.json、lab/README.md、lab/qa_check.py\n下一步：研究 → 實作 Demo → 寫頁面 → `oss.py check` → `oss.py qa`")
 
 
+
+
+# ───────────────────────── 趨勢雷達 ─────────────────────────
+def _get(url, timeout=25, accept="application/json"):
+    import urllib.request
+    req = urllib.request.Request(url, headers={"User-Agent": "oss-explorer-radar", "Accept": accept, "Cache-Control": "no-cache"})
+    return urllib.request.urlopen(req, timeout=timeout).read()
+
+def _traffic(t):
+    m = re.match(r"\s*([\d,.]+)\s*([KkMm萬]?)", str(t or "")); 
+    if not m: return 0
+    v = float(m.group(1).replace(",", "")); return int(v * {"k": 1e3, "K": 1e3, "m": 1e6, "M": 1e6, "萬": 1e4}.get(m.group(2), 1))
+
+def _gtrends(geo, label, file=None):
+    """Google Trends 每日熱搜 RSS。連不到時可以用 --gtrends-<geo> 檔案（每行「關鍵字 | 搜尋量 | 日期」，用 WebFetch 讀 RSS 後存下來）。"""
+    url = f"https://trends.google.com/trending/rss?geo={geo}"
+    src = {"name": f"Google Trends {label}每日熱搜", "url": f"https://trends.google.com/trending?geo={geo}", "fetchedAt": iso()}
+    items = []
+    try:
+        import xml.etree.ElementTree as ET
+        root = ET.fromstring(_get(url + f"&v={now().strftime('%Y%m%d%H')}", accept="application/rss+xml"))
+        ns = {"ht": "https://trends.google.com/trending/rss"}
+        for it in root.iter("item"):
+            news = [{"title": (n.findtext("ht:news_item_title", "", ns) or "").strip(), "url": n.findtext("ht:news_item_url", "", ns),
+                     "source": n.findtext("ht:news_item_source", "", ns)} for n in it.findall("ht:news_item", ns)][:2]
+            items.append({"title": (it.findtext("title") or "").strip(), "traffic": it.findtext("ht:approx_traffic", "", ns),
+                          "pubDate": it.findtext("pubDate"), "news": news})
+        src["via"] = "RSS"
+    except Exception as e:
+        if file and Path(file).exists():
+            for line in Path(file).read_text("utf-8").splitlines():
+                parts = [x.strip() for x in line.split("|")]
+                if len(parts) >= 2 and parts[0]: items.append({"title": parts[0], "traffic": parts[1], "pubDate": parts[2] if len(parts) > 2 else "", "news": []})
+            src["via"] = f"WebFetch 存檔（shell 連不到：{type(e).__name__}）"
+        else:
+            src["error"] = f"連不到 {url}：{e}"; return src, []
+    for x in items:
+        x["title"] = re.sub(r"(?<=[\u3400-\u9fff])\s+(?=[\u3400-\u9fff])", "", x["title"])   # Google 會把中文詞切開（伺服 器）
+        x["n"] = _traffic(x["traffic"]); x["stock"] = bool(re.fullmatch(r"\d{4,6}[A-Z]?(\s*\S{0,6})?", x["title"]))
+    items.sort(key=lambda x: -x["n"])
+    return src, items
+
+def cmd_radar(a):
+    from collections import Counter
+    from datetime import timedelta
+    prev = load(DATA / "trends.json", {}) or {}
+    hist = (prev.get("history") or {}).get("repoStars", {})
+    out = {"updatedAt": iso(), "public": {}, "dev": {}, "history": {}}
+    problems = []
+    for geo, label, f in (("TW", "台灣", a.gtrends_tw), ("US", "美國", a.gtrends_us)):
+        src, items = _gtrends(geo, label, f)
+        out["public"][geo] = {"source": src, "items": items[:25]}
+        if src.get("error"): problems.append(src["error"])
+    # 開發者圈：GitHub 近 30 天新專案（星數排序）＋主題標籤統計＋7 天漲幅
+    since = (now() - timedelta(days=30)).strftime("%Y-%m-%d")
+    try:
+        js = json.loads(_get(f"https://api.github.com/search/repositories?q=created:%3E{since}+stars:%3E200&sort=stars&order=desc&per_page=40"))
+        repos = []
+        for r in js.get("items", []):
+            name = r["full_name"]; h = hist.get(name, [])
+            old = next((st for d, st in h if d <= (now() - timedelta(days=7)).strftime("%Y-%m-%d")), None)
+            repos.append({"name": name, "url": r["html_url"], "stars": r["stargazers_count"], "created": r["created_at"][:10],
+                          "lang": r.get("language"), "desc": (r.get("description") or "")[:140], "topics": r.get("topics", [])[:8],
+                          "delta7": r["stargazers_count"] - old if old is not None else None})
+            hist[name] = ([[today(), r["stargazers_count"]]] + [x for x in h if x[0] != today()])[:30]
+        topics = Counter(t for r in repos for t in r["topics"] if t not in ("hacktoberfest",))
+        out["dev"]["github"] = {"source": {"name": f"GitHub 近 30 天新專案（{since} 之後建立、依星數）", "url": f"https://github.com/search?q=created%3A%3E{since}&s=stars&o=desc&type=repositories", "fetchedAt": iso()},
+                                "repos": repos, "topics": [{"name": k, "count": v} for k, v in topics.most_common(15)]}
+    except Exception as e:
+        problems.append(f"GitHub 搜尋失敗：{e}")
+    try:
+        ms = json.loads(_get("https://huggingface.co/api/models?sort=trendingScore&direction=-1&limit=15"))
+        out["dev"]["hf"] = {"source": {"name": "Hugging Face 熱門模型", "url": "https://huggingface.co/models?sort=trending", "fetchedAt": iso()},
+                            "models": [{"id": m["id"], "url": f"https://huggingface.co/{m['id']}", "likes": m.get("likes"), "downloads": m.get("downloads"), "task": m.get("pipeline_tag")} for m in ms]}
+    except Exception as e:
+        problems.append(f"Hugging Face 連不到：{e}")
+    cutoff = (now() - timedelta(days=45)).strftime("%Y-%m-%d")
+    out["history"]["repoStars"] = {k: v for k, v in hist.items() if v and v[0][0] >= cutoff}
+    out["problems"] = problems
+    save(DATA / "trends.json", out)
+    tw = [x for x in out["public"].get("TW", {}).get("items", []) if not x["stock"]]
+    print("大眾話題（Google Trends 台灣）：" + "、".join(f"{x['title']}（{x['traffic']}）" for x in tw[:10]) or "（沒有資料）")
+    us = out["public"].get("US", {}).get("items", [])
+    print("大眾話題（Google Trends 美國）：" + "、".join(f"{x['title']}（{x['traffic']}）" for x in us[:8]) or "（沒有資料）")
+    gh = out["dev"].get("github", {})
+    print("開發者圈主題：" + "、".join(f"{t['name']}×{t['count']}" for t in gh.get("topics", [])[:10]))
+    print("新專案漲最快：" + "、".join(f"{r['name']}（★{r['stars']:,}）" for r in gh.get("repos", [])[:6]))
+    for p_ in problems: warn(p_)
+    step("radar", "partial" if problems else "pass", problems=len(problems))
+    ok("已寫入 data/trends.json（首頁「趨勢雷達」會顯示）" + ("；有來源連不到，最後訊息要加 ⚠️" if problems else ""))
 
 # ───────────────────────── 本集主角卡 ─────────────────────────
 CARD_RE = re.compile(r"<!-- subject:start -->.*?<!-- subject:end -->", re.S)
@@ -330,7 +425,7 @@ def subject_card(meta) -> str:
             + (f"<a class=\"open\" href=\"{e(url)}\">{btn}</a>" if url.startswith("https://") else "") + "\n"
             + (f"        <p class=\"what\">{e(main['what'])}</p>\n" if main.get("what") else "")
             + f"        <p class=\"facts\">{''.join(facts)}</p>\n"            + f"        <p class=\"src\">{e(main.get('name'))}{f'（星數 {e(day)} 查）' if day else ''}</p>\n"
-            + (f"        <p class=\"also\">搭配：{'、'.join(also)}</p>\n" if also else "")
+            + (f"        <p class=\"also\">搭配：{'、'.join(also)}</p>\n" if also else "")            + (f"        <p class=\"why\"><b>為什麼是現在</b>{e(meta['trend']['why'])}（{e(meta['trend']['source'])}，{e(meta['trend']['date'])}）</p>\n" if meta.get("trend") else "")
             + "      </aside>\n      <!-- subject:end -->")
 
 def cmd_card(a):
@@ -473,6 +568,8 @@ def cmd_check(a):
             nm_ = (mainr.get("title") or str(mainr.get("name", "")).rsplit("/", 1)[-1]).lower()
             if nm_ and nm_ not in str(meta.get("title", "")).lower(): errs.append(f"meta.title 要有主角的名字（例如結尾加「（{mainr.get('title') or nm_}）」）：首頁、推播、分享預覽都只看得到標題")
             if not mainr.get("what"): warns.append("meta.resources 主角缺 what（一句白話：它是什麼），卡片會少一行說明")
+        if c.get("trendDay") and meta.get("id") == c.get("id") and not meta.get("trend"):
+            errs.append("今天是熱門話題日：meta.json 要填 trend（kind、topic、source、date、why），說明這集接上哪個熱門話題")
         # 本集主角卡：名字、連結、星數、授權一定要在第一屏，內容必須跟 meta.json 一致
         mc = CARD_RE.search(text)
         if not mc: errs.append(f"缺少本集主角卡：跑 `oss.py card {ep.name}`（從 meta.json 產生）")
@@ -815,6 +912,7 @@ def cmd_register(a):
             sh("git", "rm", "-r", "-q", "--", redo["path"]); shutil.rmtree(ROOT / redo["path"], ignore_errors=True)
             ok(f"重做：已移除舊的 {redo['path']}/（仍保留在 git 歷史中）")
     entry = {k: meta[k] for k in ("no", "id", "date", "title", "oneliner", "domain", "format", "tier", "lens", "resources", "demo", "highlights", "tags")}
+    if meta.get("trend"): entry["trend"] = meta["trend"]
     entry.update(path=f"{ep.name}/", lab=f"{ep.name}/lab", thumb=f"{ep.name}/og.jpg" if (ep / "og.jpg").exists() else None,
                  createdAt=meta.get("createdAt") or (None if (redo and redo["id"] == meta["id"]) else next((x.get("createdAt") for x in episodes if x["id"] == meta["id"]), None)) or iso())   # 重新登錄不改原本的時間；重做才更新
     episodes = [x for x in episodes if x["id"] != meta["id"]] + [entry]; episodes.sort(key=lambda x: x["no"])
@@ -1040,6 +1138,7 @@ def main():
     sp.add_parser("preflight").set_defaults(f=cmd_preflight)
     sp.add_parser("status").set_defaults(f=cmd_status)
     p = sp.add_parser("plan"); p.add_argument("--force", action="store_true"); p.add_argument("--redo", type=int, help="重做第 N 集（從選題開始），完成後取代舊的"); p.set_defaults(f=cmd_plan)
+    p = sp.add_parser("radar", help="趨勢雷達：Google Trends（台灣／美國）、GitHub 新專案、Hugging Face → data/trends.json"); p.add_argument("--gtrends-tw"); p.add_argument("--gtrends-us"); p.set_defaults(f=cmd_radar)
     p = sp.add_parser("card", help="從 meta.json 產生／更新本集主角卡"); p.add_argument("ep", nargs="?"); p.set_defaults(f=cmd_card)
     p = sp.add_parser("new"); p.add_argument("slug"); p.add_argument("--force", action="store_true"); p.set_defaults(f=cmd_new)
     for name, fn in (("check", cmd_check), ("qa", cmd_qa), ("register", cmd_register)):

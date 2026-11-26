@@ -1,0 +1,1096 @@
+{
+ "updatedAt": "2026-11-26T14:55:37+08:00",
+ "public": {
+  "TW": {
+   "source": {
+    "name": "Google Trends 台灣每日熱搜",
+    "url": "https://trends.google.com/trending?geo=TW",
+    "fetchedAt": "2026-11-26T14:55:37+08:00",
+    "via": "WebFetch 存檔（shell 連不到：URLError）"
+   },
+   "items": [
+    {
+     "title": "006208 分割",
+     "traffic": "1000+",
+     "pubDate": "Wed, 25 Nov 2026 22:40:00 -0800",
+     "news": [],
+     "n": 1000,
+     "stock": true
+    },
+    {
+     "title": "伺服器",
+     "traffic": "1000+",
+     "pubDate": "Wed, 25 Nov 2026 22:10:00 -0800",
+     "news": [],
+     "n": 1000,
+     "stock": false
+    },
+    {
+     "title": "2408",
+     "traffic": "500+",
+     "pubDate": "Wed, 25 Nov 2026 22:40:00 -0800",
+     "news": [],
+     "n": 500,
+     "stock": true
+    },
+    {
+     "title": "6213",
+     "traffic": "500+",
+     "pubDate": "Wed, 25 Nov 2026 22:20:00 -0800",
+     "news": [],
+     "n": 500,
+     "stock": true
+    },
+    {
+     "title": "3026",
+     "traffic": "200+",
+     "pubDate": "Wed, 25 Nov 2026 22:30:00 -0800",
+     "news": [],
+     "n": 200,
+     "stock": true
+    },
+    {
+     "title": "3008",
+     "traffic": "200+",
+     "pubDate": "Wed, 25 Nov 2026 22:30:00 -0800",
+     "news": [],
+     "n": 200,
+     "stock": true
+    },
+    {
+     "title": "3231",
+     "traffic": "200+",
+     "pubDate": "Wed, 25 Nov 2026 22:10:00 -0800",
+     "news": [],
+     "n": 200,
+     "stock": true
+    },
+    {
+     "title": "2492",
+     "traffic": "100+",
+     "pubDate": "Wed, 25 Nov 2026 22:30:00 -0800",
+     "news": [],
+     "n": 100,
+     "stock": true
+    },
+    {
+     "title": "人工智慧",
+     "traffic": "100+",
+     "pubDate": "Wed, 25 Nov 2026 22:30:00 -0800",
+     "news": [],
+     "n": 100,
+     "stock": false
+    },
+    {
+     "title": "6285",
+     "traffic": "100+",
+     "pubDate": "Wed, 25 Nov 2026 22:20:00 -0800",
+     "news": [],
+     "n": 100,
+     "stock": true
+    }
+   ]
+  },
+  "US": {
+   "source": {
+    "name": "Google Trends 美國每日熱搜",
+    "url": "https://trends.google.com/trending?geo=US",
+    "fetchedAt": "2026-11-26T14:55:38+08:00",
+    "via": "WebFetch 存檔（shell 連不到：URLError）"
+   },
+   "items": [
+    {
+     "title": "winter",
+     "traffic": "10000+",
+     "pubDate": "Wed, 25 Nov 2026 22:30:00 -0800",
+     "news": [],
+     "n": 10000,
+     "stock": false
+    },
+    {
+     "title": "moon",
+     "traffic": "5000+",
+     "pubDate": "Wed, 25 Nov 2026 22:20:00 -0800",
+     "news": [],
+     "n": 5000,
+     "stock": false
+    },
+    {
+     "title": "lion",
+     "traffic": "1000+",
+     "pubDate": "Wed, 25 Nov 2026 22:30:00 -0800",
+     "news": [],
+     "n": 1000,
+     "stock": false
+    },
+    {
+     "title": "ring",
+     "traffic": "500+",
+     "pubDate": "Wed, 25 Nov 2026 22:20:00 -0800",
+     "news": [],
+     "n": 500,
+     "stock": false
+    },
+    {
+     "title": "medal",
+     "traffic": "200+",
+     "pubDate": "Wed, 25 Nov 2026 22:40:00 -0800",
+     "news": [],
+     "n": 200,
+     "stock": false
+    },
+    {
+     "title": "gta6 leonida",
+     "traffic": "200+",
+     "pubDate": "Wed, 25 Nov 2026 22:30:00 -0800",
+     "news": [],
+     "n": 200,
+     "stock": false
+    },
+    {
+     "title": "radio",
+     "traffic": "200+",
+     "pubDate": "Wed, 25 Nov 2026 22:30:00 -0800",
+     "news": [],
+     "n": 200,
+     "stock": false
+    },
+    {
+     "title": "travel",
+     "traffic": "200+",
+     "pubDate": "Wed, 25 Nov 2026 22:30:00 -0800",
+     "news": [],
+     "n": 200,
+     "stock": false
+    },
+    {
+     "title": "home prices",
+     "traffic": "200+",
+     "pubDate": "Wed, 25 Nov 2026 22:30:00 -0800",
+     "news": [],
+     "n": 200,
+     "stock": false
+    },
+    {
+     "title": "robert downey jr",
+     "traffic": "200+",
+     "pubDate": "Wed, 25 Nov 2026 22:30:00 -0800",
+     "news": [],
+     "n": 200,
+     "stock": false
+    }
+   ]
+  }
+ },
+ "dev": {
+  "github": {
+   "source": {
+    "name": "GitHub 近 30 天新專案（2026-10-27 之後建立、依星數）",
+    "url": "https://github.com/search?q=created%3A%3E2026-10-27&s=stars&o=desc&type=repositories",
+    "fetchedAt": "2026-11-26T14:55:39+08:00"
+   },
+   "repos": [
+    {
+     "name": "storytold/craft-anything",
+     "url": "https://github.com/storytold/craft-anything",
+     "stars": 43704,
+     "created": "2026-10-31",
+     "lang": "Rust",
+     "desc": "Craft Anything: understand how any software works, and craft your own.",
+     "topics": [],
+     "delta7": null
+    },
+    {
+     "name": "deepseek-ai/dsh-superagent-prototype",
+     "url": "https://github.com/deepseek-ai/dsh-superagent-prototype",
+     "stars": 24614,
+     "created": "2026-10-31",
+     "lang": "TypeScript",
+     "desc": "Towards a More Autonomous Agent System",
+     "topics": [],
+     "delta7": null
+    },
+    {
+     "name": "heydamir/unslop",
+     "url": "https://github.com/heydamir/unslop",
+     "stars": 21829,
+     "created": "2026-10-29",
+     "lang": "JavaScript",
+     "desc": "A Claude skill that turns vibecoded, AI-looking UI into a designed interface",
+     "topics": [],
+     "delta7": null
+    },
+    {
+     "name": "anefzaoui/misterdownloadmanager",
+     "url": "https://github.com/anefzaoui/misterdownloadmanager",
+     "stars": 18268,
+     "created": "2026-10-29",
+     "lang": "Rust",
+     "desc": "misterdownloadmanager: The ultimate open-source, clean-room download manager written from scratch in pure Rust for Windows, Mac, and Linux",
+     "topics": [
+      "bittorrent-client",
+      "debrid",
+      "download-accelerator",
+      "download-manager",
+      "downloadmanager",
+      "egui",
+      "file-downloader",
+      "gallery-dl"
+     ],
+     "delta7": null
+    },
+    {
+     "name": "libracoder/kiri",
+     "url": "https://github.com/libracoder/kiri",
+     "stars": 13527,
+     "created": "2026-11-02",
+     "lang": "Rust",
+     "desc": "A small, fast container runtime for macOS, Windows and Linux with free Ngrok alternative",
+     "topics": [
+      "containers",
+      "docker",
+      "kubernetes",
+      "linux",
+      "macos",
+      "oci",
+      "windows"
+     ],
+     "delta7": null
+    },
+    {
+     "name": "JuneYaooo/rea-video",
+     "url": "https://github.com/JuneYaooo/rea-video",
+     "stars": 13471,
+     "created": "2026-10-29",
+     "lang": "Python",
+     "desc": "Reverse-engineer any video, shot by shot: filmed, AI-generated or coded, and how to remake it. Breakdowns in the open VIDEO.md format. 逆向一切视",
+     "topics": [
+      "agent-skills",
+      "ai-video",
+      "aigc-detection",
+      "claude-code",
+      "codex",
+      "ffmpeg",
+      "prompt-engineering",
+      "remotion"
+     ],
+     "delta7": null
+    },
+    {
+     "name": "Marvisak/VIctory",
+     "url": "https://github.com/Marvisak/VIctory",
+     "stars": 12777,
+     "created": "2026-11-23",
+     "lang": "Rust",
+     "desc": "An attempt at running GTA VI on PC",
+     "topics": [],
+     "delta7": null
+    },
+    {
+     "name": "Minireel/HGhub",
+     "url": "https://github.com/Minireel/HGhub",
+     "stars": 11961,
+     "created": "2026-11-03",
+     "lang": "Rust",
+     "desc": "Plug-in media player",
+     "topics": [
+      "android",
+      "drama",
+      "free",
+      "movie-web-app",
+      "reels",
+      "windows"
+     ],
+     "delta7": null
+    },
+    {
+     "name": "janestreet/agent_skills",
+     "url": "https://github.com/janestreet/agent_skills",
+     "stars": 11860,
+     "created": "2026-11-03",
+     "lang": null,
+     "desc": "Agent skills",
+     "topics": [],
+     "delta7": null
+    },
+    {
+     "name": "zortos293/Lichii",
+     "url": "https://github.com/zortos293/Lichii",
+     "stars": 10286,
+     "created": "2026-10-31",
+     "lang": "C++",
+     "desc": "VERY experimental Nintendo Switch 2 emulator",
+     "topics": [],
+     "delta7": null
+    },
+    {
+     "name": "wangzan101/Mika",
+     "url": "https://github.com/wangzan101/Mika",
+     "stars": 10025,
+     "created": "2026-10-29",
+     "lang": "Kotlin",
+     "desc": "An on-device AI agent for Android that operates apps and the web to get things done for you.",
+     "topics": [
+      "accessibility",
+      "ai-agent",
+      "android",
+      "automation",
+      "jetpack-compose",
+      "kotlin",
+      "llm",
+      "mobile-agent"
+     ],
+     "delta7": null
+    },
+    {
+     "name": "RoutineMiku/apkstart",
+     "url": "https://github.com/RoutineMiku/apkstart",
+     "stars": 9887,
+     "created": "2026-10-29",
+     "lang": "JavaScript",
+     "desc": "Windows 上的安卓应用运行器：双击 APK 即装，应用以独立窗口与桌面图标运行，自持 QEMU 运行时",
+     "topics": [
+      "android",
+      "android-x86",
+      "apk",
+      "electron",
+      "emulator",
+      "freeform",
+      "qemu",
+      "windows"
+     ],
+     "delta7": null
+    },
+    {
+     "name": "erkamyaman/rust-anything",
+     "url": "https://github.com/erkamyaman/rust-anything",
+     "stars": 9724,
+     "created": "2026-11-16",
+     "lang": "Rust",
+     "desc": "Rewrite your whole app in Rust, one piece at a time, checked against the original's recorded behavior at every step. CLIs, HTTP servers and ",
+     "topics": [
+      "agent-skills",
+      "claude-code",
+      "cli",
+      "code-migration",
+      "codex",
+      "ffi",
+      "golang",
+      "java"
+     ],
+     "delta7": null
+    },
+    {
+     "name": "patch-gg/pixelfx",
+     "url": "https://github.com/patch-gg/pixelfx",
+     "stars": 9309,
+     "created": "2026-10-30",
+     "lang": "JavaScript",
+     "desc": "244 pixel art effects, every one a small piece of code. Plus a Claude Code skill to make your own.",
+     "topics": [
+      "agent-skills",
+      "animation",
+      "canvas",
+      "claude-code-plugin",
+      "gamedev",
+      "pixel-art",
+      "sprite-sheet",
+      "vfx"
+     ],
+     "delta7": null
+    },
+    {
+     "name": "huami1314/GestaltX",
+     "url": "https://github.com/huami1314/GestaltX",
+     "stars": 8974,
+     "created": "2026-11-09",
+     "lang": "Swift",
+     "desc": "An MobileGestalt editor for iOS 27.x, featuring region-code tweaks, device presets, backups.",
+     "topics": [],
+     "delta7": null
+    },
+    {
+     "name": "Lee-xeo/Claude-Cage",
+     "url": "https://github.com/Lee-xeo/Claude-Cage",
+     "stars": 8633,
+     "created": "2026-10-31",
+     "lang": "Go",
+     "desc": "Cage：为 Claude 特化的轻量化虚拟机，彻底杜绝网络泄露。多平台适配，支持多账号管理、远程部署、移动端操控。",
+     "topics": [],
+     "delta7": null
+    },
+    {
+     "name": "xcl-dev/xcl",
+     "url": "https://github.com/xcl-dev/xcl",
+     "stars": 8384,
+     "created": "2026-11-20",
+     "lang": "Rust",
+     "desc": "Xbox Series compatibility layer for Windows - runs console game code natively, reimplements the console system libraries and recompiles RDNA",
+     "topics": [
+      "d3d12",
+      "gdk",
+      "rdna2",
+      "xbox"
+     ],
+     "delta7": null
+    },
+    {
+     "name": "valentderah/totk-pc-recomp",
+     "url": "https://github.com/valentderah/totk-pc-recomp",
+     "stars": 8309,
+     "created": "2026-10-29",
+     "lang": "C",
+     "desc": "Static recompilation of The Legend of Zelda: Tears of the Kingdom to native Windows and Linux x86-64, with a Vulkan renderer. Game files not",
+     "topics": [
+      "game",
+      "linux",
+      "port",
+      "recompilation",
+      "windows"
+     ],
+     "delta7": null
+    },
+    {
+     "name": "mdiri-ai/SoduWork",
+     "url": "https://github.com/mdiri-ai/SoduWork",
+     "stars": 8183,
+     "created": "2026-10-29",
+     "lang": "JavaScript",
+     "desc": "The AI-native engine for teams and their agents. Multi-harness, multi-agent, self-hosted.",
+     "topics": [
+      "agent-harness",
+      "agent-orchestration",
+      "agent-workflows",
+      "ai-agents",
+      "ai-workflows",
+      "anti-slop",
+      "claude-code",
+      "codex"
+     ],
+     "delta7": null
+    },
+    {
+     "name": "ersinkoc/phonebox",
+     "url": "https://github.com/ersinkoc/phonebox",
+     "stars": 6630,
+     "created": "2026-11-07",
+     "lang": "JavaScript",
+     "desc": "Turn an old Android phone into a customizable desk panel and touch control deck for Windows, Linux and macOS. 124 widgets and 30 templates f",
+     "topics": [
+      "android",
+      "claude-code",
+      "codex",
+      "dashboard",
+      "desk-panel",
+      "dotnet",
+      "home-assistant",
+      "linux"
+     ],
+     "delta7": null
+    },
+    {
+     "name": "KKKKhazix/agent-autoloop",
+     "url": "https://github.com/KKKKhazix/agent-autoloop",
+     "stars": 6581,
+     "created": "2026-11-03",
+     "lang": "TypeScript",
+     "desc": "让你的命令行 Agent 在后台自己接活、自己跟进到底；平时不烦你，遇到拿不准的事才发卡片找你拍板。",
+     "topics": [
+      "ai-agents",
+      "automation",
+      "claude-code",
+      "cli",
+      "codex",
+      "event-driven",
+      "mcp",
+      "nodejs"
+     ],
+     "delta7": null
+    },
+    {
+     "name": "Eglantine-Community/Eglantine",
+     "url": "https://github.com/Eglantine-Community/Eglantine",
+     "stars": 6247,
+     "created": "2026-10-29",
+     "lang": "C++",
+     "desc": "An experimental Switch 2 Emulator built for Windows, Linux and MacOS.",
+     "topics": [
+      "eden",
+      "emulator",
+      "switch2",
+      "switch2-emulator"
+     ],
+     "delta7": null
+    },
+    {
+     "name": "deepseek-ai/chat-demo",
+     "url": "https://github.com/deepseek-ai/chat-demo",
+     "stars": 5463,
+     "created": "2026-11-12",
+     "lang": "TypeScript",
+     "desc": "Chat Demo",
+     "topics": [],
+     "delta7": null
+    },
+    {
+     "name": "expo/exact",
+     "url": "https://github.com/expo/exact",
+     "stars": 5124,
+     "created": "2026-11-02",
+     "lang": "Rust",
+     "desc": "Write an app once. It runs natively on the web, macOS, iOS, and Linux, and an AI agent can build it, run it, see it, and test it on every on",
+     "topics": [
+      "ai-agents",
+      "appkit",
+      "coding-agents",
+      "cross-platform",
+      "css",
+      "ios",
+      "linux",
+      "macos"
+     ],
+     "delta7": null
+    },
+    {
+     "name": "BryceYuuu/RUN",
+     "url": "https://github.com/BryceYuuu/RUN",
+     "stars": 5067,
+     "created": "2026-10-29",
+     "lang": "Python",
+     "desc": "RUN · 润：中国护照持有人的海外移居手册。欧洲 36 国 110 条移民路线 + 13 个主要移民地区：数字游民签证、欧盟蓝卡、技术移民、留学转工作、创业自雇、投资居留，每条附官方来源，持续更新。",
+     "topics": [
+      "china",
+      "chinese",
+      "digital-nomad",
+      "digital-nomad-visa",
+      "emigration",
+      "eu-blue-card",
+      "europe",
+      "expat"
+     ],
+     "delta7": null
+    },
+    {
+     "name": "XinaTian/MROffice",
+     "url": "https://github.com/XinaTian/MROffice",
+     "stars": 5050,
+     "created": "2026-11-10",
+     "lang": "TypeScript",
+     "desc": "MR Office — the open-source editors of the AI office suite closest to Microsoft Office: documents, spreadsheets, presentations, PDF and code",
+     "topics": [
+      "ai",
+      "ai-agent",
+      "claude-code",
+      "codex",
+      "copilot",
+      "cursor",
+      "document-editor",
+      "docx"
+     ],
+     "delta7": null
+    },
+    {
+     "name": "Hut-hzf/ung220z-tool",
+     "url": "https://github.com/Hut-hzf/ung220z-tool",
+     "stars": 5032,
+     "created": "2026-11-15",
+     "lang": "Python",
+     "desc": "ung220z-tool 是一个针对 UNG220Z，另含中兴/烽火/华为/九联多厂商适配、固件指纹识别与分家族排障建议的一键凭据提取工具，仅限在你自己的设备上用于找回忘记的管理密码、迁移宽带配置或安全自查。",
+     "topics": [],
+     "delta7": null
+    },
+    {
+     "name": "mromidev/claude-animated-shorts",
+     "url": "https://github.com/mromidev/claude-animated-shorts",
+     "stars": 4982,
+     "created": "2026-11-01",
+     "lang": "TypeScript",
+     "desc": "Free Claude skill: viral animated story shorts (2D characters in a 3D world) with three.js + Remotion",
+     "topics": [],
+     "delta7": null
+    },
+    {
+     "name": "simplexai-labs/linger",
+     "url": "https://github.com/simplexai-labs/linger",
+     "stars": 4739,
+     "created": "2026-11-10",
+     "lang": "TypeScript",
+     "desc": "Linger is An Open-Source Personal Agent That Runs Fully on Your PC.  We aim to break Big Tech’s grip on AI by bringing powerful local AI to ",
+     "topics": [
+      "agent-teams",
+      "local-llm",
+      "memory",
+      "personal-agent",
+      "proactive-agent",
+      "proactive-ai"
+     ],
+     "delta7": null
+    },
+    {
+     "name": "4lwayz/portwatch-vi",
+     "url": "https://github.com/4lwayz/portwatch-vi",
+     "stars": 4519,
+     "created": "2026-11-21",
+     "lang": "JavaScript",
+     "desc": "Does GTA VI run on PC yet? A live tracker of community recompilation and emulation efforts, updated daily.",
+     "topics": [],
+     "delta7": null
+    },
+    {
+     "name": "JenkinWoo/sheeridVerify",
+     "url": "https://github.com/JenkinWoo/sheeridVerify",
+     "stars": 4479,
+     "created": "2026-11-06",
+     "lang": "JavaScript",
+     "desc": "",
+     "topics": [],
+     "delta7": null
+    },
+    {
+     "name": "tangerineturtle1/NX2navi",
+     "url": "https://github.com/tangerineturtle1/NX2navi",
+     "stars": 4364,
+     "created": "2026-11-07",
+     "lang": "C",
+     "desc": "",
+     "topics": [],
+     "delta7": null
+    },
+    {
+     "name": "elvarofficial/teardown",
+     "url": "https://github.com/elvarofficial/teardown",
+     "stars": 4191,
+     "created": "2026-10-30",
+     "lang": "JavaScript",
+     "desc": "A Claude Code skill that turns any machine into a 3D simulator you can take apart",
+     "topics": [],
+     "delta7": null
+    },
+    {
+     "name": "EL4CTEO/fast-anything",
+     "url": "https://github.com/EL4CTEO/fast-anything",
+     "stars": 4053,
+     "created": "2026-11-21",
+     "lang": "Rust",
+     "desc": "Don't rewrite it in Rust. Rewrite the 5% that's slow: profile Python, Node or Ruby apps, port the hot functions with your coding agent, prov",
+     "topics": [
+      "agent-skills",
+      "ai-agents",
+      "claude-code",
+      "claude-code-plugin",
+      "codex",
+      "developer-tools",
+      "ffi",
+      "mcp"
+     ],
+     "delta7": null
+    },
+    {
+     "name": "AFK-surf/xnulinux",
+     "url": "https://github.com/AFK-surf/xnulinux",
+     "stars": 4024,
+     "created": "2026-11-20",
+     "lang": "C",
+     "desc": "XNU as a loadable kernel module inside Linux (macOS personality for arm64 Linux)",
+     "topics": [],
+     "delta7": null
+    },
+    {
+     "name": "jhaizhou-ops/S2Arm",
+     "url": "https://github.com/jhaizhou-ops/S2Arm",
+     "stars": 3939,
+     "created": "2026-11-08",
+     "lang": "C#",
+     "desc": "Run your own Switch games natively on iPhone, iPad and Mac: game code rewritten to ARM64, graphics direct to Metal, one app for the whole li",
+     "topics": [
+      "apple-silicon",
+      "arm64",
+      "game-porting",
+      "ios",
+      "ipados",
+      "macos",
+      "metal",
+      "s2arm"
+     ],
+     "delta7": null
+    },
+    {
+     "name": "shanselman/gputaskman",
+     "url": "https://github.com/shanselman/gputaskman",
+     "stars": 3839,
+     "created": "2026-11-03",
+     "lang": "Python",
+     "desc": "A GPU task manager for Windows, Linux, and WSL: per-process VRAM, GPU activity, and LLM model/KV-cache insights for NVIDIA, AMD, and Intel G",
+     "topics": [],
+     "delta7": null
+    },
+    {
+     "name": "Verlintas/NOIR",
+     "url": "https://github.com/Verlintas/NOIR",
+     "stars": 3729,
+     "created": "2026-10-31",
+     "lang": "Kotlin",
+     "desc": "手机隐私审计：用 adb 扫出 Android 应用的权限、上报端点与数据流向，并给出可回滚的处置。Desktop Android leak audit: permissions, endpoints, data flows, reversible fixes.",
+     "topics": [
+      "adb",
+      "android",
+      "android-privacy",
+      "android-security",
+      "android-tools",
+      "apk-analysis",
+      "bloatware",
+      "cli"
+     ],
+     "delta7": null
+    },
+    {
+     "name": "FrigadeHQ/yogurt",
+     "url": "https://github.com/FrigadeHQ/yogurt",
+     "stars": 3577,
+     "created": "2026-11-10",
+     "lang": "TypeScript",
+     "desc": "Private AI meeting notes that stay on your computer. No meeting bot. Free and open source for Mac, Windows and Linux. An alternative to Gran",
+     "topics": [
+      "ai-meeting-assistant",
+      "ai-notetaker",
+      "electron",
+      "granola-alternative",
+      "linux",
+      "llama-cpp",
+      "local-ai",
+      "local-first"
+     ],
+     "delta7": null
+    },
+    {
+     "name": "wquguru/cicada",
+     "url": "https://github.com/wquguru/cicada",
+     "stars": 3355,
+     "created": "2026-11-01",
+     "lang": "Swift",
+     "desc": "知了 Cicada · 任何会议和直播的实时字幕、同声传译、AI 会议纪要，Mac、Windows、Linux、Android 免费开源。Live subtitles, interpreting and meeting notes for any call or stream, ",
+     "topics": [
+      "android",
+      "linux",
+      "live-captions",
+      "macos",
+      "meeting-notes",
+      "menubar-app",
+      "simultaneous-interpretation",
+      "speech-recognition"
+     ],
+     "delta7": null
+    }
+   ],
+   "topics": [
+    {
+     "name": "claude-code",
+     "count": 7
+    },
+    {
+     "name": "codex",
+     "count": 7
+    },
+    {
+     "name": "linux",
+     "count": 6
+    },
+    {
+     "name": "android",
+     "count": 6
+    },
+    {
+     "name": "macos",
+     "count": 4
+    },
+    {
+     "name": "windows",
+     "count": 4
+    },
+    {
+     "name": "agent-skills",
+     "count": 4
+    },
+    {
+     "name": "ai-agents",
+     "count": 4
+    },
+    {
+     "name": "cli",
+     "count": 3
+    },
+    {
+     "name": "ai-agent",
+     "count": 2
+    },
+    {
+     "name": "automation",
+     "count": 2
+    },
+    {
+     "name": "electron",
+     "count": 2
+    },
+    {
+     "name": "emulator",
+     "count": 2
+    },
+    {
+     "name": "ffi",
+     "count": 2
+    },
+    {
+     "name": "claude-code-plugin",
+     "count": 2
+    }
+   ]
+  }
+ },
+ "history": {
+  "repoStars": {
+   "storytold/craft-anything": [
+    [
+     "2026-11-26",
+     43704
+    ]
+   ],
+   "deepseek-ai/dsh-superagent-prototype": [
+    [
+     "2026-11-26",
+     24614
+    ]
+   ],
+   "heydamir/unslop": [
+    [
+     "2026-11-26",
+     21829
+    ]
+   ],
+   "anefzaoui/misterdownloadmanager": [
+    [
+     "2026-11-26",
+     18268
+    ]
+   ],
+   "libracoder/kiri": [
+    [
+     "2026-11-26",
+     13527
+    ]
+   ],
+   "JuneYaooo/rea-video": [
+    [
+     "2026-11-26",
+     13471
+    ]
+   ],
+   "Marvisak/VIctory": [
+    [
+     "2026-11-26",
+     12777
+    ]
+   ],
+   "Minireel/HGhub": [
+    [
+     "2026-11-26",
+     11961
+    ]
+   ],
+   "janestreet/agent_skills": [
+    [
+     "2026-11-26",
+     11860
+    ]
+   ],
+   "zortos293/Lichii": [
+    [
+     "2026-11-26",
+     10286
+    ]
+   ],
+   "wangzan101/Mika": [
+    [
+     "2026-11-26",
+     10025
+    ]
+   ],
+   "RoutineMiku/apkstart": [
+    [
+     "2026-11-26",
+     9887
+    ]
+   ],
+   "erkamyaman/rust-anything": [
+    [
+     "2026-11-26",
+     9724
+    ]
+   ],
+   "patch-gg/pixelfx": [
+    [
+     "2026-11-26",
+     9309
+    ]
+   ],
+   "huami1314/GestaltX": [
+    [
+     "2026-11-26",
+     8974
+    ]
+   ],
+   "Lee-xeo/Claude-Cage": [
+    [
+     "2026-11-26",
+     8633
+    ]
+   ],
+   "xcl-dev/xcl": [
+    [
+     "2026-11-26",
+     8384
+    ]
+   ],
+   "valentderah/totk-pc-recomp": [
+    [
+     "2026-11-26",
+     8309
+    ]
+   ],
+   "mdiri-ai/SoduWork": [
+    [
+     "2026-11-26",
+     8183
+    ]
+   ],
+   "ersinkoc/phonebox": [
+    [
+     "2026-11-26",
+     6630
+    ]
+   ],
+   "KKKKhazix/agent-autoloop": [
+    [
+     "2026-11-26",
+     6581
+    ]
+   ],
+   "Eglantine-Community/Eglantine": [
+    [
+     "2026-11-26",
+     6247
+    ]
+   ],
+   "deepseek-ai/chat-demo": [
+    [
+     "2026-11-26",
+     5463
+    ]
+   ],
+   "expo/exact": [
+    [
+     "2026-11-26",
+     5124
+    ]
+   ],
+   "BryceYuuu/RUN": [
+    [
+     "2026-11-26",
+     5067
+    ]
+   ],
+   "XinaTian/MROffice": [
+    [
+     "2026-11-26",
+     5050
+    ]
+   ],
+   "Hut-hzf/ung220z-tool": [
+    [
+     "2026-11-26",
+     5032
+    ]
+   ],
+   "mromidev/claude-animated-shorts": [
+    [
+     "2026-11-26",
+     4982
+    ]
+   ],
+   "simplexai-labs/linger": [
+    [
+     "2026-11-26",
+     4739
+    ]
+   ],
+   "4lwayz/portwatch-vi": [
+    [
+     "2026-11-26",
+     4519
+    ]
+   ],
+   "JenkinWoo/sheeridVerify": [
+    [
+     "2026-11-26",
+     4479
+    ]
+   ],
+   "tangerineturtle1/NX2navi": [
+    [
+     "2026-11-26",
+     4364
+    ]
+   ],
+   "elvarofficial/teardown": [
+    [
+     "2026-11-26",
+     4191
+    ]
+   ],
+   "EL4CTEO/fast-anything": [
+    [
+     "2026-11-26",
+     4053
+    ]
+   ],
+   "AFK-surf/xnulinux": [
+    [
+     "2026-11-26",
+     4024
+    ]
+   ],
+   "jhaizhou-ops/S2Arm": [
+    [
+     "2026-11-26",
+     3939
+    ]
+   ],
+   "shanselman/gputaskman": [
+    [
+     "2026-11-26",
+     3839
+    ]
+   ],
+   "Verlintas/NOIR": [
+    [
+     "2026-11-26",
+     3729
+    ]
+   ],
+   "FrigadeHQ/yogurt": [
+    [
+     "2026-11-26",
+     3577
+    ]
+   ],
+   "wquguru/cicada": [
+    [
+     "2026-11-26",
+     3355
+    ]
+   ]
+  }
+ },
+ "problems": [
+  "Hugging Face 連不到：<urlopen error Tunnel connection failed: 403 Forbidden (agent proxy: no rule or network setting allows this host)>"
+ ]
+}

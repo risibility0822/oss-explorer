@@ -9,7 +9,7 @@
 排程每週一到週五早上觸發。照 `.claude/skills/oss-episode/SKILL.md` 一步一步做。如果 Skill 工具不能用，就直接讀那個檔案照做。所有能寫死的步驟都在 `python3 ops/bin/oss.py`，不要手改 `data/*.json`。
 
 ```
-preflight → plan → 發掘與選題 → new <slug> → 研究 → Demo 與 lab → 頁面與 meta.json
+preflight → plan → radar（趨勢雷達）→ 發掘與選題 → new <slug> → 研究 → Demo 與 lab → 頁面與 meta.json
 → card → check → qa（看截圖）→ 內容審查員＋設計審查員（平行）→ 修正 → register → build → finish --review --design → publish
 → live（線上自動檢查與探索）→ 親手玩線上版 → live --played → lesson
 ```
@@ -32,7 +32,7 @@ preflight → plan → 發掘與選題 → new <slug> → 研究 → Demo 與 la
 |---|---|
 | `index.html` | 首頁（讀 data/*.json，不需要改） |
 | `ep-NNN-<slug>/` | 每一集：`index.html`、`meta.json`（本集唯一資料來源）、`og.jpg`、Demo 用的檔案、`lab/`（腳本、原始輸出、`qa_check.py` 互動測試） |
-| `data/` | `episodes.json`、`ideas.json`、`state.json`、`runs.json`：只能用 `oss.py register / finish / abort` 寫入 |
+| `data/` | `episodes.json`、`ideas.json`、`state.json`、`runs.json`：只能用 `oss.py register / finish / abort` 寫入；`trends.json`（趨勢雷達）只能用 `oss.py radar` 寫入 |
 | `feedback.md` | 主人的許願、評分、收藏（`oss.py plan` 會解析）。除了把處理掉的許願移到「已處理」，不要改主人寫的字 |
 | `ops/bin/oss.py` | 流程工具（`--help` 看全部指令） |
 | `ops/LESSONS.md` | 歷次執行學到的經驗：開工前先讀，收工前把新學到的用 `oss.py lesson` 加上去 |

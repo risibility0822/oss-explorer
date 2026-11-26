@@ -302,6 +302,46 @@
   },
   "review": {
    "type": "object"
+  },
+  "trend": {
+   "type": "object",
+   "description": "熱門話題日必填：這集接上了哪個熱門話題（來自 oss.py radar 的 data/trends.json）",
+   "required": [
+    "kind",
+    "topic",
+    "source",
+    "date",
+    "why"
+   ],
+   "additionalProperties": false,
+   "properties": {
+    "kind": {
+     "enum": [
+      "public",
+      "dev"
+     ]
+    },
+    "topic": {
+     "type": "string"
+    },
+    "source": {
+     "type": "string"
+    },
+    "url": {
+     "type": "string",
+     "pattern": "^https://"
+    },
+    "date": {
+     "type": "string"
+    },
+    "traffic": {
+     "type": "string"
+    },
+    "why": {
+     "type": "string",
+     "maxLength": 60
+    }
+   }
   }
  },
  "allOf": [

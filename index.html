@@ -77,6 +77,18 @@
 .st{font-size:13px;white-space:nowrap}.st.open{color:var(--accent-ink)}
 .edit{display:inline-block;font-weight:600;color:var(--accent-ink);text-decoration-thickness:2px;padding-top:6px;padding-bottom:6px}
 .empty-state{border:1px dashed var(--mute);border-radius:8px;padding:20px;color:var(--mute);margin-top:12px}
+/* 06 趨勢雷達 */
+.radar{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:clamp(24px,4vw,56px);row-gap:28px}
+@media(max-width:760px){.radar{grid-template-columns:minmax(0,1fr)}}
+.radar h3{font-size:20px;margin:0}
+.radar .rh{font-size:15px;font-weight:700;margin:18px 0 6px;color:var(--mute)}
+.radar .src{font-size:13px;color:var(--mute);margin:2px 0 10px}
+.radar .src a{color:var(--mute)}
+.radar .bars{grid-template-columns:minmax(0,9em) minmax(0,1fr) 3.6em}
+.radar .stocks{font-size:14px;color:var(--mute);margin:8px 0 0}
+.radar ol{margin:0;padding-left:1.4em;font-size:15px}.radar li{margin:4px 0}
+.radar li a{color:var(--ink)}.radar li small{color:var(--mute)}
+.home-why{font-size:14px;margin:4px 0}.home-why b{color:var(--accent-ink);margin-right:6px}
 /* 05 怎麼運作 */
 .how-list{padding-left:1.4em;max-width:72ch}.how-list li{margin:6px 0}
 </style>
@@ -98,6 +110,7 @@
       <li><a href="#ideas"><i>03</i><span>點子庫</span></a></li>
       <li><a href="#wishes"><i>04</i><span>許願與回饋</span></a></li>
       <li><a href="#how"><i>05</i><span>怎麼運作</span></a></li>
+      <li><a href="#trends"><i>06</i><span>趨勢雷達</span></a></li>
     </ol></nav>
   </div>
   <div class="home-stats">
@@ -110,7 +123,7 @@
   <p class="home-run" id="runline"></p>
   <p class="home-run">新一集出刊時會推播到你的手機；也可以用 RSS 閱讀器訂閱 <a href="feed.xml">feed.xml</a>。</p>
   <p class="home-status" id="status">載入中…</p>
-  <nav class="home-jump" aria-label="區段"><a href="#map">領域地圖</a><a href="#episodes">各集</a><a href="#ideas">點子庫</a><a href="#wishes">許願池</a><a href="#how">怎麼運作</a></nav>
+  <nav class="home-jump" aria-label="區段"><a href="#map">領域地圖</a><a href="#episodes">各集</a><a href="#ideas">點子庫</a><a href="#wishes">許願池</a><a href="#how">怎麼運作</a><a href="#trends">趨勢雷達</a></nav>
 </header>
 
 <section class="wrap" id="map">
@@ -158,6 +171,32 @@
     <li><b>實際跑起來</b>：在雲端工作區安裝執行，結果全部是真的輸出；能在瀏覽器跑的就做成可互動 Demo。</li>
     <li><b>審查與發布</b>：內容審查員查事實、設計審查員用外行人的眼睛看頁面，通過後推到 GitHub，網站自動更新；再到線上版親手玩一次，並推播通知你。</li>
   </ol>
+</section>
+
+<section class="wrap" id="trends">
+  <div class="sec" aria-hidden="true"><i>06</i><em>Trend Radar</em></div>
+  <h2>最近大家在搜尋、開發者在追什麼</h2>
+  <p>每次出刊前自動更新。每週一、四的那集會從這裡挑主題，其他天熱門關鍵字只當加分。<span id="trUpd"></span></p>
+  <div class="radar">
+    <div>
+      <h3>大眾話題</h3>
+      <p class="src" id="trTWsrc">Google Trends 台灣每日熱搜</p>
+      <div class="bars" id="trTW" role="img" aria-label="Google Trends 台灣每日熱搜"></div>
+      <p class="stocks" id="trStock"></p>
+      <p class="rh">美國</p>
+      <div class="bars" id="trUS" role="img" aria-label="Google Trends 美國每日熱搜"></div>
+    </div>
+    <div>
+      <h3>開發者圈</h3>
+      <p class="src" id="trGHsrc">GitHub 近 30 天新專案的主題標籤</p>
+      <div class="bars" id="trTopics" role="img" aria-label="GitHub 近 30 天新專案最常見的主題標籤"></div>
+      <p class="rh">新專案星數最多</p>
+      <ol id="trRepos"></ol>
+      <p class="rh" id="trHFh" hidden>Hugging Face 熱門模型</p>
+      <ol id="trHF"></ol>
+    </div>
+  </div>
+  <p class="home-run" id="trProb"></p>
 </section>
 
 <footer class="wrap">
@@ -211,7 +250,7 @@ function renderEps(){
     const hl=(e.highlights||[]).length?`<ul class="hl">${e.highlights.map(h=>`<li>${esc(h)}</li>`).join("")}</ul>`:"";
     return `<article class="issue" id="ep-${pad(e.no)}">
       <div><p class="no">${pad(e.no)}</p><p class="date">${esc(e.date)}</p></div>
-      <div><p class="dom">${esc(e.domain)}</p><h3>${u?`<a href="${esc(u)}">${esc(e.title)}</a>`:esc(e.title)}</h3><p>${esc(e.oneliner)}</p>${hl}
+      <div><p class="dom">${esc(e.domain)}</p><h3>${u?`<a href="${esc(u)}">${esc(e.title)}</a>`:esc(e.title)}</h3><p>${esc(e.oneliner)}</p>${e.trend?`<p class="home-why"><b>為什麼是現在</b>${esc(e.trend.why)}（${esc(e.trend.source)}，${esc(e.trend.date)}）</p>`:""}${hl}
       ${e.demo?`<p class="res"><b>Demo：</b>${esc(e.demo)}</p>`:""}
       <p class="res">${res}</p>
       <p class="links">${u?`<a href="${esc(u)}">閱讀本集</a>`:""}${e.lab?`<a href="${esc(REPO)}/tree/main/${esc(e.lab)}">實驗程式碼</a>`:""}</p></div>
@@ -233,7 +272,30 @@ function renderWishes(){
   $("wishList").innerHTML=list.length?list.map(w=>`<div class="wish"><div>${esc(w.text)}${w.reply?`<div class="re">回覆：${esc(w.reply)}${w.doneIn?`（${esc(w.doneIn)}）`:""}</div>`:""}</div><span class="st ${esc(w.status)}">${esc(lbl[w.status]||w.status)}</span></div>`).join(""):`<div class="empty-state">目前沒有排隊中的許願。</div>`;
 }
 
-function renderAll(){renderStats();renderBoard();renderEps();renderIdeas();renderWishes()}
+function fmtN(n){return n>=10000?(n/10000).toLocaleString("en-US",{maximumFractionDigits:1})+" 萬":n.toLocaleString("en-US")}
+function bars(list,max,lab,val){return list.map(x=>`<span>${esc(lab(x))}</span><span class="t"><i style="width:${Math.max(2,Math.round(x._v/max*100))}%"></i></span><span class="v">${esc(val(x))}</span>`).join("")}
+function renderTrends(){
+  const T=S.trends;if(!T){$("trends").hidden=true;return}
+  $("trends").hidden=false;$("trUpd").textContent=T.updatedAt?`（${String(T.updatedAt).replace("T"," ").slice(0,16)} 更新）`:"";
+  const pub=g=>((T.public||{})[g]||{}), tw=pub("TW"), us=pub("US");
+  const src=(el,s0,fallback)=>{if(s0&&s0.source){$(el).innerHTML=`<a href="${esc(safeUrl(s0.source.url))}">${esc(s0.source.name)}</a>`+(s0.source.error?"（這次連不到）":"")}else $(el).textContent=fallback};
+  src("trTWsrc",tw,"Google Trends 台灣每日熱搜");
+  const twI=(tw.items||[]).filter(x=>!x.stock).slice(0,10).map(x=>({...x,_v:x.n||0}));
+  const stocks=(tw.items||[]).filter(x=>x.stock);
+  $("trTW").innerHTML=twI.length?bars(twI,Math.max(...twI.map(x=>x._v),1),x=>x.title,x=>x.traffic):"";
+  if(!twI.length)$("trTW").outerHTML=`<p class="stocks" id="trTW">這次沒有抓到資料。</p>`;
+  $("trStock").textContent=stocks.length?`另有 ${stocks.length} 個是台股代號（${stocks.slice(0,4).map(x=>x.title).join("、")}），代表當天有人在查股票。`:"";
+  const usI=(us.items||[]).slice(0,8).map(x=>({...x,_v:x.n||0}));
+  $("trUS").innerHTML=usI.length?bars(usI,Math.max(...usI.map(x=>x._v),1),x=>x.title,x=>x.traffic):"";
+  const gh=(T.dev||{}).github||{}; if(gh.source)$("trGHsrc").innerHTML=`<a href="${esc(safeUrl(gh.source.url))}">${esc(gh.source.name)}</a>`;
+  const tp=(gh.topics||[]).slice(0,10).map(x=>({...x,_v:x.count}));
+  $("trTopics").innerHTML=tp.length?bars(tp,Math.max(...tp.map(x=>x._v),1),x=>x.name,x=>x.count+" 個"):"";
+  $("trRepos").innerHTML=(gh.repos||[]).slice(0,6).map(r=>`<li><a href="${esc(safeUrl(r.url))}">${esc(r.name)}</a> <small>★ ${fmtN(r.stars)}${r.delta7!=null?`（7 天 +${fmtN(r.delta7)}）`:""}，${esc(r.created)} 建立${r.desc?`：${esc(r.desc)}`:""}</small></li>`).join("");
+  const hf=((T.dev||{}).hf||{}).models||[]; $("trHFh").hidden=!hf.length;
+  $("trHF").innerHTML=hf.slice(0,5).map(m=>`<li><a href="${esc(safeUrl(m.url))}">${esc(m.id)}</a> <small>${m.task?esc(m.task)+"，":""}${fmtN(m.likes||0)} 個讚</small></li>`).join("");
+  $("trProb").textContent=(T.problems||[]).length?`這次有 ${T.problems.length} 個來源連不到，資料可能不完整。`:"";
+}
+function renderAll(){renderStats();renderBoard();renderEps();renderIdeas();renderWishes();renderTrends()}
 renderAll();
 
 ["q","fDom","fFmt"].forEach(id=>$(id).addEventListener("input",renderEps));
@@ -242,8 +304,8 @@ $("onlyStar").addEventListener("click",e=>{S.onlyStar=!S.onlyStar;e.currentTarge
 (async()=>{
   const get=async p=>{const r=await fetch(p,{cache:"no-store"});if(!r.ok)throw new Error(p);return r.json()};
   try{
-    const [eps,ideas,state,runs]=await Promise.all([get("data/episodes.json"),get("data/ideas.json"),get("data/state.json").catch(()=>null),get("data/runs.json").catch(()=>[])]);
-    S.eps=Array.isArray(eps)?eps:[];S.ideas=Array.isArray(ideas)?ideas:[];S.state=state;
+    const [eps,ideas,state,runs,trends]=await Promise.all([get("data/episodes.json"),get("data/ideas.json"),get("data/state.json").catch(()=>null),get("data/runs.json").catch(()=>[]),get("data/trends.json").catch(()=>null)]);
+    S.eps=Array.isArray(eps)?eps:[];S.ideas=Array.isArray(ideas)?ideas:[];S.state=state;S.trends=trends;
     const last=Array.isArray(runs)&&runs.length?runs[runs.length-1]:null;
     if(last){const t=String(last.endedAt||"").replace("T"," ").slice(0,16),okr=last.status==="ok";
       const rl=$("runline");rl.classList.toggle("fail",!okr);
