@@ -3,7 +3,7 @@
   "id": "ep-002",
   "slug": "ep-002-handwired",
   "date": "2026-11-25",
-  "title": "不用訓練的神經網路：FizzBuzz 手工接線，1000 題全對",
+  "title": "不用訓練的神經網路：FizzBuzz 手工接線，1000 題全對（handwired）",
   "oneliner": "把寫好的規則直接變成 AI 的「腦」（神經網路），不用餵例子訓練：FizzBuzz 從 1 到 1000 全對，還能把網路裡的數字弄亂，看它怎麼壞掉。",
   "domain": "好玩・怪奇・創意程式・藝術",
   "format": "單品",
@@ -16,7 +16,9 @@
       "license": "MIT",
       "stars": "2.2k（2026-11-24）",
       "lang": "TypeScript",
-      "role": "main"
+      "role": "main",
+      "title": "handwired",
+      "what": "讓你親手寫出神經網路的程式工具"
     }
   ],
   "demo": "在瀏覽器裡玩手工接線的 FizzBuzz 網路：輸入 1 到 1000，看兩排燈（333＋200 顆）亮起來；把網路裡的數字弄亂 0.01%–10%，看 1 到 100 題答錯幾題。",

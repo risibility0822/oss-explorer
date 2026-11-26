@@ -16,7 +16,10 @@
     "license": "MIT（模型另有授權）",
     "stars": "25.7k（2026-11-25）",
     "lang": "Python",
-    "role": "main"
+    "role": "main",
+    "title": "rembg",
+    "what": "開源的 AI 去背工具",
+    "commercial": "程式可商用，模型另計"
    },
    {
     "name": "onnxruntime-web",
@@ -24,7 +27,9 @@
     "license": "MIT",
     "stars": "—",
     "lang": "JavaScript",
-    "role": "support"
+    "role": "support",
+    "title": "onnxruntime-web",
+    "what": "讓 AI 在瀏覽器裡跑"
    }
   ],
   "demo": "在瀏覽器裡用最小的 u2netp 模型去背：選範例或放自己的照片、換背景、下載 PNG；機制圖的每張小圖都是 Demo 當下算出來的。另附四個模型的實測比較。",
@@ -48,7 +53,7 @@
   "no": 2,
   "id": "ep-002",
   "date": "2026-11-25",
-  "title": "不用訓練的神經網路：FizzBuzz 手工接線，1000 題全對",
+  "title": "不用訓練的神經網路：FizzBuzz 手工接線，1000 題全對（handwired）",
   "oneliner": "把寫好的規則直接變成 AI 的「腦」（神經網路），不用餵例子訓練：FizzBuzz 從 1 到 1000 全對，還能把網路裡的數字弄亂，看它怎麼壞掉。",
   "domain": "好玩・怪奇・創意程式・藝術",
   "format": "單品",
@@ -61,7 +66,9 @@
     "license": "MIT",
     "stars": "2.2k（2026-11-24）",
     "lang": "TypeScript",
-    "role": "main"
+    "role": "main",
+    "title": "handwired",
+    "what": "讓你親手寫出神經網路的程式工具"
    }
   ],
   "demo": "在瀏覽器裡玩手工接線的 FizzBuzz 網路：輸入 1 到 1000，看兩排燈（333＋200 顆）亮起來；把網路裡的數字弄亂 0.01%–10%，看 1 到 100 題答錯幾題。",
@@ -86,7 +93,7 @@
   "no": 3,
   "id": "ep-003",
   "date": "2026-11-26",
-  "title": "給 AI 的 log 先瘦身：少讀 41%，小模型快 2.4 倍",
+  "title": "給 AI 的 log 先瘦身：少讀 41%，小模型快 2.4 倍（Headroom）",
   "oneliner": "Headroom 在送給 AI 之前把工具輸出裡重複的字刪掉。我們把同一份 300 筆 log 原樣和壓縮後各餵給筆電跑得動的小模型：少讀 41%、快 2.4 倍，但壓縮後查單筆數字的 5 題全答錯。",
   "domain": "AI 應用與 Agent 框架",
   "format": "組合技",
@@ -99,7 +106,9 @@
     "license": "Apache-2.0",
     "stars": "80.9k（2026-11-26）",
     "lang": "Python",
-    "role": "main"
+    "role": "main",
+    "title": "Headroom",
+    "what": "送給 AI 之前先壓縮內容的 Python 工具"
    },
    {
     "name": "ggml-org/llama.cpp",
@@ -107,14 +116,16 @@
     "license": "MIT",
     "stars": "136.3k（2026-11-26）",
     "lang": "C++",
-    "role": "support"
+    "role": "support",
+    "title": "llama.cpp",
+    "what": "讓小模型在筆電上跑的引擎"
    }
   ],
   "demo": "選一份 log（100、300、2,000 筆或真的建置失敗紀錄），看原樣和壓縮後各要讀多少字、有沒有超過小模型一次能讀的上限，再看筆電上的小模型實際回答了什麼、花幾秒。",
   "highlights": [
    "同一份 300 筆 log，小模型少讀 41%，CPU 上讀完從 231 秒變 96 秒（快 2.4 倍），找出錯的那行一樣答對",
    "查單筆的毫秒數，小模型原樣答對 2/5、壓縮後 0/5：樣本小，但查細節前要先用自己的資料測",
-   "Headroom 自己估省 64%，用 Qwen 實際切字只省 41%；建置 log 完全沒壓"
+   "省多少要自己量：Headroom 的估算是 64%，用這個小模型實際切字只省 41%；建置 log 完全沒壓"
   ],
   "tags": [
    "AI Agent",
@@ -126,6 +137,6 @@
   "path": "ep-003-headroom/",
   "lab": "ep-003-headroom/lab",
   "thumb": "ep-003-headroom/og.jpg",
-  "createdAt": "2026-11-26T08:23:14+08:00"
+  "createdAt": "2026-11-26T13:00:59+08:00"
  }
 ]

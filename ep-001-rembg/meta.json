@@ -16,7 +16,10 @@
    "license": "MIT（模型另有授權）",
    "stars": "25.7k（2026-11-25）",
    "lang": "Python",
-   "role": "main"
+   "role": "main",
+   "title": "rembg",
+   "what": "開源的 AI 去背工具",
+   "commercial": "程式可商用，模型另計"
   },
   {
    "name": "onnxruntime-web",
@@ -24,7 +27,9 @@
    "license": "MIT",
    "stars": "—",
    "lang": "JavaScript",
-   "role": "support"
+   "role": "support",
+   "title": "onnxruntime-web",
+   "what": "讓 AI 在瀏覽器裡跑"
   }
  ],
  "demo": "在瀏覽器裡用最小的 u2netp 模型去背：選範例或放自己的照片、換背景、下載 PNG；機制圖的每張小圖都是 Demo 當下算出來的。另附四個模型的實測比較。",

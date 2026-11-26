@@ -286,6 +286,65 @@ def cmd_new(a):
     print(f"已建立 {name}/：index.html（骨架）、meta.json、lab/README.md、lab/qa_check.py\n下一步：研究 → 實作 Demo → 寫頁面 → `oss.py check` → `oss.py qa`")
 
 
+
+# ───────────────────────── 本集主角卡 ─────────────────────────
+CARD_RE = re.compile(r"<!-- subject:start -->.*?<!-- subject:end -->", re.S)
+
+def subject_card(meta) -> str:
+    """從 meta.json 的 resources 產生「本集主角」卡（HTML）。主角＝role 為 main 的第一筆，其餘列在「搭配」。
+    每筆可填 title（顯示名）、what（一句白話：它是什麼）、commercial（能不能商用的結論）。"""
+    import html as H
+    e = lambda v: H.escape(str(v or ""), quote=True)
+    res = meta.get("resources") or []
+    main = next((r for r in res if r.get("role") == "main"), res[0] if res else None)
+    if not main: return ""
+    def name(r):
+        n = str(r.get("name") or ""); return r.get("title") or n.rsplit("/", 1)[-1]
+    def stars(r):
+        m = re.match(r"\s*([0-9.,]+)\s*([kK萬]?)[^（(]*[（(]?([^）)]*)", str(r.get("stars") or ""))
+        if not m: return None, None
+        v = float(m.group(1).replace(",", "")) * (1000 if m.group(2) in "kK" and m.group(2) else 10000 if m.group(2) == "萬" else 1)
+        approx = bool(m.group(2))   # 2.2k 這種寫法只是近似值，不要顯示成看起來精確的 2,200
+        txt = f"{v/10000:.1f} 萬".replace(".0 萬", " 萬") if v >= 10000 else (f"約 {int(round(v, -2)):,}" if approx else f"{int(v):,}")
+        return txt, (m.group(3) or "").strip()
+    PERMISSIVE = ("MIT", "Apache", "BSD", "ISC", "Unlicense", "Zlib", "0BSD", "CC0")
+    def use(r):
+        lic = str(r.get("license") or "")
+        if r.get("commercial"): lic = re.sub(r"[（(].*?[）)]", "", lic).strip(); return f"{lic}：{r['commercial']}" if lic else r["commercial"]
+        return f"{lic}：可免費商用" if lic.startswith(PERMISSIVE) and "（" not in lic and "(" not in lic else lic
+    st, day = stars(main)
+    facts = []
+    if st: facts.append(f'<span><b>★ {e(st)}</b> GitHub 星</span>')
+    if use(main): facts.append(f'<span>{e(use(main))}</span>')
+    url = str(main.get("url") or "")
+    btn = "看原始碼" if "github.com/" in url else "打開來源"
+    also = []
+    for r in res:
+        if r is main: continue
+        s2, _ = stars(r)
+        bits = [b for b in (r.get("what") or (f"★ {s2}" if s2 else ""),) if b]   # 配角只寫它做什麼，細節在深入區
+        link = f'<a href="{e(r.get("url"))}">{e(name(r))}</a>' if str(r.get("url", "")).startswith("https://") else e(name(r))
+        also.append(link + (f"（{e('，'.join(bits))}）" if bits else ""))
+    return ("<!-- subject:start -->\n      <aside class=\"subject\" aria-label=\"本集主角\">\n"
+            f"        <p class=\"nm\"><span class=\"lab\">本集主角</span>{e(name(main))}</p>"
+            + (f"<a class=\"open\" href=\"{e(url)}\">{btn}</a>" if url.startswith("https://") else "") + "\n"
+            + (f"        <p class=\"what\">{e(main['what'])}</p>\n" if main.get("what") else "")
+            + f"        <p class=\"facts\">{''.join(facts)}</p>\n"            + f"        <p class=\"src\">{e(main.get('name'))}{f'（星數 {e(day)} 查）' if day else ''}</p>\n"
+            + (f"        <p class=\"also\">搭配：{'、'.join(also)}</p>\n" if also else "")
+            + "      </aside>\n      <!-- subject:end -->")
+
+def cmd_card(a):
+    ep = ep_dir(a.ep); meta = json.loads((ep / "meta.json").read_text("utf-8")); page = ep / "index.html"
+    text = CARD_RE.sub("", page.read_text("utf-8")); card = subject_card(meta)
+    text = re.sub(r"\n[ \t]*\n([ \t]*<nav class=\"toc\")", r"\n\1", text)
+    m = re.search(r'([ \t]*)<nav class="toc"', text)
+    if m: text = text[:m.start()] + "    " + card + "\n" + text[m.start():]
+    else:
+        m = re.search(r'(<p class="dek">.*?</p>)', text, re.S)
+        if not m: die("找不到 <nav class=\"toc\"> 或 <p class=\"dek\">，不知道卡片要放哪裡（照模板的 header）")
+        text = text[:m.end()] + "\n      " + card + text[m.end():]
+    page.write_text(text, "utf-8"); ok(f"已從 meta.json 產生本集主角卡：{ep.name}/index.html")
+
 # ───────────────────────── check ─────────────────────────
 class _Collector:
     def __init__(self): self.sections, self.links, self.srcs, self.ids, self.meta, self.scripts = [], [], [], set(), {}, []
@@ -409,6 +468,16 @@ def cmd_check(a):
         c = cur()
         if c.get("id") and meta.get("id") != c["id"]: errs.append(f"meta.id={meta.get('id')}，但本次 run 是 {c['id']}")
         if meta.get("slug") != ep.name: errs.append(f"meta.slug 應為 {ep.name}")
+        mainr = next((r for r in meta.get("resources") or [] if r.get("role") == "main"), (meta.get("resources") or [None])[0])
+        if mainr:
+            nm_ = (mainr.get("title") or str(mainr.get("name", "")).rsplit("/", 1)[-1]).lower()
+            if nm_ and nm_ not in str(meta.get("title", "")).lower(): errs.append(f"meta.title 要有主角的名字（例如結尾加「（{mainr.get('title') or nm_}）」）：首頁、推播、分享預覽都只看得到標題")
+            if not mainr.get("what"): warns.append("meta.resources 主角缺 what（一句白話：它是什麼），卡片會少一行說明")
+        # 本集主角卡：名字、連結、星數、授權一定要在第一屏，內容必須跟 meta.json 一致
+        mc = CARD_RE.search(text)
+        if not mc: errs.append(f"缺少本集主角卡：跑 `oss.py card {ep.name}`（從 meta.json 產生）")
+        elif mc.group(0) != subject_card(meta): errs.append(f"本集主角卡跟 meta.json 不一致：改完 meta 後再跑一次 `oss.py card {ep.name}`")
+        elif mc.start() > text.find('data-section="demo"'): errs.append("本集主角卡要放在 header 裡、Demo 之前")
         if c.get("format") and meta.get("format") != c["format"]: warns.append(f"meta.format={meta.get('format')}，規劃是 {c['format']}（若有理由請在頁面說明）")
         title = re.search(r"<title>(.*?)</title>", text, re.S)
         if title and meta.get("title") and meta["title"].split("：")[0] not in title.group(1): warns.append("<title> 跟 meta.title 對不太起來")
@@ -491,7 +560,7 @@ def cmd_qa(a):
                     except Exception as e: errs.append(f"互動測試出錯：{type(e).__name__}: {e}")
                 if name == "desktop" and not home:
                     lay = pg.evaluate("""([folded]) => {
-                      const skip = e => e.closest('details,[data-section=demo],script,style,svg,noscript,.sec,.sec-zh,.toc,.mast,.spine,.folio');   // 刊頭、章節頭、目錄是導覽，不算主線文字
+                      const skip = e => e.closest('details,[data-section=demo],script,style,svg,noscript,.sec,.sec-zh,.toc,.mast,.spine,.folio,.subject');   // 刊頭、章節頭、目錄是導覽，不算主線文字
                       const w = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT); let n = 0, t;
                       while (t = w.nextNode()) { const p = t.parentElement; if (!p || skip(p)) continue; const st = getComputedStyle(p); if (st.display === 'none' || st.visibility === 'hidden') continue; n += t.textContent.replace(/\\s+/g, '').length; }
                       const notFolded = folded.filter(s => { const e = document.querySelector(`[data-section="${s}"]`); return e && !e.closest('details'); });
@@ -971,6 +1040,7 @@ def main():
     sp.add_parser("preflight").set_defaults(f=cmd_preflight)
     sp.add_parser("status").set_defaults(f=cmd_status)
     p = sp.add_parser("plan"); p.add_argument("--force", action="store_true"); p.add_argument("--redo", type=int, help="重做第 N 集（從選題開始），完成後取代舊的"); p.set_defaults(f=cmd_plan)
+    p = sp.add_parser("card", help="從 meta.json 產生／更新本集主角卡"); p.add_argument("ep", nargs="?"); p.set_defaults(f=cmd_card)
     p = sp.add_parser("new"); p.add_argument("slug"); p.add_argument("--force", action="store_true"); p.set_defaults(f=cmd_new)
     for name, fn in (("check", cmd_check), ("qa", cmd_qa), ("register", cmd_register)):
         p = sp.add_parser(name); p.add_argument("ep", nargs="?"); p.set_defaults(f=fn)

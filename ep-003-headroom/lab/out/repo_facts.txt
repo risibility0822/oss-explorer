@@ -1,0 +1,27 @@
+# headroomlabs-ai/headroom 的 repo 事實（2026-11-26 在 clone 上執行；頁面引用的是 commit d2014cb）
+$ git rev-list --count d2014cb
+3826
+$ git log d2014cb --format=%ae | sort -u | wc -l
+436
+$ TZ=Asia/Taipei git log --reverse --format="%h %ad" --date=iso-local | head -1
+9c7d4512 2026-01-07 15:16:58 +0800
+$ git log -1 --format="%h %ad" --date=iso d2014cb
+d2014cb9 2026-11-26 00:06:25 +0800
+$ git show d2014cb:README.md | grep -n "90%\|21%\|57%\|42%\|30%"
+38:it reaches the LLM. Same answers, fewer input tokens. Measured: 21–57% fewer
+39:input tokens on four agent scenarios, 90%+ on repeated JSON arrays and log
+192:| Code search (100 results) | 17,199 | 13,597 | **21%** |
+193:| SRE incident debugging | 55,957 | 24,340 | **57%** |
+194:| Codebase exploration | 58,801 | 33,895 | **42%** |
+195:| GitHub issue triage | 46,067 | 32,429 | **30%** |
+198:lines clear 90% in `benchmarks/bench_latency.py`; prose and already-dense output
+448:- **Image compression** — 40–90% reduction through a trained ML router.
+$ git show d2014cb:LICENSE | head -2
+                                 Apache License
+                           Version 2.0, January 2004
+$ git show d2014cb:README.md | sed -n 180,184p   # 官方表格的量法
+## Proof: measured token savings
+
+Four scenarios built from real MCP server output formats, measured with the
+provider tokenizer and the shipped `compress()` at its default configuration.
+Seeded and offline, so you get the same numbers we did:

@@ -145,7 +145,7 @@ header.mast-wrap{position:relative}
 .mast .logo small{display:block;font-family:var(--font);font-size:13px;font-weight:700;letter-spacing:.3em;line-height:1;margin-bottom:8px}
 .mast .no{margin:0;font-family:var(--it);font-weight:400;font-size:clamp(44px,6vw,72px);line-height:.78;font-variant-numeric:lining-nums}
 .mast .meta{max-width:none;margin:0;text-align:right;font-size:13px;line-height:1.6;color:var(--mute)}
-.cover{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);column-gap:clamp(20px,4vw,48px);align-items:start}
+.cover{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);column-gap:clamp(20px,4vw,48px);align-items:start}
 .toc{margin:0;padding-left:clamp(16px,3vw,28px);border-left:1px solid var(--line)}
 .toc ol{list-style:none;margin:0;padding:0}
 .toc .t{max-width:none;margin:0 0 4px;font-family:var(--it);font-style:italic;font-size:19px}
@@ -163,3 +163,21 @@ header.mast-wrap{position:relative}
 .folio i{font-family:var(--it);margin-inline-end:8px}
 .mast .logo a{color:inherit;text-decoration:none}
 .mast .meta .home{color:var(--ink);font-weight:600;text-decoration-color:var(--accent);text-decoration-thickness:2px;text-underline-offset:4px;display:inline-block;padding-top:4px;padding-bottom:4px}
+/* ── 本集主角卡（2026-11-26）：桌機在封面右欄目錄上方、手機在答案句後面；內容由 `oss.py card` 從 meta.json 產生 ── */
+.subject{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;column-gap:12px;margin:0 0 12px;padding:10px 14px 12px;border:1px solid var(--ink);border-radius:10px;background:var(--bg)}
+.subject .lab{display:inline;margin-right:10px;font-family:var(--it);font-style:italic;font-size:14px;font-weight:400;color:var(--mute);line-height:1.2}
+.subject .open{grid-column:2;grid-row:1;align-self:center;display:inline-flex;align-items:center;min-height:40px;padding-left:14px;padding-right:14px;border:1px solid var(--ink);border-radius:8px;color:var(--ink);font-size:15px;font-weight:700;text-decoration:none;white-space:nowrap}
+.subject .open:hover{background:var(--tint)}
+.subject>p{grid-column:1/-1;max-width:none;margin:0}
+.subject>p.nm{grid-column:1;grid-row:1}
+.subject .nm{font-size:21px;font-weight:700;line-height:1.3;overflow-wrap:anywhere}
+.subject .src{font-size:13px;color:var(--mute);overflow-wrap:anywhere}
+.subject .what{font-size:15px;line-height:1.5}
+.subject .facts{display:flex;flex-wrap:wrap;gap:0 14px;font-size:14px;color:var(--mute)}
+.subject .facts b{font-family:var(--disp);font-size:16px;color:var(--ink)}
+.subject .also{font-size:14px;color:var(--mute);margin-top:2px}
+.subject .also a{color:var(--ink)}
+.toc{border-left:0;padding-left:0}
+@media(min-width:861px){.cover>aside,.cover>nav{grid-column:2}.cover>div:first-child{grid-row:1/span 3}}
+@media(min-width:861px){.cover .toc .t{display:none}.cover .toc li{font-size:14px;border-bottom:0}.cover .toc a{padding-top:2px;padding-bottom:6px;line-height:1.4}.cover .toc i{font-size:16px}}
+@media(max-width:600px){.subject{padding:8px 12px 10px;column-gap:8px}.subject .nm{font-size:18px}.subject .what,.subject .facts,.subject .also{font-size:13px}.subject .facts{gap:0 10px}.subject .src{display:none}.subject .open{min-height:44px;padding-left:10px;padding-right:10px}}

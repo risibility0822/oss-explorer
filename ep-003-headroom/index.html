@@ -3,9 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>開源探索誌 #003｜給 AI 的 log 先瘦身，小模型快 2.4 倍</title>
+<title>開源探索誌 #003｜給 AI 的 log 先瘦身，小模型快 2.4 倍（Headroom）</title>
 <meta name="description" content="Headroom 在送給 AI 之前把工具輸出裡重複的字刪掉。我們把同一份 300 筆 log 原樣和壓縮後各餵給筆電跑得動的小模型：少讀 41%、快 2.4 倍，但壓縮後查單筆數字的 5 題全答錯。">
-<meta property="og:title" content="開源探索誌 #003｜給 AI 的 log 先瘦身，小模型快 2.4 倍">
+<meta property="og:title" content="開源探索誌 #003｜給 AI 的 log 先瘦身，小模型快 2.4 倍（Headroom）">
 <meta property="og:description" content="Headroom 在送給 AI 之前把工具輸出裡重複的字刪掉。我們把同一份 300 筆 log 原樣和壓縮後各餵給筆電跑得動的小模型：少讀 41%、快 2.4 倍，但壓縮後查單筆數字的 5 題全答錯。">
 <meta property="og:image" content="https://risibility0822.github.io/oss-explorer/ep-003-headroom/og.jpg">
 <meta property="og:url" content="https://risibility0822.github.io/oss-explorer/ep-003-headroom/">
@@ -92,19 +92,29 @@
   <div class="mast"><p class="logo"><a href="../" aria-label="開源探索誌首頁"><small>開源探索誌</small>OSS <br>EXPLORER</a></p><p class="no">003</p><p class="meta">2026-11-26　<br>AI 應用與 Agent 框架　<br><a class="home" href="../">回首頁</a></p></div>
   <div class="cover">
     <div><h1>給 AI 的 log 先瘦身：少讀 41%，小模型快 2.4 倍</h1>
-    <p class="dek">工具吐給 AI 的 log，先刪掉重複的字再送出去。下面是筆電小模型實跑的結果。</p></div>
+    <p class="dek">AI 查資料時會拿到一大包 log（程式的流水帳）。Headroom 先刪掉重複的字再送給 AI，我們在筆電上實測。</p>
+      </div>
+    <!-- subject:start -->
+      <aside class="subject" aria-label="本集主角">
+        <p class="nm"><span class="lab">本集主角</span>Headroom</p><a class="open" href="https://github.com/headroomlabs-ai/headroom">看原始碼</a>
+        <p class="what">送給 AI 之前先壓縮內容的 Python 工具</p>
+        <p class="facts"><span><b>★ 8.1 萬</b> GitHub 星</span><span>Apache-2.0：可免費商用</span></p>
+        <p class="src">headroomlabs-ai/headroom（星數 2026-11-26 查）</p>
+        <p class="also">搭配：<a href="https://github.com/ggml-org/llama.cpp">llama.cpp</a>（讓小模型在筆電上跑的引擎）</p>
+      </aside>
+      <!-- subject:end -->
     <nav class="toc" aria-label="本集目錄"><p class="t">本集</p><ol><li><a href="#tldr"><i>01</i><span>30 秒看懂</span></a></li><li><a href="#how"><i>02</i><span>它只做一件事：同樣形狀的資料，欄位名只寫一次</span></a></li><li><a href="#findings"><i>03</i><span>快了、但小模型查細節會看錯、省多少要自己量</span></a></li><li><a href="#ideas"><i>04</i><span>你可以拿它做什麼</span></a></li><li><a href="#deep"><i>05</i><span>想深入再展開</span></a></li></ol></nav>
   </div>
 </header>
 
 <section class="wrap" data-section="demo" id="demo" aria-label="Demo">
   <div class="demo-room">
-    <p class="demo-lh">選一份工具輸出 <small>（服務 log 是合成的；建置 log 是本集真的失敗的那份）</small></p>
+    <p class="demo-lh">選一份工具輸出</p>
     <div class="demo-chips" id="demoScen" role="group" aria-label="選一份工具輸出">
-      <button type="button" class="btn" data-s="logs100" aria-pressed="false">100 筆 log</button>
-      <button type="button" class="btn" data-s="logs300" aria-pressed="true">300 筆 log</button>
-      <button type="button" class="btn" data-s="logs2000" aria-pressed="false">2,000 筆 log</button>
-      <button type="button" class="btn" data-s="cmake" aria-pressed="false">建置失敗 log</button>
+      <button type="button" class="btn" data-s="logs100" aria-pressed="false">100 筆</button>
+      <button type="button" class="btn" data-s="logs300" aria-pressed="true">300 筆</button>
+      <button type="button" class="btn" data-s="logs2000" aria-pressed="false">2,000 筆</button>
+      <button type="button" class="btn" data-s="cmake" aria-pressed="false">建置失敗</button>
     </div>
     <div class="demo-grid">
       <div class="demo-panel">
@@ -127,7 +137,7 @@
       </div>
     </div>
     <div class="demo-panel demo-ask">
-      <p class="demo-lh">問筆電上的小模型 <small>（Qwen2.5-1.5B，只用 CPU；下面是實際跑出來的回答與秒數）</small></p>
+      <p class="demo-lh">問筆電上的小模型 <small>（Qwen2.5-1.5B，只用 CPU、不用顯示卡；下面是實際跑出來的回答與秒數）</small></p>
       <div class="demo-qs" id="demoQs" role="group" aria-label="選一個問題"></div>
       <div class="demo-ans" id="demoAns">
         <div class="who">原樣送<small id="demoTokR"></small></div>
@@ -145,10 +155,10 @@
   <h2>30 秒看懂</h2>
   <dl>
     <dt>先說背景</dt><dd>AI 助手（<dfn>Agent</dfn><span class="gloss">，會自己去查資料、跑指令的 AI</span>）每查一次，工具就吐回一大包 <dfn>log</dfn><span class="gloss">（程式邊跑邊寫下的流水帳）</span>給模型讀；模型是讀文字、回答問題的 AI 本體，讀越多字越貴、越慢。</dd>
-    <dt>它是什麼</dt><dd>Headroom 是一段能裝進你程式的 Python 工具，在送給模型前<b>壓縮</b>：刪掉每筆都重複的<dfn>欄位名</dfn><span class="gloss">（像 level、service 這種標籤）</span>；Apache-2.0，可免費商用。</dd>
+    <dt>它是什麼</dt><dd>Headroom 是一段能裝進你程式的 Python 工具，在送給模型前<b>壓縮</b>：刪掉每筆都重複的<dfn>欄位名</dfn><span class="gloss">（像 level、service 這種標籤）</span>。</dd>
     <dt>為什麼值得看</dt><dd>300 筆 log 少讀 41%，只用 CPU（不用顯示卡，一般筆電就能跑）讀完從 231 秒變 96 秒，找出錯的那行一樣答對。</dd>
     <dt>要注意</dt><dd>資料沒丟，但查單筆數字時小模型原樣答對 2/5、壓縮後 0/5；查細節前先用自己的資料測。</dd>
-    <dt>最適合你的點子</dt><dd><a href="#ideas">替 FastAPI 服務加一層「省 token 帳單」</a>，先量自己的流量能省多少。</dd>
+    <dt>最適合你的點子</dt><dd><a href="#ideas">替你的 Python 網路服務加一層「省 token 帳單」</a>，先量自己的流量能省多少。</dd>
   </dl>
 </section>
 
@@ -178,7 +188,7 @@
         <path class="e" d="M220 236V266" marker-end="url(#ah)"/><text class="lbl" x="232" y="258">認出同樣形狀</text>
         <rect class="nd key" x="24" y="270" width="392" height="104" rx="8"/>
         <text class="v" x="40" y="300">Headroom：欄位名只寫一次</text>
-        <text class="sub" x="40" y="328">[300]{latency_ms,level,message,…}</text>
+        <text class="sub" x="40" y="328">[300]{latency_ms:int,level:string,…}</text>
         <text class="sub" x="40" y="354">64,INFO,charge authorized,…</text>
       </g>
       <g class="st" data-s="4">
@@ -194,7 +204,7 @@
         <li data-n="1" data-of="4"><b class="h">工具吐給 AI 的 log，先刪掉重複的字再送出去</b>這是你的 AI 助手和它的回答。中間先當黑盒子，按「下一步」打開。</li>
         <li data-n="2" data-of="4"><b class="h">工具吐回一大包重複的字</b>工具回傳 300 筆紀錄，每筆都重寫一次「level、service…」，模型每個字都要讀。</li>
         <li data-n="3" data-of="4"><b class="h">Headroom 把欄位名只寫一次</b>300 筆長得一樣，就改成表格：欄位名只寫一次，下面每行只放值。</li>
-        <li data-n="4" data-of="4"><b class="h">模型讀的字少了，回答也快了</b>表格送進只用 CPU 的小模型 Qwen2.5-1.5B：工具輸出從 19,940 降到 11,857 個 <dfn>token</dfn><span class="gloss">（模型讀字的單位）</span>，讀完從 231 秒變 96 秒。</li>
+        <li data-n="4" data-of="4"><b class="h">模型讀的字少了，回答也快了</b>表格送進筆電上的小模型（用 llama.cpp 只靠 CPU 跑 Qwen2.5-1.5B）：工具輸出從 19,940 降到 11,857 個 <dfn>token</dfn><span class="gloss">（模型讀字的單位）</span>，讀完從 231 秒變 96 秒。</li>
       </ol>
       <div class="ctrl"><button type="button" id="mPrev">上一步</button><span class="pos" id="mPos" aria-live="polite">1 / 4</span><button type="button" id="mNext">下一步</button></div>
     </div>
@@ -210,7 +220,7 @@
       <div class="bars" role="img" aria-label="小模型讀完 log 的秒數：300 筆原樣 231.23 秒、壓縮後 95.59 秒；100 筆原樣 40.43 秒、壓縮後 19.04 秒">
         <span>300 筆原樣</span><span class="t"><i class="base" style="width:100.0%"></i></span><span class="v">231 秒</span><span>300 筆壓縮</span><span class="t"><i class="" style="width:41.3%"></i></span><span class="v">96 秒</span><span>100 筆原樣</span><span class="t"><i class="base" style="width:17.5%"></i></span><span class="v">40 秒</span><span>100 筆壓縮</span><span class="t"><i class="" style="width:8.2%"></i></span><span class="v">19 秒</span>
       </div>
-      <figcaption>壓縮後快 2.1–2.4 倍，四次都答對（4 執行緒 CPU）。字少 41%、時間省 59%：內容越長，每個字讀得越慢。</figcaption>
+      <figcaption>找出錯的那題：壓縮後快 2.1–2.4 倍，四次都答對。字少 41%、時間省 59%：內容越長，每個字讀得越慢。</figcaption>
     </figure>
     <div><h3>同樣答對，讀完快 2.1–2.4 倍：log 越長，省下的秒數越多</h3></div>
   </div>
@@ -219,26 +229,26 @@
       <div class="scroll"><table class="fx-look">
         <thead><tr><th>問：這筆請求（req-編號）花了幾毫秒</th><th>正解</th><th>原樣送</th><th>壓縮後</th></tr></thead>
         <tbody><tr><td>100 筆・req-10042</td><td class="n">40</td><td><b class="fx-ok">✓</b> 40</td><td><b class="fx-bad">✗</b> 42</td></tr><tr><td>100 筆・req-10077</td><td class="n">75</td><td><b class="fx-bad">✗</b> 20</td><td><b class="fx-bad">✗</b> 31</td></tr><tr><td>100 筆・req-10013</td><td class="n">38</td><td><b class="fx-bad">✗</b> 59</td><td><b class="fx-bad">✗</b> 59</td></tr><tr><td>300 筆・req-10042</td><td class="n">40</td><td><b class="fx-ok">✓</b> 40</td><td><b class="fx-bad">✗</b> 11</td></tr><tr><td>300 筆・req-10250</td><td class="n">56</td><td><b class="fx-bad">✗</b> 21</td><td><b class="fx-bad">✗</b> 19</td></tr></tbody></table></div>
-      <figcaption>查單筆毫秒數：原樣答對 2/5、壓縮後 0/5（兩題 req-10042 是同一筆資料）。樣本很小，原因可能是對錯行或欄，也可能是模型讀到的是所有行接成的一長串；請用自己的資料測。</figcaption>
+      <figcaption>查單筆毫秒數：原樣答對 2/5、壓縮後 0/5（兩題 req-10042 是同一筆資料）。樣本很小，請用自己的資料測。</figcaption>
     </figure>
     <div><h3>查細節時小模型本來就不穩，壓縮後這 5 題一題都沒答對</h3></div>
   </div>
   <div class="finding">
     <figure class="fig">
       <div class="bars" role="img" aria-label="省下的比例：Headroom 自己估 300 筆省 64%，用 Qwen 分詞器實數省 41%；建置 log 兩者都是 0%">
-        <span>Headroom 自估</span><span class="t"><i class="base" style="width:100.0%"></i></span><span class="v">64%</span><span>Qwen 實數</span><span class="t"><i class="" style="width:64.1%"></i></span><span class="v">41%</span><span>建置 log</span><span class="t"><i class="" style="width:0.0%"></i></span><span class="v">0%</span>
+        <span>Headroom 估算</span><span class="t"><i class="base" style="width:100.0%"></i></span><span class="v">64%</span><span>實際切字</span><span class="t"><i class="" style="width:64.1%"></i></span><span class="v">41%</span><span>建置 log</span><span class="t"><i class="" style="width:0.0%"></i></span><span class="v">0%</span>
       </div>
-      <figcaption>300 筆 log 省下的比例：Headroom 自己的估算值 64%（README 說重複的 log 能省 90% 以上），用 Qwen 實際切字只有 41%；原因之一是 Qwen 把數字一位切成一個 token。建置 log 原封不動。</figcaption>
+      <figcaption>300 筆 log 省下的比例：Headroom 離線時的估算是 64%（估法見深入區），用這個小模型實際切字只有 41%；原因之一是 Qwen 把數字一位切成一個 token。建置 log 原封不動。</figcaption>
     </figure>
-    <div><h3>省多少要用你自己的模型量：它說省 64%，在這個小模型上是 41%</h3></div>
+    <div><h3>省多少要用你自己的模型量：估算省 64%，實際切字只省 41%</h3></div>
   </div>
 </section>
 
 <section class="wrap" data-section="ideas" id="ideas">
   <div class="sec" aria-hidden="true"><i>04</i><em>Ideas</em></div>
   <h2>你可以拿它做什麼</h2>
-  <div class="idea"><h3>FastAPI 服務的「省 token 帳單」<span class="effort">一個週末</span></h3><p>在 FastAPI 服務前面接一層 Headroom，再加一頁「這個月省多少錢」的報表，賣給台灣接 AI 的中小團隊。</p></div>
-  <div class="idea"><h3>Mac 上的「建置失敗翻譯機」<span class="effort">一個月</span></h3><p>Xcode 或 npm 建置失敗時，篩出錯誤段落交給本機小模型，用中文說哪裡壞了；建置 log Headroom 不壓，篩選要自己做。</p></div>
+  <div class="idea"><h3>Python 網路服務的「省 token 帳單」<span class="effort">一個週末</span></h3><p>在你的 Python 網路服務（例如 FastAPI）前面接一層 Headroom，再加一頁「這個月省多少錢」的報表，賣給台灣接 AI 的中小團隊。</p></div>
+  <div class="idea"><h3>Mac 上的「建置失敗翻譯機」<span class="effort">一個月</span></h3><p>Mac app 或網頁專案建置（把程式碼做成 app）失敗時，篩出錯誤段落交給本機小模型，用中文說哪裡壞了；建置 log Headroom 不壓，篩選要自己做。</p></div>
   <div class="idea"><h3>給小模型的「格式選擇器」<span class="effort">一個週末</span></h3><p>同一份資料試三種寫法，用你的模型考幾題，自動挑答對多又省字的。</p></div>
   <div class="idea"><h3>客服後台的訂單紀錄瘦身<span class="effort">一個月</span></h3><p>客服問 AI 某位客人的訂單時，紀錄常上百筆；先壓再問，回得快、帳單小。</p></div>
 </section>
@@ -257,7 +267,7 @@
     <p>壓縮耗時是同一份連壓 6 次、後 5 次的中位數；第一次呼叫要載入模組，100 筆那次花了 437.1 毫秒。Headroom 自估的 token 數是退回估算的結果：工作區連不到 tiktoken 的編碼檔，所以它跟 OpenAI 實際數字可能不同。</p>
     <p>重跑官方的 <code>benchmarks/index_proof_table.py --seed 20260902</code>（同樣是估算 token）：</p>
     <div class="scroll"><table class="stack"><thead><tr><th>官方情境</th><th>token（省下）</th></tr></thead><tbody><tr><td>Code search (100 results)</td><td class="n">18,173 → 14,908（18%）</td></tr><tr><td>SRE incident debugging</td><td class="n">51,361 → 19,076（63%）</td></tr><tr><td>Codebase exploration</td><td class="n">57,260 → 33,870（41%）</td></tr><tr><td>GitHub issue triage</td><td class="n">44,219 → 30,808（30%）</td></tr></tbody></table></div>
-    <p>README 寫的是 21%、57%、42%、30%（用真的 tokenizer）；我們在估算模式下得到的比例接近但不相同。</p>
+    <p>README 寫的是 21%、57%、42%、30%（README 說是用模型商自己的切字表量的）；我們在估算模式下得到的比例接近但不相同。</p>
   </div></details>
   <details data-section="start" id="start"><summary><b>五分鐘上手</b><span>本集實跑過的最小程式：一個函式壓縮整串對話</span></summary><div class="body">
     <p><code>pip install headroom-ai==0.45.0</code>（要 Python 3.11 以上）。不需要 API 金鑰，也不用下載模型。</p>
@@ -286,7 +296,7 @@ print(result.messages[-1]["content"][:160])
     <p><b>授權</b>：程式是 Apache-2.0（repo 的 LICENSE 原文），商用、修改、閉源都可以，要保留 NOTICE。處理一般文字用的 Kompress-v2-base 模型在 Hugging Face 標示 Apache-2.0；本集只用到 JSON 表格化，沒有下載這個模型。小模型 Qwen2.5-1.5B-Instruct 也是 Apache-2.0。</p>
     <p><b>商業模式</b>：開源核心＋企業版。README 寫「Headroom OSS 是為了展示一台筆電上能做到什麼，所以省得比它能省的少」，更大的節省放在付費的 Headroom Enterprise。開源版本身沒有功能鎖。</p>
     <p><b>統計</b>：匿名統計預設開啟（壓縮比、模型名稱、作業系統，官方說不送內容），用 <code>HEADROOM_OFFLINE=1</code>、<code>HEADROOM_TELEMETRY=off</code> 或 <code>DO_NOT_TRACK=1</code> 關掉。做產品給客戶用時一定要關。</p>
-    <p><b>成熟度</b>：2026-01-07 第一個 commit，到 2026-11-25 共 3,826 個 commit、436 個不同作者 email，版本 0.45.0（還沒到 1.0），改版很快。</p>
+    <p><b>成熟度</b>：2026-01-07 第一個 commit，到 commit d2014cb（2026-11-26）共 3,826 個 commit、436 個不同作者 email，版本 0.45.0（還沒到 1.0），改版很快。</p>
     <p><b>坑</b>：純文字的建置 log 沒被壓（0%）；壓成表格後資料一筆不少，但小模型查細節會看錯欄；log 太長（本集 2,000 筆）壓完仍超過小模型的上限，要先自己篩。</p>
     <div class="scroll"><table class="stack">
       <thead><tr><th>做法</th><th>怎麼省</th><th>在哪跑</th><th>授權</th></tr></thead>
@@ -355,8 +365,8 @@ async function show(){
   pre.innerHTML=html;
   if(hit>=0){const el=pre.querySelector(".demo-hit");pre.scrollTop=Math.max(0,el.offsetTop-pre.offsetTop-60);pre.scrollLeft=0}else pre.scrollTop=0;
   const T=R.tokens[scen];
-  if(scen==="cmake"){$("demoNote").textContent="這份是純文字的建置紀錄，Headroom 認不出固定格式，原樣和壓縮後一字不差。";return}
-  $("demoNote").textContent=(view==="raw"?`原樣 ${fmt(T.raw_chars)} 個字元，畫面上一筆一行方便看`:`壓縮後 ${fmt(T.compressed_chars)} 個字元；第一行是表頭，下面每行只剩值。模型實際讀到的是所有行接成的一長串（中間夾著換行記號），這裡拆成多行方便看`)+(tg?"；框起來的是問題要找的那一筆":"");
+  if(scen==="cmake"){$("demoNote").textContent="這份是建置（把程式碼做成 app 的步驟）失敗時的純文字紀錄，Headroom 認不出固定格式，原樣和壓縮後一字不差。";return}
+  $("demoNote").textContent="這份是合成的服務 log（建置失敗那份才是本集真的紀錄）。"+(view==="raw"?`原樣 ${fmt(T.raw_chars)} 個字元，畫面上一筆一行方便看`:`壓縮後 ${fmt(T.compressed_chars)} 個字元；第一行是表頭，下面每行只剩值。模型實際讀到的是所有行接成的一長串（中間夾著換行記號），這裡拆成多行方便看`)+(tg?"；框起來的是問題要找的那一筆":"");
 }
 function house(){
   const T=R.tokens[scen];

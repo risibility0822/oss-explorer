@@ -2,7 +2,7 @@
 
 2026-11-26（台灣時間）在雲端工作區實際執行：4 執行緒 CPU、無 GPU、約 16 GB RAM、Python 3.11。
 
-- Headroom：`headroom-ai==0.45.0`（PyPI），原始碼 commit `d2014cb`（2026-11-25）。全程 `HEADROOM_OFFLINE=1`（不連網、關掉預設開啟的匿名統計）。
+- Headroom：`headroom-ai==0.45.0`（PyPI），原始碼 commit `d2014cb`（2026-11-26 台灣時間）。全程 `HEADROOM_OFFLINE=1`（不連網、關掉預設開啟的匿名統計）。
 - llama.cpp：tag `v1.0.0`（commit `b1b770d`，2026-11-13），自行編譯 `llama-completion` 與 `llama-tokenize`（GitHub Releases 網頁 403，`llama-server` 需要下載網頁介面檔也失敗，所以只編這兩個）。
 - 模型：Qwen2.5-1.5B-Instruct Q4_K_M GGUF（Qwen 官方，Apache-2.0），`-c 32768 --temp 0 -t 4 -n 60`。
 

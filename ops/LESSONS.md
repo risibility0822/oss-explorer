@@ -41,3 +41,4 @@
 - 2026-11-25：首頁也改用 assets/series.css（刊頭顯示最新一期期數、封面是最新一集、目錄、章節頭 01–05、過刊列表）；每集刊頭的 OSS EXPLORER 和「回首頁」都連回 ../。縮圖 og.jpg 改拍 Demo 本身（作品就是封面照），不再是頁面頂端，避免首頁出現「頁面裡的頁面」。meta.json 的 oneliner、demo 會直接顯示在首頁，也要用白話寫。
 - 2026-11-26：llama.cpp v1.0.0 起 tag 改名、Releases 網頁 403 抓不到預編譯檔；自己 cmake 編譯要加 -DLLAMA_BUILD_HTML=OFF，且 llama-server 會去下載網頁介面檔而失敗，只編 llama-completion／llama-tokenize（4 核約 5 分鐘）。Qwen2.5-1.5B Q4 在 4 執行緒 CPU 讀 2 萬 token 約 230 秒，跑實驗要放背景並預留 20 分鐘。
 - 2026-11-26：工作區連不到 tiktoken 編碼檔（openaipublic.blob.core.windows.net），用到 tiktoken 的套件會退回估算，token 數要用目標模型自己的分詞器（llama-tokenize）重數。Demo 元素若用 display:grid/flex，[hidden] 會失效，要加 #demo [hidden]{display:none!important}（qa_check 只看 .hidden 屬性抓不到，設計審查員抓到）。
+- 2026-11-26：2026-11-26 主人反映第 3 集看不出介紹的是哪個工具：標題寫結論＋星數收進深入區，結果第一屏沒有名字、連結、星數。新增「本集主角」卡（oss.py card 從 meta.json 產生，check 比對一致、必須在 Demo 之前），主線字數不算卡片。標題可以寫結論，但第一屏一定要有『介紹的是誰、在哪裡、多少星、什麼授權』。

@@ -3,7 +3,7 @@
  "id": "ep-003",
  "slug": "ep-003-headroom",
  "date": "2026-11-26",
- "title": "給 AI 的 log 先瘦身：少讀 41%，小模型快 2.4 倍",
+ "title": "給 AI 的 log 先瘦身：少讀 41%，小模型快 2.4 倍（Headroom）",
  "oneliner": "Headroom 在送給 AI 之前把工具輸出裡重複的字刪掉。我們把同一份 300 筆 log 原樣和壓縮後各餵給筆電跑得動的小模型：少讀 41%、快 2.4 倍，但壓縮後查單筆數字的 5 題全答錯。",
  "domain": "AI 應用與 Agent 框架",
  "format": "組合技",
@@ -16,7 +16,9 @@
    "license": "Apache-2.0",
    "stars": "80.9k（2026-11-26）",
    "lang": "Python",
-   "role": "main"
+   "role": "main",
+   "title": "Headroom",
+   "what": "送給 AI 之前先壓縮內容的 Python 工具"
   },
   {
    "name": "ggml-org/llama.cpp",
@@ -24,14 +26,16 @@
    "license": "MIT",
    "stars": "136.3k（2026-11-26）",
    "lang": "C++",
-   "role": "support"
+   "role": "support",
+   "title": "llama.cpp",
+   "what": "讓小模型在筆電上跑的引擎"
   }
  ],
  "demo": "選一份 log（100、300、2,000 筆或真的建置失敗紀錄），看原樣和壓縮後各要讀多少字、有沒有超過小模型一次能讀的上限，再看筆電上的小模型實際回答了什麼、花幾秒。",
  "highlights": [
   "同一份 300 筆 log，小模型少讀 41%，CPU 上讀完從 231 秒變 96 秒（快 2.4 倍），找出錯的那行一樣答對",
   "查單筆的毫秒數，小模型原樣答對 2/5、壓縮後 0/5：樣本小，但查細節前要先用自己的資料測",
-  "Headroom 自己估省 64%，用 Qwen 實際切字只省 41%；建置 log 完全沒壓"
+  "省多少要自己量：Headroom 的估算是 64%，用這個小模型實際切字只省 41%；建置 log 完全沒壓"
  ],
  "tags": [
   "AI Agent",
@@ -42,14 +46,14 @@
  ],
  "ideas": [
   {
-   "title": "FastAPI 服務的「省 token 帳單」",
-   "pitch": "在 FastAPI 服務前面接一層 Headroom，再加一頁「這個月省多少錢」的報表，賣給台灣接 AI 的中小團隊。",
+   "title": "Python 網路服務的「省 token 帳單」",
+   "pitch": "在你的 Python 網路服務（例如 FastAPI）前面接一層 Headroom，再加一頁「這個月省多少錢」的報表，賣給台灣接 AI 的中小團隊。",
    "effort": "一個週末",
    "value": "依省下的費用抽成或月費；先用 headroom savings 量客戶自己的流量"
   },
   {
    "title": "Mac 上的「建置失敗翻譯機」",
-   "pitch": "Xcode 或 npm 建置失敗時，篩出錯誤段落交給本機小模型，用中文說哪裡壞了；建置 log Headroom 不壓，篩選要自己做。",
+   "pitch": "Mac app 或網頁專案建置（把程式碼做成 app）失敗時，篩出錯誤段落交給本機小模型，用中文說哪裡壞了；建置 log Headroom 不壓，篩選要自己做。",
    "effort": "一個月",
    "value": "一次買斷的 Mac App；資料不出電腦是賣點"
   },

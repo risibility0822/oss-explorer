@@ -122,6 +122,20 @@
        "main",
        "support"
       ]
+     },
+     "title": {
+      "type": "string",
+      "description": "卡片上顯示的名字（例如 Headroom），不填就用 repo 名"
+     },
+     "what": {
+      "type": "string",
+      "maxLength": 30,
+      "description": "一句白話：它是什麼（例如「送給 AI 前先壓縮內容的 Python 套件」）"
+     },
+     "commercial": {
+      "type": "string",
+      "maxLength": 24,
+      "description": "能不能商用的結論（例如「可免費商用」「商用要付費」）"
      }
     }
    }

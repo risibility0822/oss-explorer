@@ -83,11 +83,14 @@ clone 到 `/home/claude/work/<id>/src/<name>/`（新的空目錄）。收集：
 
 **設計**：每集的視覺從主題本身取材，不要長得一樣；第 001 集是版型的範例，不是視覺的範本。
 
-**meta.json**：填完全部欄位（schema 在 `ops/schema/meta.schema.json`）。`ideas` 必須跟頁面一致；`nextHint` 寫下一集預告。
+**meta.json**：填完全部欄位（schema 在 `ops/schema/meta.schema.json`）。`ideas` 必須跟頁面一致；`nextHint` 寫下一集預告。`resources` 的主角（role 為 main）要寫完整的 owner/repo、網址、授權、星數（附查詢日期）、語言，再加三個給卡片用的欄位：`title`（顯示名，例如 Headroom）、`what`（一句白話：它是什麼，≤30 字）、`commercial`（能不能商用的結論，授權不單純時一定要填，例如「程式可免費商用，模型另計」）；配角也填 `what`（一句它做什麼）。`meta.title` 結尾要加上主角名（例如「…（Headroom）」），首頁、推播、分享預覽只看得到標題，check 會擋。
+
+**本集主角卡**：meta.json 填好後跑 `python3 ops/bin/oss.py card`，它會在標題下方產生卡片（名字、連結、星數、授權、語言、搭配的工具）。不要手改卡片；meta 改了就再跑一次，check 會比對兩者一致。讀者一定要在第一屏看得到這集介紹的是誰、在哪裡。
 
 ## 5. 驗證與審查 ⏱ 15 分
 
 ```bash
+python3 ops/bin/oss.py card      # 從 meta.json 產生「本集主角」卡
 python3 ops/bin/oss.py check     # 結構、連結、大小、殘留骨架、HTML、JS 語法、meta schema
 python3 ops/bin/oss.py qa        # 真實 Chromium：桌機／手機／深色、JS 錯誤、溢出、互動測試、無障礙、主線字數（≤1500）、收合、impeccable 設計偵測、縮圖
 ```
