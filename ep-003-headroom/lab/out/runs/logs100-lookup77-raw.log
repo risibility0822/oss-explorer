@@ -1,0 +1,25 @@
+0.00.000.933 I llama_completion: llama backend init
+0.00.001.896 I llama_completion: load the model and apply lora adapter, if any
+0.00.303.019 W load: control-looking token: 128247 '</s>' was not control-type; this is probably a bug in the model. its type will be overridden
+0.00.917.930 I cmn          init: llama threadpool init, n_threads = 4
+0.00.921.331 I 
+0.00.921.462 I system_info: n_threads = 4 (n_threads_batch = 4) / 4 | CPU : SSE3 = 1 | SSSE3 = 1 | AVX = 1 | AVX_VNNI = 1 | AVX2 = 1 | F16C = 1 | FMA = 1 | BMI2 = 1 | AVX512 = 1 | AVX512_VBMI = 1 | AVX512_VNNI = 1 | AVX512_BF16 = 1 | AMX_INT8 = 1 | LLAMAFILE = 1 | OPENMP = 1 | REPACK = 1 | 
+0.00.921.473 I 
+0.00.924.600 I sampler seed: 4294967295
+0.00.924.619 I sampler params: 
+	repeat_last_n = 64, repeat_penalty = 1.000, frequency_penalty = 0.000, presence_penalty = 0.000
+	dry_multiplier = 0.000, dry_base = 1.750, dry_allowed_length = 2, dry_penalty_last_n = 64
+	top_k = 40, top_p = 0.950, min_p = 0.050, xtc_probability = 0.000, xtc_threshold = 0.100, typical_p = 1.000, top_n_sigma = -1.000, temp = 0.000
+	mirostat = 0, mirostat_lr = 0.100, mirostat_ent = 5.000, adaptive_target = -1.000, adaptive_decay = 0.900
+0.00.924.628 I sampler chain: logits -> ?penalties -> ?dry -> ?top-n-sigma -> top-k -> ?typical -> top-p -> min-p -> ?xtc -> temp-ext -> greedy 
+0.00.924.629 I generate: n_ctx = 32768, n_batch = 2048, n_predict = 60, n_keep = 0
+0.00.924.629 I 
+0.43.297.713 I common_perf_print:    sampling time =      11.03 ms
+0.43.297.731 I common_perf_print:    samplers time =       2.33 ms /  6740 tokens
+0.43.297.749 I common_perf_print:        load time =   40888.03 ms
+0.43.297.764 I common_perf_print: prompt eval time =   40884.01 ms /  6721 tokens (    6.08 ms per token,   164.39 tokens per second)
+0.43.297.779 I common_perf_print:        eval time =    1475.63 ms /    18 runs   (   81.98 ms per token,    12.20 tokens per second)
+0.43.297.839 I common_perf_print:       total time =   42376.42 ms /  6739 tokens
+0.43.297.853 I common_perf_print: unaccounted time =       5.75 ms /   0.0 %      (total - sampling - prompt eval - eval) / (total)
+0.43.297.877 I common_perf_print:    graphs reused =         17
+0.43.297.892 I common_perf_print:   graph reallocs =          0    /     0        (same size) / (changed size)

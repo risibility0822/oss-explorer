@@ -81,5 +81,51 @@
   "lab": "ep-002-handwired/lab",
   "thumb": "ep-002-handwired/og.jpg",
   "createdAt": "2026-11-25T11:44:13+08:00"
+ },
+ {
+  "no": 3,
+  "id": "ep-003",
+  "date": "2026-11-26",
+  "title": "給 AI 的 log 先瘦身：少讀 41%，小模型快 2.4 倍",
+  "oneliner": "Headroom 在送給 AI 之前把工具輸出裡重複的字刪掉。我們把同一份 300 筆 log 原樣和壓縮後各餵給筆電跑得動的小模型：少讀 41%、快 2.4 倍，但壓縮後查單筆數字的 5 題全答錯。",
+  "domain": "AI 應用與 Agent 框架",
+  "format": "組合技",
+  "tier": "新星",
+  "lens": "商業潛力",
+  "resources": [
+   {
+    "name": "headroomlabs-ai/headroom",
+    "url": "https://github.com/headroomlabs-ai/headroom",
+    "license": "Apache-2.0",
+    "stars": "80.9k（2026-11-26）",
+    "lang": "Python",
+    "role": "main"
+   },
+   {
+    "name": "ggml-org/llama.cpp",
+    "url": "https://github.com/ggml-org/llama.cpp",
+    "license": "MIT",
+    "stars": "136.3k（2026-11-26）",
+    "lang": "C++",
+    "role": "support"
+   }
+  ],
+  "demo": "選一份 log（100、300、2,000 筆或真的建置失敗紀錄），看原樣和壓縮後各要讀多少字、有沒有超過小模型一次能讀的上限，再看筆電上的小模型實際回答了什麼、花幾秒。",
+  "highlights": [
+   "同一份 300 筆 log，小模型少讀 41%，CPU 上讀完從 231 秒變 96 秒（快 2.4 倍），找出錯的那行一樣答對",
+   "查單筆的毫秒數，小模型原樣答對 2/5、壓縮後 0/5：樣本小，但查細節前要先用自己的資料測",
+   "Headroom 自己估省 64%，用 Qwen 實際切字只省 41%；建置 log 完全沒壓"
+  ],
+  "tags": [
+   "AI Agent",
+   "token 成本",
+   "llama.cpp",
+   "本機小模型",
+   "Python"
+  ],
+  "path": "ep-003-headroom/",
+  "lab": "ep-003-headroom/lab",
+  "thumb": "ep-003-headroom/og.jpg",
+  "createdAt": "2026-11-26T08:23:14+08:00"
  }
 ]

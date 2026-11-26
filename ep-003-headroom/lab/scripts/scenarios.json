@@ -1,0 +1,11 @@
+[
+ {"id":"logs100","file":"data/logs100.json","questions":[
+   {"id":"error","q":"Which service logged the ERROR, and what was the error message?","expect":["payments","timeout"]},
+   {"id":"lookup42","q":"What is the latency_ms of request req-10042?","expect":["40"]},
+   {"id":"lookup77","q":"What is the latency_ms of request req-10077?","expect":["75"]},
+   {"id":"lookup13","q":"What is the latency_ms of request req-10013?","expect":["38"]}]},
+ {"id":"logs300","file":"data/logs300.json","questions":[
+   {"id":"error","q":"Which service logged the ERROR, and what was the error message?","expect":["payments","timeout"]},
+   {"id":"lookup42","q":"What is the latency_ms of request req-10042?","expect":["40"]},
+   {"id":"lookup250","q":"What is the latency_ms of request req-10250?","expect":["56"]}]}
+]

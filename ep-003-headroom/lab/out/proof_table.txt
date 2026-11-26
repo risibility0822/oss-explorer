@@ -1,0 +1,21 @@
+seed=20260902  model=gpt-5.6  tokenizer=EstimatingTokenCounter
+
+=== default (protect_recent=4) ===
+Scenario                           Before      After   Savings
+--------------------------------------------------------------
+Code search (100 results)          18,173     14,908       18%
+SRE incident debugging             51,361     19,076       63%
+Codebase exploration               57,260     33,870       41%
+GitHub issue triage                44,219     30,808       30%
+--------------------------------------------------------------
+TOTAL                             171,013     98,662       42%
+
+
+Markdown for docs/content/docs/index.mdx (default config, which must be stated on the page):
+
+| Scenario | Before | After | Savings |
+|---|---|---|---|
+| Code search (100 results) | 18,173 | 14,908 | **18%** |
+| SRE incident debugging | 51,361 | 19,076 | **63%** |
+| Codebase exploration | 57,260 | 33,870 | **41%** |
+| GitHub issue triage | 44,219 | 30,808 | **30%** |

@@ -1,0 +1,2 @@
+13790 → 4913 ['router:protected:user_message', 'router:smart_crusher:0.35']
+"[300]{latency_ms:int,level:string,message:string,request_id:string,service:string,ts:string}\n64,INFO,charge authorized,req-10000,payments,2026-11-25T03:00:00Z

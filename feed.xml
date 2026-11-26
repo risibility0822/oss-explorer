@@ -5,15 +5,23 @@
   <link href="https://risibility0822.github.io/oss-explorer/"/>
   <link rel="self" href="https://risibility0822.github.io/oss-explorer/feed.xml"/>
   <id>https://risibility0822.github.io/oss-explorer/</id>
-  <updated>2026-11-25T11:44:13+08:00</updated>
+  <updated>2026-11-26T08:23:14+08:00</updated>
   <author><name>開源探索誌</name></author>
+  <entry>
+    <title>#003｜給 AI 的 log 先瘦身：少讀 41%，小模型快 2.4 倍</title>
+    <link href="https://risibility0822.github.io/oss-explorer/ep-003-headroom/"/>
+    <id>https://risibility0822.github.io/oss-explorer/ep-003-headroom/</id>
+    <updated>2026-11-26T08:23:14+08:00</updated>
+    <category term="AI 應用與 Agent 框架"/>
+    <summary>Headroom 在送給 AI 之前把工具輸出裡重複的字刪掉。我們把同一份 300 筆 log 原樣和壓縮後各餵給筆電跑得動的小模型：少讀 41%、快 2.4 倍，但壓縮後查單筆數字的 5 題全答錯。</summary>
+  </entry>
   <entry>
     <title>#002｜不用訓練的神經網路：FizzBuzz 手工接線，1000 題全對</title>
     <link href="https://risibility0822.github.io/oss-explorer/ep-002-handwired/"/>
     <id>https://risibility0822.github.io/oss-explorer/ep-002-handwired/</id>
     <updated>2026-11-25T11:44:13+08:00</updated>
     <category term="好玩・怪奇・創意程式・藝術"/>
-    <summary>handwired 把 if/else 改寫成加權和與 ReLU，權重是寫出來的。我們把 FizzBuzz 接成 1,416 個運算的網路，1000 題全對，還能解凍權重加雜訊看它壞掉。</summary>
+    <summary>把寫好的規則直接變成 AI 的「腦」（神經網路），不用餵例子訓練：FizzBuzz 從 1 到 1000 全對，還能把網路裡的數字弄亂，看它怎麼壞掉。</summary>
   </entry>
   <entry>
     <title>#001｜照片不用上傳，在瀏覽器裡 AI 去背（rembg）</title>

@@ -1,0 +1,248 @@
+{
+ "headroom": "0.45.0",
+ "llama.cpp": "v1.0.0 (b1b770d)",
+ "model": "Qwen2.5-1.5B-Instruct Q4_K_M",
+ "threads": 4,
+ "date": "2026-11-25",
+ "ceiling": 32768,
+ "tokens": {
+  "logs100": {
+   "file": "logs100.json",
+   "raw_chars": 14728,
+   "qwen_raw": 6666,
+   "qwen_compressed": 3988,
+   "headroom_est_before": 4640,
+   "headroom_est_after": 1694,
+   "transforms": [
+    "router:protected:user_message",
+    "router:smart_crusher:0.36"
+   ],
+   "compress_ms_first": 437.1,
+   "compress_ms_median_next5": 1.0,
+   "compressed_chars": 6628
+  },
+  "logs300": {
+   "file": "logs300.json",
+   "raw_chars": 44021,
+   "qwen_raw": 19940,
+   "qwen_compressed": 11857,
+   "headroom_est_before": 13794,
+   "headroom_est_after": 4917,
+   "transforms": [
+    "router:protected:user_message",
+    "router:smart_crusher:0.35"
+   ],
+   "compress_ms_first": 21.9,
+   "compress_ms_median_next5": 2.2,
+   "compressed_chars": 19521
+  },
+  "logs2000": {
+   "file": "logs2000.json",
+   "raw_chars": 293051,
+   "qwen_raw": 132721,
+   "qwen_compressed": 78773,
+   "headroom_est_before": 91615,
+   "headroom_est_after": 32325,
+   "transforms": [
+    "router:protected:user_message",
+    "router:smart_crusher:0.35"
+   ],
+   "compress_ms_first": 148.5,
+   "compress_ms_median_next5": 13.6,
+   "compressed_chars": 129152
+  },
+  "cmake": {
+   "file": "cmake_fail.log",
+   "raw_chars": 16470,
+   "qwen_raw": 6040,
+   "qwen_compressed": 6040,
+   "headroom_est_before": 4171,
+   "headroom_est_after": 4171,
+   "transforms": [
+    "router:protected:user_message"
+   ],
+   "compress_ms_first": 27.9,
+   "compress_ms_median_next5": 2.1,
+   "compressed_chars": 16470
+  }
+ },
+ "runs": [
+  {
+   "scenario": "logs100",
+   "qid": "error",
+   "question": "Which service logged the ERROR, and what was the error message?",
+   "expect": [
+    "payments",
+    "timeout"
+   ],
+   "target": "ERROR",
+   "raw": {
+    "answer": "The ERROR log entry was logged by the payments service, with the error message \"upstream timeout: card-processor did not respond in 30s (pool exhausted, 64/64 connections busy)\". [end of text]",
+    "prompt_tokens": 6720,
+    "prompt_eval_s": 40.43,
+    "wall_s": 44.96,
+    "returncode": 0,
+    "correct": true
+   },
+   "compressed": {
+    "answer": "The ERROR was logged by the payments service, and the error message was \"upstream timeout: card-processor did not respond in 30s (pool exhausted, 64/64 connections busy)\". [end of text]",
+    "prompt_tokens": 4042,
+    "prompt_eval_s": 19.04,
+    "wall_s": 23.03,
+    "returncode": 0,
+    "correct": true
+   }
+  },
+  {
+   "scenario": "logs100",
+   "qid": "lookup42",
+   "question": "What is the latency_ms of request req-10042?",
+   "expect": [
+    "40"
+   ],
+   "target": "req-10042",
+   "raw": {
+    "answer": "The latency_ms of request req-10042 is 40. [end of text]",
+    "prompt_tokens": 6722,
+    "prompt_eval_s": 39.93,
+    "wall_s": 42.17,
+    "returncode": 0,
+    "correct": true
+   },
+   "compressed": {
+    "answer": "The latency_ms of request req-10042 is 42. [end of text]",
+    "prompt_tokens": 4044,
+    "prompt_eval_s": 19.9,
+    "wall_s": 22.13,
+    "returncode": 0,
+    "correct": false
+   }
+  },
+  {
+   "scenario": "logs100",
+   "qid": "lookup77",
+   "question": "What is the latency_ms of request req-10077?",
+   "expect": [
+    "75"
+   ],
+   "target": "req-10077",
+   "raw": {
+    "answer": "The latency_ms of request req-10077 is 20. [end of text]",
+    "prompt_tokens": 6722,
+    "prompt_eval_s": 40.88,
+    "wall_s": 43.4,
+    "returncode": 0,
+    "correct": false
+   },
+   "compressed": {
+    "answer": "The latency_ms of request req-10077 is 31. [end of text]",
+    "prompt_tokens": 4044,
+    "prompt_eval_s": 19.48,
+    "wall_s": 21.83,
+    "returncode": 0,
+    "correct": false
+   }
+  },
+  {
+   "scenario": "logs100",
+   "qid": "lookup13",
+   "question": "What is the latency_ms of request req-10013?",
+   "expect": [
+    "38"
+   ],
+   "target": "req-10013",
+   "raw": {
+    "answer": "The latency_ms of request req-10013 is 59. [end of text]",
+    "prompt_tokens": 6722,
+    "prompt_eval_s": 40.0,
+    "wall_s": 42.24,
+    "returncode": 0,
+    "correct": false
+   },
+   "compressed": {
+    "answer": "59 [end of text]",
+    "prompt_tokens": 4044,
+    "prompt_eval_s": 19.42,
+    "wall_s": 20.58,
+    "returncode": 0,
+    "correct": false
+   }
+  },
+  {
+   "scenario": "logs300",
+   "qid": "error",
+   "question": "Which service logged the ERROR, and what was the error message?",
+   "expect": [
+    "payments",
+    "timeout"
+   ],
+   "target": "ERROR",
+   "raw": {
+    "answer": "The service that logged the ERROR was \"payments\", and the error message was \"upstream timeout: card-processor did not respond in 30s (pool exhausted, 64/64 connections busy)\". [end of text]",
+    "prompt_tokens": 19994,
+    "prompt_eval_s": 231.23,
+    "wall_s": 239.37,
+    "returncode": 0,
+    "correct": true
+   },
+   "compressed": {
+    "answer": "The ERROR message was logged by the payments service, and the error message was \"upstream timeout: card-processor did not respond in 30s (pool exhausted, 64/64 connections busy)\". [end of text]",
+    "prompt_tokens": 11911,
+    "prompt_eval_s": 95.59,
+    "wall_s": 101.88,
+    "returncode": 0,
+    "correct": true
+   }
+  },
+  {
+   "scenario": "logs300",
+   "qid": "lookup42",
+   "question": "What is the latency_ms of request req-10042?",
+   "expect": [
+    "40"
+   ],
+   "target": "req-10042",
+   "raw": {
+    "answer": "The latency_ms of request req-10042 is 40. [end of text]",
+    "prompt_tokens": 19996,
+    "prompt_eval_s": 231.08,
+    "wall_s": 235.44,
+    "returncode": 0,
+    "correct": true
+   },
+   "compressed": {
+    "answer": "The latency_ms of request req-10042 is 11. [end of text]",
+    "prompt_tokens": 11913,
+    "prompt_eval_s": 95.43,
+    "wall_s": 98.5,
+    "returncode": 0,
+    "correct": false
+   }
+  },
+  {
+   "scenario": "logs300",
+   "qid": "lookup250",
+   "question": "What is the latency_ms of request req-10250?",
+   "expect": [
+    "56"
+   ],
+   "target": "req-10250",
+   "raw": {
+    "answer": "The latency_ms of request req-10250 is 21. [end of text]",
+    "prompt_tokens": 19996,
+    "prompt_eval_s": 228.55,
+    "wall_s": 232.41,
+    "returncode": 0,
+    "correct": false
+   },
+   "compressed": {
+    "answer": "The latency_ms of request req-10250 is 19. [end of text]",
+    "prompt_tokens": 11913,
+    "prompt_eval_s": 96.86,
+    "wall_s": 100.13,
+    "returncode": 0,
+    "correct": false
+   }
+  }
+ ]
+}

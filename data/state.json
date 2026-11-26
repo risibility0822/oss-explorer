@@ -1,16 +1,19 @@
 {
- "episodeCount": 2,
+ "episodeCount": 3,
  "domainCounts": {
   "AI 模型與推論": 1,
-  "好玩・怪奇・創意程式・藝術": 1
+  "好玩・怪奇・創意程式・藝術": 1,
+  "AI 應用與 Agent 框架": 1
  },
  "recentDomains": [
   "AI 模型與推論",
-  "好玩・怪奇・創意程式・藝術"
+  "好玩・怪奇・創意程式・藝術",
+  "AI 應用與 Agent 框架"
  ],
  "covered": [
   "https://github.com/chenglou/handwired",
-  "https://github.com/danielgatis/rembg"
+  "https://github.com/danielgatis/rembg",
+  "https://github.com/headroomlabs-ai/headroom"
  ],
  "pool": [
   {
@@ -84,11 +87,29 @@
    "url": "https://github.com/google-deepmind/tracr",
    "domain": "AI 模型與推論",
    "why": "把 RASP 程式編譯成 transformer 權重，可跟 handwired 做組合技"
+  },
+  {
+   "name": "TOON",
+   "url": "https://github.com/toon-format/toon",
+   "domain": "開發者工具",
+   "why": "給 LLM 的精簡資料格式（MIT，25.7k ★），可以做格式 vs 小模型準確度的實驗"
+  },
+  {
+   "name": "LLMLingua",
+   "url": "https://github.com/microsoft/LLMLingua",
+   "domain": "AI 應用與 Agent 框架",
+   "why": "微軟的提示壓縮（MIT，6.9k ★），長文字壓縮，可跟 Headroom 對照"
+  },
+  {
+   "name": "QwenPaw",
+   "url": "https://github.com/agentscope-ai/QwenPaw",
+   "domain": "AI 應用與 Agent 框架",
+   "why": "自架個人 AI 助手（Apache-2.0，38.2k ★），需要能接本機模型才能 Demo"
   }
  ],
  "wishes": [],
- "lastRunAt": "2026-11-25T14:35:52+08:00",
- "nextHint": "第 003 集：回到 AI 應用與 Agent 框架，找一個能在 CPU 上真的跑起來的 Agent 工具",
+ "lastRunAt": "2026-11-26T08:29:01+08:00",
+ "nextHint": "第 004 集：換到開發者工具或資料庫，找一個不靠大模型、純本機就有感的新工具",
  "feedback": {},
  "starNotes": []
 }
