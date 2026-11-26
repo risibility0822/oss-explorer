@@ -176,7 +176,7 @@
 <section class="wrap" id="trends">
   <div class="sec" aria-hidden="true"><i>06</i><em>Trend Radar</em></div>
   <h2>最近大家在搜尋、開發者在追什麼</h2>
-  <p>每次出刊前自動更新。每週一、四的那集會從這裡挑主題，其他天熱門關鍵字只當加分。<span id="trUpd"></span></p>
+  <p>每次出刊前自動更新：Google 熱搜、Bluesky 熱門話題、GitHub、Hacker News、Hugging Face。每週一、四的那集會從這裡挑主題，其他天熱門關鍵字只當加分。<span id="trUpd"></span></p>
   <div class="radar">
     <div>
       <h3>大眾話題</h3>
@@ -185,6 +185,8 @@
       <p class="stocks" id="trStock"></p>
       <p class="rh">美國</p>
       <div class="bars" id="trUS" role="img" aria-label="Google Trends 美國每日熱搜"></div>
+      <p class="rh" id="trBSh" hidden>社群：Bluesky 熱門話題</p>
+      <ol id="trBS"></ol>
     </div>
     <div>
       <h3>開發者圈</h3>
@@ -192,6 +194,8 @@
       <div class="bars" id="trTopics" role="img" aria-label="GitHub 近 30 天新專案最常見的主題標籤"></div>
       <p class="rh">新專案星數最多</p>
       <ol id="trRepos"></ol>
+      <p class="rh" id="trHNh" hidden>Hacker News 首頁</p>
+      <ol id="trHN"></ol>
       <p class="rh" id="trHFh" hidden>Hugging Face 熱門模型</p>
       <ol id="trHF"></ol>
     </div>
@@ -291,6 +295,10 @@ function renderTrends(){
   const tp=(gh.topics||[]).slice(0,10).map(x=>({...x,_v:x.count}));
   $("trTopics").innerHTML=tp.length?bars(tp,Math.max(...tp.map(x=>x._v),1),x=>x.name,x=>x.count+" 個"):"";
   $("trRepos").innerHTML=(gh.repos||[]).slice(0,6).map(r=>`<li><a href="${esc(safeUrl(r.url))}">${esc(r.name)}</a> <small>★ ${fmtN(r.stars)}${r.delta7!=null?`（7 天 +${fmtN(r.delta7)}）`:""}，${esc(r.created)} 建立${r.desc?`：${esc(r.desc)}`:""}</small></li>`).join("");
+  const bs=(((T.social||{}).bluesky||{}).items)||[]; $("trBSh").hidden=!bs.length;
+  $("trBS").innerHTML=bs.slice(0,6).map(x=>`<li>${x.url?`<a href="${esc(safeUrl(x.url))}">${esc(x.title)}</a>`:esc(x.title)}</li>`).join("");
+  const hn=(((T.dev||{}).hn||{}).items)||[]; $("trHNh").hidden=!hn.length;
+  $("trHN").innerHTML=hn.slice(0,5).map(x=>`<li><a href="${esc(safeUrl(x.url))}">${esc(x.title)}</a> <small>${x.score||0} 分、${x.comments||0} 則留言</small></li>`).join("");
   const hf=((T.dev||{}).hf||{}).models||[]; $("trHFh").hidden=!hf.length;
   $("trHF").innerHTML=hf.slice(0,5).map(m=>`<li><a href="${esc(safeUrl(m.url))}">${esc(m.id)}</a> <small>${m.task?esc(m.task)+"，":""}${fmtN(m.likes||0)} 個讚</small></li>`).join("");
   $("trProb").textContent=(T.problems||[]).length?`這次有 ${T.problems.length} 個來源連不到，資料可能不完整。`:"";

@@ -1,11 +1,11 @@
 {
- "updatedAt": "2026-11-26T14:55:37+08:00",
+ "updatedAt": "2026-11-26T15:03:15+08:00",
  "public": {
   "TW": {
    "source": {
     "name": "Google Trends 台灣每日熱搜",
     "url": "https://trends.google.com/trending?geo=TW",
-    "fetchedAt": "2026-11-26T14:55:37+08:00",
+    "fetchedAt": "2026-11-26T15:03:15+08:00",
     "via": "WebFetch 存檔（shell 連不到：URLError）"
    },
    "items": [
@@ -95,7 +95,7 @@
    "source": {
     "name": "Google Trends 美國每日熱搜",
     "url": "https://trends.google.com/trending?geo=US",
-    "fetchedAt": "2026-11-26T14:55:38+08:00",
+    "fetchedAt": "2026-11-26T15:03:15+08:00",
     "via": "WebFetch 存檔（shell 連不到：URLError）"
    },
    "items": [
@@ -187,13 +187,13 @@
    "source": {
     "name": "GitHub 近 30 天新專案（2026-10-27 之後建立、依星數）",
     "url": "https://github.com/search?q=created%3A%3E2026-10-27&s=stars&o=desc&type=repositories",
-    "fetchedAt": "2026-11-26T14:55:39+08:00"
+    "fetchedAt": "2026-11-26T15:03:17+08:00"
    },
    "repos": [
     {
      "name": "storytold/craft-anything",
      "url": "https://github.com/storytold/craft-anything",
-     "stars": 43704,
+     "stars": 43708,
      "created": "2026-10-31",
      "lang": "Rust",
      "desc": "Craft Anything: understand how any software works, and craft your own.",
@@ -213,7 +213,7 @@
     {
      "name": "heydamir/unslop",
      "url": "https://github.com/heydamir/unslop",
-     "stars": 21829,
+     "stars": 21834,
      "created": "2026-10-29",
      "lang": "JavaScript",
      "desc": "A Claude skill that turns vibecoded, AI-looking UI into a designed interface",
@@ -223,7 +223,7 @@
     {
      "name": "anefzaoui/misterdownloadmanager",
      "url": "https://github.com/anefzaoui/misterdownloadmanager",
-     "stars": 18268,
+     "stars": 18269,
      "created": "2026-10-29",
      "lang": "Rust",
      "desc": "misterdownloadmanager: The ultimate open-source, clean-room download manager written from scratch in pure Rust for Windows, Mac, and Linux",
@@ -242,7 +242,7 @@
     {
      "name": "libracoder/kiri",
      "url": "https://github.com/libracoder/kiri",
-     "stars": 13527,
+     "stars": 13531,
      "created": "2026-11-02",
      "lang": "Rust",
      "desc": "A small, fast container runtime for macOS, Windows and Linux with free Ngrok alternative",
@@ -260,7 +260,7 @@
     {
      "name": "JuneYaooo/rea-video",
      "url": "https://github.com/JuneYaooo/rea-video",
-     "stars": 13471,
+     "stars": 13473,
      "created": "2026-10-29",
      "lang": "Python",
      "desc": "Reverse-engineer any video, shot by shot: filmed, AI-generated or coded, and how to remake it. Breakdowns in the open VIDEO.md format. 逆向一切视",
@@ -279,7 +279,7 @@
     {
      "name": "Marvisak/VIctory",
      "url": "https://github.com/Marvisak/VIctory",
-     "stars": 12777,
+     "stars": 12779,
      "created": "2026-11-23",
      "lang": "Rust",
      "desc": "An attempt at running GTA VI on PC",
@@ -306,7 +306,7 @@
     {
      "name": "janestreet/agent_skills",
      "url": "https://github.com/janestreet/agent_skills",
-     "stars": 11860,
+     "stars": 11861,
      "created": "2026-11-03",
      "lang": null,
      "desc": "Agent skills",
@@ -345,7 +345,7 @@
     {
      "name": "RoutineMiku/apkstart",
      "url": "https://github.com/RoutineMiku/apkstart",
-     "stars": 9887,
+     "stars": 9888,
      "created": "2026-10-29",
      "lang": "JavaScript",
      "desc": "Windows 上的安卓应用运行器：双击 APK 即装，应用以独立窗口与桌面图标运行，自持 QEMU 运行时",
@@ -364,7 +364,7 @@
     {
      "name": "erkamyaman/rust-anything",
      "url": "https://github.com/erkamyaman/rust-anything",
-     "stars": 9724,
+     "stars": 9729,
      "created": "2026-11-16",
      "lang": "Rust",
      "desc": "Rewrite your whole app in Rust, one piece at a time, checked against the original's recorded behavior at every step. CLIs, HTTP servers and ",
@@ -402,7 +402,7 @@
     {
      "name": "huami1314/GestaltX",
      "url": "https://github.com/huami1314/GestaltX",
-     "stars": 8974,
+     "stars": 8975,
      "created": "2026-11-09",
      "lang": "Swift",
      "desc": "An MobileGestalt editor for iOS 27.x, featuring region-code tweaks, device presets, backups.",
@@ -412,7 +412,7 @@
     {
      "name": "Lee-xeo/Claude-Cage",
      "url": "https://github.com/Lee-xeo/Claude-Cage",
-     "stars": 8633,
+     "stars": 8634,
      "created": "2026-10-31",
      "lang": "Go",
      "desc": "Cage：为 Claude 特化的轻量化虚拟机，彻底杜绝网络泄露。多平台适配，支持多账号管理、远程部署、移动端操控。",
@@ -422,7 +422,7 @@
     {
      "name": "xcl-dev/xcl",
      "url": "https://github.com/xcl-dev/xcl",
-     "stars": 8384,
+     "stars": 8386,
      "created": "2026-11-20",
      "lang": "Rust",
      "desc": "Xbox Series compatibility layer for Windows - runs console game code natively, reimplements the console system libraries and recompiles RDNA",
@@ -453,7 +453,7 @@
     {
      "name": "mdiri-ai/SoduWork",
      "url": "https://github.com/mdiri-ai/SoduWork",
-     "stars": 8183,
+     "stars": 8187,
      "created": "2026-10-29",
      "lang": "JavaScript",
      "desc": "The AI-native engine for teams and their agents. Multi-harness, multi-agent, self-hosted.",
@@ -491,7 +491,7 @@
     {
      "name": "KKKKhazix/agent-autoloop",
      "url": "https://github.com/KKKKhazix/agent-autoloop",
-     "stars": 6581,
+     "stars": 6584,
      "created": "2026-11-03",
      "lang": "TypeScript",
      "desc": "让你的命令行 Agent 在后台自己接活、自己跟进到底；平时不烦你，遇到拿不准的事才发卡片找你拍板。",
@@ -573,7 +573,7 @@
     {
      "name": "XinaTian/MROffice",
      "url": "https://github.com/XinaTian/MROffice",
-     "stars": 5050,
+     "stars": 5053,
      "created": "2026-11-10",
      "lang": "TypeScript",
      "desc": "MR Office — the open-source editors of the AI office suite closest to Microsoft Office: documents, spreadsheets, presentations, PDF and code",
@@ -592,7 +592,7 @@
     {
      "name": "Hut-hzf/ung220z-tool",
      "url": "https://github.com/Hut-hzf/ung220z-tool",
-     "stars": 5032,
+     "stars": 5035,
      "created": "2026-11-15",
      "lang": "Python",
      "desc": "ung220z-tool 是一个针对 UNG220Z，另含中兴/烽火/华为/九联多厂商适配、固件指纹识别与分家族排障建议的一键凭据提取工具，仅限在你自己的设备上用于找回忘记的管理密码、迁移宽带配置或安全自查。",
@@ -602,7 +602,7 @@
     {
      "name": "mromidev/claude-animated-shorts",
      "url": "https://github.com/mromidev/claude-animated-shorts",
-     "stars": 4982,
+     "stars": 4983,
      "created": "2026-11-01",
      "lang": "TypeScript",
      "desc": "Free Claude skill: viral animated story shorts (2D characters in a 3D world) with three.js + Remotion",
@@ -612,7 +612,7 @@
     {
      "name": "simplexai-labs/linger",
      "url": "https://github.com/simplexai-labs/linger",
-     "stars": 4739,
+     "stars": 4740,
      "created": "2026-11-10",
      "lang": "TypeScript",
      "desc": "Linger is An Open-Source Personal Agent That Runs Fully on Your PC.  We aim to break Big Tech’s grip on AI by bringing powerful local AI to ",
@@ -629,7 +629,7 @@
     {
      "name": "4lwayz/portwatch-vi",
      "url": "https://github.com/4lwayz/portwatch-vi",
-     "stars": 4519,
+     "stars": 4525,
      "created": "2026-11-21",
      "lang": "JavaScript",
      "desc": "Does GTA VI run on PC yet? A live tracker of community recompilation and emulation efforts, updated daily.",
@@ -669,7 +669,7 @@
     {
      "name": "EL4CTEO/fast-anything",
      "url": "https://github.com/EL4CTEO/fast-anything",
-     "stars": 4053,
+     "stars": 4054,
      "created": "2026-11-21",
      "lang": "Rust",
      "desc": "Don't rewrite it in Rust. Rewrite the 5% that's slow: profile Python, Node or Ruby apps, port the hot functions with your coding agent, prov",
@@ -688,7 +688,7 @@
     {
      "name": "AFK-surf/xnulinux",
      "url": "https://github.com/AFK-surf/xnulinux",
-     "stars": 4024,
+     "stars": 4026,
      "created": "2026-11-20",
      "lang": "C",
      "desc": "XNU as a loadable kernel module inside Linux (macOS personality for arm64 Linux)",
@@ -851,7 +851,7 @@
    "storytold/craft-anything": [
     [
      "2026-11-26",
-     43704
+     43708
     ]
    ],
    "deepseek-ai/dsh-superagent-prototype": [
@@ -863,31 +863,31 @@
    "heydamir/unslop": [
     [
      "2026-11-26",
-     21829
+     21834
     ]
    ],
    "anefzaoui/misterdownloadmanager": [
     [
      "2026-11-26",
-     18268
+     18269
     ]
    ],
    "libracoder/kiri": [
     [
      "2026-11-26",
-     13527
+     13531
     ]
    ],
    "JuneYaooo/rea-video": [
     [
      "2026-11-26",
-     13471
+     13473
     ]
    ],
    "Marvisak/VIctory": [
     [
      "2026-11-26",
-     12777
+     12779
     ]
    ],
    "Minireel/HGhub": [
@@ -899,7 +899,7 @@
    "janestreet/agent_skills": [
     [
      "2026-11-26",
-     11860
+     11861
     ]
    ],
    "zortos293/Lichii": [
@@ -917,13 +917,13 @@
    "RoutineMiku/apkstart": [
     [
      "2026-11-26",
-     9887
+     9888
     ]
    ],
    "erkamyaman/rust-anything": [
     [
      "2026-11-26",
-     9724
+     9729
     ]
    ],
    "patch-gg/pixelfx": [
@@ -935,19 +935,19 @@
    "huami1314/GestaltX": [
     [
      "2026-11-26",
-     8974
+     8975
     ]
    ],
    "Lee-xeo/Claude-Cage": [
     [
      "2026-11-26",
-     8633
+     8634
     ]
    ],
    "xcl-dev/xcl": [
     [
      "2026-11-26",
-     8384
+     8386
     ]
    ],
    "valentderah/totk-pc-recomp": [
@@ -959,7 +959,7 @@
    "mdiri-ai/SoduWork": [
     [
      "2026-11-26",
-     8183
+     8187
     ]
    ],
    "ersinkoc/phonebox": [
@@ -971,7 +971,7 @@
    "KKKKhazix/agent-autoloop": [
     [
      "2026-11-26",
-     6581
+     6584
     ]
    ],
    "Eglantine-Community/Eglantine": [
@@ -1001,31 +1001,31 @@
    "XinaTian/MROffice": [
     [
      "2026-11-26",
-     5050
+     5053
     ]
    ],
    "Hut-hzf/ung220z-tool": [
     [
      "2026-11-26",
-     5032
+     5035
     ]
    ],
    "mromidev/claude-animated-shorts": [
     [
      "2026-11-26",
-     4982
+     4983
     ]
    ],
    "simplexai-labs/linger": [
     [
      "2026-11-26",
-     4739
+     4740
     ]
    ],
    "4lwayz/portwatch-vi": [
     [
      "2026-11-26",
-     4519
+     4525
     ]
    ],
    "JenkinWoo/sheeridVerify": [
@@ -1049,13 +1049,13 @@
    "EL4CTEO/fast-anything": [
     [
      "2026-11-26",
-     4053
+     4054
     ]
    ],
    "AFK-surf/xnulinux": [
     [
      "2026-11-26",
-     4024
+     4026
     ]
    ],
    "jhaizhou-ops/S2Arm": [
@@ -1090,7 +1090,60 @@
    ]
   }
  },
+ "social": {
+  "bluesky": {
+   "source": {
+    "name": "Bluesky 熱門話題",
+    "url": "https://bsky.app/search",
+    "fetchedAt": "2026-11-26T15:03:15+08:00",
+    "via": "WebFetch 存檔（shell 連不到：URLError）"
+   },
+   "items": [
+    {
+     "title": "Duran Duran's Andy Taylor dies",
+     "url": "https://bsky.app/profile/did:plc:qrz3lhbyuxbeilrc6nekdqme/feed/73ecbcfa356a"
+    },
+    {
+     "title": "Thanksgiving Day celebrations",
+     "url": "https://bsky.app/profile/did:plc:qrz3lhbyuxbeilrc6nekdqme/feed/b30e2b26d3d6"
+    },
+    {
+     "title": "Describe a film without its name",
+     "url": "https://bsky.app/profile/did:plc:qrz3lhbyuxbeilrc6nekdqme/feed/2727efa61393"
+    },
+    {
+     "title": "FCC approves SpaceX Starmind satellites",
+     "url": "https://bsky.app/profile/did:plc:qrz3lhbyuxbeilrc6nekdqme/feed/f11581ca7486"
+    },
+    {
+     "title": "New Avengers: Doomsday poster",
+     "url": "https://bsky.app/profile/did:plc:qrz3lhbyuxbeilrc6nekdqme/feed/e8c214304f07"
+    },
+    {
+     "title": "Victorian Coalition plans sewage privatization",
+     "url": "https://bsky.app/profile/did:plc:qrz3lhbyuxbeilrc6nekdqme/feed/874f9208652c"
+    },
+    {
+     "title": "Trump floats Jensen Huang pardon",
+     "url": "https://bsky.app/profile/did:plc:qrz3lhbyuxbeilrc6nekdqme/feed/716f7ca460d4"
+    },
+    {
+     "title": "Macy's parade turns 100",
+     "url": "https://bsky.app/profile/did:plc:qrz3lhbyuxbeilrc6nekdqme/feed/049763533cfe"
+    },
+    {
+     "title": "Poundland heads into administration",
+     "url": "https://bsky.app/profile/did:plc:qrz3lhbyuxbeilrc6nekdqme/feed/9101c0dc9b81"
+    },
+    {
+     "title": "World tops 2C for six straight days",
+     "url": "https://bsky.app/profile/did:plc:qrz3lhbyuxbeilrc6nekdqme/feed/892aad2d4d59"
+    }
+   ]
+  }
+ },
  "problems": [
+  "Hacker News 連不到：<urlopen error Tunnel connection failed: 403 Forbidden (agent proxy: no rule or network setting allows this host)>",
   "Hugging Face 連不到：<urlopen error Tunnel connection failed: 403 Forbidden (agent proxy: no rule or network setting allows this host)>"
  ]
 }

@@ -344,6 +344,32 @@ def cmd_radar(a):
         src, items = _gtrends(geo, label, f)
         out["public"][geo] = {"source": src, "items": items[:25]}
         if src.get("error"): problems.append(src["error"])
+    # 社群：Bluesky 公開的熱門話題（不用登入）。PTT（robots 擋）、Reddit（擋）、Dcard（擋）、X／Threads／IG（要登入）都不能用
+    bsky_src = {"name": "Bluesky 熱門話題", "url": "https://bsky.app/search", "fetchedAt": iso()}
+    try:
+        js = json.loads(_get("https://public.api.bsky.app/xrpc/app.bsky.unspecced.getTrendingTopics?limit=15"))
+        topics_ = [{"title": t.get("displayName") or t.get("topic"), "url": "https://bsky.app" + t["link"] if str(t.get("link", "")).startswith("/") else t.get("link")} for t in js.get("topics", [])]
+        bsky_src["via"] = "API"
+    except Exception as e:
+        topics_ = []
+        if a.bsky_file and Path(a.bsky_file).exists():
+            for line in Path(a.bsky_file).read_text("utf-8").splitlines():
+                parts = [x.strip() for x in line.split("|")]
+                if parts and parts[0]: topics_.append({"title": parts[0], "url": ("https://bsky.app" + parts[1]) if len(parts) > 1 and parts[1].startswith("/") else None})
+            bsky_src["via"] = f"WebFetch 存檔（shell 連不到：{type(e).__name__}）"
+        else:
+            bsky_src["error"] = f"連不到 Bluesky：{e}"; problems.append(bsky_src["error"])
+    out["social"] = {"bluesky": {"source": bsky_src, "items": topics_[:15]}}
+    # 開發者圈：Hacker News 首頁（官方 API）
+    try:
+        ids = json.loads(_get("https://hacker-news.firebaseio.com/v0/topstories.json"))[:15]
+        hn = []
+        for i in ids:
+            it = json.loads(_get(f"https://hacker-news.firebaseio.com/v0/item/{i}.json"))
+            if it and it.get("title"): hn.append({"title": it["title"], "url": f"https://news.ycombinator.com/item?id={i}", "link": it.get("url"), "score": it.get("score"), "comments": it.get("descendants")})
+        out["dev"]["hn"] = {"source": {"name": "Hacker News 首頁", "url": "https://news.ycombinator.com/", "fetchedAt": iso()}, "items": hn}
+    except Exception as e:
+        problems.append(f"Hacker News 連不到：{e}")
     # 開發者圈：GitHub 近 30 天新專案（星數排序）＋主題標籤統計＋7 天漲幅
     since = (now() - timedelta(days=30)).strftime("%Y-%m-%d")
     try:
@@ -375,6 +401,8 @@ def cmd_radar(a):
     print("大眾話題（Google Trends 台灣）：" + "、".join(f"{x['title']}（{x['traffic']}）" for x in tw[:10]) or "（沒有資料）")
     us = out["public"].get("US", {}).get("items", [])
     print("大眾話題（Google Trends 美國）：" + "、".join(f"{x['title']}（{x['traffic']}）" for x in us[:8]) or "（沒有資料）")
+    print("社群（Bluesky 熱門話題）：" + ("、".join(x["title"] for x in out["social"]["bluesky"]["items"][:8]) or "（沒有資料）"))
+    print("Hacker News 首頁：" + ("、".join(x["title"] for x in out["dev"].get("hn", {}).get("items", [])[:5]) or "（沒有資料）"))
     gh = out["dev"].get("github", {})
     print("開發者圈主題：" + "、".join(f"{t['name']}×{t['count']}" for t in gh.get("topics", [])[:10]))
     print("新專案漲最快：" + "、".join(f"{r['name']}（★{r['stars']:,}）" for r in gh.get("repos", [])[:6]))
@@ -1138,7 +1166,7 @@ def main():
     sp.add_parser("preflight").set_defaults(f=cmd_preflight)
     sp.add_parser("status").set_defaults(f=cmd_status)
     p = sp.add_parser("plan"); p.add_argument("--force", action="store_true"); p.add_argument("--redo", type=int, help="重做第 N 集（從選題開始），完成後取代舊的"); p.set_defaults(f=cmd_plan)
-    p = sp.add_parser("radar", help="趨勢雷達：Google Trends（台灣／美國）、GitHub 新專案、Hugging Face → data/trends.json"); p.add_argument("--gtrends-tw"); p.add_argument("--gtrends-us"); p.set_defaults(f=cmd_radar)
+    p = sp.add_parser("radar", help="趨勢雷達：Google Trends（台灣／美國）、Bluesky 熱門話題、GitHub 新專案、Hacker News、Hugging Face → data/trends.json"); p.add_argument("--gtrends-tw"); p.add_argument("--gtrends-us"); p.add_argument("--bsky-file"); p.set_defaults(f=cmd_radar)
     p = sp.add_parser("card", help="從 meta.json 產生／更新本集主角卡"); p.add_argument("ep", nargs="?"); p.set_defaults(f=cmd_card)
     p = sp.add_parser("new"); p.add_argument("slug"); p.add_argument("--force", action="store_true"); p.set_defaults(f=cmd_new)
     for name, fn in (("check", cmd_check), ("qa", cmd_qa), ("register", cmd_register)):

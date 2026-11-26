@@ -22,10 +22,10 @@ python3 ops/bin/oss.py plan         # 解析 feedback.md，決定本集編號／
 
 ## 1. 發掘與選題 ⏱ 15 分
 
-**先跑趨勢雷達**：`python3 ops/bin/oss.py radar`（約 1 分鐘）。它抓 Google Trends 台灣與美國的每日熱搜（大眾話題）、GitHub 近 30 天新專案與主題標籤、Hugging Face 熱門模型，寫進 `data/trends.json`，首頁「趨勢雷達」會顯示。shell 連不到 Google Trends 時，用 WebFetch 讀 `https://trends.google.com/trending/rss?geo=TW&v=<runId>`，把結果存成每行「關鍵字 | 搜尋量 | 日期」的檔案，再跑 `oss.py radar --gtrends-tw <檔案>`（美國用 `--gtrends-us`）；還是不行就照常選題，最後訊息加 ⚠️。
+**先跑趨勢雷達**：`python3 ops/bin/oss.py radar`（約 1 分鐘）。它抓 Google Trends 台灣與美國的每日熱搜、Bluesky 公開的熱門話題（大眾＋社群）、GitHub 近 30 天新專案與主題標籤、Hacker News 首頁、Hugging Face 熱門模型（開發者圈），寫進 `data/trends.json`，首頁「趨勢雷達」會顯示。shell 連不到 Google Trends 時，用 WebFetch 讀 `https://trends.google.com/trending/rss?geo=TW&v=<runId>`，把結果存成每行「關鍵字 | 搜尋量 | 日期」的檔案，再跑 `oss.py radar --gtrends-tw <檔案>`（美國用 `--gtrends-us`）；還是不行就照常選題，最後訊息加 ⚠️。
 
 **熱門話題日（plan 印出 `trendDay: true`，每週一、四，或許願提到熱門／趨勢）**：主題一定要接上雷達，meta.json 的 `trend` 必填（kind、topic、source、url、date、traffic、why）：
-- **大眾話題**（kind=public）：從 Google Trends 台灣的熱搜挑一個（台股代號除外；台灣沒有合適的才用美國），找一個能幫人看懂、查詢或處理這件事的開源工具或開放資料。例：颱風 → 氣象資料或災害地圖工具；演唱會搶票 → 排隊或爬蟲防護；選舉 → 開票資料視覺化。`why` 用一句白話寫「為什麼這集跟這個熱門話題有關」（≤60 字），例如「颱風假熱搜第一：用開源氣象資料看風雨怎麼走」。
+- **大眾話題**（kind=public）：從 Google Trends 台灣的熱搜挑一個（台股代號除外；台灣沒有合適的才用美國或 Bluesky 熱門話題），找一個能幫人看懂、查詢或處理這件事的開源工具或開放資料。例：颱風 → 氣象資料或災害地圖工具；演唱會搶票 → 排隊或爬蟲防護；選舉 → 開票資料視覺化。`why` 用一句白話寫「為什麼這集跟這個熱門話題有關」（≤60 字），例如「颱風假熱搜第一：用開源氣象資料看風雨怎麼走」。
 - **開發者圈**（kind=dev）：雷達上的主題標籤或星數漲最快的新專案。
 - 兩種都找不到能做 Demo 的題目，就回到一般選題，在 meta 的 trend 寫 kind=dev 並在 why 寫明「本週熱門話題找不到能在這台機器跑的 Demo，改選…」。
 **其他天**：雷達上的熱門關鍵字只當加分（同分時優先），不用填 trend；有接上的話也可以填，卡片會多一行「為什麼是現在」。
