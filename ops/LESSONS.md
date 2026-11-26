@@ -39,3 +39,5 @@
 - 2026-11-25：推送後 GitHub Pages 偶爾不會開始部署（ep-001 重做時 3eddbbb 推了 10 分鐘都沒有 workflow run）。用 gh api repos/<repo>/actions/runs 查得到部署狀態；沒有就推一個空 commit 重新觸發，不要只看線上頁面是不是舊的就以為是快取。
 - 2026-11-25：2026-11-25 系列骨架改成雜誌版面（參考《大誌》）：刊頭＋期數、書背標語、目錄、章節頭 01–05、folio、紙色 #f8f8f6；字型加 Bodoni Moda（斜體數字與英文欄名）與 Archivo 900（刊頭）。impeccable 會把「字貼著底線」判成 cramped padding，章節頭的底線要留 padding-bottom:8px。
 - 2026-11-25：首頁也改用 assets/series.css（刊頭顯示最新一期期數、封面是最新一集、目錄、章節頭 01–05、過刊列表）；每集刊頭的 OSS EXPLORER 和「回首頁」都連回 ../。縮圖 og.jpg 改拍 Demo 本身（作品就是封面照），不再是頁面頂端，避免首頁出現「頁面裡的頁面」。meta.json 的 oneliner、demo 會直接顯示在首頁，也要用白話寫。
+- 2026-11-26：llama.cpp v1.0.0 起 tag 改名、Releases 網頁 403 抓不到預編譯檔；自己 cmake 編譯要加 -DLLAMA_BUILD_HTML=OFF，且 llama-server 會去下載網頁介面檔而失敗，只編 llama-completion／llama-tokenize（4 核約 5 分鐘）。Qwen2.5-1.5B Q4 在 4 執行緒 CPU 讀 2 萬 token 約 230 秒，跑實驗要放背景並預留 20 分鐘。
+- 2026-11-26：工作區連不到 tiktoken 編碼檔（openaipublic.blob.core.windows.net），用到 tiktoken 的套件會退回估算，token 數要用目標模型自己的分詞器（llama-tokenize）重數。Demo 元素若用 display:grid/flex，[hidden] 會失效，要加 #demo [hidden]{display:none!important}（qa_check 只看 .hidden 屬性抓不到，設計審查員抓到）。
