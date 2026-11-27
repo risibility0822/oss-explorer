@@ -36,7 +36,8 @@
 .demo-desk{background:var(--stage);border-radius:18px;padding:clamp(16px,2.4vw,24px)}
 .demo-bar{display:flex;flex-wrap:wrap;gap:8px 18px;align-items:center;margin:0 0 12px}
 .demo-group{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
-.demo-group>span{font-size:14px;color:var(--mute);margin-right:2px}
+.demo-group>span{font-size:14px;color:var(--mute);margin-right:2px;flex:0 0 auto;white-space:nowrap}
+.demo-acts .btn.go:disabled{background:transparent;color:var(--mute);border-color:var(--line);font-weight:400}
 .demo-group .btn{min-height:44px;font-size:15px}
 .demo-group .btn[aria-pressed="true"]{background:var(--accent);color:var(--bg);border-color:var(--accent)}
 .demo-grid{display:grid;grid-template-columns:minmax(0,6fr) minmax(0,5fr);gap:clamp(10px,2vw,20px)}
