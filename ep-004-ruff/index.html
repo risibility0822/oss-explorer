@@ -18,29 +18,37 @@
 <link rel="stylesheet" href="../assets/series.css">
 <style>
 /* palette:start — 由 oss.py palette 產生，不要手改 */
-/* 和田三造《配色事典》第 295 組：Cream Yellow #fdbf68、Yellow #fff200、Blue #006eb8、Dull Violet Black #1e0e3f。重點色＝第 3 色、舞台＝第 1 色；文字與重點色只調明度過對比，底色用同色相的淡色。資料 https://github.com/mattdesl/dictionary-of-colour-combinations（MIT，色碼由 CMYK 換算） */
+/* SlideHelper 配色第 18 組：色1 #003049、色2 #d62828、色3 #f77f00、色4 #fcbf49、色5 #eae2b7。重點色＝第 1 色、舞台＝第 5 色；文字與重點色只調明度過對比，底色用同色相的淡色。資料 https://slidehelper.com（主人精選 24 組） */
 :root{
-  --accent:light-dark(#006eb8,#2f89d6);
-  --accent-ink:light-dark(#0069b1,#449cea);
-  --accent-soft:light-dark(#dceeff,#182d41);
-  --stage:light-dark(#f6ebde,#31271a);
-  --pal-1:light-dark(#b77c1a,#fdbf68);
-  --pal-1-soft:light-dark(#fae8d2,#392810);
-  --pal-1-mark:light-dark(#ffdfb6,#6a4400);
-  --pal-2:light-dark(#938b00,#fff200);
-  --pal-2-soft:light-dark(#eeedd3,#2e2d10);
-  --pal-2-mark:light-dark(#f9f170,#544f00);
-  --pal-3:light-dark(#006eb8,#1075bf);
-  --pal-3-soft:light-dark(#dceeff,#182d41);
-  --pal-3-mark:light-dark(#d0e8ff,#1e507c);
-  --pal-4:light-dark(#1e0e3f,#756aa3);
-  --pal-4-soft:light-dark(#ebe8ff,#2c283d);
-  --pal-4-mark:light-dark(#e5e0ff,#1e0e3f);
+  --accent:light-dark(#003049,#5e8aa7);
+  --accent-ink:light-dark(#003049,#709dba);
+  --accent-soft:light-dark(#deeef9,#1d2e38);
+  --stage:light-dark(#f0eedf,#2c2a1b);
+  --pal-1:light-dark(#003049,#4c7793);
+  --pal-1-ink:light-dark(#003049,#6d9ab7);
+  --pal-1-soft:light-dark(#deeef9,#1d2e38);
+  --pal-1-mark:light-dark(#cbeaff,#003049);
+  --pal-2:light-dark(#d62828,#da2c2b);
+  --pal-2-ink:light-dark(#ce1d21,#ff5c52);
+  --pal-2-soft:light-dark(#ffe4e0,#3f221f);
+  --pal-2-mark:light-dark(#ffdbd6,#773731);
+  --pal-3:light-dark(#d56c00,#f77f00);
+  --pal-3-ink:light-dark(#a55300,#f77f00);
+  --pal-3-soft:light-dark(#ffe6d6,#3d2515);
+  --pal-3-mark:light-dark(#ffddc7,#723e15);
+  --pal-4:light-dark(#b28000,#fcbf49);
+  --pal-4-ink:light-dark(#8b6200,#fcbf49);
+  --pal-4-soft:light-dark(#f8e9d2,#37290f);
+  --pal-4-mark:light-dark(#ffe0ac,#654700);
+  --pal-5:light-dark(#918961,#eae2b7);
+  --pal-5-ink:light-dark(#716a43,#eae2b7);
+  --pal-5-soft:light-dark(#eeecdd,#2e2c1d);
+  --pal-5-mark:light-dark(#ebe6c6,#554e27);
 }
 /* palette:end */
 /* ===== 本集設計 =====
    SUBJECT: 寫程式的人每天看的「編輯器」：左邊行號、出問題的字底下一條紅色波浪線，像老師批改作業。Ruff 做的就是批改＋幫你訂正＋把字寫整齊。
-   ACCENT:  和田三造《配色事典》第 295 組（oss.py palette）：紅＝批改（Ruff 挑出的問題，用系列 --risk）；藍（第 3 色）＝訂正的筆：只有「一鍵修好」實心藍、修好的行號旁一個藍 ✓；黃（--pal-2-mark）＝螢光筆標出改過的行；奶油黃（第 1 色）＝墊在作業紙下的書桌；深紫（第 4 色）＝圖 4 裡「排法不同」的檔案。
+   ACCENT:  SlideHelper 配色第 18 組（oss.py palette）：紅（第 2 色）＝批改：波浪線、●、規則代號；深藍（第 1 色）＝訂正的筆：只有「一鍵修好」實心、修好的行號旁一個 ✓；黃（第 4 色 mark）＝螢光筆標改過的行；米白（第 5 色）＝作業紙的書桌；橘（第 3 色）＝圖 4 裡「排法不同」的檔案。
    MOTIF:   ① Demo 是一張「批改中的作業」：行號槽、紅色波浪底線、有問題的行號旁加一個 ● ② 修好的行用螢光黃塗底 ③ 每次檢查都顯示花了幾毫秒，數字用 Bricolage 大字。
    ANSWER:  幫你的 Python 程式挑錯、訂正、排整齊，一眨眼就好。
    CHECKED: 不用黑底螢光綠的「駭客終端機」（螢光黃只當螢光筆、面積很小，程式區在亮色模式是白紙）；不用卡片牆；標題不單獨上色；等寬字只用在程式碼本身，規則代號用一般字型。
@@ -59,7 +67,7 @@
 .demo-panel{background:transparent;border-radius:12px;padding-top:12px;padding-bottom:12px;padding-left:12px;padding-right:12px;min-width:0}
 .demo-stat{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 14px;margin:0 0 8px;font-size:15px;line-height:1.4;max-width:none}
 .demo-stat b{font-family:var(--disp);font-size:28px;font-variant-numeric:tabular-nums;font-weight:800}
-.demo-stat .bad b{color:var(--risk)}
+.demo-stat .bad b{color:var(--pal-2-ink)}
 .demo-stat .fast b{color:var(--accent-ink)}
 .demo-acts{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 10px}
 .demo-acts .btn{min-height:44px;font-size:15px}
@@ -70,11 +78,11 @@
 @media(max-width:820px){#demoView{max-height:250px}}
 .demo-ln{display:grid;grid-template-columns:3.2em minmax(0,1fr);white-space:pre;min-width:max-content}
 .demo-ln .no{color:var(--mute);text-align:right;padding-right:10px;user-select:none;position:relative}
-.demo-ln.has .no{color:var(--risk);font-weight:700}
+.demo-ln.has .no{color:var(--pal-2-ink);font-weight:700}
 .demo-ln.has .no::before{content:"●";position:absolute;left:4px;font-size:10px;top:1px}
 .demo-ln code{font-family:inherit;padding-right:12px}
-.demo-ln u{text-decoration:underline wavy var(--risk);text-decoration-thickness:1.5px;text-underline-offset:3px;text-decoration-skip-ink:none}
-.demo-ln.fixed code{background:var(--pal-2-mark)}
+.demo-ln u{text-decoration:underline wavy var(--pal-2);text-decoration-thickness:1.5px;text-underline-offset:3px;text-decoration-skip-ink:none}
+.demo-ln.fixed code{background:var(--pal-4-mark)}
 .demo-ln.fixed .no{color:var(--accent-ink);font-weight:700}
 .demo-ln.fixed .no::before{content:"✓";position:absolute;left:3px;font-size:11px;top:0}
 .demo-ln.flash{outline:2px solid var(--accent);outline-offset:-2px}
@@ -85,7 +93,7 @@
 #demoList button{all:unset;box-sizing:border-box;display:grid;grid-template-columns:4.6em minmax(0,1fr);gap:2px 10px;width:100%;padding-top:8px;padding-bottom:8px;padding-left:10px;padding-right:10px;cursor:pointer;min-height:44px;line-height:1.45}
 #demoList button:focus-visible{outline:2px solid var(--accent)}
 #demoList button:hover{background:var(--accent-soft)}
-#demoList .code{font-weight:700;color:var(--risk)}
+#demoList .code{font-weight:700;color:var(--pal-2-ink)}
 #demoList .where{font-size:13px;color:var(--mute)}
 #demoList .can{font-size:13px;color:var(--accent-ink);font-weight:600}
 #demoList .none{display:block;padding-top:10px;color:var(--mute)}
@@ -98,7 +106,7 @@
 .fx-stack{display:flex;height:28px;border-radius:6px;overflow:hidden;margin-top:14px}
 .fx-stack i{display:block;height:100%}
 .fx-stack .same{background:var(--accent)}
-.fx-stack .diff{background:var(--pal-4);border-left:2px solid var(--bg)}
+.fx-stack .diff{background:var(--pal-3);border-left:2px solid var(--bg)}
 .fx-key{display:flex;flex-wrap:wrap;gap:4px 16px;font-size:14px;margin-top:6px}
 .fx-key b{font-family:var(--disp);font-variant-numeric:tabular-nums}
 .fx-tiny .t i{min-width:3px}
@@ -337,7 +345,7 @@ select = ["E", "F", "W", "I", "UP", "B", "SIM", "C4", "FAST"]</pre>
     <li><a href="https://simonwillison.net/2026/Mar/19/openai-acquiring-astral/">Simon Willison：OpenAI acquiring Astral</a>（2026-03-19）</li>
     <li><a href="https://github.com/django/django">django/django</a> 測試對象，commit f0e7bd9（2026-11-26）</li>
     <li><a href="https://github.com/risibility0822/oss-explorer/tree/main/ep-004-ruff/lab">本集 lab/</a>：bench.py、bench.json、parity.py、parity.json</li>
-    <li>配色：和田三造《配色事典》第 295 組（資料 <a href="https://github.com/mattdesl/dictionary-of-colour-combinations">mattdesl/dictionary-of-colour-combinations</a>，MIT，色碼由原書的 CMYK 換算；文字與重點色只調明度以符合對比標準，底色用同色相的淡色）</li>
+    <li>配色：參考 SlideHelper 配色第 18 組（主人精選；文字與重點色只調明度以符合對比標準，底色用同色相的淡色）</li>
   </ol></div></details>
 </section>
 

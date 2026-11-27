@@ -1,100 +1,122 @@
 {
-  "no": 2,
-  "id": "ep-002",
-  "slug": "ep-002-handwired",
-  "date": "2026-11-25",
-  "title": "不用訓練的神經網路：FizzBuzz 手工接線，1000 題全對（handwired）",
-  "oneliner": "把寫好的規則直接變成 AI 的「腦」（神經網路），不用餵例子訓練：FizzBuzz 從 1 到 1000 全對，還能把網路裡的數字弄亂，看它怎麼壞掉。",
-  "domain": "好玩・怪奇・創意程式・藝術",
-  "format": "單品",
-  "tier": "寶石",
-  "lens": "好玩",
-  "resources": [
-    {
-      "name": "chenglou/handwired",
-      "url": "https://github.com/chenglou/handwired",
-      "license": "MIT",
-      "stars": "2.2k（2026-11-24）",
-      "lang": "TypeScript",
-      "role": "main",
-      "title": "handwired",
-      "what": "讓你親手寫出神經網路的程式工具"
-    }
+ "no": 2,
+ "id": "ep-002",
+ "slug": "ep-002-handwired",
+ "date": "2026-11-25",
+ "title": "不用訓練的神經網路：FizzBuzz 手工接線，1000 題全對（handwired）",
+ "oneliner": "把寫好的規則直接變成 AI 的「腦」（神經網路），不用餵例子訓練：FizzBuzz 從 1 到 1000 全對，還能把網路裡的數字弄亂，看它怎麼壞掉。",
+ "domain": "好玩・怪奇・創意程式・藝術",
+ "format": "單品",
+ "tier": "寶石",
+ "lens": "好玩",
+ "resources": [
+  {
+   "name": "chenglou/handwired",
+   "url": "https://github.com/chenglou/handwired",
+   "license": "MIT",
+   "stars": "2.2k（2026-11-24）",
+   "lang": "TypeScript",
+   "role": "main",
+   "title": "handwired",
+   "what": "讓你親手寫出神經網路的程式工具"
+  }
+ ],
+ "demo": "在瀏覽器裡玩手工接線的 FizzBuzz 網路：輸入 1 到 1000，看兩排燈（333＋200 顆）亮起來；把網路裡的數字弄亂 0.01%–10%，看 1 到 100 題答錯幾題。",
+ "highlights": [
+  "不用訓練，1 到 1000 全對；用例子訓練 10,000 輪的版本，前 100 題還錯 4 題",
+  "網路裡的數字亂 0.1% 就開始答錯，亂 1% 平均剩 64 題，亂 10% 跟只會答數字差不多",
+  "一題一題算時比一般程式慢約 7,600 倍；作者的顯示卡版也只跟一般搜尋互有勝負"
+ ],
+ "tags": [
+  "神經網路",
+  "TypeScript",
+  "WebGPU",
+  "可微分程式",
+  "FizzBuzz"
+ ],
+ "ideas": [
+  {
+   "title": "用 numpy 移植四種運算，在 FastAPI 批次跑規則",
+   "pitch": "自己用 numpy 重寫 handwired 的四種運算，把運費、折扣等規則接成網路，在 FastAPI 一次算十萬筆；速度不比 np.where 快，賣點是能拿資料微調門檻。",
+   "effort": "一個週末",
+   "value": "可微調的規則引擎：賣點是能用資料校準門檻，不是速度"
+  },
+  {
+   "title": "「看見神經元在想什麼」互動教材",
+   "pitch": "閏年、BMI、統一發票對獎都接成會亮燈的網路，給 AI 入門課與補習班當教具。",
+   "effort": "一個月",
+   "value": "授權給線上課程或補習班的互動教材"
+  },
+  {
+   "title": "從正確答案開始訓練的小實驗",
+   "pitch": "拿手工權重當起點去訓練，看梯度下降會把它練得更好還是練壞，很適合寫成技術文章。",
+   "effort": "一個週末",
+   "value": "技術文章與個人品牌曝光"
+  },
+  {
+   "title": "Metal 版執行器的 macOS 批次工具",
+   "pitch": "仿照它把 JSON 搜尋編成 WebGPU shader 的做法，改寫成 Metal compute shader，做一個在 Mac 上一次篩選幾十萬筆 CSV／日誌的工具。先量再做：作者實測顯示卡沒有明顯比多條一般程式（8 個 worker）快。",
+   "effort": "長期",
+   "value": "macOS 付費工具的候選；先量過速度再決定"
+  }
+ ],
+ "sources": [
+  "https://github.com/chenglou/handwired",
+  "https://api.github.com/search/repositories?q=repo:chenglou/handwired",
+  "https://github.com/chenglou/handwired/blob/main/docs/README.md",
+  "https://github.com/chenglou/handwired/blob/main/src/json-search/README.md",
+  "https://github.com/joelgrus/fizz-buzz-tensorflow",
+  "https://github.com/google-deepmind/tracr",
+  "https://github.com/risibility0822/oss-explorer/tree/main/ep-002-handwired/lab"
+ ],
+ "poolAdd": [
+  {
+   "name": "forge",
+   "url": "https://github.com/antoinezambelli/forge",
+   "domain": "AI 應用與 Agent 框架",
+   "why": "讓本機小模型的 tool-calling 變可靠（MIT，2.3k ★），需要能在 CPU 跑的小模型才能 Demo"
+  },
+  {
+   "name": "cocoindex-code",
+   "url": "https://github.com/cocoindex-io/cocoindex-code",
+   "domain": "開發者工具",
+   "why": "輕量 AST 程式碼搜尋 CLI，給 coding agent 用（Apache-2.0，3.0k ★）"
+  },
+  {
+   "name": "pooled",
+   "url": "https://github.com/Nehanth/pooled",
+   "domain": "AI 應用與 Agent 框架",
+   "why": "瀏覽器 P2P 合力跑大模型（MIT，666 ★）"
+  },
+  {
+   "name": "Tracr",
+   "url": "https://github.com/google-deepmind/tracr",
+   "domain": "AI 模型與推論",
+   "why": "把 RASP 程式編譯成 transformer 權重，可跟 handwired 做組合技"
+  }
+ ],
+ "wish": null,
+ "nextHint": "第 003 集：回到 AI 應用與 Agent 框架，找一個能在 CPU 上真的跑起來的 Agent 工具",
+ "palette": {
+  "source": "slidehelper",
+  "combo": 122,
+  "accent": 4,
+  "stage": 2,
+  "colors": [
+   "#324472",
+   "#2693a1",
+   "#efa517",
+   "#e86d1f",
+   "#a41410"
   ],
-  "demo": "在瀏覽器裡玩手工接線的 FizzBuzz 網路：輸入 1 到 1000，看兩排燈（333＋200 顆）亮起來；把網路裡的數字弄亂 0.01%–10%，看 1 到 100 題答錯幾題。",
-  "highlights": [
-    "不用訓練，1 到 1000 全對；用例子訓練 10,000 輪的版本，前 100 題還錯 4 題",
-    "網路裡的數字亂 0.1% 就開始答錯，亂 1% 平均剩 64 題，亂 10% 跟只會答數字差不多",
-    "一題一題算時比一般程式慢約 7,600 倍；作者的顯示卡版也只跟一般搜尋互有勝負"
+  "names": [
+   "色1",
+   "色2",
+   "色3",
+   "色4",
+   "色5"
   ],
-  "tags": [
-    "神經網路",
-    "TypeScript",
-    "WebGPU",
-    "可微分程式",
-    "FizzBuzz"
-  ],
-  "ideas": [
-    {
-      "title": "用 numpy 移植四種運算，在 FastAPI 批次跑規則",
-      "pitch": "自己用 numpy 重寫 handwired 的四種運算，把運費、折扣等規則接成網路，在 FastAPI 一次算十萬筆；速度不比 np.where 快，賣點是能拿資料微調門檻。",
-      "effort": "一個週末",
-      "value": "可微調的規則引擎：賣點是能用資料校準門檻，不是速度"
-    },
-    {
-      "title": "「看見神經元在想什麼」互動教材",
-      "pitch": "閏年、BMI、統一發票對獎都接成會亮燈的網路，給 AI 入門課與補習班當教具。",
-      "effort": "一個月",
-      "value": "授權給線上課程或補習班的互動教材"
-    },
-    {
-      "title": "從正確答案開始訓練的小實驗",
-      "pitch": "拿手工權重當起點去訓練，看梯度下降會把它練得更好還是練壞，很適合寫成技術文章。",
-      "effort": "一個週末",
-      "value": "技術文章與個人品牌曝光"
-    },
-    {
-      "title": "Metal 版執行器的 macOS 批次工具",
-      "pitch": "仿照它把 JSON 搜尋編成 WebGPU shader 的做法，改寫成 Metal compute shader，做一個在 Mac 上一次篩選幾十萬筆 CSV／日誌的工具。先量再做：作者實測顯示卡沒有明顯比多條一般程式（8 個 worker）快。",
-      "effort": "長期",
-      "value": "macOS 付費工具的候選；先量過速度再決定"
-    }
-  ],
-  "sources": [
-    "https://github.com/chenglou/handwired",
-    "https://api.github.com/search/repositories?q=repo:chenglou/handwired",
-    "https://github.com/chenglou/handwired/blob/main/docs/README.md",
-    "https://github.com/chenglou/handwired/blob/main/src/json-search/README.md",
-    "https://github.com/joelgrus/fizz-buzz-tensorflow",
-    "https://github.com/google-deepmind/tracr",
-    "https://github.com/risibility0822/oss-explorer/tree/main/ep-002-handwired/lab"
-  ],
-  "poolAdd": [
-    {
-      "name": "forge",
-      "url": "https://github.com/antoinezambelli/forge",
-      "domain": "AI 應用與 Agent 框架",
-      "why": "讓本機小模型的 tool-calling 變可靠（MIT，2.3k ★），需要能在 CPU 跑的小模型才能 Demo"
-    },
-    {
-      "name": "cocoindex-code",
-      "url": "https://github.com/cocoindex-io/cocoindex-code",
-      "domain": "開發者工具",
-      "why": "輕量 AST 程式碼搜尋 CLI，給 coding agent 用（Apache-2.0，3.0k ★）"
-    },
-    {
-      "name": "pooled",
-      "url": "https://github.com/Nehanth/pooled",
-      "domain": "AI 應用與 Agent 框架",
-      "why": "瀏覽器 P2P 合力跑大模型（MIT，666 ★）"
-    },
-    {
-      "name": "Tracr",
-      "url": "https://github.com/google-deepmind/tracr",
-      "domain": "AI 模型與推論",
-      "why": "把 RASP 程式編譯成 transformer 權重，可跟 handwired 做組合技"
-    }
-  ],
-  "wish": null,
-  "nextHint": "第 003 集：回到 AI 應用與 Agent 框架，找一個能在 CPU 上真的跑起來的 Agent 工具"
+  "why": "橘＝洞洞板上的銅線、藍綠舞台＝電路板、深紅＝LED，藍與青分給 Buzz 和 FizzBuzz",
+  "url": "https://slidehelper.com"
+ }
 }

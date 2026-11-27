@@ -484,15 +484,28 @@ def _recent_hues(exclude=None, n=3):
         if mm: out.append((e["id"], P.hue_of(mm.group(1))))
     return out
 
+def _palette_home(a, P):
+    if not a.pick: die("首頁用法：oss.py palette --home --pick N [--source …] [--accent …] [--stage …]")
+    source = a.source or P.DEFAULT_SOURCE
+    d = P.derive(a.pick, a.accent, a.stage, source)
+    page = ROOT / "index.html"; text = PAL_RE.sub("", page.read_text("utf-8"))
+    m = re.search(r"<style>\n?", text)
+    if not m: die("首頁沒有 <style>")
+    text = text[:m.end()] + d["css"] + "\n" + text[m.end():]
+    page.write_text(text, "utf-8"); ok(f"首頁已套用{d['label']}第 {d['combo']} 組")
+
 def cmd_palette(a):
     import palette as P
+    if a.home: return _palette_home(a, P)
     ep = ep_dir(a.ep); meta_p = ep / "meta.json"; meta = load(meta_p, {}) or {}
+    source = a.source or (meta.get("palette") or {}).get("source") or P.DEFAULT_SOURCE
     if not a.pick:
         recent = _recent_hues(meta.get("id"))
         hue = None
         if a.hue is not None: hue = P.HUES.get(a.hue, None) if not str(a.hue).lstrip("-").isdigit() else int(a.hue)
         if a.hue is not None and hue is None: die(f"--hue 用角度（0–359）或 {', '.join(k for k in P.HUES if k.isascii())}")
-        cands = P.candidates(hue=hue, avoid=[h for _, h in recent], seed=(cur().get("runId") or today()) + str(a.hue), k=a.k)
+        cands = P.candidates(hue=hue, avoid=[h for _, h in recent], seed=(cur().get("runId") or today()) + str(a.hue), k=a.k, source=source)
+        print(f"配色來源：{P.SOURCES[source]['label']}（--source {'/'.join(P.SOURCES)}）")
         if recent: print("避開最近幾集的重點色相：" + "、".join(f"{i} {round(h)}°" for i, h in recent))
         if not cands: die("沒有符合的組合：放寬 --hue，或不指定")
         for c in cands:
@@ -505,17 +518,17 @@ def cmd_palette(a):
     why = a.why or (meta.get("palette") or {}).get("why")
     if not why: die("要用 --why 寫一句為什麼這組配色適合這個主題（≤60 字）")
     if len(why) > 60: die(f"--why 太長（{len(why)} 字，上限 60）")
-    try: d = P.derive(a.pick, a.accent, a.stage)
+    try: d = P.derive(a.pick, a.accent, a.stage, source)
     except ValueError as ex: die(str(ex))
     page = ep / "index.html"; text = PAL_RE.sub("", page.read_text("utf-8"))
     m = re.search(r"<style>\n?", text)
     if not m: die("頁面沒有 <style>，不知道配色要放哪裡")
     text = text[:m.end()] + d["css"] + "\n" + text[m.end():]
     page.write_text(text, "utf-8")
-    meta["palette"] = {"source": "wada", "combo": d["combo"], "accent": d["accent"], "stage": d["stage"], "colors": d["colors"], "names": d["names"], "why": why,
-                       "url": P.SRC_URL}
+    meta["palette"] = {"source": source, "combo": d["combo"], "accent": d["accent"], "stage": d["stage"], "colors": d["colors"], "names": d["names"], "why": why,
+                       "url": d["url"]}
     meta_p.write_text(json.dumps(meta, ensure_ascii=False, indent=1) + "\n", "utf-8")
-    ok(f"已套用《配色事典》第 {d['combo']} 組：" + "、".join(f"{n} {h}" for n, h in zip(d["names"], d["colors"])))
+    ok(f"已套用{d['label']}第 {d['combo']} 組：" + "、".join(f"{n} {h}" for n, h in zip(d["names"], d["colors"])))
     for mode in ("light", "dark"):
         v = d["values"][mode]; print(f"  {mode:5} " + "  ".join(f"{k}={v[k]}" for k in P.TOKENS) + "  " + " ".join(v[f"--pal-{i}"] for i in range(1, len(d["colors"]) + 1)))
     print("頁面的 <style> 只能用 var(--accent…)／var(--pal-N…)／系列的中性色；不要自己再寫色碼。")
@@ -665,7 +678,7 @@ def cmd_check(a):
             mp = PAL_RE.search(text)
             if not mp: errs.append(f"meta.palette 有填，但頁面沒有配色區塊：跑 `oss.py palette {ep.name} --pick {pal['combo']}`")
             else:
-                exp = P.derive(pal["combo"], pal.get("accent"), pal.get("stage"))
+                exp = P.derive(pal["combo"], pal.get("accent"), pal.get("stage"), pal.get("source", "wada"))
                 if mp.group(0).strip() != exp["css"].strip() or pal.get("colors") != exp["colors"]:
                     errs.append(f"配色區塊被手改過或跟 meta.palette 不一致：重跑 `oss.py palette {ep.name} --pick {pal['combo']}`")
                 rest = PAL_RE.sub("", text)
@@ -674,8 +687,9 @@ def cmd_check(a):
                 if redef: errs.append(f"配色區塊以外又定義了 {', '.join(redef)}：主題色只能由 oss.py palette 產生")
                 hexes = sorted(set(h.lower() for h in re.findall(r"#[0-9a-fA-F]{6}\b|#[0-9a-fA-F]{3}\b(?![0-9a-fA-F])", re.sub(r"/\*.*?\*/", "", own, flags=re.S))) - {"#fff", "#ffffff", "#000", "#000000"})
                 if hexes: warns.append(f"本集 <style> 還有自訂色碼 {', '.join(hexes[:8])}：改用 var(--pal-N…) 或系列中性色（--ink、--mute、--line、--tint、--ok、--warn、--risk）")
-                if "配色事典" not in re.sub(r"<style>.*?</style>", "", text, flags=re.S):
-                    warns.append("頁面上（例如資料來源）沒寫配色出處：「配色：和田三造《配色事典》第 N 組」")
+                _lab = {"wada": "配色事典", "slidehelper": "SlideHelper"}.get(pal.get("source", "wada"), "配色")
+                if _lab not in re.sub(r"<style>.*?</style>", "", text, flags=re.S):
+                    warns.append(f"頁面上（例如資料來源）沒寫配色出處：「配色：{P.SOURCES[pal.get('source','wada')]['label']}第 N 組」")
         if c.get("format") and meta.get("format") != c["format"]: warns.append(f"meta.format={meta.get('format')}，規劃是 {c['format']}（若有理由請在頁面說明）")
         title = re.search(r"<title>(.*?)</title>", text, re.S)
         if title and meta.get("title") and meta["title"].split("：")[0] not in title.group(1): warns.append("<title> 跟 meta.title 對不太起來")
@@ -1240,7 +1254,7 @@ def main():
     sp.add_parser("status").set_defaults(f=cmd_status)
     p = sp.add_parser("plan"); p.add_argument("--force", action="store_true"); p.add_argument("--redo", type=int, help="重做第 N 集（從選題開始），完成後取代舊的"); p.set_defaults(f=cmd_plan)
     p = sp.add_parser("radar", help="趨勢雷達：Google Trends（台灣／美國）、Bluesky 熱門話題、GitHub 新專案、Hacker News、Hugging Face → data/trends.json"); p.add_argument("--gtrends-tw"); p.add_argument("--gtrends-us"); p.add_argument("--bsky-file"); p.set_defaults(f=cmd_radar)
-    p = sp.add_parser("palette", help="主題色：從和田三造《配色事典》挑候選（--hue）或套用（--pick）"); p.add_argument("ep", nargs="?"); p.add_argument("--hue"); p.add_argument("--pick", type=int); p.add_argument("--accent", type=int); p.add_argument("--stage", type=int); p.add_argument("--why"); p.add_argument("--k", type=int, default=10); p.set_defaults(f=cmd_palette)
+    p = sp.add_parser("palette", help="主題色：從和田三造《配色事典》挑候選（--hue）或套用（--pick）"); p.add_argument("ep", nargs="?"); p.add_argument("--hue"); p.add_argument("--pick", type=int); p.add_argument("--accent", type=int); p.add_argument("--stage", type=int); p.add_argument("--why"); p.add_argument("--k", type=int, default=10); p.add_argument("--source", choices=["wada", "slidehelper"]); p.add_argument("--home", action="store_true", help="套用到首頁"); p.set_defaults(f=cmd_palette)
     p = sp.add_parser("card", help="從 meta.json 產生／更新本集主角卡"); p.add_argument("ep", nargs="?"); p.set_defaults(f=cmd_card)
     p = sp.add_parser("new"); p.add_argument("slug"); p.add_argument("--force", action="store_true"); p.set_defaults(f=cmd_new)
     for name, fn in (("check", cmd_check), ("qa", cmd_qa), ("register", cmd_register)):

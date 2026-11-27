@@ -15,19 +15,44 @@
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,800&family=Noto+Sans+TC:wght@400;600;700;800&family=Noto+Serif+TC:wght@700;800&family=Archivo:wght@900&family=Bodoni+Moda:ital,wght@0,400;1,400;1,500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../assets/series.css">
 <style>
+/* palette:start — 由 oss.py palette 產生，不要手改 */
+/* SlideHelper 配色第 122 組：色1 #324472、色2 #2693a1、色3 #efa517、色4 #e86d1f、色5 #a41410。重點色＝第 4 色、舞台＝第 2 色；文字與重點色只調明度過對比，底色用同色相的淡色。資料 https://slidehelper.com（主人精選 24 組） */
+:root{
+  --accent:light-dark(#bd5200,#e86d1f);
+  --accent-ink:light-dark(#a94800,#ee7226);
+  --accent-soft:light-dark(#ffe5d9,#3e2417);
+  --stage:light-dark(#def1f4,#192d30);
+  --pal-1:light-dark(#324472,#5d72a3);
+  --pal-1-ink:light-dark(#324472,#7c92c5);
+  --pal-1-soft:light-dark(#e2ebff,#232b3e);
+  --pal-1-mark:light-dark(#d9e5ff,#324472);
+  --pal-2:light-dark(#2693a1,#2693a1);
+  --pal-2-ink:light-dark(#007380,#37a0ae);
+  --pal-2-soft:light-dark(#d3f2f7,#0a3136);
+  --pal-2-mark:light-dark(#acf3fd,#005861);
+  --pal-3:light-dark(#b97d00,#efa517);
+  --pal-3-ink:light-dark(#8e5f00,#efa517);
+  --pal-3-soft:light-dark(#f9e9d2,#38280f);
+  --pal-3-mark:light-dark(#ffdfb3,#684500);
+  --pal-4:light-dark(#df640f,#e86d1f);
+  --pal-4-ink:light-dark(#ad4b00,#ea6f21);
+  --pal-4-soft:light-dark(#ffe5d9,#3e2417);
+  --pal-4-mark:light-dark(#ffdccc,#743c1d);
+  --pal-5:light-dark(#a41410,#cc4236);
+  --pal-5-ink:light-dark(#a41410,#f26555);
+  --pal-5-soft:light-dark(#ffe4e0,#3f221e);
+  --pal-5-mark:light-dark(#ffdbd5,#763830);
+}
+/* palette:end */
 /* ===== 本集設計 =====
    SUBJECT: 手工接線（handwired）：洞洞板、焊點、一排排 LED。神經網路裡的小開關就是會亮的焊點。
-   ACCENT:  銅線色 #a8541c（亮）／#e08a4d（暗），取自洞洞板上的銅線與焊錫。
-   MOTIF:   ① Demo 舞台是洞洞板（點陣底）② 機制圖和 Demo 共用同一種 LED 燈（亮紅）③ Fizz／Buzz／FizzBuzz／數字固定用銅、藍、紫、灰四色。
+   ACCENT:  SlideHelper 配色第 122 組（oss.py palette）：橘（第 4 色）＝洞洞板上的銅線，當重點色；藍綠（第 2 色）＝電路板的舞台底；深紅（第 5 色）＝LED。
+   MOTIF:   ① Demo 舞台是洞洞板（點陣底）② 機制圖和 Demo 共用同一種 LED 燈（亮紅）③ Fizz／Buzz／FizzBuzz／數字固定用銅橘、深藍、藍綠、灰四色（配色組的第 4、1、2 色與系列灰）。
    ANSWER:  照它的寫法把規則寫一遍，就變成 AI 的「腦」。
    ===== */
 :root{
-  --accent:light-dark(#a8541c,#e08a4d);
-  --accent-ink:light-dark(#8f4514,#f0a06b);
-  --accent-soft:light-dark(#f7ebe2,#3a2a20);
-  --stage:light-dark(#dfe5da,#232b27);
-  --hole:light-dark(#c3ccc0,#3a4540); --led:light-dark(#d4322a,#ff5a4a);
-  --fizz:light-dark(#a8541c,#e08a4d); --buzz:light-dark(#1f5f9e,#6aa8e6); --fb:light-dark(#6b3fa0,#b48ae6); --num:light-dark(#5d6862,#8f9b95);
+  --hole:color-mix(in oklab,var(--stage),var(--ink) 16%); --led:var(--pal-5);
+  --fizz:var(--pal-4-ink); --buzz:var(--pal-1-ink); --fb:var(--pal-2-ink); --num:var(--mute);
 }
 /* ↓ Demo：洞洞板 */
 /* ===== Demo：洞洞板 ===== */
@@ -47,7 +72,7 @@
 #word{font-family:var(--disp);font-weight:800;font-size:clamp(52px,9vw,92px);line-height:1;letter-spacing:-.02em;color:var(--num)}
 #word[data-l=fizz]{color:var(--fizz)}#word[data-l=buzz]{color:var(--buzz)}#word[data-l=fizzbuzz]{color:var(--fb)}
 #verdict{font-size:15px;color:var(--mute)}
-#verdict.bad{color:var(--led);font-weight:600}
+#verdict.bad{color:var(--pal-5-ink);font-weight:600}
 .demo-lh{font-size:15px;font-weight:600;margin:14px 0 4px;line-height:1.4;max-width:none}
 .demo-answers .demo-lh{font-size:16px;margin:0 0 6px}
 .demo-lh small{font-weight:400;color:var(--mute);font-size:14px}
@@ -61,10 +86,10 @@
 .demo-sig button{flex:1 1 0;white-space:nowrap;border-radius:10px;border:1px solid var(--line);background:var(--tint);color:var(--ink);padding-left:6px;padding-right:6px;cursor:pointer;font-size:15px}
 .demo-sig button[aria-pressed=true]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
 #grid{display:grid;grid-template-columns:repeat(10,minmax(0,1fr));gap:3px}
-#grid button{min-height:30px;aspect-ratio:1;padding:0;border:0;border-radius:5px;font-size:13px;font-weight:600;cursor:pointer;color:light-dark(#fff,#16201b);background:var(--num);font-variant-numeric:tabular-nums;position:relative}
+#grid button{min-height:30px;aspect-ratio:1;padding:0;border:0;border-radius:5px;font-size:13px;font-weight:600;cursor:pointer;color:var(--bg);background:var(--num);font-variant-numeric:tabular-nums;position:relative}
 #grid button[data-l=fizz]{background:var(--fizz)}#grid button[data-l=buzz]{background:var(--buzz)}#grid button[data-l=fizzbuzz]{background:var(--fb)}
 #grid button.wrong{outline:3px solid var(--led);outline-offset:-3px}
-#grid button.wrong::after{content:"";position:absolute;top:2px;right:2px;width:7px;height:7px;border-radius:50%;background:var(--led);box-shadow:0 0 0 1.5px #fff}
+#grid button.wrong::after{content:"";position:absolute;top:2px;right:2px;width:7px;height:7px;border-radius:50%;background:var(--led);box-shadow:0 0 0 1.5px var(--bg)}
 #grid button:disabled{cursor:default;opacity:1}
 #grid button.cur{box-shadow:0 0 0 2px var(--bg),0 0 0 4px var(--ink)}
 .demo-key{display:flex;gap:12px;flex-wrap:wrap;font-size:14px;color:var(--mute);margin-top:8px}
@@ -82,7 +107,7 @@
 .mini i{aspect-ratio:1;border-radius:2px;background:var(--num);position:relative}
 .mini i.f{background:var(--fizz)}.mini i.b{background:var(--buzz)}.mini i.fb{background:var(--fb)}
 .mini i.x{outline:2px solid var(--led);outline-offset:1px;z-index:1}
-.mini i.x::after{content:"";position:absolute;inset:30%;border-radius:50%;background:var(--led);box-shadow:0 0 0 1px #fff}
+.mini i.x::after{content:"";position:absolute;inset:30%;border-radius:50%;background:var(--led);box-shadow:0 0 0 1px var(--bg)}
 .mlab{font-size:14px;color:var(--mute);margin:6px 0 0}
 /* ↓ 機制圖裡的洞洞板元素 */
 #mechSvg .bnd{fill:none;stroke:var(--line);stroke-width:1.5;stroke-dasharray:6 5}
@@ -355,6 +380,7 @@ for (const n of [9, 15, 22]) {
     <li><a href="https://github.com/joelgrus/fizz-buzz-tensorflow">joelgrus/fizz-buzz-tensorflow</a>：notebook 的輸出（錯 4 題）與網路結構（2026-11-25 取得）</li>
     <li><a href="https://github.com/google-deepmind/tracr">google-deepmind/tracr</a>：Apache-2.0、573 ★（2026-11-24）</li>
     <li><a href="https://github.com/risibility0822/oss-explorer/tree/main/ep-002-handwired/lab">本集 lab/</a>：所有實測腳本與原始輸出（2026-11-25）</li>
+      <li>配色：參考 SlideHelper 配色第 122 組（主人精選；文字與重點色只調明度以符合對比標準，底色用同色相的淡色）</li>
   </ol></div></details>
 </section>
 

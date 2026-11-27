@@ -17,18 +17,43 @@
 <!-- 系列骨架（固定，不要覆寫） -->
 <link rel="stylesheet" href="../assets/series.css">
 <style>
+/* palette:start — 由 oss.py palette 產生，不要手改 */
+/* SlideHelper 配色第 108 組：色1 #f0ad44、色2 #385052、色3 #128085、色4 #c74029、色5 #fae8cd。重點色＝第 3 色、舞台＝第 2 色；文字與重點色只調明度過對比，底色用同色相的淡色。資料 https://slidehelper.com（主人精選 24 組） */
+:root{
+  --accent:light-dark(#0e7f84,#2e9296);
+  --accent-ink:light-dark(#007277,#45a6a9);
+  --accent-soft:light-dark(#d4f2f3,#0e3133);
+  --stage:light-dark(#e6eff0,#222b2c);
+  --pal-1:light-dark(#b97c00,#f0ad44);
+  --pal-1-ink:light-dark(#906000,#f0ad44);
+  --pal-1-soft:light-dark(#f9e8d2,#382810);
+  --pal-1-mark:light-dark(#ffdfb4,#694500);
+  --pal-2:light-dark(#385052,#5d7779);
+  --pal-2-ink:light-dark(#385052,#7f999b);
+  --pal-2-soft:light-dark(#e4edee,#242d2e);
+  --pal-2-mark:light-dark(#d5e9eb,#385052);
+  --pal-3:light-dark(#128085,#128085);
+  --pal-3-ink:light-dark(#00757a,#41a2a6);
+  --pal-3-soft:light-dark(#d4f2f3,#0e3133);
+  --pal-3-mark:light-dark(#b0f3f6,#00585c);
+  --pal-4:light-dark(#c74029,#ca432c);
+  --pal-4-ink:light-dark(#c03923,#f36950);
+  --pal-4-soft:light-dark(#ffe4df,#3f231d);
+  --pal-4-mark:light-dark(#ffdbd4,#76382c);
+  --pal-5:light-dark(#97866e,#fae8cd);
+  --pal-5-ink:light-dark(#776750,#fae8cd);
+  --pal-5-soft:light-dark(#f0eae1,#302a21);
+  --pal-5-mark:light-dark(#f6e9d5,#594b34);
+}
+/* palette:end */
 /* ===== 本集設計 =====
    SUBJECT: 修圖師的去背：透明棋盤格是「什麼都沒有」的通用符號，裁切線是唯一的筆觸，成品像剪下來的貼紙。
-   ACCENT:  裁切橘：亮 #e8590c／暗 #ff8a4c（取自修圖軟體慣用的裁切框橘色）；文字用加深的 #b8400a／#ff9d66。
+   ACCENT:  SlideHelper 配色第 108 組（oss.py palette）：藍綠（第 3 色）＝攝影棚背景布，當重點色與裁切線；灰藍（第 2 色）＝棚內牆面的舞台底。透明棋盤格保持中性灰。
    MOTIF:   1. 透明棋盤格：Demo 舞台、機制圖的結果、發現二的對照圖都放在棋盤格上。2. 裁切線：機制圖裡「去背 AI」的範圍用橘色虛線框起來，像剪刀要剪的線。
    ANSWER:  照片不用上傳，AI 直接在你的瀏覽器裡把主角剪下來。
    CHECKED: 不用卡片牆、左側色條、全大寫小標、「·」串資訊、連結箭頭；深色不用近黑；只有一個動態（拖動對照）。 */
 :root{
-  --accent:light-dark(#e8590c,#ff8a4c);
-  --accent-ink:light-dark(#b8400a,#ff9d66);
-  --accent-soft:light-dark(#fff0e6,#3b2a20);
-  --stage:light-dark(#f4f5f7,#26282d);
-  --chk1:light-dark(#ffffff,#2a2d32); --chk2:light-dark(#e3e5e9,#383b41);
+  --chk1:light-dark(#ffffff,#2a2d32); --chk2:light-dark(#e3e5e9,#383b41);   /* 透明棋盤格：刻意保持中性灰 */
 }
 /* 主題小細節：透明棋盤格 */
 .chk{background-color:var(--chk1);background-image:conic-gradient(var(--chk2) 25%,transparent 0 50%,var(--chk2) 0 75%,transparent 0);background-size:20px 20px}
@@ -376,6 +401,7 @@ const prob = out[session.outputNames[0]].data;   // 320×320 的分數，拉伸�
     <li><a href="https://developer.apple.com/documentation/vision/vngenerateforegroundinstancemaskrequest">Apple 文件：VNGenerateForegroundInstanceMaskRequest（macOS 14+、iOS 17+）</a></li>
     <li><a href="https://www.npmjs.com/package/onnxruntime-web">onnxruntime-web 1.31.1（MIT）</a></li>
     <li><a href="https://scikit-image.org/docs/stable/api/skimage.data.html">scikit-image 範例資料的授權說明</a>：貓與咖啡杯為 CC0，火箭為 SpaceX 釋出的公眾領域照片</li>
+      <li>配色：參考 SlideHelper 配色第 108 組（主人精選；文字與重點色只調明度以符合對比標準，底色用同色相的淡色）</li>
   </ol><p>模型與照片授權見 <a href="MODEL_LICENSE.md">MODEL_LICENSE.md</a>。</p></div></details>
 </section>
 

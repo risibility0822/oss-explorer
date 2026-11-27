@@ -6,6 +6,7 @@
   --accent-soft 重點色的淡底
   --stage       Demo 舞台底：組合裡另一個顏色的極淡版
   --pal-N       組合裡的第 N 色（圖表／標記用）：對紙色與舞台底都 ≥ 3:1
+  --pal-N-ink   第 N 色當文字用：對紙色、舞台底、重點色淡底都 ≥ 4.6:1
   --pal-N-soft  第 N 色的淡底（區塊底）
   --pal-N-mark  第 N 色的螢光筆底：盡量保留原色的鮮豔，上面的墨色字仍 ≥ 7:1
 亮色、暗色各算一次，用 light-dark() 輸出。
@@ -15,8 +16,13 @@ from __future__ import annotations
 import json, math, random
 from pathlib import Path
 
-DATA = Path(__file__).resolve().parents[1] / "palettes" / "wada" / "colors.json"
-SRC_URL = "https://github.com/mattdesl/dictionary-of-colour-combinations"
+PALS = Path(__file__).resolve().parents[1] / "palettes"
+SOURCES = {
+    "wada": {"label": "和田三造《配色事典》", "url": "https://github.com/mattdesl/dictionary-of-colour-combinations", "note": "MIT，色碼由 CMYK 換算", "sizes": (3, 4)},
+    "slidehelper": {"label": "SlideHelper 配色", "url": "https://slidehelper.com", "note": "主人精選 24 組", "sizes": (5,)},
+}
+DEFAULT_SOURCE = "slidehelper"   # 2026-11-27 主人試用 SlideHelper；決定前可用 --source wada 切回
+SRC_URL = SOURCES["wada"]["url"]
 BG = {"light": "#f8f8f6", "dark": "#1c1e22"}          # 與 assets/series.css 的 --bg 一致
 INK = {"light": "#16181b", "dark": "#eceef1"}         # 與 assets/series.css 的 --ink 一致
 HUES = {"red": 25, "orange": 55, "yellow": 95, "green": 140, "teal": 190, "blue": 250, "purple": 300, "pink": 350,
@@ -98,10 +104,15 @@ def mark(hexc, mode):
 
 # ── 資料 ──
 @__import__("functools").lru_cache(None)
-def combos() -> dict[int, list[dict]]:
+def combos(source: str = "wada") -> dict[int, list[dict]]:
     out: dict[int, list[dict]] = {}
-    for c in json.loads(DATA.read_text("utf-8")):
-        for n in c["combinations"]: out.setdefault(n, []).append({"name": c["name"], "hex": c["hex"]})
+    if source == "wada":
+        for c in json.loads((PALS / "wada" / "colors.json").read_text("utf-8")):
+            for n in c["combinations"]: out.setdefault(n, []).append({"name": c["name"], "hex": c["hex"]})
+    elif source == "slidehelper":
+        for r in json.loads((PALS / "slidehelper" / "palettes.json").read_text("utf-8")):
+            out[r["n"]] = [{"name": f"色{i}", "hex": h} for i, h in enumerate(r["colors"], 1)]
+    else: raise ValueError(f"不認得的配色來源 {source}（{', '.join(SOURCES)}）")
     return dict(sorted(out.items()))
 
 
@@ -124,22 +135,22 @@ def chroma_of(hexc): return rgb2oklch(hex2rgb(hexc))[1]
 def hue_dist(a, b): d = abs(a - b) % 360; return min(d, 360 - d)
 
 
-def candidates(hue=None, avoid=(), seed="", k=10, sizes=(3, 4)):
+def candidates(hue=None, avoid=(), seed="", k=10, source="wada"):
     out = []
-    for n, cols in combos().items():
-        if len(cols) not in sizes: continue
+    for n, cols in combos(source).items():
+        if len(cols) not in SOURCES[source]["sizes"]: continue
         a = default_accent(cols); ah = hue_of(cols[a - 1]["hex"]); ac = chroma_of(cols[a - 1]["hex"])
         if ac < 0.06: continue                                   # 全灰的組合當不了重點色
         if hue is not None and hue_dist(ah, hue) > 35: continue
         if any(hue_dist(ah, h) < 35 for h in avoid): continue   # 跟最近幾集撞色
-        out.append({"combo": n, "colors": cols, "accent": a, "hue": round(ah)})
+        out.append({"combo": n, "colors": cols, "accent": a, "hue": round(ah), "source": source})
     random.Random(seed).shuffle(out)
     return out[:k]
 
 
-def derive(combo: int, accent: int | None = None, stage: int | None = None) -> dict:
-    cols = combos().get(combo)
-    if not cols: raise ValueError(f"《配色事典》沒有第 {combo} 組（1–348）")
+def derive(combo: int, accent: int | None = None, stage: int | None = None, source: str = "wada") -> dict:
+    src = SOURCES[source]; cols = combos(source).get(combo)
+    if not cols: raise ValueError(f"{src['label']}沒有第 {combo} 組（可用：{', '.join(map(str, combos(source)))}）")
     accent = accent or default_accent(cols); stage = stage or default_stage(cols, accent)
     if not (1 <= accent <= len(cols) and 1 <= stage <= len(cols)): raise ValueError(f"第 {combo} 組只有 {len(cols)} 色")
     a = cols[accent - 1]["hex"]; s = cols[stage - 1]["hex"]
@@ -153,27 +164,28 @@ def derive(combo: int, accent: int | None = None, stage: int | None = None) -> d
         v[mode] = {"--accent": acc, "--accent-ink": ink, "--accent-soft": soft, "--stage": st}
         for i, c in enumerate(cols, 1):
             v[mode][f"--pal-{i}"] = fit(c["hex"], [bg, st], 3.0, mode)
+            v[mode][f"--pal-{i}-ink"] = fit(c["hex"], [bg, st, soft], 4.6, mode)
             v[mode][f"--pal-{i}-soft"] = tint(c["hex"], mode)
             v[mode][f"--pal-{i}-mark"] = mark(c["hex"], mode)
     names = "、".join(f"{c['name']} {c['hex']}" for c in cols)
     lines = [f"/* palette:start — 由 oss.py palette 產生，不要手改 */",
-             f"/* 和田三造《配色事典》第 {combo} 組：{names}。重點色＝第 {accent} 色、舞台＝第 {stage} 色；文字與重點色只調明度過對比，底色用同色相的淡色。資料 {SRC_URL}（MIT，色碼由 CMYK 換算） */",
+             f"/* {src['label']}第 {combo} 組：{names}。重點色＝第 {accent} 色、舞台＝第 {stage} 色；文字與重點色只調明度過對比，底色用同色相的淡色。資料 {src['url']}（{src['note']}） */",
              ":root{"]
     for k in v["light"]: lines.append(f"  {k}:light-dark({v['light'][k]},{v['dark'][k]});")
     lines += ["}", "/* palette:end */"]
-    return {"combo": combo, "accent": accent, "stage": stage, "colors": [c["hex"] for c in cols], "names": [c["name"] for c in cols],
+    return {"source": source, "label": src["label"], "url": src["url"], "combo": combo, "accent": accent, "stage": stage, "colors": [c["hex"] for c in cols], "names": [c["name"] for c in cols],
             "values": v, "css": "\n".join(lines)}
 
 
 def preview_png(cands, path, current=None):
     """把候選畫成一張圖（亮色＋暗色），給 agent 用 Read 看。"""
     from PIL import Image, ImageDraw, ImageFont
-    rows = len(cands); W, RH = 1100, 92
+    rows = len(cands); W, RH = 1180, 92
     img = Image.new("RGB", (W, RH * rows + 20), "#ffffff"); d = ImageDraw.Draw(img)
     try: f = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf", 15); fb = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf", 20)
     except Exception: f = fb = ImageFont.load_default()
     for r, c in enumerate(cands):
-        y = 10 + r * RH; p = derive(c["combo"], c.get("accent"))
+        y = 10 + r * RH; p = derive(c["combo"], c.get("accent"), source=c.get("source", "wada"))
         d.text((12, y + 30), f"#{c['combo']}", fill="#111", font=fb)
         x = 90
         for col in c["colors"]:
@@ -185,7 +197,7 @@ def preview_png(cands, path, current=None):
             d.rectangle([x + 20, y + 18, x + 60, y + 52], fill=vv["--accent"])
             d.rectangle([x + 66, y + 18, x + 110, y + 52], fill=vv["--accent-soft"])
             d.text((x + 130, y + 12), "Accent text", fill=vv["--accent-ink"], font=fb)
-            for i in range(len(c["colors"])): d.rectangle([x + 130 + i * 44, y + 44, x + 168 + i * 44, y + 62], fill=vv[f"--pal-{i + 1}"])
+            for i in range(len(c["colors"])): d.rectangle([x + 130 + i * 36, y + 44, x + 162 + i * 36, y + 62], fill=vv[f"--pal-{i + 1}"])
             x += 336
     img.save(path)
     return path

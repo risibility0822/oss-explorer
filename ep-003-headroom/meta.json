@@ -102,5 +102,27 @@
   }
  ],
  "wish": null,
- "nextHint": "第 004 集：換到開發者工具或資料庫，找一個不靠大模型、純本機就有感的新工具"
+ "nextHint": "第 004 集：換到開發者工具或資料庫，找一個不靠大模型、純本機就有感的新工具",
+ "palette": {
+  "source": "slidehelper",
+  "combo": 15,
+  "accent": 3,
+  "stage": 4,
+  "colors": [
+   "#ef476f",
+   "#ffd166",
+   "#06d6a0",
+   "#118ab2",
+   "#073b4c"
+  ],
+  "names": [
+   "色1",
+   "色2",
+   "色3",
+   "色4",
+   "色5"
+  ],
+  "why": "薄荷綠接近 Headroom 徽章色、藍色舞台像終端機的冷光，ERROR 用組裡的桃紅標出",
+  "url": "https://slidehelper.com"
+ }
 }

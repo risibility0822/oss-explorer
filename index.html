@@ -16,8 +16,36 @@
 <!-- 系列骨架：跟各集共用刊頭、章節頭、目錄、頁尾、紙色與字型 -->
 <link rel="stylesheet" href="assets/series.css">
 <style>
+/* palette:start — 由 oss.py palette 產生，不要手改 */
+/* SlideHelper 配色第 6 組：色1 #264653、色2 #2a9d8f、色3 #e9c46a、色4 #f4a261、色5 #e76f51。重點色＝第 5 色、舞台＝第 3 色；文字與重點色只調明度過對比，底色用同色相的淡色。資料 https://slidehelper.com（主人精選 24 組） */
+:root{
+  --accent:light-dark(#c14d30,#e76f51);
+  --accent-ink:light-dark(#b13f21,#eb7254);
+  --accent-soft:light-dark(#ffe4dd,#3f231c);
+  --stage:light-dark(#f3edde,#2f291a);
+  --pal-1:light-dark(#264653,#557785);
+  --pal-1-ink:light-dark(#264653,#7598a6);
+  --pal-1-soft:light-dark(#e1eef3,#212d33);
+  --pal-1-mark:light-dark(#cfeaf6,#264653);
+  --pal-2:light-dark(#23988b,#2a9d8f);
+  --pal-2-ink:light-dark(#00756a,#32a394);
+  --pal-2-soft:light-dark(#d3f3ed,#0a332d);
+  --pal-2-mark:light-dark(#abf6e9,#005951);
+  --pal-3:light-dark(#a88424,#e9c46a);
+  --pal-3-ink:light-dark(#826400,#e9c46a);
+  --pal-3-soft:light-dark(#f5ead1,#352a0e);
+  --pal-3-mark:light-dark(#fee2a1,#614900);
+  --pal-4:light-dark(#c47633,#f4a261);
+  --pal-4-ink:light-dark(#9f5500,#f4a261);
+  --pal-4-soft:light-dark(#fee6d5,#3c2514);
+  --pal-4-mark:light-dark(#ffddc5,#713f11);
+  --pal-5:light-dark(#db6547,#e76f51);
+  --pal-5-ink:light-dark(#b54225,#e76f51);
+  --pal-5-soft:light-dark(#ffe4dd,#3f231c);
+  --pal-5-mark:light-dark(#ffdbd2,#763929);
+}
+/* palette:end */
 /* 首頁＝雜誌封面＋過刊目錄。只放首頁獨有的元件；字型、紙色、刊頭、章節頭都來自 series.css */
-:root{--accent:light-dark(#d9480f,#ff8a4c);--accent-ink:light-dark(#b23c0c,#ff9d66);--accent-soft:light-dark(#fff1e8,#3a2a22)}
 .home-hero{padding-top:clamp(24px,4vw,48px)}
 .home-lead h1 a{color:inherit;text-decoration:none}
 .home-lead h1 a:hover{text-decoration:underline;text-decoration-color:var(--accent);text-decoration-thickness:2px}

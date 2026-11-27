@@ -10,7 +10,7 @@
 
 ```
 preflight → plan → radar（趨勢雷達）→ 發掘與選題 → new <slug> → 研究 → Demo 與 lab → 頁面與 meta.json
-→ palette（和田三造配色）→ card → check → qa（看截圖）→ 內容審查員＋設計審查員（平行）→ 修正 → register → build → finish --review --design → publish
+→ palette（配色庫）→ card → check → qa（看截圖）→ 內容審查員＋設計審查員（平行）→ 修正 → register → build → finish --review --design → publish
 → live（線上自動檢查與探索）→ 親手玩線上版 → live --played → lesson
 ```
 

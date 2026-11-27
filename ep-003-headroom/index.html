@@ -15,20 +15,43 @@
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,800&family=Noto+Sans+TC:wght@400;600;700;800&family=Noto+Serif+TC:wght@700;800&family=Archivo:wght@900&family=Bodoni+Moda:ital,wght@0,400;1,400;1,500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../assets/series.css">
 <style>
+/* palette:start — 由 oss.py palette 產生，不要手改 */
+/* SlideHelper 配色第 15 組：色1 #ef476f、色2 #ffd166、色3 #06d6a0、色4 #118ab2、色5 #073b4c。重點色＝第 3 色、舞台＝第 4 色；文字與重點色只調明度過對比，底色用同色相的淡色。資料 https://slidehelper.com（主人精選 24 組） */
+:root{
+  --accent:light-dark(#008260,#06d6a0);
+  --accent-ink:light-dark(#007556,#06d6a0);
+  --accent-soft:light-dark(#d6f3e6,#113226);
+  --stage:light-dark(#dff0f8,#1b2c34);
+  --pal-1:light-dark(#ef476f,#ef476f);
+  --pal-1-ink:light-dark(#cb1e53,#ff587c);
+  --pal-1-soft:light-dark(#ffe3e6,#3f2226);
+  --pal-1-mark:light-dark(#ffdade,#763641);
+  --pal-2:light-dark(#ac8200,#ffd166);
+  --pal-2-ink:light-dark(#856500,#ffd166);
+  --pal-2-soft:light-dark(#f6ead1,#352a0e);
+  --pal-2-mark:light-dark(#ffe1a0,#624900);
+  --pal-3:light-dark(#009b73,#06d6a0);
+  --pal-3-ink:light-dark(#007859,#06d6a0);
+  --pal-3-soft:light-dark(#d6f3e6,#113226);
+  --pal-3-mark:light-dark(#90fed3,#005b43);
+  --pal-4:light-dark(#118ab2,#118ab2);
+  --pal-4-ink:light-dark(#007295,#349fc8);
+  --pal-4-soft:light-dark(#d4f0fe,#0e303d);
+  --pal-4-mark:light-dark(#c3ecff,#005570);
+  --pal-5:light-dark(#073b4c,#4a798b);
+  --pal-5-ink:light-dark(#073b4c,#6c9baf);
+  --pal-5-soft:light-dark(#deeef6,#1d2e35);
+  --pal-5-mark:light-dark(#c7ebfb,#073b4c);
+}
+/* palette:end */
 /* ===== 本集設計 =====
    SUBJECT: Headroom＝「頭頂上的空間」。模型一次能讀的字數有天花板（上下文視窗），工具吐出的 log 把房間塞滿；壓縮就是幫天花板下多騰出空間。材料：終端機裡的 log、JSON、一條虛線天花板。
-   ACCENT:  薄荷綠，取自 Headroom README 徽章的 #00F0B5；亮色用深一點的 #00876a（文字用 #00694f），暗色降低飽和度用 #3cc9a0（避開暗底配螢光）。
+   ACCENT:  SlideHelper 配色第 15 組（oss.py palette）：薄荷綠（第 3 色，接近 Headroom 徽章的 #00F0B5）＝重點色；藍（第 4 色）＝舞台底；桃紅（第 1 色）＝ERROR 那一行。
    MOTIF:   ① Demo 左邊是一間「房間」：兩根柱子是 token 數，頂上一條虛線是小模型的天花板（32,768），超過就破頂 ② log 裡的 ERROR 那一行永遠用警示紅標出來 ③ 壓縮後的表頭 [300]{…} 用等寬字照原樣顯示，讓人看到它到底變成什麼。
    ANSWER:  工具吐給 AI 的 log，先刪掉重複的字再送出去。
    CHECKED: 不用黑底螢光（Headroom 官網就是黑底薄荷，刻意改成淺灰藍舞台）、不用卡片牆、不在標題上色單字、等寬字只用在真的程式輸出。
    ===== */
-:root{
-  --accent:light-dark(#00876a,#3cc9a0);
-  --accent-ink:light-dark(#00694f,#6fdcbc);
-  --accent-soft:light-dark(#e2f5ef,#14302a);
-  --stage:light-dark(#eaeef2,#232a33);
-  --err:light-dark(#c92a2a,#ff8787); --okink:light-dark(#22702f,#69db7c); --raw:light-dark(#7b8494,#8d97a8);
-}
+:root{ --err:var(--pal-1); --err-ink:var(--pal-1-ink); --okink:var(--pal-3-ink); --raw:var(--mute); }
 /* ===== Demo：天花板下的房間 ===== */
 .demo-room{background:var(--stage);border-radius:18px;padding-top:clamp(14px,2.6vw,26px);padding-bottom:clamp(14px,2.6vw,26px);padding-left:clamp(12px,2.6vw,26px);padding-right:clamp(12px,2.6vw,26px)}
 .demo-chips{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 12px}
@@ -60,7 +83,7 @@
 #demoText{font-family:var(--mono);font-size:13px;line-height:1.55;background:var(--tint);border-radius:8px;padding-top:10px;padding-bottom:10px;padding-left:10px;padding-right:10px;height:236px;overflow:auto;white-space:pre;margin:0;color:var(--ink)}
 @media(max-width:760px){#demoText{height:170px}}
 #demoText .demo-hit{background:var(--accent-soft);outline:2px solid var(--accent);border-radius:2px}
-#demoText .demo-err{color:var(--err);font-weight:700}
+#demoText .demo-err{color:var(--err-ink);font-weight:700}
 #demoText .demo-head{color:var(--accent-ink);font-weight:700}
 .demo-note{font-size:14px;color:var(--mute);margin:6px 0 0;line-height:1.5}
 /* 問小模型 */
@@ -76,13 +99,13 @@
 .demo-ans .c .demo-time i{background:var(--accent)}
 .demo-line{font-size:15px;line-height:1.5;margin:0;min-height:1.5em}
 .demo-line .ok,.demo-line .bad{font-weight:700;margin-right:6px}
-.demo-line .ok{color:var(--okink)}.demo-line .bad{color:var(--err)}
+.demo-line .ok{color:var(--okink)}.demo-line .bad{color:var(--err-ink)}
 .demo-meta{font-size:13px;color:var(--mute);margin:2px 0 0}
 #demoPlay{min-height:44px;margin-top:10px}
 /* 主題小細節：發現二的對錯表（形狀＋顏色） */
 .fx-look{width:100%;font-size:15px}
 .fx-look td,.fx-look th{white-space:nowrap}
-.fx-ok{color:var(--okink)}.fx-bad{color:var(--err)}
+.fx-ok{color:var(--okink)}.fx-bad{color:var(--err-ink)}
 </style>
 <script>new MutationObserver(()=>{for(const c of document.querySelectorAll('.stack td:not([data-l])')){let i=0,p=c;while(p=p.previousElementSibling)i+=p.colSpan;c.dataset.l=c.closest('table').rows[0].cells[i]?.textContent||''}}).observe(document,{childList:true,subtree:true})</script>
 </head>
@@ -315,7 +338,8 @@ print(result.messages[-1]["content"][:160])
       <li>跨集組合：<a href="../ep-001-rembg/">第 001 集 rembg</a> 證明 AI 可以整個搬到使用者的機器上跑；這集補上下一步：本機小模型要讀得快，送進去的字就要先瘦身。<a href="../ep-002-handwired/">第 002 集 handwired</a> 是規則寫死、一題都不會錯的網路，正好對照這集小模型「查細節會看錯」。</li>
     </ul>
   </div></details>
-  <details data-section="sources" id="sources"><summary><b>來源</b><span>9 筆，數字都標了取得日期</span></summary><div class="body"><ol class="src"><li><a href="https://github.com/headroomlabs-ai/headroom">github.com/headroomlabs-ai/headroom</a>：Headroom 原始碼、README、LICENSE（Apache-2.0）、NOTICE；commit d2014cb，2026-11-26 clone</li><li><a href="https://api.github.com/search/repositories?q=repo:headroomlabs-ai/headroom">api.github.com/search/repositories</a>：星數 80,864、建立日期 2026-01-07（GitHub API，2026-11-26）</li><li><a href="https://pypi.org/project/headroom-ai/">pypi.org/project/headroom-ai/</a>：headroom-ai 0.45.0（PyPI，2026-11-26）</li><li><a href="https://github.com/ggml-org/llama.cpp">github.com/ggml-org/llama.cpp</a>：llama.cpp v1.0.0（commit b1b770d），MIT；星數 136,275（GitHub API，2026-11-26）</li><li><a href="https://huggingface.co/Qwen/Qwen2.5-1.5B-Instruct-GGUF">huggingface.co/Qwen/Qwen2.5-1.5B-Instruct-GGUF</a>：Qwen2.5-1.5B-Instruct GGUF，Apache-2.0，上下文 32,768（Hugging Face，2026-11-26）</li><li><a href="https://huggingface.co/chopratejas/kompress-v2-base">huggingface.co/chopratejas/kompress-v2-base</a>：Kompress-v2-base 模型卡，Apache-2.0（Hugging Face API，2026-11-26）</li><li><a href="https://github.com/toon-format/toon">github.com/toon-format/toon</a>：TOON，MIT，25,661 星（GitHub API，2026-11-26）</li><li><a href="https://github.com/microsoft/LLMLingua">github.com/microsoft/LLMLingua</a>：LLMLingua，MIT，6,861 星（GitHub API，2026-11-26）</li><li><a href="https://github.com/risibility0822/oss-explorer/tree/main/ep-003-headroom/lab">github.com/risibility0822/oss-explorer/tree/main/ep-003-headroom/lab</a>：本集實測腳本與原始輸出</li></ol></div></details>
+  <details data-section="sources" id="sources"><summary><b>來源</b><span>9 筆，數字都標了取得日期</span></summary><div class="body"><ol class="src"><li><a href="https://github.com/headroomlabs-ai/headroom">github.com/headroomlabs-ai/headroom</a>：Headroom 原始碼、README、LICENSE（Apache-2.0）、NOTICE；commit d2014cb，2026-11-26 clone</li><li><a href="https://api.github.com/search/repositories?q=repo:headroomlabs-ai/headroom">api.github.com/search/repositories</a>：星數 80,864、建立日期 2026-01-07（GitHub API，2026-11-26）</li><li><a href="https://pypi.org/project/headroom-ai/">pypi.org/project/headroom-ai/</a>：headroom-ai 0.45.0（PyPI，2026-11-26）</li><li><a href="https://github.com/ggml-org/llama.cpp">github.com/ggml-org/llama.cpp</a>：llama.cpp v1.0.0（commit b1b770d），MIT；星數 136,275（GitHub API，2026-11-26）</li><li><a href="https://huggingface.co/Qwen/Qwen2.5-1.5B-Instruct-GGUF">huggingface.co/Qwen/Qwen2.5-1.5B-Instruct-GGUF</a>：Qwen2.5-1.5B-Instruct GGUF，Apache-2.0，上下文 32,768（Hugging Face，2026-11-26）</li><li><a href="https://huggingface.co/chopratejas/kompress-v2-base">huggingface.co/chopratejas/kompress-v2-base</a>：Kompress-v2-base 模型卡，Apache-2.0（Hugging Face API，2026-11-26）</li><li><a href="https://github.com/toon-format/toon">github.com/toon-format/toon</a>：TOON，MIT，25,661 星（GitHub API，2026-11-26）</li><li><a href="https://github.com/microsoft/LLMLingua">github.com/microsoft/LLMLingua</a>：LLMLingua，MIT，6,861 星（GitHub API，2026-11-26）</li><li><a href="https://github.com/risibility0822/oss-explorer/tree/main/ep-003-headroom/lab">github.com/risibility0822/oss-explorer/tree/main/ep-003-headroom/lab</a>：本集實測腳本與原始輸出</li>    <li>配色：參考 SlideHelper 配色第 15 組（主人精選；文字與重點色只調明度以符合對比標準，底色用同色相的淡色）</li>
+  </ol></div></details>
 </section>
 
 <footer class="wrap">
