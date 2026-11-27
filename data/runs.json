@@ -160,7 +160,7 @@
   "endedAt": "2026-11-27T11:17:09+08:00",
   "status": "ok",
   "episode": "ep-004",
-  "note": "",
+  "note": "⚠️ 線上檢查降級為本機檢查",
   "steps": {
    "palette": "pass",
    "check": "pass",
@@ -168,7 +168,9 @@
    "register": "pass",
    "build": "pass",
    "review": "pass",
-   "design": "pass"
+   "design": "pass",
+   "live": "fallback",
+   "played": "pass"
   }
  }
 ]
