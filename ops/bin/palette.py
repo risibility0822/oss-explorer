@@ -1,4 +1,4 @@
-"""和田三造《配色事典》→ 每集的主題色（由 oss.py palette 呼叫）。
+"""SlideHelper 精選配色 → 每集的主題色（由 oss.py palette 呼叫）。2026-11-27 主人決定全面採用 SlideHelper。
 
 設計師配好的組合不改色相。重點色、文字色、圖表色只調明度（OKLCH 的 L）來過對比；淡底、舞台、螢光筆是同色相的淡色（明度和彩度都會調）：
   --accent      重點色：對紙色 ≥ 4.5:1（上面可以放紙色的字，按鈕可用）
@@ -18,11 +18,9 @@ from pathlib import Path
 
 PALS = Path(__file__).resolve().parents[1] / "palettes"
 SOURCES = {
-    "wada": {"label": "和田三造《配色事典》", "url": "https://github.com/mattdesl/dictionary-of-colour-combinations", "note": "MIT，色碼由 CMYK 換算", "sizes": (3, 4)},
     "slidehelper": {"label": "SlideHelper 配色", "url": "https://slidehelper.com", "note": "主人精選 24 組", "sizes": (5,)},
 }
-DEFAULT_SOURCE = "slidehelper"   # 2026-11-27 主人試用 SlideHelper；決定前可用 --source wada 切回
-SRC_URL = SOURCES["wada"]["url"]
+DEFAULT_SOURCE = "slidehelper"   # 唯一來源（2026-11-27 主人決定）
 BG = {"light": "#f8f8f6", "dark": "#1c1e22"}          # 與 assets/series.css 的 --bg 一致
 INK = {"light": "#16181b", "dark": "#eceef1"}         # 與 assets/series.css 的 --ink 一致
 HUES = {"red": 25, "orange": 55, "yellow": 95, "green": 140, "teal": 190, "blue": 250, "purple": 300, "pink": 350,
@@ -104,12 +102,9 @@ def mark(hexc, mode):
 
 # ── 資料 ──
 @__import__("functools").lru_cache(None)
-def combos(source: str = "wada") -> dict[int, list[dict]]:
+def combos(source: str = DEFAULT_SOURCE) -> dict[int, list[dict]]:
     out: dict[int, list[dict]] = {}
-    if source == "wada":
-        for c in json.loads((PALS / "wada" / "colors.json").read_text("utf-8")):
-            for n in c["combinations"]: out.setdefault(n, []).append({"name": c["name"], "hex": c["hex"]})
-    elif source == "slidehelper":
+    if source == "slidehelper":
         for r in json.loads((PALS / "slidehelper" / "palettes.json").read_text("utf-8")):
             out[r["n"]] = [{"name": f"色{i}", "hex": h} for i, h in enumerate(r["colors"], 1)]
     else: raise ValueError(f"不認得的配色來源 {source}（{', '.join(SOURCES)}）")
@@ -135,7 +130,7 @@ def chroma_of(hexc): return rgb2oklch(hex2rgb(hexc))[1]
 def hue_dist(a, b): d = abs(a - b) % 360; return min(d, 360 - d)
 
 
-def candidates(hue=None, avoid=(), seed="", k=10, source="wada"):
+def candidates(hue=None, avoid=(), seed="", k=10, source=DEFAULT_SOURCE):
     out = []
     for n, cols in combos(source).items():
         if len(cols) not in SOURCES[source]["sizes"]: continue
@@ -148,7 +143,7 @@ def candidates(hue=None, avoid=(), seed="", k=10, source="wada"):
     return out[:k]
 
 
-def derive(combo: int, accent: int | None = None, stage: int | None = None, source: str = "wada") -> dict:
+def derive(combo: int, accent: int | None = None, stage: int | None = None, source: str = DEFAULT_SOURCE) -> dict:
     src = SOURCES[source]; cols = combos(source).get(combo)
     if not cols: raise ValueError(f"{src['label']}沒有第 {combo} 組（可用：{', '.join(map(str, combos(source)))}）")
     accent = accent or default_accent(cols); stage = stage or default_stage(cols, accent)
@@ -185,7 +180,7 @@ def preview_png(cands, path, current=None):
     try: f = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf", 15); fb = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf", 20)
     except Exception: f = fb = ImageFont.load_default()
     for r, c in enumerate(cands):
-        y = 10 + r * RH; p = derive(c["combo"], c.get("accent"), source=c.get("source", "wada"))
+        y = 10 + r * RH; p = derive(c["combo"], c.get("accent"), source=c.get("source", DEFAULT_SOURCE))
         d.text((12, y + 30), f"#{c['combo']}", fill="#111", font=fb)
         x = 90
         for col in c["colors"]:

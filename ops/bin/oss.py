@@ -38,7 +38,7 @@ DOMAINS = ["AI 模型與推論", "AI 應用與 Agent 框架", "開發者工具",
            "開放資料集", "前端・設計・UI・字體・圖示", "多媒體", "地圖與地理空間", "科學・數學・生醫・氣候",
            "隱私・安全・網路", "硬體・IoT・嵌入式・機器人", "生產力・知識管理・桌面 App", "好玩・怪奇・創意程式・藝術"]
 FORMATS, TIERS, LENSES = ["單品", "組合技"], ["巨星", "寶石", "新星"], ["厲害", "好玩", "商業潛力"]
-PALETTE_SINCE = "2026-11-27"   # 這天以後的集數，主題色一定要來自和田三造《配色事典》（oss.py palette）
+PALETTE_SINCE = "2026-11-27"   # 這天以後的集數，主題色一定要來自 SlideHelper 精選配色（oss.py palette）
 TREND_DAYS = (0, 3)   # 週一、週四是熱門話題日（主人 2026-11-26 指定：每週兩天、分散）
 # 版型：主線（30 秒卡 → Demo → 三個發現 → 點子）一眼看完；其餘全部收在 <details> 裡，想深入再展開
 SECTIONS = ["header", "demo", "tldr", "how", "findings", "ideas", "run", "start", "limits", "sources"]
@@ -669,16 +669,17 @@ def cmd_check(a):
         if not mc: errs.append(f"缺少本集主角卡：跑 `oss.py card {ep.name}`（從 meta.json 產生）")
         elif mc.group(0) != subject_card(meta): errs.append(f"本集主角卡跟 meta.json 不一致：改完 meta 後再跑一次 `oss.py card {ep.name}`")
         elif mc.start() > text.find('data-section="demo"'): errs.append("本集主角卡要放在 header 裡、Demo 之前")
-        # 主題色：和田三造《配色事典》（oss.py palette 產生的區塊必須跟 meta.palette 一致）
+        # 主題色：SlideHelper 精選配色（oss.py palette 產生的區塊必須跟 meta.palette 一致）
         pal = meta.get("palette")
         if not pal and str(meta.get("date", "")) >= PALETTE_SINCE:
-            errs.append(f"主題色要來自和田三造《配色事典》：跑 `oss.py palette {ep.name}` 看候選，再用 --pick 套用")
+            errs.append(f"主題色要來自 SlideHelper 精選配色：跑 `oss.py palette {ep.name}` 看候選，再用 --pick 套用")
         if pal:
             import palette as P
             mp = PAL_RE.search(text)
             if not mp: errs.append(f"meta.palette 有填，但頁面沒有配色區塊：跑 `oss.py palette {ep.name} --pick {pal['combo']}`")
             else:
-                exp = P.derive(pal["combo"], pal.get("accent"), pal.get("stage"), pal.get("source", "wada"))
+                if pal.get("source") not in P.SOURCES: errs.append(f"配色來源 {pal.get('source')} 已停用：全面改用 SlideHelper，重跑 `oss.py palette {ep.name}` 挑一組")
+                exp = P.derive(pal["combo"], pal.get("accent"), pal.get("stage"), pal["source"]) if pal.get("source") in P.SOURCES else {"css": "", "colors": None}
                 if mp.group(0).strip() != exp["css"].strip() or pal.get("colors") != exp["colors"]:
                     errs.append(f"配色區塊被手改過或跟 meta.palette 不一致：重跑 `oss.py palette {ep.name} --pick {pal['combo']}`")
                 rest = PAL_RE.sub("", text)
@@ -687,9 +688,8 @@ def cmd_check(a):
                 if redef: errs.append(f"配色區塊以外又定義了 {', '.join(redef)}：主題色只能由 oss.py palette 產生")
                 hexes = sorted(set(h.lower() for h in re.findall(r"#[0-9a-fA-F]{6}\b|#[0-9a-fA-F]{3}\b(?![0-9a-fA-F])", re.sub(r"/\*.*?\*/", "", own, flags=re.S))) - {"#fff", "#ffffff", "#000", "#000000"})
                 if hexes: warns.append(f"本集 <style> 還有自訂色碼 {', '.join(hexes[:8])}：改用 var(--pal-N…) 或系列中性色（--ink、--mute、--line、--tint、--ok、--warn、--risk）")
-                _lab = {"wada": "配色事典", "slidehelper": "SlideHelper"}.get(pal.get("source", "wada"), "配色")
-                if _lab not in re.sub(r"<style>.*?</style>", "", text, flags=re.S):
-                    warns.append(f"頁面上（例如資料來源）沒寫配色出處：「配色：{P.SOURCES[pal.get('source','wada')]['label']}第 N 組」")
+                if "SlideHelper" not in re.sub(r"<style>.*?</style>", "", text, flags=re.S):
+                    warns.append("頁面上（例如資料來源）沒寫配色出處：「配色：參考 SlideHelper 配色第 N 組」")
         if c.get("format") and meta.get("format") != c["format"]: warns.append(f"meta.format={meta.get('format')}，規劃是 {c['format']}（若有理由請在頁面說明）")
         title = re.search(r"<title>(.*?)</title>", text, re.S)
         if title and meta.get("title") and meta["title"].split("：")[0] not in title.group(1): warns.append("<title> 跟 meta.title 對不太起來")
@@ -1254,7 +1254,7 @@ def main():
     sp.add_parser("status").set_defaults(f=cmd_status)
     p = sp.add_parser("plan"); p.add_argument("--force", action="store_true"); p.add_argument("--redo", type=int, help="重做第 N 集（從選題開始），完成後取代舊的"); p.set_defaults(f=cmd_plan)
     p = sp.add_parser("radar", help="趨勢雷達：Google Trends（台灣／美國）、Bluesky 熱門話題、GitHub 新專案、Hacker News、Hugging Face → data/trends.json"); p.add_argument("--gtrends-tw"); p.add_argument("--gtrends-us"); p.add_argument("--bsky-file"); p.set_defaults(f=cmd_radar)
-    p = sp.add_parser("palette", help="主題色：從和田三造《配色事典》挑候選（--hue）或套用（--pick）"); p.add_argument("ep", nargs="?"); p.add_argument("--hue"); p.add_argument("--pick", type=int); p.add_argument("--accent", type=int); p.add_argument("--stage", type=int); p.add_argument("--why"); p.add_argument("--k", type=int, default=10); p.add_argument("--source", choices=["wada", "slidehelper"]); p.add_argument("--home", action="store_true", help="套用到首頁"); p.set_defaults(f=cmd_palette)
+    p = sp.add_parser("palette", help="主題色：從 SlideHelper 精選配色挑候選（--hue）或套用（--pick）"); p.add_argument("ep", nargs="?"); p.add_argument("--hue"); p.add_argument("--pick", type=int); p.add_argument("--accent", type=int); p.add_argument("--stage", type=int); p.add_argument("--why"); p.add_argument("--k", type=int, default=10); p.add_argument("--source", choices=["slidehelper"]); p.add_argument("--home", action="store_true", help="套用到首頁"); p.set_defaults(f=cmd_palette)
     p = sp.add_parser("card", help="從 meta.json 產生／更新本集主角卡"); p.add_argument("ep", nargs="?"); p.set_defaults(f=cmd_card)
     p = sp.add_parser("new"); p.add_argument("slug"); p.add_argument("--force", action="store_true"); p.set_defaults(f=cmd_new)
     for name, fn in (("check", cmd_check), ("qa", cmd_qa), ("register", cmd_register)):

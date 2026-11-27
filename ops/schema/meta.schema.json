@@ -345,7 +345,7 @@
   },
   "palette": {
    "type": "object",
-   "description": "主題色出處：和田三造《配色事典》或 SlideHelper 精選配色的組別（只能由 oss.py palette 寫入）",
+   "description": "主題色出處：SlideHelper 精選配色的組別（只能由 oss.py palette 寫入）",
    "required": [
     "source",
     "combo",
@@ -358,7 +358,6 @@
    "properties": {
     "source": {
      "enum": [
-      "wada",
       "slidehelper"
      ]
     },
