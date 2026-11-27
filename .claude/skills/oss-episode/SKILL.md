@@ -99,6 +99,8 @@ clone 到 `/home/claude/work/<id>/src/<name>/`（新的空目錄）。收集：
 ## 5. 驗證與審查 ⏱ 15 分
 
 ```bash
+python3 ops/bin/oss.py palette   # 主題色：列出和田三造《配色事典》的候選（--hue 縮小範圍，預覽圖 .run/palettes.png）
+python3 ops/bin/oss.py palette --pick N --why "…"   # 套用：產生配色區塊並寫入 meta.palette（不要手改）
 python3 ops/bin/oss.py card      # 從 meta.json 產生「本集主角」卡
 python3 ops/bin/oss.py check     # 結構、連結、大小、殘留骨架、HTML、JS 語法、meta schema
 python3 ops/bin/oss.py qa        # 真實 Chromium：桌機／手機／深色、JS 錯誤、溢出、互動測試、無障礙、主線字數（≤1500）、收合、impeccable 設計偵測、縮圖

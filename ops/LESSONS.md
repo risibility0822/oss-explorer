@@ -47,3 +47,4 @@
 - 2026-11-26：社群來源（2026-11-26 實測）：能用的是 Bluesky 公開 API（public.api.bsky.app/xrpc/app.bsky.unspecced.getTrendingTopics，不用登入）與 Hacker News 官方 API（hacker-news.firebaseio.com）；Mastodon trends 可讀但訊號弱。不能用：PTT（robots 擋）、Reddit（擋）、Dcard（擋）、X／Threads／IG／YouTube（要登入或付費金鑰，我們不建帳號）。環境允許清單已加 trends.google.com、public.api.bsky.app、hacker-news.firebaseio.com（共 20 個網域）。
 - 2026-11-27：Ruff 的 --select ALL 不等於 rule --all 的總數：977 條裡 145 條預覽、17 條已移除，實際只啟用 813 條（內容審查員抓到『977 條全開』是誇大）。寫『全開』之前用 --show-settings 數 linter.rules.enabled。另外 qa/live 的探索器會先按會重畫清單的按鈕，之後點清單項目全部 scroll_into_view 逾時，屬誤判；用自己的 play.py 每次重新定位元素確認。
 - 2026-11-27：機制圖的 data-only 群組（第 1 步的黑盒子「？」）骨架程式不會自動隱藏，到第 2 步會跟新方框重疊；本集在 go() 裡加了 [data-only] 的顯示切換。下一集若沿用這個模板要記得加，或改進骨架。
+- 2026-11-27：主題色改用和田三造《配色事典》（ops/palettes/wada，MIT）：oss.py palette 列候選、--pick 套用。原色當重點色常常要壓暗才過 4.5:1，黃色壓暗會變土黃，所以預設挑「改動最少」的顏色當重點；純黃（#fff200）直接當螢光筆整片塗太刺眼，--pal-N-mark 會降彩度。頁面不要再寫自己的色碼。
