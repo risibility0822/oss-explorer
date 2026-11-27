@@ -153,5 +153,22 @@
    "live": "pass",
    "played": "pass"
   }
+ },
+ {
+  "runId": "20261127-1103",
+  "startedAt": "2026-11-27T11:03:41+08:00",
+  "endedAt": "2026-11-27T11:17:09+08:00",
+  "status": "ok",
+  "episode": "ep-004",
+  "note": "",
+  "steps": {
+   "palette": "pass",
+   "check": "pass",
+   "qa": "pass",
+   "register": "pass",
+   "build": "pass",
+   "review": "pass",
+   "design": "pass"
+  }
  }
 ]

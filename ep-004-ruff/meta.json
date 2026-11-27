@@ -88,5 +88,25 @@
   }
  ],
  "wish": null,
- "nextHint": "第 005 集：換到資料庫或自架服務，找一個能在瀏覽器裡直接查資料的工具"
+ "nextHint": "第 005 集：換到資料庫或自架服務，找一個能在瀏覽器裡直接查資料的工具",
+ "palette": {
+  "source": "wada",
+  "combo": 295,
+  "accent": 3,
+  "stage": 1,
+  "colors": [
+   "#fdbf68",
+   "#fff200",
+   "#006eb8",
+   "#1e0e3f"
+  ],
+  "names": [
+   "Cream Yellow",
+   "Yellow",
+   "Blue",
+   "Dull Violet Black"
+  ],
+  "why": "紅批改、藍訂正（一鍵修好與 ✓）、黃螢光筆標改過的行、奶油黃當書桌，像批改作業",
+  "url": "https://github.com/mattdesl/dictionary-of-colour-combinations"
+ }
 }

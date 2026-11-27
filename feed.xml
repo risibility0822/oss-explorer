@@ -5,13 +5,13 @@
   <link href="https://risibility0822.github.io/oss-explorer/"/>
   <link rel="self" href="https://risibility0822.github.io/oss-explorer/feed.xml"/>
   <id>https://risibility0822.github.io/oss-explorer/</id>
-  <updated>2026-11-27T07:57:07+08:00</updated>
+  <updated>2026-11-27T11:17:09+08:00</updated>
   <author><name>開源探索誌</name></author>
   <entry>
     <title>#004｜Python 程式健檢，16 萬行 0.06 秒看完：比 flake8 快 66 倍（Ruff）</title>
     <link href="https://risibility0822.github.io/oss-explorer/ep-004-ruff/"/>
     <id>https://risibility0822.github.io/oss-explorer/ep-004-ruff/</id>
-    <updated>2026-11-27T07:57:07+08:00</updated>
+    <updated>2026-11-27T11:17:09+08:00</updated>
     <category term="開發者工具"/>
     <summary>Ruff 一個工具就能檢查 Python 程式的問題、自動修好、排整齊。我們拿 Django 的 16.6 萬行實測：檢查比 flake8 快 66 倍、排版比 Black 快 92 倍，而且 95% 的檔案跟 Black 排得一字不差。</summary>
   </entry>

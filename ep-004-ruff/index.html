@@ -17,20 +17,35 @@
 <!-- 系列骨架（固定，不要覆寫）：版面、字型、30 秒看懂、發現、圖說、步驟圖、點子、深入區 -->
 <link rel="stylesheet" href="../assets/series.css">
 <style>
-/* ===== 本集設計 =====
-   SUBJECT: 寫程式的人每天看的「編輯器」：左邊行號、出問題的字底下一條紅色波浪線，像老師用紅筆批改作業。Ruff 做的就是批改＋幫你訂正＋把字寫整齊。
-   ACCENT:  Astral（Ruff 的公司）官網的深紫 #261230 與萊姆黃 #d7ff64。主題色用紫：亮色 #6a3fc0（文字 #5a32a8），暗色 #b79cff；萊姆黃只拿來標「剛被修好的那一行」。
-   MOTIF:   ① Demo 是一張「批改中的作業」：行號槽、紅色波浪底線、有問題的行號旁加一個 ● ② 修好的行用萊姆黃螢光筆塗底 ③ 每次檢查都顯示花了幾毫秒，數字用 Bricolage 大字。
-   ANSWER:  幫你的 Python 程式挑錯、訂正、排整齊，一眨眼就好。
-   CHECKED: 不用黑底螢光綠的「駭客終端機」（萊姆黃只當螢光筆、面積很小，程式區在亮色模式是白紙）；不用卡片牆；標題不單獨上色；等寬字只用在程式碼本身，規則代號用一般字型。
-   ===== */
+/* palette:start — 由 oss.py palette 產生，不要手改 */
+/* 和田三造《配色事典》第 295 組：Cream Yellow #fdbf68、Yellow #fff200、Blue #006eb8、Dull Violet Black #1e0e3f。重點色＝第 3 色、舞台＝第 1 色；文字與重點色只調明度過對比，底色用同色相的淡色。資料 https://github.com/mattdesl/dictionary-of-colour-combinations（MIT，色碼由 CMYK 換算） */
 :root{
-  --accent:light-dark(#6a3fc0,#b79cff);
-  --accent-ink:light-dark(#5a32a8,#cbb8ff);
-  --accent-soft:light-dark(#efe9fb,#2d2540);
-  --stage:light-dark(#eeebf4,#221d2c);
-  --err:light-dark(#c92a2a,#ff8787); --lime:light-dark(#e4ff8a,#4a5a12); --paper:light-dark(#ffffff,#2a2435);
+  --accent:light-dark(#006eb8,#2f89d6);
+  --accent-ink:light-dark(#0069b1,#449cea);
+  --accent-soft:light-dark(#dceeff,#182d41);
+  --stage:light-dark(#f6ebde,#31271a);
+  --pal-1:light-dark(#b77c1a,#fdbf68);
+  --pal-1-soft:light-dark(#fae8d2,#392810);
+  --pal-1-mark:light-dark(#ffdfb6,#6a4400);
+  --pal-2:light-dark(#938b00,#fff200);
+  --pal-2-soft:light-dark(#eeedd3,#2e2d10);
+  --pal-2-mark:light-dark(#f9f170,#544f00);
+  --pal-3:light-dark(#006eb8,#1075bf);
+  --pal-3-soft:light-dark(#dceeff,#182d41);
+  --pal-3-mark:light-dark(#d0e8ff,#1e507c);
+  --pal-4:light-dark(#1e0e3f,#756aa3);
+  --pal-4-soft:light-dark(#ebe8ff,#2c283d);
+  --pal-4-mark:light-dark(#e5e0ff,#1e0e3f);
 }
+/* palette:end */
+/* ===== 本集設計 =====
+   SUBJECT: 寫程式的人每天看的「編輯器」：左邊行號、出問題的字底下一條紅色波浪線，像老師批改作業。Ruff 做的就是批改＋幫你訂正＋把字寫整齊。
+   ACCENT:  和田三造《配色事典》第 295 組（oss.py palette）：紅＝批改（Ruff 挑出的問題，用系列 --risk）；藍（第 3 色）＝訂正的筆：只有「一鍵修好」實心藍、修好的行號旁一個藍 ✓；黃（--pal-2-mark）＝螢光筆標出改過的行；奶油黃（第 1 色）＝墊在作業紙下的書桌；深紫（第 4 色）＝圖 4 裡「排法不同」的檔案。
+   MOTIF:   ① Demo 是一張「批改中的作業」：行號槽、紅色波浪底線、有問題的行號旁加一個 ● ② 修好的行用螢光黃塗底 ③ 每次檢查都顯示花了幾毫秒，數字用 Bricolage 大字。
+   ANSWER:  幫你的 Python 程式挑錯、訂正、排整齊，一眨眼就好。
+   CHECKED: 不用黑底螢光綠的「駭客終端機」（螢光黃只當螢光筆、面積很小，程式區在亮色模式是白紙）；不用卡片牆；標題不單獨上色；等寬字只用在程式碼本身，規則代號用一般字型。
+   ===== */
+:root{ --paper:light-dark(Canvas,var(--tint)); }
 /* ===== Demo：批改中的作業 ===== */
 #demo [hidden]{display:none!important}
 .demo-desk{background:var(--stage);border-radius:18px;padding:clamp(16px,2.4vw,24px)}
@@ -39,13 +54,12 @@
 .demo-group>span{font-size:14px;color:var(--mute);margin-right:2px;flex:0 0 auto;white-space:nowrap}
 .demo-acts .btn.go:disabled{background:transparent;color:var(--mute);border-color:var(--line);font-weight:400}
 .demo-group .btn{min-height:44px;font-size:15px}
-.demo-group .btn[aria-pressed="true"]{background:var(--accent);color:var(--bg);border-color:var(--accent)}
 .demo-grid{display:grid;grid-template-columns:minmax(0,6fr) minmax(0,5fr);gap:clamp(10px,2vw,20px)}
 @media(max-width:820px){.demo-grid{grid-template-columns:minmax(0,1fr)}}
-.demo-panel{background:var(--bg);border-radius:12px;padding-top:12px;padding-bottom:12px;padding-left:12px;padding-right:12px;min-width:0}
+.demo-panel{background:transparent;border-radius:12px;padding-top:12px;padding-bottom:12px;padding-left:12px;padding-right:12px;min-width:0}
 .demo-stat{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 14px;margin:0 0 8px;font-size:15px;line-height:1.4;max-width:none}
 .demo-stat b{font-family:var(--disp);font-size:28px;font-variant-numeric:tabular-nums;font-weight:800}
-.demo-stat .bad b{color:var(--err)}
+.demo-stat .bad b{color:var(--risk)}
 .demo-stat .fast b{color:var(--accent-ink)}
 .demo-acts{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 10px}
 .demo-acts .btn{min-height:44px;font-size:15px}
@@ -56,20 +70,22 @@
 @media(max-width:820px){#demoView{max-height:250px}}
 .demo-ln{display:grid;grid-template-columns:3.2em minmax(0,1fr);white-space:pre;min-width:max-content}
 .demo-ln .no{color:var(--mute);text-align:right;padding-right:10px;user-select:none;position:relative}
-.demo-ln.has .no{color:var(--err);font-weight:700}
+.demo-ln.has .no{color:var(--risk);font-weight:700}
 .demo-ln.has .no::before{content:"●";position:absolute;left:4px;font-size:10px;top:1px}
 .demo-ln code{font-family:inherit;padding-right:12px}
-.demo-ln u{text-decoration:underline wavy var(--err);text-decoration-thickness:1.5px;text-underline-offset:3px;text-decoration-skip-ink:none}
-.demo-ln.fixed code{background:var(--lime)}
+.demo-ln u{text-decoration:underline wavy var(--risk);text-decoration-thickness:1.5px;text-underline-offset:3px;text-decoration-skip-ink:none}
+.demo-ln.fixed code{background:var(--pal-2-mark)}
+.demo-ln.fixed .no{color:var(--accent-ink);font-weight:700}
+.demo-ln.fixed .no::before{content:"✓";position:absolute;left:3px;font-size:11px;top:0}
 .demo-ln.flash{outline:2px solid var(--accent);outline-offset:-2px}
 /* 問題清單 */
 #demoList{list-style:none;margin:10px 0 0;padding:0;max-height:220px;overflow:auto;font-size:15px}
 @media(max-width:820px){#demoList{max-height:200px}}
 #demoList li{border-top:1px solid var(--line)}
-#demoList button{all:unset;box-sizing:border-box;display:grid;grid-template-columns:4.6em minmax(0,1fr);gap:2px 10px;width:100%;padding-top:8px;padding-bottom:8px;padding-left:4px;padding-right:4px;cursor:pointer;min-height:44px;line-height:1.45}
+#demoList button{all:unset;box-sizing:border-box;display:grid;grid-template-columns:4.6em minmax(0,1fr);gap:2px 10px;width:100%;padding-top:8px;padding-bottom:8px;padding-left:10px;padding-right:10px;cursor:pointer;min-height:44px;line-height:1.45}
 #demoList button:focus-visible{outline:2px solid var(--accent)}
 #demoList button:hover{background:var(--accent-soft)}
-#demoList .code{font-weight:700;color:var(--err)}
+#demoList .code{font-weight:700;color:var(--risk)}
 #demoList .where{font-size:13px;color:var(--mute)}
 #demoList .can{font-size:13px;color:var(--accent-ink);font-weight:600}
 #demoList .none{display:block;padding-top:10px;color:var(--mute)}
@@ -82,7 +98,7 @@
 .fx-stack{display:flex;height:28px;border-radius:6px;overflow:hidden;margin-top:14px}
 .fx-stack i{display:block;height:100%}
 .fx-stack .same{background:var(--accent)}
-.fx-stack .diff{background:var(--err);border-left:2px solid var(--bg)}
+.fx-stack .diff{background:var(--pal-4);border-left:2px solid var(--bg)}
 .fx-key{display:flex;flex-wrap:wrap;gap:4px 16px;font-size:14px;margin-top:6px}
 .fx-key b{font-family:var(--disp);font-variant-numeric:tabular-nums}
 .fx-tiny .t i{min-width:3px}
@@ -151,7 +167,7 @@
     <dt>先說背景</dt><dd>寫 Python 的團隊通常會裝三四個工具：一個挑錯、一個整理檔案開頭的引用清單、一個統一排版，專案一大，每次存檔都要等好幾秒。</dd>
     <dt>它是什麼</dt><dd>Ruff 是 Astral 公司用 <dfn>Rust</dfn><span class="gloss">（一種跑起來接近機器速度的程式語言）</span>寫的 <dfn>linter</dfn><span class="gloss">（程式健檢工具）</span>加 <dfn>formatter</dfn><span class="gloss">（排版工具）</span>，一個工具取代上面那些。</dd>
     <dt>為什麼值得看</dt><dd>快到感覺不到：整個 <dfn>Django</dfn><span class="gloss">（很多網站在用的大型 Python 專案，約 16.6 萬行）</span>檢查只要 0.06 秒，比老牌檢查工具 flake8 快 66 倍。</dd>
-    <dt>要注意</dt><dd>它不檢查型別（例如把字串傳進要數字的地方），那要另外搭配別的工具。</dd>
+    <dt>要注意</dt><dd>它不檢查型別（例如把文字傳進要數字的地方），那要另外搭配別的工具。</dd>
     <dt>最適合你的點子</dt><dd><a href="#ideas">讓 AI 助手每次改完 Python 都先跑一次 Ruff</a>，人工檢查時只看真正的改動。</dd>
   </dl>
 </section>
@@ -310,7 +326,7 @@ select = ["E", "F", "W", "I", "UP", "B", "SIM", "C4", "FAST"]</pre>
       <li><b>跨集組合：</b><a href="../ep-003-headroom/">第 3 集 Headroom</a> 把工具吐給 AI 的 log 壓小；Ruff 則讓 AI 寫出來的程式先被自動訂正。兩個一起，等於 AI 寫程式時「讀進去的字少一點、交出來的程式乾淨一點」。</li>
     </ul>
   </div></details>
-  <details data-section="sources" id="sources"><summary><b>來源</b><span>10 筆，數字都標了取得日期</span></summary><div class="body"><ol class="src">
+  <details data-section="sources" id="sources"><summary><b>來源</b><span>11 筆，數字都標了取得日期</span></summary><div class="body"><ol class="src">
     <li><a href="https://github.com/astral-sh/ruff">astral-sh/ruff</a>：51,571 顆星、2,796 個 fork、MIT、最後 commit 2026-11-26（GitHub 搜尋 API，2026-11-27 查詢）</li>
     <li><a href="https://github.com/astral-sh/ruff/blob/main/LICENSE">Ruff LICENSE 原文</a>（2026-11-27 clone 確認）</li>
     <li><a href="https://docs.astral.sh/ruff/rules/">Ruff 規則列表</a>；本集用 <code>ruff rule --all</code> 數出 977 條（815 穩定、145 預覽、17 已移除；lab/ruff-rules.json）</li>
@@ -321,6 +337,7 @@ select = ["E", "F", "W", "I", "UP", "B", "SIM", "C4", "FAST"]</pre>
     <li><a href="https://simonwillison.net/2026/Mar/19/openai-acquiring-astral/">Simon Willison：OpenAI acquiring Astral</a>（2026-03-19）</li>
     <li><a href="https://github.com/django/django">django/django</a> 測試對象，commit f0e7bd9（2026-11-26）</li>
     <li><a href="https://github.com/risibility0822/oss-explorer/tree/main/ep-004-ruff/lab">本集 lab/</a>：bench.py、bench.json、parity.py、parity.json</li>
+    <li>配色：和田三造《配色事典》第 295 組（資料 <a href="https://github.com/mattdesl/dictionary-of-colour-combinations">mattdesl/dictionary-of-colour-combinations</a>，MIT，色碼由原書的 CMYK 換算；文字與重點色只調明度以符合對比標準，底色用同色相的淡色）</li>
   </ol></div></details>
 </section>
 
@@ -430,7 +447,7 @@ function run(changed){
   diags.sort((a,b)=>a.start_location.row-b.start_location.row||a.start_location.column-b.start_location.column);
   const ms=median(times),nLines=text.split("\n").length-(text.endsWith("\n")?1:0),fixable=diags.filter(d=>d.fix&&d.fix.edits.length).length;
   stat.innerHTML=`<span class="${diags.length?"bad":""}"><b data-n="${diags.length}" id="demoCount">${diags.length}</b> 個問題</span><span class="fast">檢查 ${nLines} 行只花 <b id="demoMs">${fmtMs(ms)}</b> 毫秒</span>`;
-  $("demoFix").textContent=fixable?`一鍵修好 ${fixable} 個`:"沒有能自動修的";$("demoFix").disabled=!fixable;
+  $("demoFix").textContent=fixable?`一鍵修好 ${fixable} 個`:"都修好了";$("demoFix").disabled=!fixable;
   render(text,diags,changed);
   list.innerHTML=diags.length?diags.map(d=>{const code=d.code||"語法";const zh=d.code&&ZH[d.code]?ZH[d.code]:d.code?d.message:"語法錯誤："+d.message;
     return `<li><button type="button" data-row="${d.start_location.row}"><span class="code">${esc(code)}</span><span>${esc(zh)}</span><span class="where">第 ${d.start_location.row} 行</span><span class="can">${d.fix&&d.fix.edits.length?"可自動修":""}</span></button></li>`}).join(""):`<li><span class="none">沒有問題。換一組規則，或改壞一點試試。</span></li>`;
