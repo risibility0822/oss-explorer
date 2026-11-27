@@ -1,0 +1,107 @@
+{
+ "select": "E,F,W,I,UP,B,SIM,C4,FAST",
+ "wasmVersion": "0.17.6",
+ "cli": "ruff 0.17.6",
+ "files": {
+  "fastapi_app.py": {
+   "diagnosticsSame": true,
+   "cliDiagnostics": [
+    "B006",
+    "B007",
+    "B904",
+    "E401",
+    "E711",
+    "E722",
+    "F401",
+    "F401",
+    "F401",
+    "F541",
+    "I001",
+    "UP006",
+    "UP006",
+    "UP035",
+    "UP035",
+    "UP045"
+   ],
+   "webDiagnostics": [
+    "B006",
+    "B007",
+    "B904",
+    "E401",
+    "E711",
+    "E722",
+    "F401",
+    "F401",
+    "F401",
+    "F541",
+    "I001",
+    "UP006",
+    "UP006",
+    "UP035",
+    "UP035",
+    "UP045"
+   ],
+   "fixSame": true,
+   "cliRemaining": [
+    "B904",
+    "E722"
+   ],
+   "webRemaining": [
+    "B904",
+    "E722"
+   ],
+   "formatSame": true,
+   "webCheckMsNode": 91.749,
+   "cliFixed": "\nfrom fastapi import FastAPI, HTTPException\n\napp = FastAPI()\nORDERS: dict[str, dict] = {}\n\n\n@app.get(\"/orders\")\ndef list_orders(status: str | None = None, tags: list[str] = None):\n    if tags is None:\n        tags = []\n    result = []\n    for _id, order in ORDERS.items():\n        if status is None or order[\"status\"] == status:\n            result.append(order)\n    print(\"回傳訂單\")\n    return result\n\n\n@app.get(\"/orders/{order_id}\")\ndef get_order(order_id: str):\n    try:\n        return ORDERS[order_id]\n    except:\n        raise HTTPException(status_code=404, detail=\"找不到訂單\")\n",
+   "webFixed": "\nfrom fastapi import FastAPI, HTTPException\n\napp = FastAPI()\nORDERS: dict[str, dict] = {}\n\n\n@app.get(\"/orders\")\ndef list_orders(status: str | None = None, tags: list[str] = None):\n    if tags is None:\n        tags = []\n    result = []\n    for _id, order in ORDERS.items():\n        if status is None or order[\"status\"] == status:\n            result.append(order)\n    print(\"回傳訂單\")\n    return result\n\n\n@app.get(\"/orders/{order_id}\")\ndef get_order(order_id: str):\n    try:\n        return ORDERS[order_id]\n    except:\n        raise HTTPException(status_code=404, detail=\"找不到訂單\")\n"
+  },
+  "clean_data.py": {
+   "diagnosticsSame": true,
+   "cliDiagnostics": [
+    "C416",
+    "E713",
+    "E721",
+    "E731",
+    "F401",
+    "F841",
+    "I001",
+    "SIM115"
+   ],
+   "webDiagnostics": [
+    "C416",
+    "E713",
+    "E721",
+    "E731",
+    "F401",
+    "F841",
+    "I001",
+    "SIM115"
+   ],
+   "fixSame": true,
+   "cliRemaining": [
+    "E721",
+    "SIM115"
+   ],
+   "webRemaining": [
+    "E721",
+    "SIM115"
+   ],
+   "formatSame": true,
+   "webCheckMsNode": 8.266,
+   "cliFixed": "import csv\n\n\ndef load(path):\n    f = open(path, encoding=\"utf-8\")\n    rows = list(csv.reader(f))\n    return rows\n\n\ndef clean(rows):\n    seen = set()\n    out = []\n    for i in range(len(rows)):\n        name = rows[i][0].strip()\n        if name not in seen:\n            seen.add(name)\n            out.append(name)\n    len(out)\n    def is_empty(s):\n        return s == \"\"\n    if type(out) == list:\n        return [n for n in out if not is_empty(n)]\n",
+   "webFixed": "import csv\n\n\ndef load(path):\n    f = open(path, encoding=\"utf-8\")\n    rows = list(csv.reader(f))\n    return rows\n\n\ndef clean(rows):\n    seen = set()\n    out = []\n    for i in range(len(rows)):\n        name = rows[i][0].strip()\n        if name not in seen:\n            seen.add(name)\n            out.append(name)\n    len(out)\n    def is_empty(s):\n        return s == \"\"\n    if type(out) == list:\n        return [n for n in out if not is_empty(n)]\n"
+  },
+  "messy_format.py": {
+   "diagnosticsSame": true,
+   "cliDiagnostics": [],
+   "webDiagnostics": [],
+   "fixSame": true,
+   "cliRemaining": [],
+   "webRemaining": [],
+   "formatSame": true,
+   "webCheckMsNode": 0.854,
+   "cliFixed": "def  price_with_tax( price,rate = 0.05 ):\n  total=price*(1+rate)\n  return {'價格':price,'含稅':round(total),'說明':\"含 5% 營業稅\"}\nitems = [ 120,\n   350,980 ]\nprint( [price_with_tax(p) for p in items] )\n",
+   "webFixed": "def  price_with_tax( price,rate = 0.05 ):\n  total=price*(1+rate)\n  return {'價格':price,'含稅':round(total),'說明':\"含 5% 營業稅\"}\nitems = [ 120,\n   350,980 ]\nprint( [price_with_tax(p) for p in items] )\n"
+  }
+ }
+}

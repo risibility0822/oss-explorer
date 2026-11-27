@@ -1,0 +1,9 @@
+ruff check（E,F,W）: [0.063, 0.061, 0.065] exit=1 lines=5
+flake8（預設規則）: [4.612, 4.131, 4.16] exit=1 lines=4394
+ruff check（E,F,W）: [0.031, 0.027, 0.028] exit=1 lines=2
+ruff check（ALL 全部規則）: [0.085, 0.084, 0.084] exit=1 lines=17818
+flake8（預設規則）: [1.426, 1.483, 1.645] exit=1 lines=1756
+pylint（預設規則）: [32.835] exit=30 lines=5918
+ruff format: [0.082, 0.081, 0.08] exit=0 lines=0
+black: [7.655, 7.276, 7.482] exit=0 lines=0
+{"identical": 868, "different": 41, "changedByEither": 41, "differentFiles": ["shortcuts.py", "templatetags/i18n.py", "contrib/admin/widgets.py", "contrib/admin/options.py", "contrib/auth/tokens.py", "contrib/auth/forms.py", "contrib/auth/management/__init__.py", "contrib/contenttypes/fields.py", "contrib/postgres/constraints.py", "contrib/postgres/aggregates/general.py", "contrib/humanize/templatetags/humanize.py", "contrib/sessions/backends/db.py", "contrib/gis/gdal/raster/source.py", "contrib/gis/db/models/fields.py", "http/request.py", "test/client.py", "test/testcases.py", "test/runner.py

@@ -1,19 +1,22 @@
 {
- "episodeCount": 3,
+ "episodeCount": 4,
  "domainCounts": {
   "AI 模型與推論": 1,
   "好玩・怪奇・創意程式・藝術": 1,
-  "AI 應用與 Agent 框架": 1
+  "AI 應用與 Agent 框架": 1,
+  "開發者工具": 1
  },
  "recentDomains": [
   "AI 模型與推論",
   "好玩・怪奇・創意程式・藝術",
-  "AI 應用與 Agent 框架"
+  "AI 應用與 Agent 框架",
+  "開發者工具"
  ],
  "covered": [
   "https://github.com/chenglou/handwired",
   "https://github.com/danielgatis/rembg",
-  "https://github.com/headroomlabs-ai/headroom"
+  "https://github.com/headroomlabs-ai/headroom",
+  "https://github.com/astral-sh/ruff"
  ],
  "pool": [
   {
@@ -105,11 +108,23 @@
    "url": "https://github.com/agentscope-ai/QwenPaw",
    "domain": "AI 應用與 Agent 框架",
    "why": "自架個人 AI 助手（Apache-2.0，38.2k ★），需要能接本機模型才能 Demo"
+  },
+  {
+   "name": "Biome",
+   "url": "https://github.com/biomejs/biome",
+   "domain": "開發者工具",
+   "why": "前端版的 Ruff：Rust 寫的 JS/TS 檢查與排版（Apache-2.0，26.2k ★），有瀏覽器 wasm，可跟 Prettier 比速度"
+  },
+  {
+   "name": "tree-sitter",
+   "url": "https://github.com/tree-sitter/tree-sitter",
+   "domain": "開發者工具",
+   "why": "編輯器與 coding agent 用的增量語法解析（MIT，27.6k ★），web-tree-sitter 可在瀏覽器即時畫語法樹"
   }
  ],
  "wishes": [],
- "lastRunAt": "2026-11-26T13:00:59+08:00",
- "nextHint": "第 004 集：換到開發者工具或資料庫，找一個不靠大模型、純本機就有感的新工具",
+ "lastRunAt": "2026-11-27T08:02:19+08:00",
+ "nextHint": "第 005 集：換到資料庫或自架服務，找一個能在瀏覽器裡直接查資料的工具",
  "feedback": {},
  "starNotes": []
 }

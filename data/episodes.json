@@ -138,5 +138,46 @@
   "lab": "ep-003-headroom/lab",
   "thumb": "ep-003-headroom/og.jpg",
   "createdAt": "2026-11-26T13:00:59+08:00"
+ },
+ {
+  "no": 4,
+  "id": "ep-004",
+  "date": "2026-11-27",
+  "title": "Python 程式健檢，16 萬行 0.06 秒看完：比 flake8 快 66 倍（Ruff）",
+  "oneliner": "Ruff 一個工具就能檢查 Python 程式的問題、自動修好、排整齊。我們拿 Django 的 16.6 萬行實測：檢查比 flake8 快 66 倍、排版比 Black 快 92 倍，而且 95% 的檔案跟 Black 排得一字不差。",
+  "domain": "開發者工具",
+  "format": "單品",
+  "tier": "巨星",
+  "lens": "厲害",
+  "resources": [
+   {
+    "name": "astral-sh/ruff",
+    "url": "https://github.com/astral-sh/ruff",
+    "license": "MIT",
+    "stars": "51.6k（2026-11-27）",
+    "lang": "Rust",
+    "role": "main",
+    "title": "Ruff",
+    "what": "用 Rust 寫的 Python 程式檢查與排版工具",
+    "commercial": "可免費商用，保留授權聲明即可"
+   }
+  ],
+  "demo": "在瀏覽器裡貼上或修改 Python 程式，Ruff 當場標出問題（附中文說明和花了幾毫秒），按一下自動修好或排整齊，程式不會上傳。",
+  "highlights": [
+   "檢查整個 Django（909 個檔、16.6 萬行）：Ruff 0.063 秒，flake8 4.16 秒，快 66 倍",
+   "813 條穩定規則全開也只要 0.084 秒；pylint 檢查同一個資料夾要 32.8 秒，差約 390 倍",
+   "排版比 Black 快 92 倍（0.081 秒對 7.48 秒），909 個檔裡 868 個排得一字不差"
+  ],
+  "tags": [
+   "Python",
+   "linter",
+   "formatter",
+   "Rust",
+   "WebAssembly"
+  ],
+  "path": "ep-004-ruff/",
+  "lab": "ep-004-ruff/lab",
+  "thumb": "ep-004-ruff/og.jpg",
+  "createdAt": "2026-11-27T07:57:07+08:00"
  }
 ]

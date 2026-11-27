@@ -1,0 +1,191 @@
+{
+ "date": "2026-11-26",
+ "machine": {
+  "cpus": 4,
+  "python": "3.11.18",
+  "platform": "Linux-6.18.44-fc-v880-x86_64-with-glibc2.39"
+ },
+ "versions": {
+  "ruff": "ruff 0.17.6",
+  "flake8": "7.5.0 (mccabe: 0.7.0, pycodestyle: 2.15.0, pyflakes: 4.1.0) CPython 3.11.18 on",
+  "black": "black, 26.10.1 (compiled: yes)",
+  "pylint": "pylint 4.1.4"
+ },
+ "target": {
+  "path": "django/",
+  "files": 909,
+  "lines": 166481
+ },
+ "subTarget": {
+  "path": "django/db/",
+  "files": 123,
+  "lines": 55132
+ },
+ "lint": [
+  {
+   "name": "ruff check（E,F,W）",
+   "cmd": "ruff check --no-cache --isolated --select E,F,W --output-format concise src/django/django",
+   "times": [
+    0.06309813699999722,
+    0.06131053300001099,
+    0.06549831799998174
+   ],
+   "median": 0.06309813699999722,
+   "exit": 1,
+   "outputLines": 5,
+   "stdoutHead": "src/django/django/contrib/gis/measure.py:50:28: E721 Use `is` and `is not` for type comparisons, or `isinstance()` for isinstance checks\nsrc/django/django/core/files/locks.py:9:89: E501 Line too long (98 > 88)\nsrc/django/django/core/files/storage/memory.py:64:37: E721 Use `is` and `is not` for type comparisons, or `isinstance()` for isinstance checks\nsrc/django/django/db/migrations/serializer.py:373:13: F821 Undefined name `frozendict`. Consider specifying `requires-python = \">= 3.15\"` or `tool.ruff.target-version = \"py315\"` in your `pyproject.toml` file.\nFound 4 errors.\n",
+   "stderrTail": ""
+  },
+  {
+   "name": "flake8（預設規則）",
+   "cmd": "flake8 --isolated src/django/django",
+   "times": [
+    4.6116741060000095,
+    4.13076092899999,
+    4.160084489000013
+   ],
+   "median": 4.160084489000013,
+   "exit": 1,
+   "outputLines": 4394,
+   "stdoutHead": "src/django/django/__init__.py:22:80: E501 line too long (85 > 79 characters)\nsrc/django/django/apps/config.py:37:80: E501 line too long (83 > 79 characters)\nsrc/django/django/apps/config.py:69:80: E501 line too long (84 > 79 characters)\nsrc/django/django/apps/config.py:128:80: E501 line too long (83 > 79 characters)\nsrc/django/django/apps/config.py:181:80: E501 line too long (83 > 79 characters)\nsrc/django/django/apps/config.py:198:80: E501 line too long (85 > 79 characters)\nsrc/django/django/apps/config.py:206:80: E501 line too long (88 > 79 characters)\nsrc/django/django/apps/config.py:238:80: E501 line too long (80 > 79 characters)\nsrc/django/django/apps/registry.py:105:80: E501 line too long (84 > 79 characters)\nsrc/django/django/apps/registry.py:185:80: E501 line too long (87 > 79 characters)\nsrc/django/django/apps/registry.py:227:80: E501 line too long (84 > 79 characters)\nsrc/django/django/apps/registry.py:228:80: E501 line too long (83 > 79 characters)\nsrc/django/django/apps/registry.py:280:80: E501 line too long (88 > 79 characters)\nsrc/django/django/apps/registry.py:322:80: E501 line too long (81 > 79 characters)\nsrc/django/django/conf/__init__.py:130:80: E501 line too long (83 > 79 characters)\nsrc/django/django/conf/__init__.py:143:80: E501 line too long (83 > 79 characters)\nsrc/django/django/conf/__init__.py:167:80: E501 line too long (80 > 79 characters)\nsrc/django/django/conf/__init__.py:299:80: E501 line too long (84 > 79 characters)\nsrc/django/django/conf/__ini",
+   "stderrTail": ""
+  }
+ ],
+ "lintSub": [
+  {
+   "name": "ruff check（E,F,W）",
+   "cmd": "ruff check --no-cache --isolated --select E,F,W --output-format concise src/django/django/db",
+   "times": [
+    0.03070254200000022,
+    0.026809936000006473,
+    0.02808256899999151
+   ],
+   "median": 0.02808256899999151,
+   "exit": 1,
+   "outputLines": 2,
+   "stdoutHead": "src/django/django/db/migrations/serializer.py:373:13: F821 Undefined name `frozendict`. Consider specifying `requires-python = \">= 3.15\"` or `tool.ruff.target-version = \"py315\"` in your `pyproject.toml` file.\nFound 1 error.\n",
+   "stderrTail": ""
+  },
+  {
+   "name": "ruff check（ALL 全部規則）",
+   "cmd": "ruff check --no-cache --isolated --select ALL --output-format concise src/django/django/db",
+   "times": [
+    0.08516464799998857,
+    0.08428677599999901,
+    0.08408721999998647
+   ],
+   "median": 0.08428677599999901,
+   "exit": 1,
+   "outputLines": 17818,
+   "stdoutHead": "src/django/django/db/__init__.py:1:1: CPY001 Missing copyright notice at top of file\nsrc/django/django/db/__init__.py:1:1: D104 Missing docstring in public package\nsrc/django/django/db/__init__.py:19:11: RUF022 [*] `__all__` is not sorted\nsrc/django/django/db/__init__.py:47:5: ANN201 Missing return type annotation for public function `reset_queries`\nsrc/django/django/db/__init__.py:47:5: D103 Missing docstring in public function\nsrc/django/django/db/__init__.py:47:19: ANN003 Missing type annotation for `**kwargs`\nsrc/django/django/db/__init__.py:47:21: ARG001 Unused function argument: `kwargs`\nsrc/django/django/db/__init__.py:57:5: ANN201 Missing return type annotation for public function `close_old_connections`\nsrc/django/django/db/__init__.py:57:5: D103 Missing docstring in public function\nsrc/django/django/db/__init__.py:57:27: ANN003 Missing type annotation for `**kwargs`\nsrc/django/django/db/__init__.py:57:29: ARG001 Unused function argument: `kwargs`\nsrc/django/django/db/backends/__init__.py:1:1: CPY001 Missing copyright notice at top of file\nsrc/django/django/db/backends/__init__.py:1:1: D104 Missing docstring in public package\nsrc/django/django/db/backends/base/__init__.py:1:1: CPY001 Missing copyright notice at top of file\nsrc/django/django/db/backends/base/__init__.py:1:1: D104 Missing docstring in public package\nsrc/django/django/db/backends/base/base.py:1:1: CPY001 Missing copyright notice at top of file\nsrc/django/django/db/backends/base/base.py:1:1: D100 Missing",
+   "stderrTail": "warning: `incorrect-blank-line-before-class` (D203) and `blank-line-before-class` (D211) are incompatible. Ignoring `incorrect-blank-line-before-class`.\nwarning: `multi-line-summary-first-line` (D212) and `multi-line-summary-second-line` (D213) are incompatible. Ignoring `multi-line-summary-second-line`.\n"
+  },
+  {
+   "name": "flake8（預設規則）",
+   "cmd": "flake8 --isolated src/django/django/db",
+   "times": [
+    1.4262411369999768,
+    1.4826274860000126,
+    1.6452824250000049
+   ],
+   "median": 1.4826274860000126,
+   "exit": 1,
+   "outputLines": 1756,
+   "stdoutHead": "src/django/django/db/backends/base/base.py:186:80: E501 line too long (85 > 79 characters)\nsrc/django/django/db/backends/base/base.py:197:80: E501 line too long (84 > 79 characters)\nsrc/django/django/db/backends/base/base.py:200:80: E501 line too long (87 > 79 characters)\nsrc/django/django/db/backends/base/base.py:211:80: E501 line too long (86 > 79 characters)\nsrc/django/django/db/backends/base/base.py:218:80: E501 line too long (83 > 79 characters)\nsrc/django/django/db/backends/base/base.py:231:80: E501 line too long (84 > 79 characters)\nsrc/django/django/db/backends/base/base.py:307:80: E501 line too long (80 > 79 characters)\nsrc/django/django/db/backends/base/base.py:447:80: E501 line too long (86 > 79 characters)\nsrc/django/django/db/backends/base/base.py:575:80: E501 line too long (81 > 79 characters)\nsrc/django/django/db/backends/base/base.py:644:80: E501 line too long (88 > 79 characters)\nsrc/django/django/db/backends/base/base.py:649:80: E501 line too long (87 > 79 characters)\nsrc/django/django/db/backends/base/base.py:710:80: E501 line too long (86 > 79 characters)\nsrc/django/django/db/backends/base/base.py:723:80: E501 line too long (88 > 79 characters)\nsrc/django/django/db/backends/base/base.py:745:80: E501 line too long (86 > 79 characters)\nsrc/django/django/db/backends/base/base.py:761:80: E501 line too long (83 > 79 characters)\nsrc/django/django/db/backends/base/creation.py:66:80: E501 line too long (82 > 79 characters)\nsrc/django/django/db/backends/base/creati",
+   "stderrTail": ""
+  },
+  {
+   "name": "pylint（預設規則）",
+   "cmd": "pylint --rcfile=/dev/null --jobs=0 --persistent=n src/django/django/db",
+   "times": [
+    32.83471366499998
+   ],
+   "median": 32.83471366499998,
+   "exit": 30,
+   "outputLines": 5918,
+   "stdoutHead": "************* Module django.db\nsrc/django/django/db/__init__.py:1:0: C0114: Missing module docstring (missing-module-docstring)\nsrc/django/django/db/__init__.py:47:0: C0116: Missing function or method docstring (missing-function-docstring)\nsrc/django/django/db/__init__.py:47:0: W0613: Unused argument 'kwargs' (unused-argument)\nsrc/django/django/db/__init__.py:57:0: C0116: Missing function or method docstring (missing-function-docstring)\nsrc/django/django/db/__init__.py:57:0: W0613: Unused argument 'kwargs' (unused-argument)\n************* Module django.db.transaction\nsrc/django/django/db/transaction.py:1:0: C0114: Missing module docstring (missing-module-docstring)\nsrc/django/django/db/transaction.py:20:4: W0107: Unnecessary pass statement (unnecessary-pass)\nsrc/django/django/db/transaction.py:53:0: C0116: Missing function or method docstring (missing-function-docstring)\nsrc/django/django/db/transaction.py:99:17: W0621: Redefining name 'rollback' from outer scope (line 48) (redefined-outer-name)\nsrc/django/django/db/transaction.py:190:30: W0621: Redefining name 'savepoint' from outer scope (line 53) (redefined-outer-name)\nsrc/django/django/db/transaction.py:259:23: E0606: Possibly using variable 'sid' before assignment (possibly-used-before-assignment)\nsrc/django/django/db/transaction.py:238:4: R0912: Too many branches (26/12) (too-many-branches)\nsrc/django/django/db/transaction.py:238:4: R0915: Too many statements (58/50) (too-many-statements)\nsrc/django/django/db/transaction",
+   "stderrTail": ""
+  }
+ ],
+ "format": [
+  {
+   "name": "ruff format",
+   "cmd": "ruff format --no-cache --isolated --quiet /tmp/tmpxoimqqze/ruff2",
+   "times": [
+    0.08216434700000264,
+    0.08090947700000584,
+    0.08011410499997851
+   ],
+   "median": 0.08090947700000584,
+   "exit": 0,
+   "outputLines": 0,
+   "stdoutHead": "",
+   "stderrTail": ""
+  },
+  {
+   "name": "black",
+   "cmd": "black --quiet /tmp/tmpxoimqqze/black2",
+   "times": [
+    7.654745014000014,
+    7.275715079000008,
+    7.482055391000017
+   ],
+   "median": 7.482055391000017,
+   "exit": 0,
+   "outputLines": 0,
+   "stdoutHead": "",
+   "stderrTail": ""
+  }
+ ],
+ "formatCompare": {
+  "identical": 868,
+  "different": 41,
+  "changedByEither": 41,
+  "differentFiles": [
+   "shortcuts.py",
+   "templatetags/i18n.py",
+   "contrib/admin/widgets.py",
+   "contrib/admin/options.py",
+   "contrib/auth/tokens.py",
+   "contrib/auth/forms.py",
+   "contrib/auth/management/__init__.py",
+   "contrib/contenttypes/fields.py",
+   "contrib/postgres/constraints.py",
+   "contrib/postgres/aggregates/general.py",
+   "contrib/humanize/templatetags/humanize.py",
+   "contrib/sessions/backends/db.py",
+   "contrib/gis/gdal/raster/source.py",
+   "contrib/gis/db/models/fields.py",
+   "http/request.py",
+   "test/client.py",
+   "test/testcases.py",
+   "test/runner.py",
+   "db/transaction.py",
+   "db/migrations/questioner.py",
+   "db/migrations/operations/models.py",
+   "db/models/query.py",
+   "db/models/base.py",
+   "db/models/sql/query.py",
+   "db/models/fields/related_descriptors.py",
+   "db/models/fields/__init__.py",
+   "db/backends/oracle/creation.py",
+   "db/backends/postgresql/introspection.py",
+   "core/validators.py",
+   "core/management/commands/inspectdb.py",
+   "core/management/commands/flush.py",
+   "core/management/commands/makemessages.py",
+   "core/checks/urls.py",
+   "core/checks/security/base.py",
+   "utils/functional.py",
+   "utils/version.py",
+   "forms/widgets.py",
+   "template/base.py",
+   "template/defaulttags.py",
+   "template/utils.py"
+  ],
+  "sampleDiff": {
+   "file": "shortcuts.py",
+   "diff": "--- /tmp/tmpxoimqqze/black2/shortcuts.py\t2026-11-26 23:26:19.662774385 +0000\n+++ /tmp/tmpxoimqqze/ruff2/shortcuts.py\t2026-11-26 23:27:36.401645849 +0000\n@@ -104,8 +104,7 @@\n         raise Http404(\n             # Translators: %s is the name of a model, e.g. \"No City matches the\n             # given query.\"\n-            _(\"No %s matches the given query.\")\n-            % queryset.model._meta.object_name\n+            _(\"No %s matches the given query.\") % queryset.model._meta.object_name\n         )\n \n \n"
+  }
+ }
+}

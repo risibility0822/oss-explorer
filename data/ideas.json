@@ -118,5 +118,45 @@
   "effort": "一個月",
   "value": "做成 SaaS 外掛，依店家訂單量計價",
   "starred": false
+ },
+ {
+  "id": "ep-004-1",
+  "episode": "ep-004",
+  "no": 4,
+  "title": "FastAPI 專案的開工模板",
+  "pitch": "把 Ruff 規則、存檔前自動檢查、GitHub 上的自動檢查一次設好，做成 FastAPI 新專案的模板，新同事第一天就有一樣的標準。",
+  "effort": "一個週末",
+  "value": "自己接案省時間；也能當付費模板或課程附件",
+  "starred": false
+ },
+ {
+  "id": "ep-004-2",
+  "episode": "ep-004",
+  "no": 4,
+  "title": "給 AI 寫的程式加一道自動修正",
+  "pitch": "AI 助手每次改完 Python 檔就自動跑一次 ruff check --fix 和 ruff format，review 時只看真正的改動，不看空白和 import。",
+  "effort": "一個週末",
+  "value": "少看雜訊、少來回；Ruff 0.06 秒跑完，不會拖慢 AI",
+  "starred": false
+ },
+ {
+  "id": "ep-004-3",
+  "episode": "ep-004",
+  "no": 4,
+  "title": "中文 Python 健檢網頁",
+  "pitch": "把本集 Demo 加上完整的中文規則說明，給程式課學生自己貼程式檢查；全部在瀏覽器跑，學生的作業不會上傳。",
+  "effort": "一個月",
+  "value": "賣給台灣的程式補習班、大學課程當教學工具",
+  "starred": false
+ },
+ {
+  "id": "ep-004-4",
+  "episode": "ep-004",
+  "no": 4,
+  "title": "Mac 選單列的一鍵排版",
+  "pitch": "Mac 選單列小工具：複製一段 Python，按快捷鍵就用內建的 Ruff 排好、放回剪貼簿，貼到 Slack 或筆記前先整理乾淨。",
+  "effort": "一個週末",
+  "value": "小額買斷的 Mac App；MIT 授權可以把 Ruff 一起包進 app",
+  "starred": false
  }
 ]

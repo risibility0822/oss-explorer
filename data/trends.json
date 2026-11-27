@@ -1,93 +1,159 @@
 {
- "updatedAt": "2026-11-26T15:03:15+08:00",
+ "updatedAt": "2026-11-27T07:25:09+08:00",
  "public": {
   "TW": {
    "source": {
     "name": "Google Trends 台灣每日熱搜",
     "url": "https://trends.google.com/trending?geo=TW",
-    "fetchedAt": "2026-11-26T15:03:15+08:00",
-    "via": "WebFetch 存檔（shell 連不到：URLError）"
+    "fetchedAt": "2026-11-27T07:25:09+08:00",
+    "via": "RSS"
    },
    "items": [
     {
-     "title": "006208 分割",
-     "traffic": "1000+",
-     "pubDate": "Wed, 25 Nov 2026 22:40:00 -0800",
-     "news": [],
-     "n": 1000,
-     "stock": true
+     "title": "股票",
+     "traffic": "2000+",
+     "pubDate": "Thu, 26 Nov 2026 14:40:00 -0800",
+     "news": [
+      {
+       "title": "馬斯克宣布送全美兒童2股SpaceX股票 估值近180億美元",
+       "url": "https://www.rti.org.tw/news?uid=3&pid=1053825",
+       "source": "Rti 中央廣播電臺"
+      },
+      {
+       "title": "馬斯克宣布贈全美孩子2股SpaceX股票 網友嗨喊：謝謝太空爸爸",
+       "url": "https://stock.ltn.com.tw/article/jqkx0zwhlext",
+       "source": "自由時報"
+      }
+     ],
+     "n": 2000,
+     "stock": false
     },
     {
-     "title": "伺服器",
+     "title": "今天天氣",
      "traffic": "1000+",
-     "pubDate": "Wed, 25 Nov 2026 22:10:00 -0800",
-     "news": [],
+     "pubDate": "Thu, 26 Nov 2026 14:20:00 -0800",
+     "news": [
+      {
+       "title": "20261126 公視AI手語天氣報導 ｜華南雲雨區影響 各地降雨機率高 ｜ 公視新聞 PNN",
+       "url": "https://news.pts.org.tw/video/23443",
+       "source": "公視新聞"
+      },
+      {
+       "title": "未來1周溫度震盪各地晴朗 粉專：12月初暫無強冷空氣南侵台灣的訊號",
+       "url": "https://money.udn.com/money/story/122328/9904907",
+       "source": "經濟日報"
+      }
+     ],
      "n": 1000,
      "stock": false
     },
     {
-     "title": "2408",
+     "title": "營業額",
      "traffic": "500+",
-     "pubDate": "Wed, 25 Nov 2026 22:40:00 -0800",
+     "pubDate": "Thu, 26 Nov 2026 14:30:00 -0800",
      "news": [],
      "n": 500,
-     "stock": true
-    },
-    {
-     "title": "6213",
-     "traffic": "500+",
-     "pubDate": "Wed, 25 Nov 2026 22:20:00 -0800",
-     "news": [],
-     "n": 500,
-     "stock": true
-    },
-    {
-     "title": "3026",
-     "traffic": "200+",
-     "pubDate": "Wed, 25 Nov 2026 22:30:00 -0800",
-     "news": [],
-     "n": 200,
-     "stock": true
-    },
-    {
-     "title": "3008",
-     "traffic": "200+",
-     "pubDate": "Wed, 25 Nov 2026 22:30:00 -0800",
-     "news": [],
-     "n": 200,
-     "stock": true
-    },
-    {
-     "title": "3231",
-     "traffic": "200+",
-     "pubDate": "Wed, 25 Nov 2026 22:10:00 -0800",
-     "news": [],
-     "n": 200,
-     "stock": true
-    },
-    {
-     "title": "2492",
-     "traffic": "100+",
-     "pubDate": "Wed, 25 Nov 2026 22:30:00 -0800",
-     "news": [],
-     "n": 100,
-     "stock": true
-    },
-    {
-     "title": "人工智慧",
-     "traffic": "100+",
-     "pubDate": "Wed, 25 Nov 2026 22:30:00 -0800",
-     "news": [],
-     "n": 100,
      "stock": false
     },
     {
-     "title": "6285",
+     "title": "好市多黑五營業時間",
+     "traffic": "200+",
+     "pubDate": "Thu, 26 Nov 2026 15:10:00 -0800",
+     "news": [
+      {
+       "title": "好市多黑五買到心累！會員嘆「幾乎天天要跑」 原因超無奈",
+       "url": "https://tw.news.yahoo.com/%E5%A5%BD%E5%B8%82%E5%A4%9A%E9%BB%91%E4%BA%94%E8%B2%B7%E5%88%B0%E5%BF%83%E7%B4%AF-%E6%9C%83%E5%93%A1%E5%98%86-%E5%B9%BE%E4%B9%8E%E5%A4%A9%E5%A4%A9%E8%A6%81%E8%B7%91-%E5%8E%9F%E5%9B%A0%E8%B6%85%E7%84%A1%E5%A5%88-025300394.html",
+       "source": "Yahoo新聞"
+      },
+      {
+       "title": "好市多黑五購物模式變了！會員不再一次買足 背後原因曝光",
+       "url": "https://udn.com/news/story/7270/9902778",
+       "source": "UDN"
+      }
+     ],
+     "n": 200,
+     "stock": false
+    },
+    {
+     "title": "期貨",
+     "traffic": "200+",
+     "pubDate": "Thu, 26 Nov 2026 14:30:00 -0800",
+     "news": [],
+     "n": 200,
+     "stock": false
+    },
+    {
+     "title": "國民年金",
+     "traffic": "200+",
+     "pubDate": "Thu, 26 Nov 2026 14:20:00 -0800",
+     "news": [
+      {
+       "title": "明天刷存摺！勞保局4項給付同日入帳 勞保年金能領多少、勞退為何按季發？",
+       "url": "https://www.ctee.com.tw/news/20261126701367-430104",
+       "source": "工商時報"
+      },
+      {
+       "title": "快刷存摺！勞保局今天發紅包「每人最高領10萬元」逾時就充公，11 筆給付入帳時間一次看",
+       "url": "https://www.storm.mg/lifestyle/11185216",
+       "source": "Storm.mg"
+      }
+     ],
+     "n": 200,
+     "stock": false
+    },
+    {
+     "title": "血糖",
+     "traffic": "200+",
+     "pubDate": "Thu, 26 Nov 2026 14:20:00 -0800",
+     "news": [
+      {
+       "title": "不是少吃糖就好！「4習慣」養出高血糖 營養師：別白天不吃",
+       "url": "https://health.setn.com/news/1944834",
+       "source": "三立新聞"
+      },
+      {
+       "title": "31歲男吃完早餐就死了血糖飆破表醫嘆：都是吃出來的- 健康",
+       "url": "https://www.chinatimes.com/realtimenews/20261118003576-260418",
+       "source": "中時新聞網"
+      }
+     ],
+     "n": 200,
+     "stock": false
+    },
+    {
+     "title": "公職人員",
+     "traffic": "200+",
+     "pubDate": "Thu, 26 Nov 2026 14:10:00 -0800",
+     "news": [],
+     "n": 200,
+     "stock": false
+    },
+    {
+     "title": "陳珮騏",
+     "traffic": "200+",
+     "pubDate": "Thu, 26 Nov 2026 14:10:00 -0800",
+     "news": [
+      {
+       "title": "陳珮騏公開表態挺綠 認昔投給馬英九、柯文哲 坦言「曾被認知作戰影響」",
+       "url": "https://tw.yahoo.com/%E9%99%B3%E7%8F%AE%E9%A8%8F%E5%85%AC%E9%96%8B%E8%A1%A8%E6%85%8B%E6%8C%BA%E7%B6%A0-%E8%AA%8D%E6%98%94%E6%8A%95%E7%B5%A6%E9%A6%AC%E8%8B%B1%E4%B9%9D-%E6%9F%AF%E6%96%87%E5%93%B2-%E5%9D%A6%E8%A8%80-%E6%9B%BE%E8%A2%AB%E8%AA%8D%E7%9F%A5%E4%BD%9C%E6%88%B0%E5%BD%B1%E9%9F%BF-132725761.html",
+       "source": "Yahoo"
+      },
+      {
+       "title": "憂影響工作仍表態「票票入匭民進黨」　陳珮騏選前2天揭原因",
+       "url": "https://star.setn.com/news/1945565",
+       "source": "三立娛樂星聞"
+      }
+     ],
+     "n": 200,
+     "stock": false
+    },
+    {
+     "title": "通貨膨脹",
      "traffic": "100+",
-     "pubDate": "Wed, 25 Nov 2026 22:20:00 -0800",
+     "pubDate": "Thu, 26 Nov 2026 15:00:00 -0800",
      "news": [],
      "n": 100,
-     "stock": true
+     "stock": false
     }
    ]
   },
@@ -95,87 +161,197 @@
    "source": {
     "name": "Google Trends 美國每日熱搜",
     "url": "https://trends.google.com/trending?geo=US",
-    "fetchedAt": "2026-11-26T15:03:15+08:00",
-    "via": "WebFetch 存檔（shell 連不到：URLError）"
+    "fetchedAt": "2026-11-27T07:25:09+08:00",
+    "via": "RSS"
    },
    "items": [
     {
-     "title": "winter",
-     "traffic": "10000+",
-     "pubDate": "Wed, 25 Nov 2026 22:30:00 -0800",
-     "news": [],
-     "n": 10000,
-     "stock": false
-    },
-    {
-     "title": "moon",
-     "traffic": "5000+",
-     "pubDate": "Wed, 25 Nov 2026 22:20:00 -0800",
-     "news": [],
-     "n": 5000,
-     "stock": false
-    },
-    {
-     "title": "lion",
+     "title": "jeremiah trotter",
      "traffic": "1000+",
-     "pubDate": "Wed, 25 Nov 2026 22:30:00 -0800",
-     "news": [],
+     "pubDate": "Thu, 26 Nov 2026 15:10:00 -0800",
+     "news": [
+      {
+       "title": "The switch that flips for Jeremiah Trotter Jr. when he takes the field",
+       "url": "https://www.nbcsportsphiladelphia.com/nfl/philadelphia-eagles/jeremiah-trotter-jr-switch-linebacker-nfl-clemson-jihaad-campbell-zack-baun-cooper-dejean/769364/",
+       "source": "NBC Sports Philadelphia"
+      },
+      {
+       "title": "Top NFL LB List Backs Eagles’ Confidence In Jeremiah Trotter Jr.",
+       "url": "https://sports.yahoo.com/nfl/articles/top-nfl-lb-list-backs-184135611.html",
+       "source": "Yahoo Sports"
+      }
+     ],
      "n": 1000,
      "stock": false
     },
     {
-     "title": "ring",
+     "title": "ucla basketball",
+     "traffic": "1000+",
+     "pubDate": "Thu, 26 Nov 2026 15:10:00 -0800",
+     "news": [
+      {
+       "title": "Saint Mary's vs. UCLA - Live Score - November 26, 2026",
+       "url": "https://www.foxsports.com/college-basketball/rady-childrens-invitational-saint-marys-gaels-vs-ucla-bruins-nov-26-2026-game-boxscore-266094",
+       "source": "FOX Sports"
+      },
+      {
+       "title": "UCLA Men's Basketball: Saint Mary's Preview",
+       "url": "https://247sports.com/college/ucla/article/ucla-mens-basketball-saint-marys-preview-293316594/",
+       "source": "247Sports"
+      }
+     ],
+     "n": 1000,
+     "stock": false
+    },
+    {
+     "title": "netflix the body global number one",
+     "traffic": "1000+",
+     "pubDate": "Thu, 26 Nov 2026 15:00:00 -0800",
+     "news": [
+      {
+       "title": "A Little The Crucible. A Little The Craft. A Lot of Catholic Guilt.",
+       "url": "https://www.theatlantic.com/culture/2026/11/the-body-netflix-show-girlhood-catholicism/689595/",
+       "source": "The Atlantic"
+      },
+      {
+       "title": "‘The Body’ Rises to No. 1 on Netflix TV List in 2nd Week With 9.5 Million Views",
+       "url": "https://www.thewrap.com/creative-content/tv-shows/the-body-netflix-tv-ratings-second-week/",
+       "source": "TheWrap"
+      }
+     ],
+     "n": 1000,
+     "stock": false
+    },
+    {
+     "title": "zendaya",
+     "traffic": "1000+",
+     "pubDate": "Thu, 26 Nov 2026 14:40:00 -0800",
+     "news": [
+      {
+       "title": "Zendaya's Natural Teeth Message Wins Praise",
+       "url": "https://www.buzzfeed.com/leylamohammed/zendaya-natural-teeth-message-wins-praise-monet-mcmichael",
+       "source": "BuzzFeed"
+      },
+      {
+       "title": "Zendaya Praises Monet McMichael for Keeping Her Natural Teeth",
+       "url": "https://demokratis.co.id/en/zendaya-monet-natural-teeth-praise",
+       "source": "Demokratis.co.id"
+      }
+     ],
+     "n": 1000,
+     "stock": false
+    },
+    {
+     "title": "riq woolen",
      "traffic": "500+",
-     "pubDate": "Wed, 25 Nov 2026 22:20:00 -0800",
-     "news": [],
+     "pubDate": "Thu, 26 Nov 2026 15:10:00 -0800",
+     "news": [
+      {
+       "title": "Eagles' Riq Woolen benched after missed tackles vs. Steelers",
+       "url": "https://www.espn.com/nfl/story/_/id/50567158/eagles-riq-woolen-benched-missed-tackles-vs-steelers",
+       "source": "ESPN"
+      },
+      {
+       "title": "Riq Woolen ‘annoyed' by benching but happy for an Eagles win",
+       "url": "https://www.nbcsportsphiladelphia.com/nfl/philadelphia-eagles/riq-woolen-annoyed-frustrated-benched-steelers-jonathan-jones-secondary-cornerback/768885/",
+       "source": "NBC Sports Philadelphia"
+      }
+     ],
      "n": 500,
      "stock": false
     },
     {
-     "title": "medal",
+     "title": "alabama crimson tide football",
+     "traffic": "500+",
+     "pubDate": "Thu, 26 Nov 2026 15:00:00 -0800",
+     "news": [
+      {
+       "title": "Why Tennessee finally moved ahead of Alabama (and others) in latest CFP rankings",
+       "url": "https://247sports.com/college/tennessee/article/tennessee-vols-college-football-playoff-rankings-alabama-hunter-yurachek-293301951/",
+       "source": "247Sports"
+      },
+      {
+       "title": "Alabama’s CFP ranking finally changed. Here’s what triggered the drop",
+       "url": "https://www.usatoday.com/story/sports/ncaaf/sec/2026/11/24/alabama-football-cfp-ranking-drop-tennessee/92951199007/",
+       "source": "USA Today"
+      }
+     ],
+     "n": 500,
+     "stock": false
+    },
+    {
+     "title": "timothee chalamet",
+     "traffic": "500+",
+     "pubDate": "Thu, 26 Nov 2026 14:50:00 -0800",
+     "news": [
+      {
+       "title": "'Saturday Night Live' sets star-studded December lineup",
+       "url": "https://www.9news.com/article/entertainment/television/amanda-seyfried-robert-de-niro-timothee-chalamet-host-december-snl-episodes/73-26eaeedd-5fa2-4e60-ab01-5c0c50d888b1",
+       "source": "9News"
+      },
+      {
+       "title": "‘SNL’ Sets Timothée Chalamet and Robert De Niro as Final Hosts of 2026",
+       "url": "https://variety.com/2026/tv/news/snl-next-hosts-timothee-chalamet-robert-de-niro-1236956234/",
+       "source": "Variety"
+      }
+     ],
+     "n": 500,
+     "stock": false
+    },
+    {
+     "title": "new movies 2026",
      "traffic": "200+",
-     "pubDate": "Wed, 25 Nov 2026 22:40:00 -0800",
-     "news": [],
+     "pubDate": "Thu, 26 Nov 2026 15:00:00 -0800",
+     "news": [
+      {
+       "title": "Netflix’s Best New Christmas Movie Has A Near-Record Rotten Tomatoes Score",
+       "url": "https://www.forbes.com/sites/paultassi/2026/11/24/netflixs-best-new-christmas-movie-has-a-near-record-rotten-tomatoes-score/",
+       "source": "Forbes"
+      },
+      {
+       "title": "With ‘Guarding Stars,’ Jared Padalecki Finally Takes A Break From All That Action",
+       "url": "https://www.hollywoodreporter.com/movies/movie-features/jared-padalecki-guarding-stars-netflix-holiday-1236760738/",
+       "source": "The Hollywood Reporter"
+      }
+     ],
      "n": 200,
      "stock": false
     },
     {
-     "title": "gta6 leonida",
+     "title": "cruz azul vs leon",
      "traffic": "200+",
-     "pubDate": "Wed, 25 Nov 2026 22:30:00 -0800",
-     "news": [],
+     "pubDate": "Thu, 26 Nov 2026 14:50:00 -0800",
+     "news": [
+      {
+       "title": "León vs Cruz Azul: posibles alineaciones y probabilidades",
+       "url": "https://espndeportes.espn.com/futbol/mexico/nota/_/id/17557187/leon-vs-cruz-azul-alineaciones-cuartos-final-ida",
+       "source": "ESPN Deportes"
+      },
+      {
+       "title": "A qué hora y dónde ver el León vs. Cruz Azul de Cuartos de Final Ida",
+       "url": "https://www.tudn.com/futbol/liga-mx/leon-vs-cruz-azul-a-que-hora-y-donde-ver-el-partido-de-cuartos-de-final-ida-de-la-liga-mx-apertura-2026",
+       "source": "TUDN"
+      }
+     ],
      "n": 200,
      "stock": false
     },
     {
-     "title": "radio",
+     "title": "black friday tv deals 2026",
      "traffic": "200+",
-     "pubDate": "Wed, 25 Nov 2026 22:30:00 -0800",
-     "news": [],
-     "n": 200,
-     "stock": false
-    },
-    {
-     "title": "travel",
-     "traffic": "200+",
-     "pubDate": "Wed, 25 Nov 2026 22:30:00 -0800",
-     "news": [],
-     "n": 200,
-     "stock": false
-    },
-    {
-     "title": "home prices",
-     "traffic": "200+",
-     "pubDate": "Wed, 25 Nov 2026 22:30:00 -0800",
-     "news": [],
-     "n": 200,
-     "stock": false
-    },
-    {
-     "title": "robert downey jr",
-     "traffic": "200+",
-     "pubDate": "Wed, 25 Nov 2026 22:30:00 -0800",
-     "news": [],
+     "pubDate": "Thu, 26 Nov 2026 14:50:00 -0800",
+     "news": [
+      {
+       "title": "17 best Black Friday TV deals 2026: OLED TVs start at $799",
+       "url": "https://mashable.com/tech/best-black-friday-tv-deals-2026",
+       "source": "Mashable"
+      },
+      {
+       "title": "Black Friday Deals 2026 Live: Sales, Price Drops, Sellouts",
+       "url": "https://www.cnet.com/news-live/black-friday-deals-live-blog-2026-11-26/",
+       "source": "CNET"
+      }
+     ],
      "n": 200,
      "stock": false
     }
@@ -183,17 +359,131 @@
   }
  },
  "dev": {
+  "hn": {
+   "source": {
+    "name": "Hacker News 首頁",
+    "url": "https://news.ycombinator.com/",
+    "fetchedAt": "2026-11-27T07:25:15+08:00"
+   },
+   "items": [
+    {
+     "title": "AI made self-hosting fun again",
+     "url": "https://news.ycombinator.com/item?id=50660180",
+     "link": "https://janlukas.blog/posts/ai-self-hosting",
+     "score": 122,
+     "comments": 72
+    },
+    {
+     "title": "Kamil Khan Mumtaz: Pakistani architect, admired at home, almost invisible abroad",
+     "url": "https://news.ycombinator.com/item?id=50659841",
+     "link": "https://worksinprogress.co/issue/the-greatest-architect-youve-never-heard-of-is-in-pakistan/",
+     "score": 177,
+     "comments": 30
+    },
+    {
+     "title": "AMD-specific fork of llama.cpp",
+     "url": "https://news.ycombinator.com/item?id=50657265",
+     "link": "https://devnull.land/amd-specific-llama-cpp",
+     "score": 257,
+     "comments": 63
+    },
+    {
+     "title": "YouTube Ad Punisher – Auto-reloads YouTube pages when an ad plays",
+     "url": "https://news.ycombinator.com/item?id=50657530",
+     "link": "https://github.com/antonpictures/youtube-punisher",
+     "score": 210,
+     "comments": 293
+    },
+    {
+     "title": "CTO of 'RansomwareHelp' Indicted for Wire Fraud",
+     "url": "https://news.ycombinator.com/item?id=50657645",
+     "link": "https://krebsonsecurity.com/2026/11/cto-of-ransomwarehelp-indicted-for-wire-fraud/",
+     "score": 177,
+     "comments": 82
+    },
+    {
+     "title": "Rvoip 0.5 the complete VoIP stack in Rust",
+     "url": "https://news.ycombinator.com/item?id=50658632",
+     "link": "https://github.com/eisenzopf/rvoip",
+     "score": 60,
+     "comments": 13
+    },
+    {
+     "title": "Intel One Mono font (2023)",
+     "url": "https://news.ycombinator.com/item?id=50653667",
+     "link": "https://github.com/intel/intel-one-mono",
+     "score": 447,
+     "comments": 234
+    },
+    {
+     "title": "Show HN: Olumino, a Markdown notes and spaced repetition app",
+     "url": "https://news.ycombinator.com/item?id=50651099",
+     "link": "https://olumino.app",
+     "score": 53,
+     "comments": 29
+    },
+    {
+     "title": "Top-cited AI scientists at four US companies compared",
+     "url": "https://news.ycombinator.com/item?id=50658910",
+     "link": "https://topcitedscientists.com/figures/ai-at-four-us-companies/",
+     "score": 18,
+     "comments": 11
+    },
+    {
+     "title": "George Whitesides, 1939-2026",
+     "url": "https://news.ycombinator.com/item?id=50657936",
+     "link": "https://www.science.org/content/blog-post/george-whitesides-1939-2026",
+     "score": 46,
+     "comments": 5
+    },
+    {
+     "title": "OpenAI may be in cost control mode",
+     "url": "https://news.ycombinator.com/item?id=50652527",
+     "link": "https://micjm.com/blog/openai-is-in-cost-control-mode/",
+     "score": 221,
+     "comments": 208
+    },
+    {
+     "title": "NormalScript: A perfectly normal scripting language",
+     "url": "https://news.ycombinator.com/item?id=50651430",
+     "link": "https://psychoscript.com/",
+     "score": 65,
+     "comments": 12
+    },
+    {
+     "title": "Google Will Make AI Agents Use Its MCP Servers. The Gmail One Can't Send Email",
+     "url": "https://news.ycombinator.com/item?id=50653477",
+     "link": "https://techstackups.com/articles/google-workspace-ai-agents-mcp/",
+     "score": 192,
+     "comments": 183
+    },
+    {
+     "title": "Show HN: Three Linux VMs in a browser tab, each running a different browser",
+     "url": "https://news.ycombinator.com/item?id=50656036",
+     "link": "https://michidk.github.io/sidebyside/",
+     "score": 104,
+     "comments": 26
+    },
+    {
+     "title": "Show HN: SimDrop – Running iOS simulators in the macOS Finder sidebar",
+     "url": "https://news.ycombinator.com/item?id=50657070",
+     "link": "https://github.com/rxliuli/sim-drop",
+     "score": 34,
+     "comments": 8
+    }
+   ]
+  },
   "github": {
    "source": {
-    "name": "GitHub 近 30 天新專案（2026-10-27 之後建立、依星數）",
-    "url": "https://github.com/search?q=created%3A%3E2026-10-27&s=stars&o=desc&type=repositories",
-    "fetchedAt": "2026-11-26T15:03:17+08:00"
+    "name": "GitHub 近 30 天新專案（2026-10-28 之後建立、依星數）",
+    "url": "https://github.com/search?q=created%3A%3E2026-10-28&s=stars&o=desc&type=repositories",
+    "fetchedAt": "2026-11-27T07:25:16+08:00"
    },
    "repos": [
     {
      "name": "storytold/craft-anything",
      "url": "https://github.com/storytold/craft-anything",
-     "stars": 43708,
+     "stars": 44116,
      "created": "2026-10-31",
      "lang": "Rust",
      "desc": "Craft Anything: understand how any software works, and craft your own.",
@@ -203,7 +493,7 @@
     {
      "name": "deepseek-ai/dsh-superagent-prototype",
      "url": "https://github.com/deepseek-ai/dsh-superagent-prototype",
-     "stars": 24614,
+     "stars": 24663,
      "created": "2026-10-31",
      "lang": "TypeScript",
      "desc": "Towards a More Autonomous Agent System",
@@ -213,7 +503,7 @@
     {
      "name": "heydamir/unslop",
      "url": "https://github.com/heydamir/unslop",
-     "stars": 21834,
+     "stars": 22202,
      "created": "2026-10-29",
      "lang": "JavaScript",
      "desc": "A Claude skill that turns vibecoded, AI-looking UI into a designed interface",
@@ -223,7 +513,7 @@
     {
      "name": "anefzaoui/misterdownloadmanager",
      "url": "https://github.com/anefzaoui/misterdownloadmanager",
-     "stars": 18269,
+     "stars": 18516,
      "created": "2026-10-29",
      "lang": "Rust",
      "desc": "misterdownloadmanager: The ultimate open-source, clean-room download manager written from scratch in pure Rust for Windows, Mac, and Linux",
@@ -242,7 +532,7 @@
     {
      "name": "libracoder/kiri",
      "url": "https://github.com/libracoder/kiri",
-     "stars": 13531,
+     "stars": 13815,
      "created": "2026-11-02",
      "lang": "Rust",
      "desc": "A small, fast container runtime for macOS, Windows and Linux with free Ngrok alternative",
@@ -260,7 +550,7 @@
     {
      "name": "JuneYaooo/rea-video",
      "url": "https://github.com/JuneYaooo/rea-video",
-     "stars": 13473,
+     "stars": 13670,
      "created": "2026-10-29",
      "lang": "Python",
      "desc": "Reverse-engineer any video, shot by shot: filmed, AI-generated or coded, and how to remake it. Breakdowns in the open VIDEO.md format. 逆向一切视",
@@ -279,7 +569,7 @@
     {
      "name": "Marvisak/VIctory",
      "url": "https://github.com/Marvisak/VIctory",
-     "stars": 12779,
+     "stars": 13330,
      "created": "2026-11-23",
      "lang": "Rust",
      "desc": "An attempt at running GTA VI on PC",
@@ -289,7 +579,7 @@
     {
      "name": "Minireel/HGhub",
      "url": "https://github.com/Minireel/HGhub",
-     "stars": 11961,
+     "stars": 12048,
      "created": "2026-11-03",
      "lang": "Rust",
      "desc": "Plug-in media player",
@@ -306,7 +596,7 @@
     {
      "name": "janestreet/agent_skills",
      "url": "https://github.com/janestreet/agent_skills",
-     "stars": 11861,
+     "stars": 11961,
      "created": "2026-11-03",
      "lang": null,
      "desc": "Agent skills",
@@ -316,7 +606,7 @@
     {
      "name": "zortos293/Lichii",
      "url": "https://github.com/zortos293/Lichii",
-     "stars": 10286,
+     "stars": 10326,
      "created": "2026-10-31",
      "lang": "C++",
      "desc": "VERY experimental Nintendo Switch 2 emulator",
@@ -324,9 +614,28 @@
      "delta7": null
     },
     {
+     "name": "erkamyaman/rust-anything",
+     "url": "https://github.com/erkamyaman/rust-anything",
+     "stars": 10195,
+     "created": "2026-11-16",
+     "lang": "Rust",
+     "desc": "Rewrite your app in Rust, piece by piece, checked against the original at every step. Works with TypeScript, JavaScript, Python, Go, Ruby, J",
+     "topics": [
+      "agent-skills",
+      "claude-code",
+      "cli",
+      "code-migration",
+      "codex",
+      "ffi",
+      "golang",
+      "java"
+     ],
+     "delta7": null
+    },
+    {
      "name": "wangzan101/Mika",
      "url": "https://github.com/wangzan101/Mika",
-     "stars": 10025,
+     "stars": 10076,
      "created": "2026-10-29",
      "lang": "Kotlin",
      "desc": "An on-device AI agent for Android that operates apps and the web to get things done for you.",
@@ -345,7 +654,7 @@
     {
      "name": "RoutineMiku/apkstart",
      "url": "https://github.com/RoutineMiku/apkstart",
-     "stars": 9888,
+     "stars": 9963,
      "created": "2026-10-29",
      "lang": "JavaScript",
      "desc": "Windows 上的安卓应用运行器：双击 APK 即装，应用以独立窗口与桌面图标运行，自持 QEMU 运行时",
@@ -362,28 +671,9 @@
      "delta7": null
     },
     {
-     "name": "erkamyaman/rust-anything",
-     "url": "https://github.com/erkamyaman/rust-anything",
-     "stars": 9729,
-     "created": "2026-11-16",
-     "lang": "Rust",
-     "desc": "Rewrite your whole app in Rust, one piece at a time, checked against the original's recorded behavior at every step. CLIs, HTTP servers and ",
-     "topics": [
-      "agent-skills",
-      "claude-code",
-      "cli",
-      "code-migration",
-      "codex",
-      "ffi",
-      "golang",
-      "java"
-     ],
-     "delta7": null
-    },
-    {
      "name": "patch-gg/pixelfx",
      "url": "https://github.com/patch-gg/pixelfx",
-     "stars": 9309,
+     "stars": 9412,
      "created": "2026-10-30",
      "lang": "JavaScript",
      "desc": "244 pixel art effects, every one a small piece of code. Plus a Claude Code skill to make your own.",
@@ -402,7 +692,7 @@
     {
      "name": "huami1314/GestaltX",
      "url": "https://github.com/huami1314/GestaltX",
-     "stars": 8975,
+     "stars": 9010,
      "created": "2026-11-09",
      "lang": "Swift",
      "desc": "An MobileGestalt editor for iOS 27.x, featuring region-code tweaks, device presets, backups.",
@@ -412,7 +702,7 @@
     {
      "name": "Lee-xeo/Claude-Cage",
      "url": "https://github.com/Lee-xeo/Claude-Cage",
-     "stars": 8634,
+     "stars": 8789,
      "created": "2026-10-31",
      "lang": "Go",
      "desc": "Cage：为 Claude 特化的轻量化虚拟机，彻底杜绝网络泄露。多平台适配，支持多账号管理、远程部署、移动端操控。",
@@ -422,7 +712,7 @@
     {
      "name": "xcl-dev/xcl",
      "url": "https://github.com/xcl-dev/xcl",
-     "stars": 8386,
+     "stars": 8600,
      "created": "2026-11-20",
      "lang": "Rust",
      "desc": "Xbox Series compatibility layer for Windows - runs console game code natively, reimplements the console system libraries and recompiles RDNA",
@@ -437,7 +727,7 @@
     {
      "name": "valentderah/totk-pc-recomp",
      "url": "https://github.com/valentderah/totk-pc-recomp",
-     "stars": 8309,
+     "stars": 8336,
      "created": "2026-10-29",
      "lang": "C",
      "desc": "Static recompilation of The Legend of Zelda: Tears of the Kingdom to native Windows and Linux x86-64, with a Vulkan renderer. Game files not",
@@ -453,7 +743,7 @@
     {
      "name": "mdiri-ai/SoduWork",
      "url": "https://github.com/mdiri-ai/SoduWork",
-     "stars": 8187,
+     "stars": 8234,
      "created": "2026-10-29",
      "lang": "JavaScript",
      "desc": "The AI-native engine for teams and their agents. Multi-harness, multi-agent, self-hosted.",
@@ -472,7 +762,7 @@
     {
      "name": "ersinkoc/phonebox",
      "url": "https://github.com/ersinkoc/phonebox",
-     "stars": 6630,
+     "stars": 7233,
      "created": "2026-11-07",
      "lang": "JavaScript",
      "desc": "Turn an old Android phone into a customizable desk panel and touch control deck for Windows, Linux and macOS. 124 widgets and 30 templates f",
@@ -491,7 +781,7 @@
     {
      "name": "KKKKhazix/agent-autoloop",
      "url": "https://github.com/KKKKhazix/agent-autoloop",
-     "stars": 6584,
+     "stars": 6644,
      "created": "2026-11-03",
      "lang": "TypeScript",
      "desc": "让你的命令行 Agent 在后台自己接活、自己跟进到底；平时不烦你，遇到拿不准的事才发卡片找你拍板。",
@@ -510,7 +800,7 @@
     {
      "name": "Eglantine-Community/Eglantine",
      "url": "https://github.com/Eglantine-Community/Eglantine",
-     "stars": 6247,
+     "stars": 6256,
      "created": "2026-10-29",
      "lang": "C++",
      "desc": "An experimental Switch 2 Emulator built for Windows, Linux and MacOS.",
@@ -523,9 +813,29 @@
      "delta7": null
     },
     {
+     "name": "4lwayz/portwatch-vi",
+     "url": "https://github.com/4lwayz/portwatch-vi",
+     "stars": 5711,
+     "created": "2026-11-21",
+     "lang": "JavaScript",
+     "desc": "Does GTA VI run on PC yet? A live tracker of community recompilation and emulation efforts, updated daily.",
+     "topics": [],
+     "delta7": null
+    },
+    {
+     "name": "Hut-hzf/ung220z-tool",
+     "url": "https://github.com/Hut-hzf/ung220z-tool",
+     "stars": 5498,
+     "created": "2026-11-15",
+     "lang": "Python",
+     "desc": "ung220z-tool 是一个针对 UNG220Z，另含中兴/烽火/华为/九联多厂商适配、固件指纹识别与分家族排障建议的一键凭据提取工具，仅限在你自己的设备上用于找回忘记的管理密码、迁移宽带配置或安全自查。",
+     "topics": [],
+     "delta7": null
+    },
+    {
      "name": "deepseek-ai/chat-demo",
      "url": "https://github.com/deepseek-ai/chat-demo",
-     "stars": 5463,
+     "stars": 5486,
      "created": "2026-11-12",
      "lang": "TypeScript",
      "desc": "Chat Demo",
@@ -535,10 +845,10 @@
     {
      "name": "expo/exact",
      "url": "https://github.com/expo/exact",
-     "stars": 5124,
+     "stars": 5182,
      "created": "2026-11-02",
      "lang": "Rust",
-     "desc": "Write an app once. It runs natively on the web, macOS, iOS, and Linux, and an AI agent can build it, run it, see it, and test it on every on",
+     "desc": "Agent Native, Rust based, high performance way to build apps on web, iOS, macOS, Android, Linux and other platforms. ",
      "topics": [
       "ai-agents",
       "appkit",
@@ -552,9 +862,19 @@
      "delta7": null
     },
     {
+     "name": "mromidev/claude-animated-shorts",
+     "url": "https://github.com/mromidev/claude-animated-shorts",
+     "stars": 5089,
+     "created": "2026-11-01",
+     "lang": "TypeScript",
+     "desc": "Free Claude skill: viral animated story shorts (2D characters in a 3D world) with three.js + Remotion",
+     "topics": [],
+     "delta7": null
+    },
+    {
      "name": "BryceYuuu/RUN",
      "url": "https://github.com/BryceYuuu/RUN",
-     "stars": 5067,
+     "stars": 5076,
      "created": "2026-10-29",
      "lang": "Python",
      "desc": "RUN · 润：中国护照持有人的海外移居手册。欧洲 36 国 110 条移民路线 + 13 个主要移民地区：数字游民签证、欧盟蓝卡、技术移民、留学转工作、创业自雇、投资居留，每条附官方来源，持续更新。",
@@ -571,9 +891,36 @@
      "delta7": null
     },
     {
+     "name": "simplexai-labs/linger",
+     "url": "https://github.com/simplexai-labs/linger",
+     "stars": 4872,
+     "created": "2026-11-10",
+     "lang": "TypeScript",
+     "desc": "Linger is An Open-Source Personal Agent That Runs Fully on Your PC.  We aim to break Big Tech’s grip on AI by bringing powerful local AI to ",
+     "topics": [
+      "agent-teams",
+      "local-llm",
+      "memory",
+      "personal-agent",
+      "proactive-agent",
+      "proactive-ai"
+     ],
+     "delta7": null
+    },
+    {
+     "name": "JenkinWoo/sheeridVerify",
+     "url": "https://github.com/JenkinWoo/sheeridVerify",
+     "stars": 4512,
+     "created": "2026-11-06",
+     "lang": "JavaScript",
+     "desc": "",
+     "topics": [],
+     "delta7": null
+    },
+    {
      "name": "XinaTian/MROffice",
      "url": "https://github.com/XinaTian/MROffice",
-     "stars": 5053,
+     "stars": 4440,
      "created": "2026-11-10",
      "lang": "TypeScript",
      "desc": "MR Office — the open-source editors of the AI office suite closest to Microsoft Office: documents, spreadsheets, presentations, PDF and code",
@@ -590,66 +937,9 @@
      "delta7": null
     },
     {
-     "name": "Hut-hzf/ung220z-tool",
-     "url": "https://github.com/Hut-hzf/ung220z-tool",
-     "stars": 5035,
-     "created": "2026-11-15",
-     "lang": "Python",
-     "desc": "ung220z-tool 是一个针对 UNG220Z，另含中兴/烽火/华为/九联多厂商适配、固件指纹识别与分家族排障建议的一键凭据提取工具，仅限在你自己的设备上用于找回忘记的管理密码、迁移宽带配置或安全自查。",
-     "topics": [],
-     "delta7": null
-    },
-    {
-     "name": "mromidev/claude-animated-shorts",
-     "url": "https://github.com/mromidev/claude-animated-shorts",
-     "stars": 4983,
-     "created": "2026-11-01",
-     "lang": "TypeScript",
-     "desc": "Free Claude skill: viral animated story shorts (2D characters in a 3D world) with three.js + Remotion",
-     "topics": [],
-     "delta7": null
-    },
-    {
-     "name": "simplexai-labs/linger",
-     "url": "https://github.com/simplexai-labs/linger",
-     "stars": 4740,
-     "created": "2026-11-10",
-     "lang": "TypeScript",
-     "desc": "Linger is An Open-Source Personal Agent That Runs Fully on Your PC.  We aim to break Big Tech’s grip on AI by bringing powerful local AI to ",
-     "topics": [
-      "agent-teams",
-      "local-llm",
-      "memory",
-      "personal-agent",
-      "proactive-agent",
-      "proactive-ai"
-     ],
-     "delta7": null
-    },
-    {
-     "name": "4lwayz/portwatch-vi",
-     "url": "https://github.com/4lwayz/portwatch-vi",
-     "stars": 4525,
-     "created": "2026-11-21",
-     "lang": "JavaScript",
-     "desc": "Does GTA VI run on PC yet? A live tracker of community recompilation and emulation efforts, updated daily.",
-     "topics": [],
-     "delta7": null
-    },
-    {
-     "name": "JenkinWoo/sheeridVerify",
-     "url": "https://github.com/JenkinWoo/sheeridVerify",
-     "stars": 4479,
-     "created": "2026-11-06",
-     "lang": "JavaScript",
-     "desc": "",
-     "topics": [],
-     "delta7": null
-    },
-    {
      "name": "tangerineturtle1/NX2navi",
      "url": "https://github.com/tangerineturtle1/NX2navi",
-     "stars": 4364,
+     "stars": 4361,
      "created": "2026-11-07",
      "lang": "C",
      "desc": "",
@@ -659,7 +949,7 @@
     {
      "name": "elvarofficial/teardown",
      "url": "https://github.com/elvarofficial/teardown",
-     "stars": 4191,
+     "stars": 4257,
      "created": "2026-10-30",
      "lang": "JavaScript",
      "desc": "A Claude Code skill that turns any machine into a 3D simulator you can take apart",
@@ -667,9 +957,19 @@
      "delta7": null
     },
     {
+     "name": "AFK-surf/xnulinux",
+     "url": "https://github.com/AFK-surf/xnulinux",
+     "stars": 4235,
+     "created": "2026-11-20",
+     "lang": "C",
+     "desc": "XNU as a loadable kernel module inside Linux (macOS personality for arm64 Linux)",
+     "topics": [],
+     "delta7": null
+    },
+    {
      "name": "EL4CTEO/fast-anything",
      "url": "https://github.com/EL4CTEO/fast-anything",
-     "stars": 4054,
+     "stars": 4221,
      "created": "2026-11-21",
      "lang": "Rust",
      "desc": "Don't rewrite it in Rust. Rewrite the 5% that's slow: profile Python, Node or Ruby apps, port the hot functions with your coding agent, prov",
@@ -686,19 +986,9 @@
      "delta7": null
     },
     {
-     "name": "AFK-surf/xnulinux",
-     "url": "https://github.com/AFK-surf/xnulinux",
-     "stars": 4026,
-     "created": "2026-11-20",
-     "lang": "C",
-     "desc": "XNU as a loadable kernel module inside Linux (macOS personality for arm64 Linux)",
-     "topics": [],
-     "delta7": null
-    },
-    {
      "name": "jhaizhou-ops/S2Arm",
      "url": "https://github.com/jhaizhou-ops/S2Arm",
-     "stars": 3939,
+     "stars": 3954,
      "created": "2026-11-08",
      "lang": "C#",
      "desc": "Run your own Switch games natively on iPhone, iPad and Mac: game code rewritten to ARM64, graphics direct to Metal, one app for the whole li",
@@ -717,7 +1007,7 @@
     {
      "name": "shanselman/gputaskman",
      "url": "https://github.com/shanselman/gputaskman",
-     "stars": 3839,
+     "stars": 3866,
      "created": "2026-11-03",
      "lang": "Python",
      "desc": "A GPU task manager for Windows, Linux, and WSL: per-process VRAM, GPU activity, and LLM model/KV-cache insights for NVIDIA, AMD, and Intel G",
@@ -727,7 +1017,7 @@
     {
      "name": "Verlintas/NOIR",
      "url": "https://github.com/Verlintas/NOIR",
-     "stars": 3729,
+     "stars": 3743,
      "created": "2026-10-31",
      "lang": "Kotlin",
      "desc": "手机隐私审计：用 adb 扫出 Android 应用的权限、上报端点与数据流向，并给出可回滚的处置。Desktop Android leak audit: permissions, endpoints, data flows, reversible fixes.",
@@ -746,7 +1036,7 @@
     {
      "name": "FrigadeHQ/yogurt",
      "url": "https://github.com/FrigadeHQ/yogurt",
-     "stars": 3577,
+     "stars": 3681,
      "created": "2026-11-10",
      "lang": "TypeScript",
      "desc": "Private AI meeting notes that stay on your computer. No meeting bot. Free and open source for Mac, Windows and Linux. An alternative to Gran",
@@ -765,7 +1055,7 @@
     {
      "name": "wquguru/cicada",
      "url": "https://github.com/wquguru/cicada",
-     "stars": 3355,
+     "stars": 3491,
      "created": "2026-11-01",
      "lang": "Swift",
      "desc": "知了 Cicada · 任何会议和直播的实时字幕、同声传译、AI 会议纪要，Mac、Windows、Linux、Android 免费开源。Live subtitles, interpreting and meeting notes for any call or stream, ",
@@ -820,6 +1110,10 @@
      "count": 3
     },
     {
+     "name": "ffi",
+     "count": 2
+    },
+    {
      "name": "ai-agent",
      "count": 2
     },
@@ -836,12 +1130,122 @@
      "count": 2
     },
     {
-     "name": "ffi",
-     "count": 2
-    },
-    {
      "name": "claude-code-plugin",
      "count": 2
+    }
+   ]
+  },
+  "hf": {
+   "source": {
+    "name": "Hugging Face 熱門模型",
+    "url": "https://huggingface.co/models?sort=trending",
+    "fetchedAt": "2026-11-27T07:25:16+08:00"
+   },
+   "models": [
+    {
+     "id": "thinkingmachines/Inkling-2-Mini",
+     "url": "https://huggingface.co/thinkingmachines/Inkling-2-Mini",
+     "likes": 6238,
+     "downloads": 96527,
+     "task": "image-text-to-text"
+    },
+    {
+     "id": "unsloth/Inkling-2-Mini-GGUF",
+     "url": "https://huggingface.co/unsloth/Inkling-2-Mini-GGUF",
+     "likes": 1491,
+     "downloads": 2445633,
+     "task": "image-text-to-text"
+    },
+    {
+     "id": "AtomicChat/Inkling-2-Mini-Uncensored-GGUF",
+     "url": "https://huggingface.co/AtomicChat/Inkling-2-Mini-Uncensored-GGUF",
+     "likes": 931,
+     "downloads": 762491,
+     "task": "image-text-to-text"
+    },
+    {
+     "id": "inworld/voice-isolator",
+     "url": "https://huggingface.co/inworld/voice-isolator",
+     "likes": 960,
+     "downloads": 15244,
+     "task": "audio-to-audio"
+    },
+    {
+     "id": "SulphurAI/Sulphur-3",
+     "url": "https://huggingface.co/SulphurAI/Sulphur-3",
+     "likes": 1211,
+     "downloads": 189735,
+     "task": null
+    },
+    {
+     "id": "prism-ml/Ternary-Bonsai-2.5-27B-GGUF",
+     "url": "https://huggingface.co/prism-ml/Ternary-Bonsai-2.5-27B-GGUF",
+     "likes": 514,
+     "downloads": 59366,
+     "task": "text-generation"
+    },
+    {
+     "id": "Lightricks/LTX-2.5",
+     "url": "https://huggingface.co/Lightricks/LTX-2.5",
+     "likes": 13587,
+     "downloads": 3041405,
+     "task": "image-to-video"
+    },
+    {
+     "id": "llamaindex/OCRia-nano-1",
+     "url": "https://huggingface.co/llamaindex/OCRia-nano-1",
+     "likes": 282,
+     "downloads": 126,
+     "task": "image-to-text"
+    },
+    {
+     "id": "apple/DepthPro2",
+     "url": "https://huggingface.co/apple/DepthPro2",
+     "likes": 1314,
+     "downloads": 0,
+     "task": "depth-estimation"
+    },
+    {
+     "id": "nvidia/Nemotron-Labs-Image-30B-A3B",
+     "url": "https://huggingface.co/nvidia/Nemotron-Labs-Image-30B-A3B",
+     "likes": 270,
+     "downloads": 218,
+     "task": "text-to-image"
+    },
+    {
+     "id": "inclusionAI/Ling-3.2-air",
+     "url": "https://huggingface.co/inclusionAI/Ling-3.2-air",
+     "likes": 267,
+     "downloads": 1467,
+     "task": null
+    },
+    {
+     "id": "strata-engine/Inkling-2-Mini-Strata",
+     "url": "https://huggingface.co/strata-engine/Inkling-2-Mini-Strata",
+     "likes": 229,
+     "downloads": 2965,
+     "task": "image-text-to-text"
+    },
+    {
+     "id": "nari-labs/Qwen3.8-27B-NariQ-GGUF",
+     "url": "https://huggingface.co/nari-labs/Qwen3.8-27B-NariQ-GGUF",
+     "likes": 212,
+     "downloads": 14337,
+     "task": "image-text-to-text"
+    },
+    {
+     "id": "Sentinel7/h3",
+     "url": "https://huggingface.co/Sentinel7/h3",
+     "likes": 2125,
+     "downloads": 0,
+     "task": null
+    },
+    {
+     "id": "harness-hub/Qwen3.8-27B-pi-adapted",
+     "url": "https://huggingface.co/harness-hub/Qwen3.8-27B-pi-adapted",
+     "likes": 1155,
+     "downloads": 3844,
+     "task": "image-text-to-text"
     }
    ]
   }
@@ -850,11 +1254,19 @@
   "repoStars": {
    "storytold/craft-anything": [
     [
+     "2026-11-27",
+     44116
+    ],
+    [
      "2026-11-26",
      43708
     ]
    ],
    "deepseek-ai/dsh-superagent-prototype": [
+    [
+     "2026-11-27",
+     24663
+    ],
     [
      "2026-11-26",
      24614
@@ -862,11 +1274,19 @@
    ],
    "heydamir/unslop": [
     [
+     "2026-11-27",
+     22202
+    ],
+    [
      "2026-11-26",
      21834
     ]
    ],
    "anefzaoui/misterdownloadmanager": [
+    [
+     "2026-11-27",
+     18516
+    ],
     [
      "2026-11-26",
      18269
@@ -874,11 +1294,19 @@
    ],
    "libracoder/kiri": [
     [
+     "2026-11-27",
+     13815
+    ],
+    [
      "2026-11-26",
      13531
     ]
    ],
    "JuneYaooo/rea-video": [
+    [
+     "2026-11-27",
+     13670
+    ],
     [
      "2026-11-26",
      13473
@@ -886,11 +1314,19 @@
    ],
    "Marvisak/VIctory": [
     [
+     "2026-11-27",
+     13330
+    ],
+    [
      "2026-11-26",
      12779
     ]
    ],
    "Minireel/HGhub": [
+    [
+     "2026-11-27",
+     12048
+    ],
     [
      "2026-11-26",
      11961
@@ -898,11 +1334,19 @@
    ],
    "janestreet/agent_skills": [
     [
+     "2026-11-27",
+     11961
+    ],
+    [
      "2026-11-26",
      11861
     ]
    ],
    "zortos293/Lichii": [
+    [
+     "2026-11-27",
+     10326
+    ],
     [
      "2026-11-26",
      10286
@@ -910,11 +1354,19 @@
    ],
    "wangzan101/Mika": [
     [
+     "2026-11-27",
+     10076
+    ],
+    [
      "2026-11-26",
      10025
     ]
    ],
    "RoutineMiku/apkstart": [
+    [
+     "2026-11-27",
+     9963
+    ],
     [
      "2026-11-26",
      9888
@@ -922,11 +1374,19 @@
    ],
    "erkamyaman/rust-anything": [
     [
+     "2026-11-27",
+     10195
+    ],
+    [
      "2026-11-26",
      9729
     ]
    ],
    "patch-gg/pixelfx": [
+    [
+     "2026-11-27",
+     9412
+    ],
     [
      "2026-11-26",
      9309
@@ -934,11 +1394,19 @@
    ],
    "huami1314/GestaltX": [
     [
+     "2026-11-27",
+     9010
+    ],
+    [
      "2026-11-26",
      8975
     ]
    ],
    "Lee-xeo/Claude-Cage": [
+    [
+     "2026-11-27",
+     8789
+    ],
     [
      "2026-11-26",
      8634
@@ -946,11 +1414,19 @@
    ],
    "xcl-dev/xcl": [
     [
+     "2026-11-27",
+     8600
+    ],
+    [
      "2026-11-26",
      8386
     ]
    ],
    "valentderah/totk-pc-recomp": [
+    [
+     "2026-11-27",
+     8336
+    ],
     [
      "2026-11-26",
      8309
@@ -958,11 +1434,19 @@
    ],
    "mdiri-ai/SoduWork": [
     [
+     "2026-11-27",
+     8234
+    ],
+    [
      "2026-11-26",
      8187
     ]
    ],
    "ersinkoc/phonebox": [
+    [
+     "2026-11-27",
+     7233
+    ],
     [
      "2026-11-26",
      6630
@@ -970,11 +1454,19 @@
    ],
    "KKKKhazix/agent-autoloop": [
     [
+     "2026-11-27",
+     6644
+    ],
+    [
      "2026-11-26",
      6584
     ]
    ],
    "Eglantine-Community/Eglantine": [
+    [
+     "2026-11-27",
+     6256
+    ],
     [
      "2026-11-26",
      6247
@@ -982,11 +1474,19 @@
    ],
    "deepseek-ai/chat-demo": [
     [
+     "2026-11-27",
+     5486
+    ],
+    [
      "2026-11-26",
      5463
     ]
    ],
    "expo/exact": [
+    [
+     "2026-11-27",
+     5182
+    ],
     [
      "2026-11-26",
      5124
@@ -994,11 +1494,19 @@
    ],
    "BryceYuuu/RUN": [
     [
+     "2026-11-27",
+     5076
+    ],
+    [
      "2026-11-26",
      5067
     ]
    ],
    "XinaTian/MROffice": [
+    [
+     "2026-11-27",
+     4440
+    ],
     [
      "2026-11-26",
      5053
@@ -1006,11 +1514,19 @@
    ],
    "Hut-hzf/ung220z-tool": [
     [
+     "2026-11-27",
+     5498
+    ],
+    [
      "2026-11-26",
      5035
     ]
    ],
    "mromidev/claude-animated-shorts": [
+    [
+     "2026-11-27",
+     5089
+    ],
     [
      "2026-11-26",
      4983
@@ -1018,11 +1534,19 @@
    ],
    "simplexai-labs/linger": [
     [
+     "2026-11-27",
+     4872
+    ],
+    [
      "2026-11-26",
      4740
     ]
    ],
    "4lwayz/portwatch-vi": [
+    [
+     "2026-11-27",
+     5711
+    ],
     [
      "2026-11-26",
      4525
@@ -1030,11 +1554,19 @@
    ],
    "JenkinWoo/sheeridVerify": [
     [
+     "2026-11-27",
+     4512
+    ],
+    [
      "2026-11-26",
      4479
     ]
    ],
    "tangerineturtle1/NX2navi": [
+    [
+     "2026-11-27",
+     4361
+    ],
     [
      "2026-11-26",
      4364
@@ -1042,11 +1574,19 @@
    ],
    "elvarofficial/teardown": [
     [
+     "2026-11-27",
+     4257
+    ],
+    [
      "2026-11-26",
      4191
     ]
    ],
    "EL4CTEO/fast-anything": [
+    [
+     "2026-11-27",
+     4221
+    ],
     [
      "2026-11-26",
      4054
@@ -1054,11 +1594,19 @@
    ],
    "AFK-surf/xnulinux": [
     [
+     "2026-11-27",
+     4235
+    ],
+    [
      "2026-11-26",
      4026
     ]
    ],
    "jhaizhou-ops/S2Arm": [
+    [
+     "2026-11-27",
+     3954
+    ],
     [
      "2026-11-26",
      3939
@@ -1066,11 +1614,19 @@
    ],
    "shanselman/gputaskman": [
     [
+     "2026-11-27",
+     3866
+    ],
+    [
      "2026-11-26",
      3839
     ]
    ],
    "Verlintas/NOIR": [
+    [
+     "2026-11-27",
+     3743
+    ],
     [
      "2026-11-26",
      3729
@@ -1078,11 +1634,19 @@
    ],
    "FrigadeHQ/yogurt": [
     [
+     "2026-11-27",
+     3681
+    ],
+    [
      "2026-11-26",
      3577
     ]
    ],
    "wquguru/cicada": [
+    [
+     "2026-11-27",
+     3491
+    ],
     [
      "2026-11-26",
      3355
@@ -1095,55 +1659,72 @@
    "source": {
     "name": "Bluesky 熱門話題",
     "url": "https://bsky.app/search",
-    "fetchedAt": "2026-11-26T15:03:15+08:00",
-    "via": "WebFetch 存檔（shell 連不到：URLError）"
+    "fetchedAt": "2026-11-27T07:25:10+08:00",
+    "via": "API"
    },
    "items": [
-    {
-     "title": "Duran Duran's Andy Taylor dies",
-     "url": "https://bsky.app/profile/did:plc:qrz3lhbyuxbeilrc6nekdqme/feed/73ecbcfa356a"
-    },
     {
      "title": "Thanksgiving Day celebrations",
      "url": "https://bsky.app/profile/did:plc:qrz3lhbyuxbeilrc6nekdqme/feed/b30e2b26d3d6"
     },
     {
-     "title": "Describe a film without its name",
-     "url": "https://bsky.app/profile/did:plc:qrz3lhbyuxbeilrc6nekdqme/feed/2727efa61393"
+     "title": "Birthday twin spectrum prompt",
+     "url": "https://bsky.app/profile/did:plc:qrz3lhbyuxbeilrc6nekdqme/feed/ff57499ceaf7"
+    },
+    {
+     "title": "Katie Miller car seat claim",
+     "url": "https://bsky.app/profile/did:plc:qrz3lhbyuxbeilrc6nekdqme/feed/7c265869e67d"
+    },
+    {
+     "title": "Grand Theft Auto VI",
+     "url": "https://bsky.app/profile/did:plc:qrz3lhbyuxbeilrc6nekdqme/feed/00fbbcfbde85"
     },
     {
      "title": "FCC approves SpaceX Starmind satellites",
      "url": "https://bsky.app/profile/did:plc:qrz3lhbyuxbeilrc6nekdqme/feed/f11581ca7486"
     },
     {
-     "title": "New Avengers: Doomsday poster",
-     "url": "https://bsky.app/profile/did:plc:qrz3lhbyuxbeilrc6nekdqme/feed/e8c214304f07"
+     "title": "Victoria votes in state election",
+     "url": "https://bsky.app/profile/did:plc:qrz3lhbyuxbeilrc6nekdqme/feed/7a0e0bdaea55"
     },
     {
-     "title": "Victorian Coalition plans sewage privatization",
-     "url": "https://bsky.app/profile/did:plc:qrz3lhbyuxbeilrc6nekdqme/feed/874f9208652c"
-    },
-    {
-     "title": "Trump floats Jensen Huang pardon",
-     "url": "https://bsky.app/profile/did:plc:qrz3lhbyuxbeilrc6nekdqme/feed/716f7ca460d4"
-    },
-    {
-     "title": "Macy's parade turns 100",
+     "title": "Macy's parade postponed to Saturday",
      "url": "https://bsky.app/profile/did:plc:qrz3lhbyuxbeilrc6nekdqme/feed/049763533cfe"
     },
     {
-     "title": "Poundland heads into administration",
-     "url": "https://bsky.app/profile/did:plc:qrz3lhbyuxbeilrc6nekdqme/feed/9101c0dc9b81"
+     "title": "Describe a film without its name",
+     "url": "https://bsky.app/profile/did:plc:qrz3lhbyuxbeilrc6nekdqme/feed/2727efa61393"
     },
     {
-     "title": "World tops 2C for six straight days",
-     "url": "https://bsky.app/profile/did:plc:qrz3lhbyuxbeilrc6nekdqme/feed/892aad2d4d59"
+     "title": "Nvidia chip exports to China",
+     "url": "https://bsky.app/profile/did:plc:qrz3lhbyuxbeilrc6nekdqme/feed/a4c1b75a716f"
+    },
+    {
+     "title": "Steven Universe actor comes out",
+     "url": "https://bsky.app/profile/did:plc:qrz3lhbyuxbeilrc6nekdqme/feed/ed444592f746"
+    },
+    {
+     "title": "Calls to release Epstein files",
+     "url": "https://bsky.app/profile/did:plc:qrz3lhbyuxbeilrc6nekdqme/feed/00d4241b94de"
+    },
+    {
+     "title": "Vance blames Obama for detonation",
+     "url": "https://bsky.app/profile/did:plc:qrz3lhbyuxbeilrc6nekdqme/feed/b986517c3ad5"
+    },
+    {
+     "title": "Doug Ford urges fighting home invaders",
+     "url": "https://bsky.app/profile/did:plc:qrz3lhbyuxbeilrc6nekdqme/feed/b110f123cf0f"
+    },
+    {
+     "title": "UK energy price cap to rise",
+     "url": "https://bsky.app/profile/did:plc:qrz3lhbyuxbeilrc6nekdqme/feed/0db48c069b2f"
+    },
+    {
+     "title": "Canned cranberry sauce",
+     "url": "https://bsky.app/profile/did:plc:qrz3lhbyuxbeilrc6nekdqme/feed/4754b557e1be"
     }
    ]
   }
  },
- "problems": [
-  "Hacker News 連不到：<urlopen error Tunnel connection failed: 403 Forbidden (agent proxy: no rule or network setting allows this host)>",
-  "Hugging Face 連不到：<urlopen error Tunnel connection failed: 403 Forbidden (agent proxy: no rule or network setting allows this host)>"
- ]
+ "problems": []
 }

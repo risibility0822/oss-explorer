@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>開源探索誌 #004｜Python 程式健檢，16 萬行 0.06 秒看完：比 flake8 快 66 倍（Ruff）</title>
+<meta name="description" content="Ruff 一個工具就能檢查 Python 程式的問題、自動修好、排整齊。實測 Django 16.6 萬行：檢查比 flake8 快 66 倍、排版比 Black 快 92 倍。">
+<meta property="og:title" content="開源探索誌 #004｜Python 程式健檢，16 萬行 0.06 秒看完：比 flake8 快 66 倍（Ruff）">
+<meta property="og:description" content="Ruff 一個工具就能檢查 Python 程式的問題、自動修好、排整齊。實測 Django 16.6 萬行：檢查比 flake8 快 66 倍、排版比 Black 快 92 倍。">
+<meta property="og:image" content="https://risibility0822.github.io/oss-explorer/ep-004-ruff/og.jpg">
+<meta property="og:url" content="https://risibility0822.github.io/oss-explorer/ep-004-ruff/">
+<meta property="og:type" content="article">
+<link rel="alternate" type="application/atom+xml" title="開源探索誌" href="../feed.xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<!-- 系列字型（固定）：Noto Serif TC（標題）＋Noto Sans TC（內文）＋Bricolage Grotesque（大數字）。Demo 需要特別字型可以再加一個 -->
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,800&family=Noto+Sans+TC:wght@400;600;700;800&family=Noto+Serif+TC:wght@700;800&family=Archivo:wght@900&family=Bodoni+Moda:ital,wght@0,400;1,400;1,500&display=swap" rel="stylesheet">
+<!-- 系列骨架（固定，不要覆寫）：版面、字型、30 秒看懂、發現、圖說、步驟圖、點子、深入區 -->
+<link rel="stylesheet" href="../assets/series.css">
+<style>
+/* ===== 本集設計 =====
+   SUBJECT: 寫程式的人每天看的「編輯器」：左邊行號、出問題的字底下一條紅色波浪線，像老師用紅筆批改作業。Ruff 做的就是批改＋幫你訂正＋把字寫整齊。
+   ACCENT:  Astral（Ruff 的公司）官網的深紫 #261230 與萊姆黃 #d7ff64。主題色用紫：亮色 #6a3fc0（文字 #5a32a8），暗色 #b79cff；萊姆黃只拿來標「剛被修好的那一行」。
+   MOTIF:   ① Demo 是一張「批改中的作業」：行號槽、紅色波浪底線、有問題的行號旁加一個 ● ② 修好的行用萊姆黃螢光筆塗底 ③ 每次檢查都顯示花了幾毫秒，數字用 Bricolage 大字。
+   ANSWER:  幫你的 Python 程式挑錯、訂正、排整齊，一眨眼就好。
+   CHECKED: 不用黑底螢光綠的「駭客終端機」（萊姆黃只當螢光筆、面積很小，程式區在亮色模式是白紙）；不用卡片牆；標題不單獨上色；等寬字只用在程式碼本身，規則代號用一般字型。
+   ===== */
+:root{
+  --accent:light-dark(#6a3fc0,#b79cff);
+  --accent-ink:light-dark(#5a32a8,#cbb8ff);
+  --accent-soft:light-dark(#efe9fb,#2d2540);
+  --stage:light-dark(#eeebf4,#221d2c);
+  --err:light-dark(#c92a2a,#ff8787); --lime:light-dark(#e4ff8a,#4a5a12); --paper:light-dark(#ffffff,#2a2435);
+}
+/* ===== Demo：批改中的作業 ===== */
+#demo [hidden]{display:none!important}
+.demo-desk{background:var(--stage);border-radius:18px;padding:clamp(16px,2.4vw,24px)}
+.demo-bar{display:flex;flex-wrap:wrap;gap:8px 18px;align-items:center;margin:0 0 12px}
+.demo-group{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.demo-group>span{font-size:14px;color:var(--mute);margin-right:2px}
+.demo-group .btn{min-height:44px;font-size:15px}
+.demo-group .btn[aria-pressed="true"]{background:var(--accent);color:var(--bg);border-color:var(--accent)}
+.demo-grid{display:grid;grid-template-columns:minmax(0,6fr) minmax(0,5fr);gap:clamp(10px,2vw,20px)}
+@media(max-width:820px){.demo-grid{grid-template-columns:minmax(0,1fr)}}
+.demo-panel{background:var(--bg);border-radius:12px;padding-top:12px;padding-bottom:12px;padding-left:12px;padding-right:12px;min-width:0}
+.demo-stat{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 14px;margin:0 0 8px;font-size:15px;line-height:1.4;max-width:none}
+.demo-stat b{font-family:var(--disp);font-size:28px;font-variant-numeric:tabular-nums;font-weight:800}
+.demo-stat .bad b{color:var(--err)}
+.demo-stat .fast b{color:var(--accent-ink)}
+.demo-acts{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 10px}
+.demo-acts .btn{min-height:44px;font-size:15px}
+.demo-acts .btn.go{background:var(--accent);color:var(--bg);border-color:var(--accent);font-weight:700}
+.demo-msg{font-size:14px;line-height:1.5;color:var(--mute);margin:0 0 8px;min-height:1.5em;max-width:none}
+/* 作業紙：行號槽＋波浪底線 */
+#demoView{position:relative;font-family:var(--mono);font-size:13.5px;line-height:1.6;background:var(--paper);border:1px solid var(--line);border-radius:8px;max-height:330px;overflow:auto;padding-top:6px;padding-bottom:6px}
+@media(max-width:820px){#demoView{max-height:250px}}
+.demo-ln{display:grid;grid-template-columns:3.2em minmax(0,1fr);white-space:pre;min-width:max-content}
+.demo-ln .no{color:var(--mute);text-align:right;padding-right:10px;user-select:none;position:relative}
+.demo-ln.has .no{color:var(--err);font-weight:700}
+.demo-ln.has .no::before{content:"●";position:absolute;left:4px;font-size:10px;top:1px}
+.demo-ln code{font-family:inherit;padding-right:12px}
+.demo-ln u{text-decoration:underline wavy var(--err);text-decoration-thickness:1.5px;text-underline-offset:3px;text-decoration-skip-ink:none}
+.demo-ln.fixed code{background:var(--lime)}
+.demo-ln.flash{outline:2px solid var(--accent);outline-offset:-2px}
+/* 問題清單 */
+#demoList{list-style:none;margin:10px 0 0;padding:0;max-height:220px;overflow:auto;font-size:15px}
+@media(max-width:820px){#demoList{max-height:200px}}
+#demoList li{border-top:1px solid var(--line)}
+#demoList button{all:unset;box-sizing:border-box;display:grid;grid-template-columns:4.6em minmax(0,1fr);gap:2px 10px;width:100%;padding-top:8px;padding-bottom:8px;padding-left:4px;padding-right:4px;cursor:pointer;min-height:44px;line-height:1.45}
+#demoList button:focus-visible{outline:2px solid var(--accent)}
+#demoList button:hover{background:var(--accent-soft)}
+#demoList .code{font-weight:700;color:var(--err)}
+#demoList .where{font-size:13px;color:var(--mute)}
+#demoList .can{font-size:13px;color:var(--accent-ink);font-weight:600}
+#demoList .none{display:block;padding-top:10px;color:var(--mute)}
+.demo-in label{display:block;font-size:15px;font-weight:600;margin:0 0 6px}
+.demo-in label small{font-weight:400;color:var(--mute);font-size:14px}
+#demoSrc{width:100%;box-sizing:border-box;height:420px;font-family:var(--mono);font-size:13.5px;line-height:1.6;background:var(--paper);color:var(--ink);border:1px solid var(--line);border-radius:8px;padding-top:8px;padding-bottom:8px;padding-left:10px;padding-right:10px;resize:vertical;white-space:pre;overflow:auto;tab-size:4}
+@media(max-width:820px){#demoSrc{height:220px}}
+#demoSrc:focus-visible{outline:2px solid var(--accent)}
+/* 發現三：909 個檔一字不差的比例條 */
+.fx-stack{display:flex;height:28px;border-radius:6px;overflow:hidden;margin-top:14px}
+.fx-stack i{display:block;height:100%}
+.fx-stack .same{background:var(--accent)}
+.fx-stack .diff{background:var(--err);border-left:2px solid var(--bg)}
+.fx-key{display:flex;flex-wrap:wrap;gap:4px 16px;font-size:14px;margin-top:6px}
+.fx-key b{font-family:var(--disp);font-variant-numeric:tabular-nums}
+.fx-tiny .t i{min-width:3px}
+.fx-tiny{grid-template-columns:minmax(0,5em) minmax(0,1fr) 4.8em}
+@media(max-width:520px){.demo-group .btn,.demo-acts .btn{font-size:14px;padding-left:10px;padding-right:10px}.demo-bar{gap:6px}.demo-group{flex-wrap:nowrap;overflow-x:auto;max-width:100%;padding-bottom:2px}.demo-group .btn{flex:0 0 auto}.demo-stat b{font-size:24px}}
+</style>
+<script>new MutationObserver(()=>{for(const c of document.querySelectorAll('.stack td:not([data-l])')){let i=0,p=c;while(p=p.previousElementSibling)i+=p.colSpan;c.dataset.l=c.closest('table').rows[0].cells[i]?.textContent||''}}).observe(document,{childList:true,subtree:true})</script>
+</head>
+<body>
+<header class="wrap mast-wrap" data-section="header" style="padding-top:clamp(24px,4vw,48px)">
+  <p class="spine">開源探索誌｜每集打開一個黑盒子</p>
+  <div class="mast"><p class="logo"><a href="../" aria-label="開源探索誌首頁"><small>開源探索誌</small>OSS <br>EXPLORER</a></p><p class="no">004</p><p class="meta">2026-11-27　<br>開發者工具　<br><a class="home" href="../">回首頁</a></p></div>
+  <div class="cover">
+    <div><h1>Python 程式健檢，16 萬行 0.06 秒看完</h1>
+    <p class="dek">Ruff 幫你的 Python 程式挑錯、訂正、排整齊，一眨眼就好。下面直接改程式，看它當場批改。</p>
+      <!-- 本集主角卡：填好 meta.json 後跑 `oss.py card` 自動插在這裡（名字、連結、星數、授權），不要手寫 --></div>
+    <!-- subject:start -->
+      <aside class="subject" aria-label="本集主角">
+        <p class="nm"><span class="lab">本集主角</span>Ruff</p><a class="open" href="https://github.com/astral-sh/ruff">看原始碼</a>
+        <p class="what">用 Rust 寫的 Python 程式檢查與排版工具</p>
+        <p class="facts"><span><b>★ 5.2 萬</b> GitHub 星</span><span>MIT：可免費商用，保留授權聲明即可</span></p>
+        <p class="src">astral-sh/ruff（星數 2026-11-27 查）</p>
+      </aside>
+      <!-- subject:end -->
+    <nav class="toc" aria-label="本集目錄"><p class="t">本集</p><ol><li><a href="#tldr"><i>01</i><span>30 秒看懂</span></a></li><li><a href="#how"><i>02</i><span>只讀一次程式，八百多條規則一起檢查</span></a></li><li><a href="#findings"><i>03</i><span>快 66 倍、規則全開還是快、排版跟最常用的 Black 幾乎一樣</span></a></li><li><a href="#ideas"><i>04</i><span>你可以拿它做什麼</span></a></li><li><a href="#deep"><i>05</i><span>想深入再展開</span></a></li></ol></nav>
+  </div>
+</header>
+
+<section class="wrap" data-section="demo" id="demo" aria-label="Demo：在瀏覽器裡用 Ruff 批改 Python 程式">
+  <div class="demo-desk">
+    <div class="demo-bar">
+      <div class="demo-group" role="group" aria-label="範例"><span>範例</span>
+        <button type="button" class="btn" data-sample="0" aria-pressed="true">FastAPI 小服務</button>
+        <button type="button" class="btn" data-sample="1" aria-pressed="false">資料整理腳本</button>
+        <button type="button" class="btn" data-sample="2" aria-pressed="false">排版很亂</button>
+      </div>
+      <div class="demo-group" role="group" aria-label="規則"><span>規則</span>
+        <button type="button" class="btn" data-rules="basic" aria-pressed="false">Ruff 預設</button>
+        <button type="button" class="btn" data-rules="more" aria-pressed="true">多開 7 組</button>
+      </div>
+    </div>
+    <div class="demo-grid">
+      <div class="demo-panel demo-out">
+        <p class="demo-stat" id="demoStat" aria-live="polite"><span>正在載入 Ruff（約 10 MB，第一次要幾秒到十幾秒）…</span></p>
+        <div class="demo-acts">
+          <button type="button" class="btn go" id="demoFix" disabled>一鍵修好</button>
+          <button type="button" class="btn" id="demoFmt" disabled>排整齊</button>
+          <button type="button" class="btn" id="demoReset" disabled>還原範例</button>
+        </div>
+        <p class="demo-msg" id="demoMsg">紅色波浪線是 Ruff 挑出的問題；點清單裡的一項，會跳到那一行。</p>
+        <div id="demoView" role="region" aria-label="Ruff 批改結果" tabindex="0"></div>
+        <ol id="demoList" aria-label="問題清單"></ol>
+      </div>
+      <div class="demo-panel demo-in">
+        <label for="demoSrc">你的程式 <small>（可以直接改，或貼上自己的；不會上傳）</small></label>
+        <textarea id="demoSrc" spellcheck="false" autocapitalize="off" autocomplete="off"></textarea>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="wrap tldr" data-section="tldr" id="tldr">
+  <div class="sec" aria-hidden="true"><i>01</i><em>Briefing</em></div>
+  <h2>30 秒看懂</h2>
+  <dl>
+    <dt>先說背景</dt><dd>寫 Python 的團隊通常會裝三四個工具：一個挑錯、一個整理檔案開頭的引用清單、一個統一排版，專案一大，每次存檔都要等好幾秒。</dd>
+    <dt>它是什麼</dt><dd>Ruff 是 Astral 公司用 <dfn>Rust</dfn><span class="gloss">（一種跑起來接近機器速度的程式語言）</span>寫的 <dfn>linter</dfn><span class="gloss">（程式健檢工具）</span>加 <dfn>formatter</dfn><span class="gloss">（排版工具）</span>，一個工具取代上面那些。</dd>
+    <dt>為什麼值得看</dt><dd>快到感覺不到：整個 <dfn>Django</dfn><span class="gloss">（很多網站在用的大型 Python 專案，約 16.6 萬行）</span>檢查只要 0.06 秒，比老牌檢查工具 flake8 快 66 倍。</dd>
+    <dt>要注意</dt><dd>它不檢查型別（例如把字串傳進要數字的地方），那要另外搭配別的工具。</dd>
+    <dt>最適合你的點子</dt><dd><a href="#ideas">讓 AI 助手每次改完 Python 都先跑一次 Ruff</a>，人工檢查時只看真正的改動。</dd>
+  </dl>
+</section>
+
+<section class="wrap" data-section="how" id="how">
+  <div class="sec" aria-hidden="true"><i>02</i><em>How it Works</em></div>
+  <h2>只讀一次程式，八百多條規則一起檢查</h2>
+  <figure class="mech">
+    <svg viewBox="0 0 440 640" role="img" aria-label="機制圖：你的 Python 程式交給 Ruff；Ruff 先把程式讀一次、拆成一棵語法樹；八百多條規則一起在同一棵樹上找問題，以前要三個工具各讀一次；每個問題附上改法，一鍵套用，排版也用同一棵樹；檔案多時同時開好幾條一起跑" id="mechSvg">
+      <defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="currentColor"/></marker></defs>
+      <g class="st" data-s="1">
+        <rect class="nd you" x="110" y="8" width="220" height="50" rx="8"/><text class="v" x="220" y="40" text-anchor="middle">你的 Python 程式</text>
+        <path class="e hero" d="M220 58V86" marker-end="url(#ah)"/>
+        <rect class="bnd" x="8" y="90" width="424" height="450" rx="12" fill="none" stroke="var(--line)" stroke-width="1.5"/>
+        <text class="lbl" x="24" y="116">Ruff</text><text class="lbl" x="232" y="80">交給它</text><text class="lbl" x="232" y="566">交回</text>
+        <path class="e hero" d="M220 540V578" marker-end="url(#ah)"/>
+        <rect class="nd you" x="70" y="582" width="300" height="50" rx="8"/><text class="v" x="220" y="614" text-anchor="middle">問題清單＋修好的程式</text>
+      </g>
+      <g class="only1" data-only="1"><text class="v" x="220" y="300" text-anchor="middle" style="font-size:40px">？</text><text class="sub" x="220" y="340" text-anchor="middle">中間先當成黑盒子</text></g>
+      <g class="st" data-s="2">
+        <rect class="nd" x="24" y="128" width="392" height="110" rx="8"/>
+        <text class="v" x="40" y="160">讀一次，拆成一棵樹</text>
+        <text class="sub" x="40" y="188">整段程式 → 一個個零件</text>
+        <circle cx="356" cy="152" r="7" fill="var(--accent)"/><circle cx="330" cy="196" r="7" fill="var(--accent)"/><circle cx="382" cy="196" r="7" fill="var(--accent)"/><circle cx="312" cy="226" r="6" fill="var(--accent)"/><circle cx="348" cy="226" r="6" fill="var(--accent)"/>
+        <path d="M356 159L330 189M356 159L382 189M330 203L312 220M330 203L348 220" stroke="var(--accent)" stroke-width="2" fill="none"/>
+        <text class="sub" x="40" y="222">語法樹：每個零件是一個節點</text>
+      </g>
+      <g class="st" data-s="3">
+        <path class="e" d="M220 238V266" marker-end="url(#ah)"/><text class="lbl" x="232" y="258">交給規則</text>
+        <rect class="nd key" x="24" y="270" width="392" height="122" rx="8"/>
+        <text class="sub" x="40" y="296">以前：3 個工具</text><rect x="40" y="306" width="44" height="30" rx="4" fill="none" stroke="var(--mute)" stroke-width="1.5"/><rect x="96" y="306" width="44" height="30" rx="4" fill="none" stroke="var(--mute)" stroke-width="1.5"/><rect x="152" y="306" width="44" height="30" rx="4" fill="none" stroke="var(--mute)" stroke-width="1.5"/><path d="M62 336v14M118 336v14M174 336v14" stroke="var(--mute)" stroke-width="2"/><circle cx="62" cy="356" r="6" fill="var(--mute)"/><circle cx="118" cy="356" r="6" fill="var(--mute)"/><circle cx="174" cy="356" r="6" fill="var(--mute)"/><text class="sub" x="40" y="384">各拆一次 ×3</text><path d="M220 284V384" stroke="var(--line)" stroke-width="1.5"/><text class="v" x="236" y="296">Ruff：拆一次</text><circle cx="330" cy="356" r="9" fill="var(--accent)"/><path d="M250 314L320 350M280 312L324 346M310 310L328 344M350 310L332 344M380 312L336 346M410 314L340 350" stroke="var(--accent)" stroke-width="2" fill="none"/><text class="sub" x="236" y="384">八百多條規則共用</text>
+      </g>
+      <g class="st" data-s="4">
+        <path class="e" d="M220 392V420" marker-end="url(#ah)"/><text class="lbl" x="232" y="412">附上改法</text>
+        <rect class="nd" x="24" y="424" width="392" height="104" rx="8"/>
+        <text class="v" x="40" y="456">一鍵訂正、排整齊</text>
+        <text class="sub" x="40" y="484">檔案多就同時開好幾條一起跑</text>
+        <path d="M300 492h96M300 502h96M300 512h96M300 482h96" stroke="var(--accent)" stroke-width="3" marker-end="url(#ah)"/>
+      </g>
+    </svg>
+    <div class="stepper">
+      <ol class="caps" id="mCaps">
+        <li data-n="1" data-of="4"><b class="h">幫你的 Python 程式挑錯、訂正、排整齊</b>這是你的程式和 Ruff 交回來的結果。中間先當黑盒子，按「下一步」打開。</li>
+        <li data-n="2" data-of="4"><b class="h">先把程式讀一次，拆成一棵樹</b>就像把句子拆成主詞、動詞：每一行、每個判斷、每個名字各是樹上的一個點，叫 <dfn>語法樹</dfn><span class="gloss">（程式的結構圖）</span>。</li>
+        <li data-n="3" data-of="4"><b class="h">八百多條規則一起看同一棵樹</b>以前每個工具各自讀檔、各自拆一次；Ruff 只拆一次，所有規則輪流在同一棵樹上找問題（例如引用了卻沒用到、多餘的寫法）。</li>
+        <li data-n="4" data-of="4"><b class="h">問題附上改法，一鍵套用</b>能自動修的問題會附「把第幾行第幾個字換成什麼」，排版也用同一棵樹；檔案多時同時開好幾條一起跑，所以快。</li>
+      </ol>
+      <div class="ctrl"><button type="button" id="mPrev">上一步</button><span class="pos" id="mPos" aria-live="polite">1 / 4</span><button type="button" id="mNext">下一步</button></div>
+    </div>
+    <figcaption>Ruff 快的關鍵是「只拆一次，所有規則共用」。</figcaption>
+  </figure>
+</section>
+
+<section class="wrap" data-section="findings" id="findings">
+  <div class="sec" aria-hidden="true"><i>03</i><em>Findings</em></div>
+  <h2>快 66 倍、規則全開還是快、排版跟最常用的 Black 幾乎一樣</h2>
+  <div class="finding">
+    <figure class="fig">
+      <div class="bars fx-tiny" role="img" aria-label="檢查整個 Django 的秒數：flake8 4.16 秒，Ruff 0.063 秒">
+        <span>flake8</span><span class="t"><i class="base" style="width:100%"></i></span><span class="v">4.16 秒</span>
+        <span>Ruff</span><span class="t"><i style="width:1.5%"></i></span><span class="v">0.063 秒</span>
+      </div>
+      <figcaption>同樣檢查 909 個檔，它花的時間不到 flake8 的 2%。</figcaption>
+    </figure>
+    <div><h3>檢查整個 Django：flake8 要 4 秒，Ruff 0.06 秒，快 66 倍</h3></div>
+  </div>
+  <div class="finding">
+    <figure class="fig">
+      <div class="bars fx-tiny" role="img" aria-label="檢查 django/db 資料夾的秒數：pylint 32.8 秒、flake8 1.48 秒、Ruff 開全部 813 條穩定規則 0.084 秒">
+        <span>pylint</span><span class="t"><i class="base" style="width:100%"></i></span><span class="v">32.8 秒</span>
+        <span>flake8</span><span class="t"><i class="base" style="width:4.5%"></i></span><span class="v">1.48 秒</span>
+        <span>Ruff 全開</span><span class="t"><i style="width:0.26%"></i></span><span class="v">0.084 秒</span>
+      </div>
+      <figcaption>Django 裡管資料庫的那一包（123 個檔）：Ruff 規則開最多，反而比只開預設的 flake8 還快 18 倍。</figcaption>
+    </figure>
+    <div><h3>813 條正式規則（不含試用中的）全開也只要 0.08 秒，規則最多的老工具 pylint 要 33 秒</h3></div>
+  </div>
+  <div class="finding">
+    <figure class="fig">
+      <div class="bars fx-tiny" role="img" aria-label="把整個 Django 排版一次的秒數：Black 7.48 秒、Ruff 0.081 秒">
+        <span>Black</span><span class="t"><i class="base" style="width:100%"></i></span><span class="v">7.48 秒</span>
+        <span>Ruff</span><span class="t"><i style="width:1.1%"></i></span><span class="v">0.081 秒</span>
+      </div>
+      <div class="fx-stack" role="img" aria-label="909 個檔案中，868 個兩邊排出來一字不差，41 個不同"><i class="same" style="width:95.5%"></i><i class="diff" style="width:4.5%"></i></div>
+      <div class="fx-key"><span><b>868</b> 個檔一字不差</span><span><b>41</b> 個有差（哪裡換行、很長的一段文字怎麼拆不同）</span></div>
+      <figcaption>換成 Ruff 排版，幾乎不會在專案裡製造新的改動：只有 4.5% 的檔案跟 Black 排得不一樣。</figcaption>
+    </figure>
+    <div><h3>排版比最常用的排版工具 Black 快 92 倍，95% 的檔案排得一字不差</h3></div>
+  </div>
+</section>
+
+<section class="wrap" data-section="ideas" id="ideas">
+  <div class="sec" aria-hidden="true"><i>04</i><em>Ideas</em></div>
+  <h2>你可以拿它做什麼</h2>
+  <div class="idea"><h3>Python 網站後台的開工模板<span class="effort">一個週末</span></h3><p>把 Ruff 規則、存檔前自動檢查、GitHub 上的自動檢查一次設好，做成 <dfn>FastAPI</dfn><span class="gloss">（很多人拿來寫網站後台的 Python 工具組）</span>新專案的模板，新同事第一天就有一樣的標準。</p></div>
+  <div class="idea"><h3>給 AI 寫的程式加一道自動修正<span class="effort">一個週末</span></h3><p>AI 助手每次改完 Python 檔就自動跑一次 Ruff 的檢查和排版，人工檢查時不再被空白和引用順序的改動淹沒。</p></div>
+  <div class="idea"><h3>中文 Python 健檢網頁<span class="effort">一個月</span></h3><p>把本集 Demo 加上完整的中文規則說明，給程式課學生自己貼程式檢查；全部在瀏覽器跑，學生的作業不會上傳。</p></div>
+  <div class="idea"><h3>Mac 選單列的一鍵排版<span class="effort">一個週末</span></h3><p>Mac 選單列小工具：複製一段 Python，按快捷鍵就用內建的 Ruff 排好、放回剪貼簿。</p></div>
+</section>
+
+<section class="wrap deep" id="deep" aria-label="深入">
+  <div class="sec" aria-hidden="true"><i>05</i><em>Deep Dive</em></div>
+  <h2>想深入再展開</h2>
+  <details data-section="run" id="run"><summary><b>實測紀錄</b><span>每個指令、版本、三次的秒數，以及 Demo 跟命令列的比對</span></summary><div class="body">
+    <p>2026-11-27（台灣時間）在雲端工作區實際執行（4 核 CPU、Python 3.11.18）。腳本與原始輸出在 <a href="https://github.com/risibility0822/oss-explorer/tree/main/ep-004-ruff/lab">lab/ 資料夾</a>，clone 下來就能重跑。</p>
+    <p>版本：ruff 0.17.6、flake8 7.5.0（pycodestyle 2.15.0、pyflakes 4.1.0）、black 26.10.1（編譯版）、pylint 4.1.4。對象：Django 主分支 f0e7bd9（2026-11-26），只算 <code>django/</code> 底下 909 個 .py 檔、166,481 行。Ruff 一律不用快取、不讀專案設定，Black 每次用全新的快取資料夾、在全新的副本上真的改寫檔案。</p>
+    <div class="scroll"><table class="stack">
+      <thead><tr><th>測試</th><th>指令重點</th><th>三次（秒）</th><th>中位數</th></tr></thead>
+      <tbody>
+        <tr><td>整個 django/</td><td>ruff check（E、F、W 三組）</td><td>0.063、0.061、0.065</td><td class="n">0.063</td></tr>
+        <tr><td>整個 django/</td><td>flake8（預設規則）</td><td>4.612、4.131、4.160</td><td class="n">4.160</td></tr>
+        <tr><td>django/db</td><td>ruff check（E、F、W 三組）</td><td>0.031、0.027、0.028</td><td class="n">0.028</td></tr>
+        <tr><td>django/db</td><td>ruff check --select ALL（813 條穩定規則）</td><td>0.085、0.084、0.084</td><td class="n">0.084</td></tr>
+        <tr><td>django/db</td><td>flake8（預設規則）</td><td>1.426、1.483、1.645</td><td class="n">1.483</td></tr>
+        <tr><td>django/db</td><td>pylint（4 核並行，只跑 1 次；結束碼 30 代表有找到問題，不是失敗）</td><td>32.835</td><td class="n">32.835</td></tr>
+        <tr><td>整個 django/</td><td>ruff format</td><td>0.082、0.081、0.080</td><td class="n">0.081</td></tr>
+        <tr><td>整個 django/</td><td>black</td><td>7.655、7.276、7.482</td><td class="n">7.482</td></tr>
+      </tbody></table></div>
+    <p>倍數用中位數算：4.160 ÷ 0.063 ≈ 66、32.835 ÷ 0.0843 ≈ 390、1.483 ÷ 0.0843 ≈ 18（0.0843 是未四捨五入的中位數 0.084287）、7.482 ÷ 0.081 ≈ 92。</p>
+    <p><b>要注意的不公平之處：</b>兩邊找到的問題數不一樣（flake8 輸出 4,394 行、Ruff 只有幾行），主因是 flake8 預設一行上限 79 字、Ruff 預設 88 字，而且 Ruff 的部分空白規則還在預覽版沒有預設啟用；所以這裡只比速度。Black 跟 Ruff 有差異的 41 個檔，範例是 <code>shortcuts.py</code>：Black 把一行 <code>_("…") % queryset.model._meta.object_name</code> 拆成兩行，Ruff 判斷塞得下、保留一行。</p>
+    <p><b>Demo 跟命令列比對（lab/parity.py）：</b>頁面用的是官方的 <code>@astral-sh/ruff-wasm-web</code> 0.17.6；「一鍵修好」是本集自己寫的（照位置從後往前套用、重疊的留到下一輪，最多 10 輪）。三個範例跟 <code>ruff check --fix --unsafe-fixes</code> 比：找到的問題、修好後的程式、剩下修不了的問題、<code>ruff format</code> 的結果，<b>3 個範例 4 項全部一致</b>。所以上面 Demo 的結果跟你在電腦上用命令列跑的一模一樣。</p>
+  </div></details>
+  <details data-section="start" id="start"><summary><b>五分鐘上手</b><span>裝好、檢查、修好、排版，四行指令（本集實測過）</span></summary><div class="body">
+    <div class="codehead"><span>在你的專案資料夾裡</span><button type="button" class="copybtn" data-copy="c1">複製</button></div>
+<pre id="c1">pip install ruff==0.17.6
+ruff check .                  # 只挑錯
+ruff check . --fix            # 安全的問題自動修
+ruff format .                 # 排版（跟 Black 幾乎一樣）</pre>
+    <div class="codehead"><span>pyproject.toml：多開本集 Demo 那 7 組規則</span><button type="button" class="copybtn" data-copy="c2">複製</button></div>
+<pre id="c2">[tool.ruff]
+line-length = 88
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "UP", "B", "SIM", "C4", "FAST"]</pre>
+    <p>不加 <code>--unsafe-fixes</code> 時，Ruff 只套用不會改變程式行為的修正；例如把 <code>tags: list = []</code> 改成 <code>None</code> 再補判斷式，屬於「不安全」的修正，要自己確認。</p>
+  </div></details>
+  <details data-section="limits" id="limits"><summary><b>授權、限制與替代品</b><span>MIT 可商用；不查型別；公司在 2026-03 宣布被 OpenAI 收購</span></summary><div class="body">
+    <p><b>授權：</b>MIT（以 repo 的 <a href="https://github.com/astral-sh/ruff/blob/main/LICENSE">LICENSE</a> 原文為準），可以免費商用、包進自己的 app。LICENSE 後半段列了 Ruff 改寫自哪些工具（autoflake、flake8 外掛等）以及它們的授權，散布時要把整份 LICENSE 一起附上（本集頁面附在 <a href="RUFF-LICENSE.txt">RUFF-LICENSE.txt</a>）。</p>
+    <p><b>公司：</b>Ruff 背後的 Astral（也做 uv、ty）在 2026-03-19 宣布被 OpenAI 收購，雙方都說工具會維持開源；授權不變，但之後的方向可能更貼近 Codex 這類 AI 寫程式的產品。</p>
+    <p><b>限制：</b>① <code>ruff rule --all</code> 列出 977 條規則：815 條穩定、145 條預覽（要另外開 preview）、17 條已移除；<code>--select ALL</code> 實際啟用 813 條（815 條穩定規則中有 2 條互相衝突、被自動忽略；lab/select-all-settings.txt）。② 不檢查型別，要配 mypy、pyright 或 ty；「自動修好」有些會改變程式行為。③ 不支援外掛，pylint 或 flake8 自訂的檢查要等官方改寫。④ 本集 Demo 為了示範，把不安全的修正也全部套用了，自己專案請先用預設的安全模式。⑤ 頁面的 Demo 要下載約 10 MB 的 WebAssembly。</p>
+    <div class="scroll"><table class="stack">
+      <thead><tr><th>工具</th><th>做什麼</th><th>跟 Ruff 比</th></tr></thead>
+      <tbody>
+        <tr><td>flake8</td><td>挑錯，靠外掛擴充</td><td>Ruff 內建它和多數熱門外掛的規則，快 66 倍（本集）</td></tr>
+        <tr><td>pylint</td><td>挑錯，規則最深</td><td>能做跨檔推理，Ruff 改寫了其中 115 條（20 條還在預覽）；慢很多</td></tr>
+        <tr><td>Black</td><td>排版</td><td>Ruff format 刻意模仿它，Django 上 95.5% 一字不差</td></tr>
+        <tr><td>isort</td><td>排 import</td><td>Ruff 的 I 規則取代</td></tr>
+        <tr><td>mypy、pyright、ty</td><td>檢查型別</td><td>Ruff 不做，要搭配</td></tr>
+      </tbody></table></div>
+  </div></details>
+  <details data-section="more" id="more"><summary><b>延伸探索與跨集組合</b><span>同一家公司的 uv、前端版的 Biome、跟第 3 集的組合</span></summary><div class="body">
+    <ul>
+      <li><a href="https://github.com/astral-sh/uv">uv</a>：同一家公司做的 Python 套件管理，也是用 Rust 換速度（Apache-2.0／MIT）。</li>
+      <li><a href="https://github.com/biomejs/biome">Biome</a>：JavaScript／TypeScript 世界的 Ruff，挑錯加排版（Apache-2.0）。</li>
+      <li><a href="https://play.ruff.rs/">Ruff 官方 Playground</a>：所有設定都能調的線上版。</li>
+      <li><b>跨集組合：</b><a href="../ep-003-headroom/">第 3 集 Headroom</a> 把工具吐給 AI 的 log 壓小；Ruff 則讓 AI 寫出來的程式先被自動訂正。兩個一起，等於 AI 寫程式時「讀進去的字少一點、交出來的程式乾淨一點」。</li>
+    </ul>
+  </div></details>
+  <details data-section="sources" id="sources"><summary><b>來源</b><span>10 筆，數字都標了取得日期</span></summary><div class="body"><ol class="src">
+    <li><a href="https://github.com/astral-sh/ruff">astral-sh/ruff</a>：51,571 顆星、2,796 個 fork、MIT、最後 commit 2026-11-26（GitHub 搜尋 API，2026-11-27 查詢）</li>
+    <li><a href="https://github.com/astral-sh/ruff/blob/main/LICENSE">Ruff LICENSE 原文</a>（2026-11-27 clone 確認）</li>
+    <li><a href="https://docs.astral.sh/ruff/rules/">Ruff 規則列表</a>；本集用 <code>ruff rule --all</code> 數出 977 條（815 穩定、145 預覽、17 已移除；lab/ruff-rules.json）</li>
+    <li><a href="https://docs.astral.sh/ruff/formatter/">Ruff Formatter 文件</a>（與 Black 的相容性）</li>
+    <li><a href="https://docs.astral.sh/ruff/faq/">Ruff FAQ</a>（與 flake8、isort、Black 的比較）</li>
+    <li><a href="https://www.npmjs.com/package/@astral-sh/ruff-wasm-web">@astral-sh/ruff-wasm-web 0.17.6</a>（npm，2026-11-19 發布）</li>
+    <li><a href="https://openai.com/index/openai-to-acquire-astral">OpenAI to acquire Astral</a>（2026-03-19）</li>
+    <li><a href="https://simonwillison.net/2026/Mar/19/openai-acquiring-astral/">Simon Willison：OpenAI acquiring Astral</a>（2026-03-19）</li>
+    <li><a href="https://github.com/django/django">django/django</a> 測試對象，commit f0e7bd9（2026-11-26）</li>
+    <li><a href="https://github.com/risibility0822/oss-explorer/tree/main/ep-004-ruff/lab">本集 lab/</a>：bench.py、bench.json、parity.py、parity.json</li>
+  </ol></div></details>
+</section>
+
+<footer class="wrap">
+  <p class="folio"><span><i>004</i>開源探索誌｜Ruff</span><span>每集打開一個黑盒子</span></p>
+  <p>本集由 Claude 自動選題、研究、實作，製作於 2026-11-27。</p>
+  <p><a href="https://github.com/risibility0822/oss-explorer/edit/main/feedback.md">幫這集評分或許願（feedback.md）</a>　<a href="../">回到開源探索誌首頁</a></p>
+</footer>
+<script src="ruff.bundle.js"></script>
+<script>
+{
+// 共用小工具：保留
+const esc=v=>String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+document.querySelectorAll("[data-copy]").forEach(b=>b.addEventListener("click",async()=>{
+  const t=document.getElementById(b.dataset.copy);if(!t)return;
+  try{await navigator.clipboard.writeText(t.textContent);b.textContent="已複製"}catch(e){b.textContent="請手動選取"}
+  setTimeout(()=>b.textContent="複製",1600)}));
+const openHash=()=>{const d=document.getElementById(location.hash.slice(1));if(d&&d.tagName==="DETAILS")d.open=true};
+addEventListener("hashchange",openHash);openHash();
+// 步驟圖
+{const $=id=>document.getElementById(id),groups=[...document.querySelectorAll("#mechSvg .st")],caps=[...document.querySelectorAll("#mCaps li")],N=caps.length;let step=1;
+ const go=k=>{step=Math.max(1,Math.min(N,k));groups.forEach(g=>{const s=+g.dataset.s;g.classList.toggle("off",s>step);g.classList.toggle("now",s===step&&step<N)});caps.forEach(li=>li.classList.toggle("on",+li.dataset.n===step));document.querySelectorAll("#mechSvg [data-only]").forEach(g=>g.style.display=+g.dataset.only===step?"":"none");$("mPos").textContent=`${step} / ${N}`;$("mPrev").disabled=step===1;$("mNext").disabled=step===N};
+ if(N){$("mPrev").addEventListener("click",()=>go(step-1));$("mNext").addEventListener("click",()=>go(step+1));go(1);window.__mech={go,get step(){return step}}}}
+// ===== 本集 Demo：瀏覽器裡的 Ruff =====
+const $=id=>document.getElementById(id);
+const SAMPLES=[
+`from fastapi import FastAPI, HTTPException
+import os, sys, json
+from typing import List, Optional, Dict
+
+app = FastAPI()
+ORDERS: Dict[str, dict] = {}
+
+
+@app.get("/orders")
+def list_orders(status: Optional[str] = None, tags: List[str] = []):
+    result = []
+    for id, order in ORDERS.items():
+        if status == None or order["status"] == status:
+            result.append(order)
+    print(f"回傳訂單")
+    return result
+
+
+@app.get("/orders/{order_id}")
+def get_order(order_id: str):
+    try:
+        return ORDERS[order_id]
+    except:
+        raise HTTPException(status_code=404, detail="找不到訂單")
+`,
+`import re
+import csv
+
+
+def load(path):
+    f = open(path, encoding="utf-8")
+    rows = [r for r in csv.reader(f)]
+    return rows
+
+
+def clean(rows):
+    seen = set()
+    out = []
+    for i in range(len(rows)):
+        name = rows[i][0].strip()
+        if not name in seen:
+            seen.add(name)
+            out.append(name)
+    total = len(out)
+    is_empty = lambda s: s == ""
+    if type(out) == list:
+        return [n for n in out if not is_empty(n)]
+`,
+`def  price_with_tax( price,rate = 0.05 ):
+  total=price*(1+rate)
+  return {'價格':price,'含稅':round(total),'說明':"含 5% 營業稅"}
+items = [ 120,
+   350,980 ]
+print( [price_with_tax(p) for p in items] )
+`];
+const RULES={basic:["E4","E7","E9","F"],more:["E","F","W","I","UP","B","SIM","C4","FAST"]};
+// 常見規則的中文說明（其餘顯示 Ruff 的英文原文）
+const ZH={F401:"import 了卻沒用到",E401:"一行 import 好幾個模組",I001:"import 的順序沒排好",UP035:"typing 裡的 List、Dict 是舊寫法",UP006:"型別直接寫 list、dict 就好",UP045:"Optional[X] 可以寫成 X | None",UP007:"Union[X, Y] 可以寫成 X | Y",B006:"預設值放 [] 會被每次呼叫共用，常見陷阱",B007:"迴圈變數沒用到，改名成 _ 開頭",B904:"在 except 裡丟新錯誤，要寫 from 接上原因",E711:"跟 None 比要用 is，不要用 ==",E712:"跟 True／False 比不用寫 ==",E713:"「not x in y」要寫成「x not in y」",E721:"比型別要用 isinstance()",E722:"光寫 except: 會連 Ctrl+C 都吞掉",E731:"不要把 lambda 指定給變數，改寫成 def",F541:"f 字串裡沒有任何變數，不用加 f",F841:"變數設了值卻沒用到",F811:"同一個名字被重複定義",F821:"用了沒定義的名字",SIM115:"open() 要配 with，才會自動關檔",SIM108:"可以寫成一行的 if…else",C416:"多餘的推導式，直接用 list()",C408:"dict() 可以直接寫成 {}",W291:"行尾有多餘的空白",W293:"空白行裡有空白字元",W292:"檔案最後少一個換行",E501:"這一行太長",FAST002:"FastAPI 參數建議用 Annotated 寫法",B008:"預設值裡呼叫函式，只會在定義時跑一次",E402:"import 沒放在檔案最上面",F403:"from x import * 看不出用了什麼",E741:"變數名 l、O、I 容易看錯"};
+let ws=null,rules="more",sample=0,prevLines=null,timer=0,composing=false,ready=false;
+const src=$("demoSrc"),view=$("demoView"),list=$("demoList"),stat=$("demoStat"),msg=$("demoMsg");
+const median=a=>{const s=[...a].sort((x,y)=>x-y);return s[Math.floor(s.length/2)]};
+const fmtMs=ms=>ms<1?ms.toFixed(2):ms<10?ms.toFixed(1):Math.round(ms).toString();
+function lineOffsets(t){const o=[0];for(let i=0;i<t.length;i++)if(t[i]==="\n")o.push(i+1);return o}
+function render(text,diags,changed){
+  const lines=text.split("\n");if(lines.length>1&&lines[lines.length-1]==="")lines.pop();
+  const marks=lines.map(()=>[]);
+  for(const d of diags){const a=d.start_location,b=d.end_location;
+    for(let r=a.row;r<=Math.max(a.row,b.row)&&r<=lines.length;r++){const L=lines[r-1]??"";
+      let s=r===a.row?a.column-1:0,e=r===b.row?b.column-1:L.length;if(e<=s){s=Math.max(0,Math.min(s,L.length-1));e=Math.min(L.length,s+1)}
+      if(r>=1)marks[r-1].push([s,e])}}
+  view.innerHTML=lines.map((L,i)=>{const m=marks[i];let html="";
+    if(m.length){const on=new Array(L.length+1).fill(false);m.forEach(([s,e])=>{for(let k=s;k<e;k++)on[k]=true});
+      let k=0;while(k<L.length){const st=on[k];let j=k;while(j<L.length&&on[j]===st)j++;html+=st?`<u>${esc(L.slice(k,j))}</u>`:esc(L.slice(k,j));k=j}
+      if(!L.length)html="<u> </u>"}else html=esc(L)||" ";
+    return `<div class="demo-ln${m.length?" has":""}${changed&&changed.has(i)?" fixed":""}" data-line="${i+1}"><span class="no">${i+1}</span><code>${html}</code></div>`}).join("");
+}
+function run(changed){
+  if(!ready)return;
+  const text=src.value;let diags=[],times=[];
+  try{for(let k=0;k<5;k++){const t=performance.now();diags=ws.check(text);times.push(performance.now()-t)}}catch(e){stat.innerHTML=`<span>檢查失敗：${esc(e.message||e)}</span>`;return}
+  diags.sort((a,b)=>a.start_location.row-b.start_location.row||a.start_location.column-b.start_location.column);
+  const ms=median(times),nLines=text.split("\n").length-(text.endsWith("\n")?1:0),fixable=diags.filter(d=>d.fix&&d.fix.edits.length).length;
+  stat.innerHTML=`<span class="${diags.length?"bad":""}"><b data-n="${diags.length}" id="demoCount">${diags.length}</b> 個問題</span><span class="fast">檢查 ${nLines} 行只花 <b id="demoMs">${fmtMs(ms)}</b> 毫秒</span>`;
+  $("demoFix").textContent=fixable?`一鍵修好 ${fixable} 個`:"沒有能自動修的";$("demoFix").disabled=!fixable;
+  render(text,diags,changed);
+  list.innerHTML=diags.length?diags.map(d=>{const code=d.code||"語法";const zh=d.code&&ZH[d.code]?ZH[d.code]:d.code?d.message:"語法錯誤："+d.message;
+    return `<li><button type="button" data-row="${d.start_location.row}"><span class="code">${esc(code)}</span><span>${esc(zh)}</span><span class="where">第 ${d.start_location.row} 行</span><span class="can">${d.fix&&d.fix.edits.length?"可自動修":""}</span></button></li>`}).join(""):`<li><span class="none">沒有問題。換一組規則，或改壞一點試試。</span></li>`;
+  prevLines=text.split("\n");
+}
+function changedSet(before,after){const bag=new Map();before.split("\n").forEach(l=>bag.set(l,(bag.get(l)||0)+1));const s=new Set();
+  after.split("\n").forEach((l,i)=>{const n=bag.get(l)||0;if(n>0)bag.set(l,n-1);else if(l.trim())s.add(i)});return s}
+function setSample(i){sample=i;src.value=SAMPLES[i];document.querySelectorAll("[data-sample]").forEach(b=>b.setAttribute("aria-pressed",String(+b.dataset.sample===i)));
+  msg.textContent=i===2?"這段沒有邏輯問題，只是排得很亂：按「排整齊」。":"紅色波浪線是 Ruff 挑出的問題；點清單裡的一項，會跳到那一行。";run()}
+function setRules(k){rules=k;document.querySelectorAll("[data-rules]").forEach(b=>b.setAttribute("aria-pressed",String(b.dataset.rules===k)));
+  if(ws){ws.free();ws=window.RuffDemo.make(RULES[k])}
+  msg.textContent=k==="basic"?"Ruff 預設只開最保險的幾組：語法、沒用到的名字等。":"多開 7 組：import 排序、新寫法、常見陷阱、簡化寫法、FastAPI 專用規則…";run()}
+document.querySelectorAll("[data-sample]").forEach(b=>b.addEventListener("click",()=>setSample(+b.dataset.sample)));
+document.querySelectorAll("[data-rules]").forEach(b=>b.addEventListener("click",()=>setRules(b.dataset.rules)));
+src.addEventListener("compositionstart",()=>{composing=true});
+src.addEventListener("compositionend",()=>{composing=false;clearTimeout(timer);timer=setTimeout(()=>run(),120)});
+src.addEventListener("input",()=>{if(composing)return;clearTimeout(timer);timer=setTimeout(()=>run(),120)});
+$("demoFix").addEventListener("click",()=>{const before=src.value;const t=performance.now();const r=window.RuffDemo.fixAll(ws,before);const ms=performance.now()-t;
+  src.value=r.src;const left=ws.check(r.src).length;
+  msg.textContent=r.applied.length?`修好 ${r.applied.length} 處（${fmtMs(ms)} 毫秒），螢光黃是改過的行。剩下 ${left} 個要你自己判斷。`:"沒有能自動修的問題。";
+  run(changedSet(before,r.src))});
+$("demoFmt").addEventListener("click",()=>{const before=src.value;try{const t=performance.now();const out=ws.format(before);const ms=performance.now()-t;src.value=out;
+  const ch=changedSet(before,out);msg.textContent=out===before?"已經很整齊了，沒有要改的。":`排好了（${fmtMs(ms)} 毫秒）：統一縮排、空格、引號和換行，螢光黃是改過的行。`;run(ch)}
+  catch(e){msg.textContent="程式有語法錯誤，排不了："+String(e.message||e).slice(0,120)}});
+$("demoReset").addEventListener("click",()=>setSample(sample));
+list.addEventListener("click",e=>{const b=e.target.closest("button[data-row]");if(!b)return;const ln=view.querySelector(`.demo-ln[data-line="${b.dataset.row}"]`);if(!ln)return;
+  view.querySelectorAll(".flash").forEach(x=>x.classList.remove("flash"));ln.classList.add("flash");view.scrollTop=ln.offsetTop-view.clientHeight/3});
+src.value=SAMPLES[0];
+window.RuffDemo.load(new URL("ruff_wasm_bg.wasm",location.href)).then(v=>{ws=window.RuffDemo.make(RULES[rules]);ready=true;
+  ["demoFmt","demoReset"].forEach(id=>$(id).disabled=false);document.documentElement.dataset.ruff=v;run()})
+  .catch(e=>{stat.innerHTML=`<span>Ruff 載入失敗：${esc(e.message||e)}。請重新整理，或改用命令列（見深入區「五分鐘上手」）。</span>`});
+}
+</script>
+</body>
+</html>

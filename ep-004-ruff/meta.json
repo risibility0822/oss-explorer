@@ -1,0 +1,92 @@
+{
+ "no": 4,
+ "id": "ep-004",
+ "slug": "ep-004-ruff",
+ "date": "2026-11-27",
+ "title": "Python 程式健檢，16 萬行 0.06 秒看完：比 flake8 快 66 倍（Ruff）",
+ "oneliner": "Ruff 一個工具就能檢查 Python 程式的問題、自動修好、排整齊。我們拿 Django 的 16.6 萬行實測：檢查比 flake8 快 66 倍、排版比 Black 快 92 倍，而且 95% 的檔案跟 Black 排得一字不差。",
+ "domain": "開發者工具",
+ "format": "單品",
+ "tier": "巨星",
+ "lens": "厲害",
+ "resources": [
+  {
+   "name": "astral-sh/ruff",
+   "url": "https://github.com/astral-sh/ruff",
+   "license": "MIT",
+   "stars": "51.6k（2026-11-27）",
+   "lang": "Rust",
+   "role": "main",
+   "title": "Ruff",
+   "what": "用 Rust 寫的 Python 程式檢查與排版工具",
+   "commercial": "可免費商用，保留授權聲明即可"
+  }
+ ],
+ "demo": "在瀏覽器裡貼上或修改 Python 程式，Ruff 當場標出問題（附中文說明和花了幾毫秒），按一下自動修好或排整齊，程式不會上傳。",
+ "highlights": [
+  "檢查整個 Django（909 個檔、16.6 萬行）：Ruff 0.063 秒，flake8 4.16 秒，快 66 倍",
+  "813 條穩定規則全開也只要 0.084 秒；pylint 檢查同一個資料夾要 32.8 秒，差約 390 倍",
+  "排版比 Black 快 92 倍（0.081 秒對 7.48 秒），909 個檔裡 868 個排得一字不差"
+ ],
+ "tags": [
+  "Python",
+  "linter",
+  "formatter",
+  "Rust",
+  "WebAssembly"
+ ],
+ "ideas": [
+  {
+   "title": "FastAPI 專案的開工模板",
+   "pitch": "把 Ruff 規則、存檔前自動檢查、GitHub 上的自動檢查一次設好，做成 FastAPI 新專案的模板，新同事第一天就有一樣的標準。",
+   "effort": "一個週末",
+   "value": "自己接案省時間；也能當付費模板或課程附件"
+  },
+  {
+   "title": "給 AI 寫的程式加一道自動修正",
+   "pitch": "AI 助手每次改完 Python 檔就自動跑一次 ruff check --fix 和 ruff format，review 時只看真正的改動，不看空白和 import。",
+   "effort": "一個週末",
+   "value": "少看雜訊、少來回；Ruff 0.06 秒跑完，不會拖慢 AI"
+  },
+  {
+   "title": "中文 Python 健檢網頁",
+   "pitch": "把本集 Demo 加上完整的中文規則說明，給程式課學生自己貼程式檢查；全部在瀏覽器跑，學生的作業不會上傳。",
+   "effort": "一個月",
+   "value": "賣給台灣的程式補習班、大學課程當教學工具"
+  },
+  {
+   "title": "Mac 選單列的一鍵排版",
+   "pitch": "Mac 選單列小工具：複製一段 Python，按快捷鍵就用內建的 Ruff 排好、放回剪貼簿，貼到 Slack 或筆記前先整理乾淨。",
+   "effort": "一個週末",
+   "value": "小額買斷的 Mac App；MIT 授權可以把 Ruff 一起包進 app"
+  }
+ ],
+ "sources": [
+  "https://github.com/astral-sh/ruff",
+  "https://github.com/astral-sh/ruff/blob/main/LICENSE",
+  "https://docs.astral.sh/ruff/rules/",
+  "https://docs.astral.sh/ruff/formatter/",
+  "https://docs.astral.sh/ruff/faq/",
+  "https://www.npmjs.com/package/@astral-sh/ruff-wasm-web",
+  "https://openai.com/index/openai-to-acquire-astral",
+  "https://simonwillison.net/2026/Mar/19/openai-acquiring-astral/",
+  "https://github.com/django/django",
+  "https://github.com/risibility0822/oss-explorer/tree/main/ep-004-ruff/lab"
+ ],
+ "poolAdd": [
+  {
+   "name": "Biome",
+   "url": "https://github.com/biomejs/biome",
+   "domain": "開發者工具",
+   "why": "前端版的 Ruff：Rust 寫的 JS/TS 檢查與排版（Apache-2.0，26.2k ★），有瀏覽器 wasm，可跟 Prettier 比速度"
+  },
+  {
+   "name": "tree-sitter",
+   "url": "https://github.com/tree-sitter/tree-sitter",
+   "domain": "開發者工具",
+   "why": "編輯器與 coding agent 用的增量語法解析（MIT，27.6k ★），web-tree-sitter 可在瀏覽器即時畫語法樹"
+  }
+ ],
+ "wish": null,
+ "nextHint": "第 005 集：換到資料庫或自架服務，找一個能在瀏覽器裡直接查資料的工具"
+}

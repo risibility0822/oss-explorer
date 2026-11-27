@@ -1,0 +1,9 @@
+{
+  "name": "ep-004-ruff-demo",
+  "private": true,
+  "description": "打包 ../ruff.bundle.js：npx esbuild entry.js --bundle --minify --format=iife --outfile=../ruff.bundle.js，再把 node_modules/@astral-sh/ruff-wasm-web/ruff_wasm_bg.wasm 複製到 ../",
+  "dependencies": {
+    "@astral-sh/ruff-wasm-web": "0.17.6",
+    "esbuild": "0.24.2"
+  }
+}
